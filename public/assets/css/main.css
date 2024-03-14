@@ -190,3 +190,10 @@
   }
 
 /* FIM LOADING **/
+
+@media only screen and (min-width: 769px) {
+    .sidebar-responsive{
+        position: absolute;
+        width: 260px;
+    }
+}

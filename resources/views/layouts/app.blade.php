@@ -21,7 +21,7 @@
     </head>
     <body class="font-sans antialiased theme-dark" style="overflow: scroll;">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <div class="grid-wrapper sidebar-bg bg1">
+            <div class="grid-wrapper sidebar-bg bg1" style="min-height: 95vh;">
                 
                 <div class="header">
                     @include('layouts.navbar')

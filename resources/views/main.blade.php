@@ -22,14 +22,14 @@
 
     <div class="loader"></div>
 
-    <div class="grid-wrapper sidebar-bg bg1">
+    <div class="grid-wrapper sidebar-bg bg1" style="min-height: 95vh;">
 
         <!-- BOF HEADER -->
         <div class="header">
             @include('layouts.navbar')
         </div>
         <!-- EOF HEADER -->
-
+        
         <!-- BOF ASIDE-LEFT -->
         <div id="sidebar" class="sidebar">
             @include('layouts.sidebar')
@@ -46,7 +46,7 @@
         <!-- EOF MAIN -->
 
         <!-- BOF FOOTER -->
-        <div class="footer">
+        <div class="footer" style="padding-bottom: 70px;">
             @include('layouts.footer')
         </div>
         <!-- EOF FOOTER -->
