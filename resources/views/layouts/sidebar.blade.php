@@ -1,4 +1,4 @@
-<div class="sidebar-content">
+<div class="sidebar-content sidebar-responsive">
     <!-- sidebar-menu  -->
     <div class="sidebar-menu">
         <ul>
