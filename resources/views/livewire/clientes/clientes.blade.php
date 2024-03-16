@@ -1,7 +1,12 @@
+
 <div>
     <!--  LOADING -->
 
-    <div class="loader" wire:loading.delay></div>
+    <div id="loader" style="display: none;">
+        <div class="loader" role="status">
+        
+        </div>
+    </div>
 
     <!-- FIM LOADING -->
 
@@ -88,8 +93,24 @@
                    
                 </div>
                 <div class="card-body">
+                    <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
+                        <div class="dataTables_length" id="dataTables_length">
+                            <label>{{ __('Show') }}
+                                <select name="perPage" wire:model="perPage">
+                                    <option value="10"
+                                        @if ($perPage == 10) selected @endif>10</option>
+                                    <option value="25"
+                                        @if ($perPage == 25) selected @endif>25</option>
+                                    <option value="50"
+                                        @if ($perPage == 50) selected @endif>50</option>
+                                    <option value="100"
+                                        @if ($perPage == 100) selected @endif>100</option>
+                                </select>
+                                {{ __('entries') }}</label>
+                        </div>
+                    </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover init-datatable" id="">
+                        <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
                                     <th>Nome do Cliente</th>
@@ -100,13 +121,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                               
                                 @foreach ($clientes as $clt )
                                     <tr data-href="{{route('clientes.detail',$clt->id)}}">
                                         <td>{{$clt->name}}</td>
-                                        <td>{{$clt->id}}</td>
-                                        <td>{{$clt->email}}</td>
-                                        <td>{{$clt->name}}</td>
+                                        <td>{{$clt->no}}</td>
+                                        <td>{{$clt->zone}}</td>
+                                        <td>{{$clt->nif}}</td>
                                         <td>
                                             <a href="{{route('clientes.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-search"></i>
@@ -114,16 +135,18 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                               
+                    
                             </tbody>
                         </table>
-                    </div>
+                    </div>  
+                    {{ $clientes->links() }}             
                 </div>
             </div>
         </div>
         
     </div>
 
-
     <!-- FIM TABELA  -->
+
+    
 </div>

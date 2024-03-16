@@ -1,6 +1,7 @@
 @extends('main')
 @section('body')
 
+
     <div class="row">
         <div class="col">
             <ol class="breadcrumb">
@@ -15,11 +16,9 @@
  
     
 
-
 @endsection
 
 @push('scripts_footer')
-    <script src="{{asset('assets/scripts/pages/tb_datatables.js')}}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -36,6 +35,9 @@
                     window.location.href = href;
                 });
             });
+
         });
+      
     </script>
+        
 @endpush

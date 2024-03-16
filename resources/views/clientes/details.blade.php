@@ -10,9 +10,8 @@
             </ol>
         </div>
     </div>
-
-    @livewire('clientes.details-clientes')
-
+    
+    @livewire('clientes.details-clientes',["cliente" => $idCliente])
 
 @endsection
 

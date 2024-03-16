@@ -22,7 +22,7 @@
                 <div class="tab-pane fade show active" id="tab4">
                     <h4 class="card-title">Detalhes Cliente</h4>
                     <p class="card-text">
-
+                       
                         <!--  INICIO DOS DETALHES   -->
 
                         <div class="row form-group">
@@ -34,7 +34,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-user text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->name}}" readonly>
                                     </div>
                                 </div>
 
@@ -47,7 +47,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-info-alt text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->no}}" readonly>
                                     </div>
                                 </div>
 
@@ -60,7 +60,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-marker text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->nif}}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-location-arrow text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->address}}" readonly>
                                     </div>
                                 </div>
 
@@ -88,7 +88,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-location-arrow text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->city}}" readonly>
                                     </div>
                                 </div>
 
@@ -101,7 +101,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-location-arrow text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->zipcode}}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-pin text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->zone}}" readonly>
                                     </div>
                                 </div>
 
@@ -129,20 +129,20 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-email text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->phone}}" readonly>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="col-xl-4">
-
+                                
                                 <div class="form-group">
                                     <label>Nº Propostas em aberto</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-comment text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->open_proposals}}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-light-bulb text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->open_occurrences}}" readonly>
                                     </div>
                                 </div>
 
@@ -170,7 +170,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-money text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->current_account}}" readonly>
                                     </div>
                                 </div>
 
@@ -183,7 +183,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-bag text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->balance_checks}}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +198,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-stats-up text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->balance_points}}" readonly>
                                     </div>
                                 </div>
 
@@ -211,7 +211,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-carolina"><i class="ti-credit-card text-light"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" value="{{$detalhesCliente->customers[0]->payment_conditions}}" readonly>
                                     </div>
                                 </div>
 
