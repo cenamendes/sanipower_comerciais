@@ -4,7 +4,7 @@
         <ul>
             <li>
                 <a href="{{route('dashboard')}}" >
-                    <img src="{{asset('logo/sanipower.png')}}" class="logo-sanipower-sidbar">  
+                    <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-sidbar">  
                 </a>
             </li>
             

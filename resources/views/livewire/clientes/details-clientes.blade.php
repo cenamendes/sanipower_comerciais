@@ -1,6 +1,5 @@
 <div>
     <!--  LOADING -->
-
     <div class="loader" wire:loading.delay></div>
 
     <!-- FIM LOADING -->
@@ -429,6 +428,5 @@
     </div>
 
     <!-- FIM TABS  -->
-
 
 </div>

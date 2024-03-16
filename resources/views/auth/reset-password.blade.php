@@ -23,7 +23,7 @@
             
             <div class="card" id="forget-card">
                 <div class="card-body text-center">
-                    <img src="{{asset('logo/sanipower.png')}}" width="200">
+                    <img src="{{asset('logo/sanipower_Azul.svg')}}" width="200">
                  </div>
                 <div class="card-body">
                     <x-auth-session-status class="mb-4" :status="session('status')" />

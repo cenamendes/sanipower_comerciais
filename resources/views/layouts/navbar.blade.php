@@ -2,7 +2,7 @@
     <div class="brand">
         {{-- <a href="index.html" class="logo"><span class="text-carolina">siQ</span>theme</a> --}}
         <a href="{{route('dashboard')}}">
-            <img src="{{asset('logo/sanipower.png')}}" class="logo-sanipower-navbar" width="200">  
+            <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-navbar" width="200">  
         </a>
     </div>
     <div class="btn-toggle">
