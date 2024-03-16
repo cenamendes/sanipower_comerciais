@@ -1,15 +1,23 @@
 <div id="pagination_wrapper" class="dataTables_wrapper">
     <div id="dataTables_pagination_info" class="dataTables_info" role="status">
-        @if ($paginator->total() > 0)
-            {{ __('Showing :initial to :final of :total entries', ['initial' => ($paginator->currentPage() - 1) * $paginator->perPage() + 1, 'final' => min($paginator->currentPage() * $paginator->perPage(), $paginator->total()), 'total' => $paginator->total()]) }}
+        @if ($paginator->total() == 0)
+            <p>Não foram encontrados registos para exibir.</p>
         @else
-            {{ __('No entries to show.') }}
+            @php
+                $primeiro_numero = $this->pageChosen * $this->perPage ;
+                $ultimo_numero = ($this->pageChosen + 1) * $this->perPage - 1; 
+                
+                $primeiro_numero = $primeiro_numero - ($this->perPage - 1);
+                $ultimo_numero = $ultimo_numero - ($this->perPage - 1);
+            @endphp
+
+            <p>Mostrar de {{ $primeiro_numero }} até {{ $ultimo_numero }} de {{ $paginator->total() }} páginas</p>
         @endif
     </div>
   
     <div class="dataTables_paginate paging_simple_numbers" id="dataTables_page_numbers">
         
-        <a wire:click="previousPage" dusk="previousPage.before" class="paginate_button previous btn btn-primary text-white">{{ __('Previous') }}</a>
+        <a wire:click="previousPage" dusk="previousPage.before" class="paginate_button previous btn btn-primary text-white">Anterior</a>
        
 
         @if ($paginator->total() > 0)
@@ -21,9 +29,10 @@
         @endif
     
         @if ($this->pageChosen < $this->numberMaxPages)
-            <a wire:click="nextPage" dusk="nextPage.after" class="paginate_button next btn btn-primary text-white" data-dt-idx="{{ $paginator->currentPage() + 1 }}" tabindex="{{ $paginator->currentPage() + 1 }}">{{ __('Next') }}</a>
+            <a wire:click="nextPage" dusk="nextPage.after" class="paginate_button next btn btn-primary text-white" data-dt-idx="{{ $paginator->currentPage() + 1 }}" tabindex="{{ $paginator->currentPage() + 1 }}">Próxima</a>
         @endif
     </div>
+
 </div>
 
 
