@@ -4,11 +4,18 @@
             <p>Não foram encontrados registos para exibir.</p>
         @else
             @php
+                $numero_registos = $this->perPage * $this->numberMaxPages;
+                
                 $primeiro_numero = $this->pageChosen * $this->perPage ;
                 $ultimo_numero = ($this->pageChosen + 1) * $this->perPage - 1; 
                 
                 $primeiro_numero = $primeiro_numero - ($this->perPage - 1);
                 $ultimo_numero = $ultimo_numero - ($this->perPage - 1);
+
+                if($ultimo_numero > $numero_registos)
+                {
+                    $ultimo_numero = $numero_registos;
+                }
             @endphp
 
             <p>Mostrar de {{ $primeiro_numero }} até {{ $ultimo_numero }} de {{ $paginator->total() }} páginas</p>

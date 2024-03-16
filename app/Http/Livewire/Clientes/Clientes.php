@@ -43,7 +43,6 @@ class Clientes extends Component
         $this->initProperties();
         $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         $this->numberMaxPages = $this->clientesRepository->getNumberOfPages($this->perPage);
-
     }
 
     public function gotoPage($page)
