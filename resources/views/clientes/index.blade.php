@@ -18,26 +18,3 @@
 
 @endsection
 
-@push('scripts_footer')
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Obtém todas as linhas da tabela
-            const tableRows = document.querySelectorAll('tr[data-href]');
-
-            // Adiciona um ouvinte de evento de clique a cada linha
-            tableRows.forEach(function(row) {
-                row.addEventListener('click', function() {
-                    // Obtém o URL de destino do atributo data-href
-                    const href = row.dataset.href;
-
-                    // Redireciona o usuário para o URL de destino
-                    window.location.href = href;
-                });
-            });
-
-        });
-      
-    </script>
-        
-@endpush

@@ -35,7 +35,7 @@
                                 <span class="badge badge-pill badge-info pull-right">4</span>
                             </h5>
                             <div class="message-group d-flex flex-row mb-3">
-                                <a href="#"><img src="assets/img/profile/profile-01.jpg" class="rounded"
+                                <a href="#"><img src="{{asset('assets/img/profile/profile-01.jpg')}}" class="rounded"
                                         alt="image"></a>
                                 <div class="message-item">
                                     <small class="text-carolina">Today 3:30 pm</small><br>
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="message-group d-flex flex-row mb-3">
-                                <a href="#"><img src="assets/img/profile/profile-03.jpg" class="rounded"
+                                <a href="#"><img src="{{asset('assets/img/profile/profile-03.jpg')}}" class="rounded"
                                         alt="image"></a>
                                 <div class="message-item">
                                     <small class="text-carolina">Today 12:45 pm</small><br>
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="message-group d-flex flex-row mb-3">
-                                <a href="#"><img src="assets/img/profile/profile-02.jpg" class="rounded"
+                                <a href="#"><img src="{{asset('assets/img/profile/profile-02.jpg')}}" class="rounded"
                                         alt="image"></a>
                                 <div class="message-item">
                                     <small class="text-carolina">Yesterday 5:20 pm</small><br>
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="message-group d-flex flex-row">
-                                <a href="#"><img src="assets/img/profile/profile-05.jpg" class="rounded"
+                                <a href="#"><img src="{{asset('assets/img/profile/profile-05.jpg')}}" class="rounded"
                                         alt="image"></a>
                                 <div class="message-item">
                                     <small class="text-carolina">Tuesday 2:20 pm</small><br>

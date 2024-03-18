@@ -11,10 +11,6 @@
         </div>
     </div>
     
-    @livewire('clientes.details-clientes',["cliente" => $idCliente])
+    @livewire('clientes.detalhe-cliente',["cliente" => $idCliente])
 
 @endsection
-
-@push('scripts_footer')
-    <script src="{{asset('assets/scripts/pages/tb_datatables.js')}}"></script>
-@endpush

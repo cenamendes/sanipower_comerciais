@@ -33,7 +33,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Nome do Cliente">
+                                    <input type="text" class="form-control" placeholder="Nome do Cliente" wire:model.lazy="nomeCliente">
                                 </div>
                             </div>
     
@@ -43,7 +43,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-ticket"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Número do Cliente">
+                                    <input type="text" class="form-control" placeholder="Número do Cliente" wire:model.lazy="numeroCliente">
                                 </div>
                             </div>
     
@@ -53,7 +53,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-pin2"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Zona">
+                                    <input type="text" class="form-control" placeholder="Zona" wire:model.lazy="zonaCliente">
                                 </div>
                             </div>
 
@@ -147,6 +147,24 @@
     </div>
 
     <!-- FIM TABELA  -->
+    <script>
+      
+        // Obtém todas as linhas da tabela
+        const tableRows = document.querySelectorAll('tr[data-href]');
 
+        // Adiciona um ouvinte de evento de clique a cada linha
+        tableRows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                // Obtém o URL de destino do atributo data-href
+                const href = row.dataset.href;
+
+                // Redireciona o usuário para o URL de destino
+                window.location.href = href;
+            });
+        });
+
+    
+      
+    </script>
     
 </div>

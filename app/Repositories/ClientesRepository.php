@@ -53,7 +53,7 @@ class ClientesRepository implements ClientesInterface
 
     }
 
-    public function getNumberOfPages($perPage): int
+    public function getNumberOfPages($perPage): array
     {
         $curl = curl_init();
 
@@ -77,8 +77,131 @@ class ClientesRepository implements ClientesInterface
 
         $response_decoded = json_decode($response);
 
-        return $response_decoded->total_pages;
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
     }
+
+    /*** FILTROS ***/
+
+    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente): LengthAwarePaginator
+    {
+
+        if($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '';
+        }
+
+        if($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '';
+        }
+
+        if($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '';
+        }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.$nomeCliente.$numeroCliente.$zonaCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+    
+        return $itemsPaginate; 
+    }
+
+    public function getNumberOfPagesClienteFiltro($perPage,$nomeCliente,$numeroCliente,$zonaCliente): array
+    {
+
+        if($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '';
+        }
+
+        if($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '';
+        }
+
+        if($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '';
+        }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page=1'.$nomeCliente.$numeroCliente.$zonaCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
+
+    /**** END FILTROS ****/
 
 
     public function getDetalhesCliente($id): object
@@ -108,11 +231,86 @@ class ClientesRepository implements ClientesInterface
         return $response_decoded;
     }
 
-    public function getAnalisesCliente($id): object
+   
+
+
+    /***  DETALHES DO CLIENTE *****/
+
+    public function getListagemAnalisesCliente($perPage,$page,$idCliente): LengthAwarePaginator
     {
-        //APANHA ANALISES
-        $user = User::all();
-        return $user;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+    
+        return $itemsPaginate; 
     }
+
+    public function getNumberOfPagesAnalisesCliente($perPage,$idCliente): array
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
+
 
 }

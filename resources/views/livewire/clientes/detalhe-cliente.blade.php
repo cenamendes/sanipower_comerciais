@@ -1,7 +1,11 @@
 <div>
-    <!--  LOADING -->
+      <!--  LOADING -->
 
-    <div class="loader" wire:loading.delay></div>
+      <div id="loader" style="display: none;">
+        <div class="loader" role="status">
+        
+        </div>
+    </div>
 
     <!-- FIM LOADING -->
 
@@ -10,16 +14,16 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link active">Detalhes Cliente</a>
+                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes Cliente</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab5" data-toggle="tab" class="nav-link">Análises Gerais</a>
+                    <a href="#tab5" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises Gerais</a>
                 </li>
             </ul>
         </div>
         <div class="card-body">
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="tab4">
+                <div class="tab-pane fade {{$tabDetail}}" id="tab4">
                     <h4 class="card-title">Detalhes Cliente</h4>
                     <p class="card-text">
                        
@@ -221,204 +225,75 @@
                         <!--  FIM DETALHES   -->
                     </p>
                 </div>
-                <div class="tab-pane fade" id="tab5">
+                <div class="tab-pane fade {{$tabAnalysis}}" id="tab5">
     
                     <p class="card-text">
                         
                         <!-- INICIO TABELA  -->
 
-                        <!-- TABELA  -->
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card mb-3">
                                     <div class="card-header d-block">
-                                        <div class="row justify-content-end mr-0">
-                                            <div class="tools">
-                                                <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
-                                                <a href="javascript:void(0);" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
-                                                <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
-                                                <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
+                                        <div class="row">
+                                            <div class="col-xl-8 col-xs-12">
+                                                <div class="caption uppercase">
+                                                    <i class="ti-stats-up"></i> Análises
+                                                </div>
                                             </div>
+                                           
                                         </div>                  
-                                    
+                                       
                                     </div>
                                     <div class="card-body">
+                                    
+                                        <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
+                                            <div class="dataTables_length" id="dataTables_length">
+                                                <label>Mostrar
+                                                    <select name="perPage" wire:model="perPage">
+                                                        <option value="10"
+                                                            @if ($perPage == 10) selected @endif>10</option>
+                                                        <option value="25"
+                                                            @if ($perPage == 25) selected @endif>25</option>
+                                                        <option value="50"
+                                                            @if ($perPage == 50) selected @endif>50</option>
+                                                        <option value="100"
+                                                            @if ($perPage == 100) selected @endif>100</option>
+                                                    </select>
+                                                    registos</label>
+                                            </div>
+                                        </div>
+                                      
                                         <div class="table-responsive">
-                                            <table class="table table-bordered table-hover init-datatable" id="">
+                                            <table class="table table-bordered table-hover" id="tabela-cliente2">
                                                 <thead class="thead-light">
                                                     <tr>
-                                                        <th>Nome do Cliente</th>
-                                                        <th>Número do Cliente</th>
-                                                        <th>Zona do Cliente</th>
-                                                        <th>Nº Contribuinte</th>
-                                                        <th>Ações</th>
+                                                        <th>Data</th>
+                                                        <th>Encomenda</th>
+                                                        <th>Total</th>
+                                                        <th>Estado</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Charde Marshall</td>
-                                                        <td>64564535</td>
-                                                        <td>San Francisco</td>
-                                                        <td>36</td>
-                                                        <td>
-                                                            <a href="{{route('clientes.detail',36)}}" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="bg-taffy text-white">
-                                                        <td>Ashton Cox</td>
-                                                        <td>Junior Technical Author</td>
-                                                        <td>San Francisco</td>
-                                                        <td>66</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="bg-carolina text-white">
-                                                        <td>Cedric Kelly</td>
-                                                        <td>Senior Javascript Developer</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>22</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Haley Kennedy</td>
-                                                        <td>6456456464</td>
-                                                        <td>London</td>
-                                                        <td>43</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Airi Satou</td>
-                                                        <td>Accountant</td>
-                                                        <td>Tokyo</td>
-                                                        <td>33</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Brielle Williamson</td>
-                                                        <td>Integration Specialist</td>
-                                                        <td>New York</td>
-                                                        <td>61</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Herrod Chandler</td>
-                                                        <td>Sales Assistant</td>
-                                                        <td>San Francisco</td>
-                                                        <td>59</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Rhona Davidson</td>
-                                                        <td>Integration Specialist</td>
-                                                        <td>Tokyo</td>
-                                                        <td>55</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Colleen Hurst</td>
-                                                        <td>Javascript Developer</td>
-                                                        <td>San Francisco</td>
-                                                        <td>39</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Sonya Frost</td>
-                                                        <td>Software Engineer</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>23</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jena Gaines</td>
-                                                        <td>Office Manager</td>
-                                                        <td>London</td>
-                                                        <td>30</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Quinn Flynn</td>
-                                                        <td>Support Lead</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>22</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Charde Marshall</td>
-                                                        <td>Regional Director</td>
-                                                        <td>San Francisco</td>
-                                                        <td>36</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Haley Kennedy</td>
-                                                        <td>Senior Marketing Designer</td>
-                                                        <td>London</td>
-                                                        <td>43</td>
-                                                        <td>
-                                                            <a href="#" class="btn btn-primary">
-                                                                <i class="ti-search"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
+                                                   
+                                                    @foreach ($analisesCliente as $clt )
+                                                        <tr>
+                                                            <td>{{date('Y-m-d',strtotime($clt->date))}}</td>
+                                                            <td>{{$clt->order}}</td>
+                                                            <td>{{$clt->total}}</td>
+                                                            <td>{{$clt->status}}</td>
+                                                        </tr>
+                                                    @endforeach
+                                        
                                                 </tbody>
                                             </table>
-                                        </div>
+                                        </div>  
+                                        {{ $analisesCliente->links() }}             
                                     </div>
                                 </div>
                             </div>
                             
                         </div>
-
 
                         <!-- FIM TABELA  -->
 
@@ -429,6 +304,5 @@
     </div>
 
     <!-- FIM TABS  -->
-
 
 </div>
