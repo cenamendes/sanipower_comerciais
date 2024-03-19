@@ -49,6 +49,12 @@
                     Clientes
                 </a>
             </li>
+            <li>
+                <a href="{{route('visitas')}}" class="{{ Str::contains(request()->route()->getName(), 'visitas') ? 'text-info' : '' }}">
+                    <i class="ti-calendar"></i>
+                    Visitas
+                </a>
+            </li>
         </ul>
     </div>
     <!-- sidebar-menu  -->
