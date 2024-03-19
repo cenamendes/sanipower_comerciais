@@ -13,7 +13,7 @@
     <link href="{{asset('assets/css/main.css')}}" rel="stylesheet">
 
     @livewireStyles
-    @livewireScripts
+    
 
     @include('layouts.styles')
 
@@ -74,6 +74,7 @@
     </div> <!-- END WRAPPER -->
 
     <script src="{{asset('assets/scripts/siqtheme.js')}}"></script>
+    
     <script>
 
 
@@ -94,13 +95,21 @@
 
         });
 
-        
-       
-        
+        document.addEventListener('livewire:load', function() {
+            Livewire.hook('message.sent', () => {
+                document.getElementById('loader').style.display = 'block';
+            });
+
+            // Oculta o loader quando o Livewire terminar de carregar
+            Livewire.hook('message.processed', () => {
+                document.getElementById('loader').style.display = 'none';
+            });
+        });
 
 
     </script>
     
+    @livewireScripts
     @stack('scripts_footer')
 </body>
 

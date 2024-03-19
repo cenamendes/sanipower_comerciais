@@ -1,7 +1,12 @@
+
 <div>
     <!--  LOADING -->
 
-    <div class="loader" wire:loading.delay></div>
+    <div id="loader" style="display: none;">
+        <div class="loader" role="status">
+        
+        </div>
+    </div>
 
     <!-- FIM LOADING -->
 
@@ -28,7 +33,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Nome do Cliente">
+                                    <input type="text" class="form-control" placeholder="Nome do Cliente" wire:model.lazy="nomeCliente">
                                 </div>
                             </div>
     
@@ -38,7 +43,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-ticket"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Número do Cliente">
+                                    <input type="text" class="form-control" placeholder="Número do Cliente" wire:model.lazy="numeroCliente">
                                 </div>
                             </div>
     
@@ -48,7 +53,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-pin2"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Zona">
+                                    <input type="text" class="form-control" placeholder="Zona" wire:model.lazy="zonaCliente">
                                 </div>
                             </div>
 
@@ -88,8 +93,24 @@
                    
                 </div>
                 <div class="card-body">
+                    <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
+                        <div class="dataTables_length" id="dataTables_length">
+                            <label>Mostrar
+                                <select name="perPage" wire:model="perPage">
+                                    <option value="10"
+                                        @if ($perPage == 10) selected @endif>10</option>
+                                    <option value="25"
+                                        @if ($perPage == 25) selected @endif>25</option>
+                                    <option value="50"
+                                        @if ($perPage == 50) selected @endif>50</option>
+                                    <option value="100"
+                                        @if ($perPage == 100) selected @endif>100</option>
+                                </select>
+                                registos</label>
+                        </div>
+                    </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover init-datatable" id="">
+                        <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
                                     <th>Nome do Cliente</th>
@@ -100,13 +121,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                               
                                 @foreach ($clientes as $clt )
                                     <tr data-href="{{route('clientes.detail',$clt->id)}}">
                                         <td>{{$clt->name}}</td>
-                                        <td>{{$clt->id}}</td>
-                                        <td>{{$clt->email}}</td>
-                                        <td>{{$clt->name}}</td>
+                                        <td>{{$clt->no}}</td>
+                                        <td>{{$clt->zone}}</td>
+                                        <td>{{$clt->nif}}</td>
                                         <td>
                                             <a href="{{route('clientes.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-search"></i>
@@ -114,16 +135,36 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                               
+                    
                             </tbody>
                         </table>
-                    </div>
+                    </div>  
+                    {{ $clientes->links() }}             
                 </div>
             </div>
         </div>
         
     </div>
 
-
     <!-- FIM TABELA  -->
+    <script>
+      
+        // Obtém todas as linhas da tabela
+        const tableRows = document.querySelectorAll('tr[data-href]');
+
+        // Adiciona um ouvinte de evento de clique a cada linha
+        tableRows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                // Obtém o URL de destino do atributo data-href
+                const href = row.dataset.href;
+
+                // Redireciona o usuário para o URL de destino
+                window.location.href = href;
+            });
+        });
+
+    
+      
+    </script>
+    
 </div>
