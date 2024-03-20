@@ -123,13 +123,13 @@
                             <tbody>
                                
                                 @foreach ($clientes as $clt )
-                                    <tr data-href="{{route('visitas.new-visita',$clt->id)}}">
+                                    <tr data-href="{{route('visitas.detail',$clt->id)}}">
                                         <td>{{$clt->name}}</td>
                                         <td>{{$clt->no}}</td>
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
                                         <td>
-                                            <a href="{{route('visitas.new-visita',$clt->id)}}" class="btn btn-primary">
+                                            <a href="{{route('visitas.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-plus"></i>
                                             </a>
                                             <a href="{{route('visitas.new-visita',$clt->id)}}" class="btn btn-primary">
