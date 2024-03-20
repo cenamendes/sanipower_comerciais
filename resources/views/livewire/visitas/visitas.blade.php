@@ -109,8 +109,8 @@
                                 registos</label>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
+                    <div class="table-responsive-lg">
+                        <table class="table table-responsive-lg table-bordered table-hover init-datatable" id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
                                     <th>Nome do Cliente</th>
@@ -128,7 +128,7 @@
                                         <td>{{$clt->no}}</td>
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
-                                        <td>
+                                        <td style="min-width: 110px;">
                                             <a href="{{route('visitas.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-plus"></i>
                                             </a>

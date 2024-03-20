@@ -20,7 +20,7 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises De Vendas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Relatório</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{$tabRelatorio}}">Relatório</a>
                 </li>
             </ul>
         </div>
@@ -252,7 +252,8 @@
                                     
                                         <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                                             <div class="dataTables_length" id="dataTables_length">
-                                                <label>Mostrar
+                                                <label>
+                                                    Mostrar
                                                     <select name="perPage" wire:model="perPage">
                                                         <option value="10"
                                                             @if ($perPage == 10) selected @endif>10</option>
@@ -263,7 +264,8 @@
                                                         <option value="100"
                                                             @if ($perPage == 100) selected @endif>100</option>
                                                     </select>
-                                                    registos</label>
+                                                    registos
+                                                </label>
                                             </div>
                                         </div>
                                       
@@ -302,7 +304,7 @@
 
                     </p>
                 </div>
-                <div class="tab-pane fade {{$tabAnalysis}}" id="tab6">
+                <div class="tab-pane fade {{$tabRelatorio}}" id="tab6">
     
                     <p class="card-text">
                         

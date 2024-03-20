@@ -24,6 +24,8 @@ class DetalheVisitas extends Component
 
     public string $tabDetail = "show active";
     public string $tabAnalysis = "";
+    public string $tabRelatorio = "";
+
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -62,6 +64,7 @@ class DetalheVisitas extends Component
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
     
+        $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
     }
@@ -70,7 +73,7 @@ class DetalheVisitas extends Component
     public function previousPage()
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-
+        
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
             $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
@@ -78,7 +81,7 @@ class DetalheVisitas extends Component
         else if($this->pageChosen == 1){
             $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
         }
-
+        $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
     }
@@ -91,7 +94,7 @@ class DetalheVisitas extends Component
             $this->pageChosen++;
             $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
         }
-
+        $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
     }
@@ -117,6 +120,8 @@ class DetalheVisitas extends Component
         $this->resetPage();
         session()->put('perPage', $this->perPage);
 
+
+        $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
 
