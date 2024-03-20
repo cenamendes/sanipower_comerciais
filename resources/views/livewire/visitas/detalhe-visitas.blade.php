@@ -241,7 +241,7 @@
                                         <div class="row">
                                             <div class="col-xl-8 col-xs-12">
                                                 <div class="caption uppercase">
-                                                    <i class="ti-stats-up"></i> Análises
+                                                    <i class="ti-stats-up"></i> Análises De Vendas
                                                 </div>
                                             </div>
                                            
@@ -315,7 +315,7 @@
                                         <div class="row">
                                             <div class="col-xl-8 col-xs-12">
                                                 <div class="caption uppercase">
-                                                    <i class="ti-stats-up"></i> Análises
+                                                    <i class="ti-files"></i> Relatório
                                                 </div>
                                             </div>
                                         
