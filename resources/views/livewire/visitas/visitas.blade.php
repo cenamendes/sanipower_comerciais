@@ -132,7 +132,10 @@
                                             <a href="{{route('visitas.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-plus"></i>
                                             </a>
-                                            <a href="{{route('visitas.new-visita',$clt->id)}}" class="btn btn-primary">
+                                            {{-- <a href="{{route('visitas.new-visita',$clt->id)}}" class="btn btn-primary">
+                                                <i class="ti-calendar"></i>
+                                            </a> --}}
+                                            <a href="javascript:void(0)" class="btn btn-primary">
                                                 <i class="ti-calendar"></i>
                                             </a>
                                         </td>
@@ -150,24 +153,5 @@
     </div>
 
     <!-- FIM TABELA  -->
-    <script>
-      
-        // Obtém todas as linhas da tabela
-        const tableRows = document.querySelectorAll('tr[data-href]');
-
-        // Adiciona um ouvinte de evento de clique a cada linha
-        tableRows.forEach(function(row) {
-            row.addEventListener('click', function() {
-                // Obtém o URL de destino do atributo data-href
-                const href = row.dataset.href;
-
-                // Redireciona o usuário para o URL de destino
-                window.location.href = href;
-            });
-        });
-
-    
-      
-    </script>
     
 </div>
