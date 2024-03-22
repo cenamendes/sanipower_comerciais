@@ -15,7 +15,7 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link">Análises De Vendas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab5" data-toggle="tab" class="nav-link">Análises Gerais</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link">Análises Gerais</a>
                 </li>
             </ul>
         </div>

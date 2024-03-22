@@ -329,7 +329,7 @@
                                         <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                                             <div class="dataTables_length" id="dataTables_length">
                                                 <label>Mostrar
-                                                    <select name="perPage" wire:model="perPage">
+                                                    <select name="perPage" wire:model="perPageRelatorio">
                                                         <option value="10"
                                                             @if ($perPage == 10) selected @endif>10</option>
                                                         <option value="25"

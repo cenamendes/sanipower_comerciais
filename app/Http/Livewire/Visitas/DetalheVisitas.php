@@ -15,6 +15,8 @@ class DetalheVisitas extends Component
     public string $idCliente = "";
 
     public int $perPage = 10;
+    public int $perPageRelatorio = 10;
+
     public int $pageChosen = 1;
     public int $numberMaxPages;
     public int $totalRecords = 0;
@@ -130,6 +132,25 @@ class DetalheVisitas extends Component
         $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
+
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->totalRecords = $getInfoClientes["nr_registos"];
+    }
+    public function updatedPerPageRelatorio(): void
+    {
+        $this->resetPage();
+        session()->put('perPageRelatorio', $this->perPageRelatorio);
+
+
+        $this->tabRelatorio = "show active";
+        $this->tabDetail = "";
+        $this->tabAnalysis = "";
+
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+
+        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPageRelatorio,$this->pageChosen,$this->idCliente);
+
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPageRelatorio,$this->idCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
