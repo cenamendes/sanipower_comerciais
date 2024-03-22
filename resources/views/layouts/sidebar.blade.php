@@ -4,7 +4,7 @@
         <ul>
             <li>
                 <a href="{{route('dashboard')}}" >
-                    <img src="{{asset('logo/sanipower.png')}}" class="logo-sanipower-sidbar">  
+                    <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-sidbar">  
                 </a>
             </li>
             
@@ -47,6 +47,12 @@
                 <a href="{{route('clientes')}}" class="{{ Str::contains(request()->route()->getName(), 'clientes') ? 'text-info' : '' }}">
                     <i class="ti-user"></i>
                     Clientes
+                </a>
+            </li>
+            <li>
+                <a href="{{route('visitas')}}" class="{{ Str::contains(request()->route()->getName(), 'visitas') ? 'text-info' : '' }}">
+                    <i class="ti-calendar"></i>
+                    Visitas
                 </a>
             </li>
         </ul>

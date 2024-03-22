@@ -16,6 +16,18 @@
     
 
     @include('layouts.styles')
+
+    <style>
+        #tab5 #DataTables_Table_0_wrapper{
+            display: flex;
+            min-height: 740px;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        #tab5 #DataTables_Table_0_wrapper .row:nth-of-type(2){
+            height: 650px;
+        }
+    </style>
 </head>
 
 <body class="theme-dark" style="overflow: scroll; overflow-x:hidden;">

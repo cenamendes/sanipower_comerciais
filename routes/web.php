@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\VisitasController;
+use App\Http\Controllers\VisitasNewController;
+
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/clientes', [ClientesController::class, 'index'])->name('clientes');
     Route::get('/clientes/detalhes/{id}', [ClientesController::class, 'showDetail'])->name('clientes.detail');
     
+    Route::get('/visitas', [VisitasController::class, 'index'])->name('visitas');
+    Route::get('/visitas/new-visita/{id}', [VisitasNewController::class, 'showDetail'])->name('visitas.new-visita');
+    Route::get('/visitas/detalhes/{id}', [VisitasController::class, 'showDetail'])->name('visitas.detail');
 });
 
 require __DIR__.'/auth.php';
