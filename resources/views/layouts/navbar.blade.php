@@ -21,10 +21,6 @@
                     <i class="ti-calendar"></i>
                 </a>
             </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 3a252395efd413d0538729c92920b9865e8647b5
             <div class="item-respos2">
                 <a href="{{route('encomendas')}}" class="{{ Str::contains(request()->route()->getName(), 'encomendas') ? 'text-info' : '' }}">
                     <i class="ti-agenda"></i>
