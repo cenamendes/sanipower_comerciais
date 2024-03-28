@@ -140,6 +140,6 @@ class DetalheEncomenda extends Component
 
     public function render()
     {
-        return view('livewire.clientes.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "analisesCliente" =>$this->analysisClientes]);
+        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "analisesCliente" =>$this->analysisClientes]);
     }
 }
