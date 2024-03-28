@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Clientes;
+namespace App\Http\Livewire\Propostas;
 
-use App\Models\User;
 use Livewire\Component;
-use App\Interfaces\ClientesInterface;
-use App\Repositories\ClientesRepository;
 use Livewire\WithPagination;
+use App\Interfaces\ClientesInterface;
 
-
-class Clientes extends Component
+class Propostas extends Component
 {
     use WithPagination;
     
@@ -215,6 +212,6 @@ class Clientes extends Component
         
     public function render()
     {
-        return view('livewire.clientes.clientes',["clientes" => $this->clientes]);
+        return view('livewire.propostas.propostas',["clientes" => $this->clientes]);
     }
 }

@@ -55,6 +55,20 @@
                     Visitas
                 </a>
             </li>
+
+            <li>
+                <a href="{{route('encomendas')}}" class="{{ Str::contains(request()->route()->getName(), 'encomendas') ? 'text-info' : '' }}">
+                    <i class="ti-agenda"></i>
+                    Encomendas
+                </a>
+            </li>
+
+            <li>
+                <a href="{{route('propostas')}}" class="{{ Str::contains(request()->route()->getName(), 'propostas') ? 'text-info' : '' }}">
+                    <i class="ti-wallet"></i>
+                    Propostas
+                </a>
+            </li>
         </ul>
     </div>
     <!-- sidebar-menu  -->

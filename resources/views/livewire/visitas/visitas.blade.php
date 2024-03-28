@@ -76,7 +76,18 @@
                                         <div class="card-body">
 
                                             <div class="row">
-                                                <div class="col-xl-6 col-xs-12">
+
+                                                <div class="col-xl-4 col-xs-12">
+                                                    <label>NIF</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="ti-receipt"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" placeholder="NIF" wire:model.lazy="nifCliente">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-4 col-xs-12">
                                                     <label>Telemóvel</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -86,7 +97,7 @@
                                                     </div>
                                                 </div>
     
-                                                <div class="col-xl-6 col-xs-12">
+                                                <div class="col-xl-4 col-xs-12">
                                                     <label>Email</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">

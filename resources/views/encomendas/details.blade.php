@@ -11,7 +11,7 @@
         </div>
     </div>
     
-    @livewire('clientes.detalhe-cliente',["cliente" => $idCliente])
+    @livewire('encomendas.detalhe-encomenda',["cliente" => $idCliente])
 
 @endsection
 

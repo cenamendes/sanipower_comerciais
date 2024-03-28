@@ -143,10 +143,6 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
-
-                            <div class="tools">
-                                <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-user"></i> Criar Cliente</a>
-                            </div>
                     
                         </div>
                     </div>                  
@@ -183,14 +179,14 @@
                             <tbody>
                                
                                 @foreach ($clientes as $clt )
-                                    <tr data-href="{{route('clientes.detail',$clt->id)}}">
+                                    <tr data-href="{{route('propostas.detail',$clt->id)}}">
                                         <td>{{$clt->name}}</td>
                                         <td>{{$clt->no}}</td>
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
                                         <td>
-                                            <a href="{{route('clientes.detail',$clt->id)}}" class="btn btn-primary">
-                                                <i class="ti-search"></i>
+                                            <a href="{{route('propostas.detail',$clt->id)}}" class="btn btn-primary">
+                                                <i class="ti-plus"></i> Nova Proposta
                                             </a>
                                         </td>
                                     </tr>

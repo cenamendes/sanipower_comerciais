@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\ClientesController;
-use App\Http\Controllers\VisitasController;
-use App\Http\Controllers\VisitasNewController;
-
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VisitasController;
+
+use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EncomendasController;
+use App\Http\Controllers\PropostasController;
+use App\Http\Controllers\VisitasNewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/visitas', [VisitasController::class, 'index'])->name('visitas');
     Route::get('/visitas/new-visita/{id}', [VisitasNewController::class, 'showDetail'])->name('visitas.new-visita');
     Route::get('/visitas/detalhes/{id}', [VisitasController::class, 'showDetail'])->name('visitas.detail');
+
+    Route::get('/encomendas', [EncomendasController::class, 'index'])->name('encomendas');
+    Route::get('/encomendas/detalhes/{id}', [EncomendasController::class, 'showDetail'])->name('encomendas.detail');
+
+    Route::get('/propostas', [PropostasController::class, 'index'])->name('propostas');
+    Route::get('/propostas/detalhes/{id}', [PropostasController::class, 'showDetail'])->name('propostas.detail');
 });
 
 require __DIR__.'/auth.php';

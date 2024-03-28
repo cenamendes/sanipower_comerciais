@@ -25,7 +25,8 @@ class Visitas extends Component
     public ?string $zonaCliente = '';
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
-    
+    public ?string $nifCliente = '';
+
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -47,6 +48,8 @@ class Visitas extends Component
         $this->zonaCliente = '';
         $this->telemovelCliente = '';
         $this->emailCliente = '';
+        $this->nifCliente = '';
+        
 
     }
 
@@ -83,6 +86,16 @@ class Visitas extends Component
     }
 
     public function updatedZonaCliente()
+    {
+        $this->pageChosen = 1;
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
+
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->totalRecords = $getInfoClientes["nr_registos"];
+    }
+
+    public function updatedNifCliente()
     {
         $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);

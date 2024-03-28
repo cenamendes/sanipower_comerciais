@@ -37,6 +37,7 @@ class UpdateProfile extends Component
 
             session()->flash('success', "Imagem alterada com sucesso");
             // Atualize o componente Livewire
+            
             return redirect()->route('profile.edit');
         }
     }
