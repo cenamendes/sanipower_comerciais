@@ -28,7 +28,7 @@
                         <div class="row">
 
                             <div class="col-xl-4 col-xs-12">
-                                <label>Nome do Cliente</label>
+                                <label class="mt-2">Nome do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-user"></i></span>
@@ -38,7 +38,7 @@
                             </div>
     
                             <div class="col-xl-4 col-xs-12">
-                                <label>Número do Cliente</label>
+                                <label class="mt-2">Número do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-ticket"></i></span>
@@ -48,7 +48,7 @@
                             </div>
     
                             <div class="col-xl-4 col-xs-12">
-                                <label>Zona</label>
+                                <label class="mt-2">Zona</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-pin2"></i></span>
@@ -80,7 +80,7 @@
                                             <div class="row">
 
                                                 <div class="col-xl-4 col-xs-12">
-                                                    <label>NIF</label>
+                                                    <label class="mt-2">NIF</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="ti-receipt"></i></span>
@@ -90,7 +90,7 @@
                                                 </div>
 
                                                 <div class="col-xl-4 col-xs-12">
-                                                    <label>Telemóvel</label>
+                                                    <label class="mt-2">Telemóvel</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="ti-microphone-alt"></i></span>
@@ -100,7 +100,7 @@
                                                 </div>
     
                                                 <div class="col-xl-4 col-xs-12">
-                                                    <label>Email</label>
+                                                    <label class="mt-2">Email</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="ti-email"></i></span>

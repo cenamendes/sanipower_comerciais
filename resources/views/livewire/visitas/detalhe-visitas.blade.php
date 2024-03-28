@@ -11,7 +11,7 @@
 
     <!-- TABS  -->
 
-    <div class="row d-flex justify-content-end mr-0 mb-2">
+    <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
         <div class="tools">
             <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
