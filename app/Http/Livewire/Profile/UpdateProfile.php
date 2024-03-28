@@ -7,7 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateProfileImagem extends Component
+class UpdateProfile extends Component
 {
     use WithFileUploads;
 
@@ -37,12 +37,13 @@ class UpdateProfileImagem extends Component
 
             session()->flash('success', "Imagem alterada com sucesso");
             // Atualize o componente Livewire
-            return redirect()->to(route('profile.edit'));
+            return redirect()->route('profile.edit');
         }
     }
 
     public function render()
     {
-        return view('livewire.profile.update-profile-imagem');
+        return view('livewire.profile.update-profile');
     }
+    
 }

@@ -58,6 +58,54 @@
                             </div>
 
                         </div>
+
+                        <!-- PARTE DO ACCORDEON -->
+                            <div class="row ml-0 mr-0 mt-4 d-block">
+
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                      <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                          <button class="btn btn-link btn-block text-left pl-0 text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="ti-plus"></i> MAIS FILTROS
+                                          </button>
+                                        </h2>
+                                      </div>
+                                  
+                                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                                        <div class="card-body">
+
+                                            <div class="row">
+                                                <div class="col-xl-6 col-xs-12">
+                                                    <label>Telemóvel</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="ti-microphone-alt"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" placeholder="Telemóvel" wire:model.lazy="telemovelCliente">
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-xl-6 col-xs-12">
+                                                    <label>Email</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="ti-email"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" placeholder="Email" wire:model.lazy="emailCliente">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                            </div>                        
+
+                        <!-- FIM DO ACCORDEON -->
                                                 
                     </div>
                 </div>
@@ -81,13 +129,7 @@
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
                             
-                            <div class="tools">
-                                <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
-                                <a href="javascript:void(0);" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
-                                <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
-                                <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
-                            </div>
-                    
+                                            
                         </div>
                     </div>                  
                    
@@ -128,16 +170,15 @@
                                         <td>{{$clt->no}}</td>
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
-                                        <td style="min-width: 110px;">
-                                            <a href="{{route('visitas.detail',$clt->id)}}" class="btn btn-primary">
-                                                <i class="ti-plus"></i>
+                                        <td>
+                                            <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti-settings text-light"></i>
                                             </a>
-                                            {{-- <a href="{{route('visitas.new-visita',$clt->id)}}" class="btn btn-primary">
-                                                <i class="ti-calendar"></i>
-                                            </a> --}}
-                                            <a href="javascript:void(0)" class="btn btn-primary">
-                                                <i class="ti-calendar"></i>
-                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="{{route('visitas.detail',$clt->id)}}" class="dropdown-item">Adicionar Visita</a>
+                                                {{-- <a href="{{route('visitas.new-visita',$clt->id)}}" class="dropdown-item">Agendar Visita</a> --}}
+                                                <a href="javascript:void(0)" class="dropdown-item">Agendar Visita</a>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

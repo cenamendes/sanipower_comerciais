@@ -1,6 +1,5 @@
 <div class="header-bar">
     <div class="brand">
-        {{-- <a href="index.html" class="logo"><span class="text-carolina">siQ</span>theme</a> --}}
         <a href="{{route('dashboard')}}">
             <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-navbar" width="200">  
         </a>
@@ -8,10 +7,11 @@
     <div class="btn-toggle">
         <a href="#" class="slide-sidebar-btn" style="display: none;"><i class="ti-menu"></i></a>
     </div>
-    <div class="navigation d-flex">
 
+    <div class="navigation d-flex">
         <!-- BOF Header Nav -->
         <div class="navbar-menu d-flex">
+            
             <div class="menu-item">
                 <a href="#" class="btn" data-toggle="dropdown">
                     <i class="ti-bell"></i>

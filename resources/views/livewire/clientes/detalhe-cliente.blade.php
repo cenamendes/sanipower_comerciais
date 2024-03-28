@@ -10,6 +10,16 @@
     <!-- FIM LOADING -->
 
     <!-- TABS  -->
+
+    <div class="row d-flex justify-content-end mr-0 mb-2">
+        <div class="tools">
+            <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
+        </div>
+    </div>
+
     <div class="card card-tabs-pills mb-3">
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
@@ -24,7 +34,7 @@
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
-                    <h4 class="card-title">Detalhes Cliente</h4>
+                    <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>
                     <p class="card-text">
                        
                         <!--  INICIO DOS DETALHES   -->
