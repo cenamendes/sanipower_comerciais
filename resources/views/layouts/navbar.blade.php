@@ -21,6 +21,16 @@
                     <i class="ti-calendar"></i>
                 </a>
             </div>
+            <div class="item-respos2">
+                <a href="{{route('encomendas')}}" class="{{ Str::contains(request()->route()->getName(), 'encomendas') ? 'text-info' : '' }}">
+                    <i class="ti-agenda"></i>
+                </a>
+            </div>
+            <div class="item-respos2">
+            <a href="{{route('propostas')}}" class="{{ Str::contains(request()->route()->getName(), 'propostas') ? 'text-info' : '' }}">
+                    <i class="ti-wallet"></i>
+                </a>
+            </div>
         </div>
         <a href="#" class="slide-sidebar-btn" style="display: none;"><i class="ti-menu"></i></a>
     </div>

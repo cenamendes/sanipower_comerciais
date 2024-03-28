@@ -191,7 +191,7 @@
 
 /* FIM LOADING **/
 
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 800px) {
     .sidebar-responsive{
         position: absolute;
         width: 260px;
