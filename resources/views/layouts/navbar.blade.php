@@ -1,12 +1,30 @@
 <div class="header-bar">
-    <div class="brand">
+    <div class="brand d-flex">
         <a href="{{route('dashboard')}}">
             <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-navbar" width="200">  
-        </a>
+        </a> 
+        
     </div>
     <div class="btn-toggle">
+        <div class="nav-responsive">
+        <div class="maincat">
+
+            </div>
+            <div class="item-respos">
+                <a href="{{route('clientes')}}" class="{{ Str::contains(request()->route()->getName(), 'clientes') ? 'text-info' : '' }}">
+                    <i class="ti-user"></i>
+
+                </a>
+            </div>
+            <div class="item-respos2">
+                <a href="{{route('visitas')}}" class="{{ Str::contains(request()->route()->getName(), 'visitas') ? 'text-info' : '' }}">
+                    <i class="ti-calendar"></i>
+                </a>
+            </div>
+        </div>
         <a href="#" class="slide-sidebar-btn" style="display: none;"><i class="ti-menu"></i></a>
     </div>
+   
 
     <div class="navigation d-flex">
         <!-- BOF Header Nav -->
