@@ -303,10 +303,20 @@
                             <div class="col-sm-9">
 
                                 <div class="row">
+                                    
+                                    <div class="col">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href=""><i class="ti-panel"></i> Categoria</a></li>
+                                            <li class="breadcrumb-item">Familia</li>
+                                            <li class="breadcrumb-item active">Sub-Familia</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="row">                                   
  
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-6 col-md-4 col-xl-3">
                                         <div class="card card-decoration card-outline-primary mb-3 border border-0">
-                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-1.jpg"
+                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg"
                                                 class="card-img-top" alt="...">
                                             <div class="body-decoration">
                                                 <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
@@ -317,7 +327,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-6 col-md-4 col-xl-3">
                                         <div class="card card-decoration card-outline-primary mb-3 border border-0">
                                             <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-1.jpg"
                                                 class="card-img-top" alt="...">
@@ -330,7 +340,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-6 col-md-4 col-xl-3">
                                         <div class="card card-decoration card-outline-primary mb-3 border border-0">
                                             <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-2.jpg"
                                                 class="card-img-top" alt="...">
@@ -343,12 +353,38 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-4 col-lg-3 ">
+                                    <div class="col-6 col-md-4 col-xl-3 ">
                                         <div class="card card-decoration card-outline-primary mb-3 border border-0" >
                                             <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-12.jpg"
                                                 class="card-img-top" alt="...">
                                             <div class="body-decoration">
                                                 <h5 class="title-description">Abraçadeira Dupla c/Parafuso Cobre</h5>
+                                                <div class="container-buttons">
+                                                    <button class="btn" wire:click="openDetailProduto(4)"><i class="ti-eye"></i><span> Ver</span></button>
+                                                    <button class="btn" wire:click="adicionarProduto(4)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-xl-3">
+                                        <div class="card card-decoration card-outline-primary mb-3 border border-0" >
+                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-8.jpg"
+                                                class="card-img-top" alt="...">
+                                            <div class="body-decoration">
+                                                <h5 class="title-description">Vissen PP-G</h5>
+                                                <div class="container-buttons">
+                                                    <button class="btn" wire:click="openDetailProduto(4)"><i class="ti-eye"></i><span> Ver</span></button>
+                                                    <button class="btn" wire:click="adicionarProduto(4)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-xl-3">
+                                        <div class="card card-decoration card-outline-primary mb-3 border border-0" >
+                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-9.jpg"
+                                                class="card-img-top" alt="...">
+                                            <div class="body-decoration">
+                                                <h5 class="title-description">Vissen PP-R Tubo S2.5/SDR6</h5>
                                                 <div class="container-buttons">
                                                     <button class="btn" wire:click="openDetailProduto(4)"><i class="ti-eye"></i><span> Ver</span></button>
                                                     <button class="btn" wire:click="adicionarProduto(4)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
