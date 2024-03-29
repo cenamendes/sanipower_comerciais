@@ -13,6 +13,7 @@
 
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
         <div class="tools">
+            <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i class="ti-eye"></i> Ver Encomenda</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
         </div>
@@ -238,181 +239,228 @@
                 </div>
                 <div class="tab-pane fade {{$tabProdutos}}" id="tab5">
 
-                    <div class="row">
-                        <div class="col-xl-2 col-xs-6" style="padding-left:30px;">
-
-                            <div class="row d-flex d-md-block flex-nowrap wrapper">
-                                <div class="col-md-12 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-                                    <div class="list-group border-0 text-center text-md-left">
-                                        <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Dashboard</span> </a>
-                                        <div class="collapse" id="menu1" data-parent="#sidebar">
-                                            <a href="#menu1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 1 </a>
-                                            <div class="collapse" id="menu1sub1" data-parent="#menu1">
-                                                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem a</a>
-                                                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem b</a>
-                                                <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem c </a>
-                                                <div class="collapse" id="menu1sub1sub1">
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem c.1</a>
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem c.2</a>
+                        @if($specificProduct == 0)
+                         <div class="row tab-encomenda-produto">
+                            <div class="col-sm-3 coluna-buttons" style="padding-left: 30px;">
+                                <div class="row d-flex d-md-block flex-nowrap wrapper" style="padding-bottom: 25px;">
+                                    <div class="col-12 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+                                        <div class="list-group border-0 text-center text-md-left">
+                                            <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Dashboard</span> </a>
+                                            <div class="collapse submenu" id="menu1" data-parent="#sidebar">
+                                                <a href="#menu1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 1 </a>
+                                                <div class="collapse subitem" id="menu1sub1" data-parent="#menu1">
+                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem a</a>
+                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem b</a>
+                                                    <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem c </a>
+                                                    <div class="collapse subitemInterno" id="menu1sub1sub1">
+                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem c.1</a>
+                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem c.2</a>
+                                                    </div>
+                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem d</a>
+                                                    <a href="#menu1sub1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem e </a>
+                                                    <div class="collapse subitemInterno" id="menu1sub1sub2">
+                                                        <a href="#" class="list-group-item">Subitem e.1</a>
+                                                        <a href="#" class="list-group-item">Subitem e.2</a>
+                                                    </div>
                                                 </div>
-                                                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem d</a>
-                                                <a href="#menu1sub1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem e </a>
-                                                <div class="collapse" id="menu1sub1sub2">
-                                                    <a href="#" class="list-group-item">Subitem e.1</a>
-                                                    <a href="#" class="list-group-item">Subitem e.2</a>
+                                                <a href="#menu1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 2</a>
+                                                <div class="collapse subitem" id="menu1sub2" data-parent="#menu1">
+                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 1 a</a>
+                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 2 b</a>
+                                                    <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 3 c </a>
+                                                    <div class="collapse subitemInterno" id="menu1sub1sub1">
+                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.1</a>
+                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.2</a>
+                                                    </div>
+                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 4 d</a>
+                                                    <a href="#menu1sub1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 5 e </a>
+                                                    <div class="collapse subitemInterno" id="menu1sub1sub2">
+                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.1</a>
+                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.2</a>
+                                                    </div>
                                                 </div>
+                                                <a href="#" class="list-group-item">Subitem 3</a>
                                             </div>
-                                            <a href="#menu1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 2</a>
-                                            <div class="collapse" id="menu1sub2" data-parent="#menu1">
-                                                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 1 a</a>
-                                                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 2 b</a>
-                                                <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 3 c </a>
-                                                <div class="collapse" id="menu1sub1sub1">
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.1</a>
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.2</a>
+                                            <a href="#" class="list-group-item d-inline-block collapsed"><i class="fa fa-film"></i> <span class="d-none d-md-inline">Item 2</span></a>
+                                            <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Item 3 </span></a>
+                                            <div class="collapse submenu" id="menu3" data-parent="#sidebar">
+                                                <a href="#" class="list-group-item" data-parent="#menu3">3.1</a>
+                                                <a href="#menu3sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">3.2 </a>
+                                                <div class="collapse subitem" id="menu3sub2">
+                                                    <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 a</a>
+                                                    <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 b</a>
+                                                    <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 c</a>
                                                 </div>
-                                                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 4 d</a>
-                                                <a href="#menu1sub1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 5 e </a>
-                                                <div class="collapse" id="menu1sub1sub2">
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.1</a>
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.2</a>
-                                                </div>
+                                                <a href="#" class="list-group-item" data-parent="#menu3">3.3</a>
                                             </div>
-                                            <a href="#" class="list-group-item">Subitem 3</a>
+                                           
                                         </div>
-                                        <a href="#" class="list-group-item d-inline-block collapsed"><i class="fa fa-film"></i> <span class="d-none d-md-inline">Item 2</span></a>
-                                        <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Item 3 </span></a>
-                                        <div class="collapse" id="menu3" data-parent="#sidebar">
-                                            <a href="#" class="list-group-item" data-parent="#menu3">3.1</a>
-                                            <a href="#menu3sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">3.2 </a>
-                                            <div class="collapse" id="menu3sub2">
-                                                <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 a</a>
-                                                <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 b</a>
-                                                <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 c</a>
-                                            </div>
-                                            <a href="#" class="list-group-item" data-parent="#menu3">3.3</a>
-                                        </div>
-                                        
                                     </div>
+                                   
                                 </div>
                                
                             </div>
+                            <div class="col-sm-9">
+
+                                <div class="row">
+ 
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="card card-decoration card-outline-primary mb-3 border border-0">
+                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-1.jpg"
+                                                class="card-img-top" alt="...">
+                                            <div class="body-decoration">
+                                                <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                <div class="container-buttons">
+                                                    <button class="btn" wire:click="openDetailProduto(1)"><i class="ti-eye"></i><span> Ver</span></button>
+                                                    <button class="btn" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="card card-decoration card-outline-primary mb-3 border border-0">
+                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-1.jpg"
+                                                class="card-img-top" alt="...">
+                                            <div class="body-decoration">
+                                                <h5 class="title-description">Abraçadeira c/Parafuso</h5>
+                                                <div class="container-buttons">
+                                                    <button class="btn" wire:click="openDetailProduto(2)"><i class="ti-eye"></i><span> Ver</span></button>
+                                                    <button class="btn" wire:click="adicionarProduto(2)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="card card-decoration card-outline-primary mb-3 border border-0">
+                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-2.jpg"
+                                                class="card-img-top" alt="...">
+                                            <div class="body-decoration">
+                                                <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                <div class="container-buttons">
+                                                    <button class="btn" wire:click="openDetailProduto(3)"><i class="ti-eye"></i><span> Ver</span></button>
+                                                    <button class="btn" wire:click="adicionarProduto(3)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-3 ">
+                                        <div class="card card-decoration card-outline-primary mb-3 border border-0" >
+                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-12.jpg"
+                                                class="card-img-top" alt="...">
+                                            <div class="body-decoration">
+                                                <h5 class="title-description">Abraçadeira Dupla c/Parafuso Cobre</h5>
+                                                <div class="container-buttons">
+                                                    <button class="btn" wire:click="openDetailProduto(4)"><i class="ti-eye"></i><span> Ver</span></button>
+                                                    <button class="btn" wire:click="adicionarProduto(4)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+     
+                                </div>
+                                   
+                            </div>
+                            </div>
+                    
+                        @else
+                            <div class="row mb-2 border-bottom">
+                                <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-2"><i class="ti-angle-left"></i> Atrás</a>
+                            </div>
                             
-                        </div>
-                        <div class="col-xl-10 col-xs-6">
                             <div class="row">
 
-                                <div class="col-xl-3 col-xs-12">
-                                    <div class="card card-outline-primary mb-3">
-                                        <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-1.jpg"
-                                            class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Abraçadeira c/Parafuso</h5>
-                                            
-                                        </div>
-                                    </div>
+                                <div class="col-xl-3 col-xs-12" style="padding-left:30px;">
+                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" width=300>
                                 </div>
-                                <div class="col-xl-3 col-xs-12">
-                                    <div class="card card-outline-primary mb-3">
-                                        <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-1.jpg"
-                                            class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Abraçadeira c/Parafuso</h5>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-xs-12">
-                                    <div class="card card-outline-primary mb-3">
-                                        <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-2.jpg"
-                                            class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Abraçadeira Quadrada c/Parafuso</h5>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-xs-12">
-                                    <div class="card card-outline-primary mb-3">
-                                        <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-12.jpg"
-                                            class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Abraçadeira Dupla c/Parafuso Cobre</h5>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="col-xl-9 col-xs-12">
 
-                            </div>
-                           
-                        </div>
-                    </div>
-    
-                    <p class="card-text">
-                        
-                        <!-- INICIO TABELA  -->
+                                    <div class="row">
+                                        <div class="col-xl-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="https://digital.sanipower.pt/assets/marcas/vissen.jpg" width=50>
+                                                </div>
+                                                <div class="col-xs-9 d-flex align-middle pl-2" style="align-items:center;">
+                                                    <h3>VISSEN (NOME DO PRODUTO)</h3>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card mb-3">
-                                    <div class="card-header uppercase">
-                                        <div class="caption">
-                                            <i class="ti-briefcase"></i> Grelha de Produtos
-                                        </div>
-                                        <div class="tools">
-                                            <a href="#" class="btn btn-outline-secondary text-light"><i class="ti-pencil-alt"></i> Adicionar</a>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-hover">
                                                 <thead class="thead-light">
                                                     <tr>
                                                         <th>Referência</th>
-                                                        <th>Designação</th>
-                                                        <th>Quantidade</th>
-                                                        <th>Preço Unitário</th>
-                                                        <th>Desconto 1</th>
-                                                        <th>Desconto 2</th>
-                                                        <th>Preço Total</th>
+                                                        <th>Modelo</th>
+                                                        <th>PVP unitário</th>
+                                                        <th>Desconto</th>
+                                                        <th>Preço unitário</th>
+                                                        <th>Quantidade mínima</th>
+                                                        <th>Stock</th>
+                                                        <th>Quantidade a encomendar</th>
                                                         <th class="text-center">Ações</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
-                                                        <td>@mdo</td>
-                                                        <td>@mdo</td>
-                                                        <td>@mdo</td>
-                                                        <td class="text-center"><button class="btn btn-sm btn-danger"><i class="ti-trash"></i>
-                                                                Eliminar</button></td>
+                                                        <td>COP10700016</td>
+                                                        <td>Ø16</td>
+                                                        <td>1,450 €</td>
+                                                        <td>50 %</td>
+                                                        <td>0,725 €</td>
+                                                        <td></td>
+                                                        <td style="text-align:center;font-size:large;"><i class="ti-check text-lg text-forest"></i></td>
+                                                        <td><input type="number" id="qtdEnc" class="form-control"></td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-dropbox-alt"></i></button>
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-comment"></i></button>
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-clipboard"></i></button>
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-shopping-cart"></i></button>
+                                                        </td>
                                                     </tr>
+            
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
-                                                        <td>@mdo</td>
-                                                        <td>@mdo</td>
-                                                        <td>@mdo</td>
-                                                        <td class="text-center"><button class="btn btn-sm btn-danger"><i class="ti-trash"></i>
-                                                                Eliminar</button></td>
+                                                        <td>COP10700020</td>
+                                                        <td>Ø20x3.4</td>
+                                                        <td>1,851 €</td>
+                                                        <td>50 %</td>
+                                                        <td>0,926 €</td>
+                                                        <td></td>
+                                                        <td style="text-align:center;font-size:large;"><i class="ti-close text-lg text-chili"></i></td>
+                                                        <td><input type="number" id="qtdEnc" class="form-control"></td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-dropbox-alt"></i></button>
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-comment"></i></button>
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-clipboard"></i></button>
+                                                            <button class="btn btn-sm btn-primary"><i class="ti-shopping-cart"></i></button>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                        </div>   
+                                        <div class="row">
+                                            <div class="col-xl-2">
+                                                <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <button class="btn btn-md btn-primary"><i class="ti-close"></i> Limpar Seleção</button>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <button class="btn btn-md btn-primary"><i class="ti-shopping-cart"></i> Adicionar Todos</button>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <button class="btn btn-md btn-primary"><i class="ti-info"></i> Descrição Produto</button>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <button class="btn btn-md btn-primary"><i class="ti-file"></i> Manuais Certificados</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                        </div>
-
-                        <!-- FIM TABELA  -->
-
-                    </p>
+                        @endif
+                    
                 </div>
 
                 <div class="tab-pane fade {{$tabDetalhesEncomendas}}" id="tab6">
@@ -484,4 +532,157 @@
 
     <!-- FIM TABS  -->
 
+
+    <!-- MODALS -->
+
+     <!-- Modal adicionar compra rapida -->
+     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
+     aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="modalProdutos"><img src="https://digital.sanipower.pt/assets/marcas/vissen.jpg" width=50> (NOME DO PRODUTO PHC)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Referência</th>
+                                            <th>Modelo</th>
+                                            <th>PVP unitário</th>
+                                            <th>Desconto</th>
+                                            <th>Preço unitário</th>
+                                            <th>Quantidade mínima</th>
+                                            <th>Stock</th>
+                                            <th>Quantidade a encomendar</th>
+                                            <th class="text-center">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>COP10700016</td>
+                                            <td>Ø16</td>
+                                            <td>1,450 €</td>
+                                            <td>50 %</td>
+                                            <td>0,725 €</td>
+                                            <td></td>
+                                            <td style="text-align:center;font-size:large;"><i class="ti-check text-lg text-forest"></i></td>
+                                            <td><input type="number" id="qtdEnc" class="form-control"></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-primary"><i class="ti-plus"></i></button>
+                                                <button class="btn btn-sm btn-warning"><i class="ti-comment"></i></button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>COP10700020</td>
+                                            <td>Ø20x3.4</td>
+                                            <td>1,851 €</td>
+                                            <td>50 %</td>
+                                            <td>0,926 €</td>
+                                            <td></td>
+                                            <td style="text-align:center;font-size:large;"><i class="ti-close text-lg text-chili"></i></td>
+                                            <td><input type="number" id="qtdEnc" class="form-control"></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-primary"><i class="ti-plus"></i></button>
+                                                <button class="btn btn-sm btn-warning"><i class="ti-comment"></i></button>
+                                            </td>
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Limpar seleção</button>
+                    <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!----->
+
+    <!-- Modal ver encomenda -->
+    <div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
+    aria-hidden="true">
+       <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title text-primary" id="modalEncomenda"><i class="ti-archive"></i> Encomenda atual</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+               <div class="modal-body">
+                   <div class="card mb-3">
+                       <div class="card-body">
+                           <div class="table-responsive">
+                               <table class="table table-bordered table-hover">
+                                   <thead class="thead-light">
+                                       <tr>
+                                           <th>Referência</th>
+                                           <th>Designação</th>
+                                           <th>Quantidade</th>
+                                           <th>Preço unitário</th>
+                                           <th>Desconto 1</th>
+                                           <th>Desconto 2</th>
+                                           <th>Preço Total</th>
+                                           <th class="text-center">Ações</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       <tr>
+                                           <td>COP10700016</td>
+                                           <td>Ø16</td>
+                                           <td>1,450 €</td>
+                                           <td>50 %</td>
+                                           <td>0,725 €</td>
+                                           <td></td>
+                                           <td>22</td>
+                                           <td class="text-center">
+                                               <button class="btn btn-sm btn-danger"><i class="ti-trash"></i></button>
+                                           </td>
+                                       </tr>
+
+                                       <tr>
+                                        <td>COP10700020</td>
+                                        <td>Ø20x3.4</td>
+                                        <td>1,851 €</td>
+                                        <td>50 %</td>
+                                        <td>0,926 €</td>
+                                        <td></td>
+                                        <td>22</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-danger"><i class="ti-trash"></i></button>
+                                        </td>
+                                          
+                                       </tr>
+                                   
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Limpar seleção</button>
+                   <button type="button" class="btn btn-outline-primary">Concluir Encomenda</button>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <!----->
+    
+
 </div>
+
