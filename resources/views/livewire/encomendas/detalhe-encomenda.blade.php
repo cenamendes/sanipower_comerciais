@@ -403,12 +403,12 @@
                                 <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-2"><i class="ti-angle-left"></i> Atrás</a>
                             </div>
                             
-                            <div class="row">
+                            <div class="row container-detalhes-produto">
 
-                                <div class="col-xl-3 col-xs-12" style="padding-left:30px;">
-                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" width=300>
+                                <div class="col-4 d-none d-lg-block">
+                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" width=100%>
                                 </div>
-                                <div class="col-xl-9 col-xs-12">
+                                <div class="col-lg-8 col-12">
 
                                     <div class="row">
                                         <div class="col-xl-12 mb-2">
@@ -449,10 +449,15 @@
                                                         <td style="text-align:center;font-size:large;"><i class="ti-check text-lg text-forest"></i></td>
                                                         <td><input type="number" id="qtdEnc" class="form-control"></td>
                                                         <td class="text-center">
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-dropbox-alt"></i></button>
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-comment"></i></button>
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-clipboard"></i></button>
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-shopping-cart"></i></button>
+                                                            <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti-settings text-light"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <button class="btn btn-sm dropdown-item">Consultar Caixa</button>
+                                                                <button class="btn btn-sm dropdown-item">Adicionar Visita</button>
+                                                                <button class="btn btn-sm dropdown-item">Justificar Quantidade</button>
+                                                                <button class="btn btn-sm dropdown-item" >Adicionar Encomenda</button>
+                                                            </div>
                                                         </td>
                                                     </tr>
             
@@ -466,29 +471,34 @@
                                                         <td style="text-align:center;font-size:large;"><i class="ti-close text-lg text-chili"></i></td>
                                                         <td><input type="number" id="qtdEnc" class="form-control"></td>
                                                         <td class="text-center">
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-dropbox-alt"></i></button>
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-comment"></i></button>
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-clipboard"></i></button>
-                                                            <button class="btn btn-sm btn-primary"><i class="ti-shopping-cart"></i></button>
+                                                            <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti-settings text-light"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <button class="btn btn-sm dropdown-item">Consultar Caixa</button>
+                                                                <button class="btn btn-sm dropdown-item">Adicionar Visita</button>
+                                                                <button class="btn btn-sm dropdown-item">Justificar Quantidade</button>
+                                                                <button class="btn btn-sm dropdown-item" >Adicionar Encomenda</button>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>   
-                                        <div class="row">
-                                            <div class="col-xl-2">
+                                        <div class="container-buttons-produtos">
+                                            <div>
                                                 <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
                                             </div>
-                                            <div class="col-xl-2">
+                                            <div>
                                                 <button class="btn btn-md btn-primary"><i class="ti-close"></i> Limpar Seleção</button>
                                             </div>
-                                            <div class="col-xl-2">
+                                            <div>
                                                 <button class="btn btn-md btn-primary"><i class="ti-shopping-cart"></i> Adicionar Todos</button>
                                             </div>
-                                            <div class="col-xl-2">
+                                            <div>
                                                 <button class="btn btn-md btn-primary"><i class="ti-info"></i> Descrição Produto</button>
                                             </div>
-                                            <div class="col-xl-2">
+                                            <div>
                                                 <button class="btn btn-md btn-primary"><i class="ti-file"></i> Manuais Certificados</button>
                                             </div>
                                         </div>
@@ -551,7 +561,7 @@
 
                                 <div class="form-group">
                                     <label>Observação</label>
-                                    <textarea type="text" class="form-control" cols="4" rows="6" readonly style="resize: none;"></textarea>
+                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
                                 </div>
 
                             </div>
