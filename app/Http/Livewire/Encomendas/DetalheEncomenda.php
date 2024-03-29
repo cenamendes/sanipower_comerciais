@@ -69,6 +69,10 @@ class DetalheEncomenda extends Component
         //TENHO DE ASSOCIAR Á AO USER E AO CLIENTE
 
 
+        $this->tabDetail = "";
+        $this->tabProdutos = "show active";
+        $this->tabDetalhesEncomendas = "";
+        
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->dispatchBrowserEvent('encomendaAtual');
     }
