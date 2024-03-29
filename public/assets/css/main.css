@@ -226,7 +226,7 @@
     top: 0;
     left: 0;
     width: 100.5%;
-    height: 100%;
+    height: 100.5%;
     padding: 3px 10px 10px 10px;
     background-color: #293747;
     transform: rotateX(-90deg);
@@ -274,5 +274,39 @@
         font-size: 12px;
     }
 }
+.container-buttons-produtos{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+.container-detalhes-produto{
+    padding: 20px;
+}
+.container-buttons-produtos{
+    margin-top: 5px;
+}
+
+.container-buttons-produtos div{
+    padding: 5px;
+}
+
+@media only screen and (max-width: 1550px) {
+    .container-buttons-produtos{
+        justify-content: flex-start;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    .container-buttons-produtos div{
+        padding-bottom: auto;
+    }
+    .container-buttons-produtos div button{
+        font-size: 12px;
+    }
+}
+
 /* Fim Encomendas */
 
