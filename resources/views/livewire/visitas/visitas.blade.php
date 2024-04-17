@@ -27,7 +27,7 @@
                         
                         <div class="row">
 
-                            <div class="col-xl-4 col-xs-12">
+                            <div class="col-lg-4">
                                 <label class="mt-2">Nome do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
     
-                            <div class="col-xl-4 col-xs-12">
+                            <div class="col-lg-4">
                                 <label class="mt-2">Número do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
     
-                            <div class="col-xl-4 col-xs-12">
+                            <div class="col-lg-4">
                                 <label class="mt-2">Zona</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -77,7 +77,7 @@
 
                                             <div class="row">
 
-                                                <div class="col-xl-4 col-xs-12">
+                                                <div class="col-lg-4">
                                                     <label class="mt-2">NIF</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -87,7 +87,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-xl-4 col-xs-12">
+                                                <div class="col-lg-4">
                                                     <label class="mt-2">Telemóvel</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -97,7 +97,7 @@
                                                     </div>
                                                 </div>
     
-                                                <div class="col-xl-4 col-xs-12">
+                                                <div class="col-lg-4">
                                                     <label class="mt-2">Email</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">

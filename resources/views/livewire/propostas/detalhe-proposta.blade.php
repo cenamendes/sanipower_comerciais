@@ -30,6 +30,9 @@
               <li class="nav-item">
                   <a href="#tab6" data-toggle="tab" class="nav-link {{$tabDetalhesProposta}}">Detalhes Proposta</a>
               </li>
+              <li class="nav-item">
+                    <a href="#tab7" data-toggle="tab" class="nav-link ">Campanhas</a>
+                </li>
           </ul>
       </div>
       <div class="card-body">
@@ -358,6 +361,125 @@
 
                   </p>
               </div>
+              <div class="tab-pane fade" id="tab7">
+    
+                    <p class="card-text">
+                        
+                        
+                        <div class="row form-group">
+                            <div class="col-xl-4 col-xs-12">
+
+                                <div class="form-group">
+                                    <label>Referência</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-carolina"><i class="ti-light-bulb text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+
+                            </div>
+                           
+                            <div class="col-xl-4 col-xs-12">
+
+                                <div class="form-group">
+                                    <label>Entrega</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-carolina"><i class="ti-bag text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4 col-xs-12">
+
+                                <div class="form-group">
+                                    <label>Condições de Pagamento</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-carolina"><i class="ti-money text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card mb-3">
+                                    <div class="card-header d-block">
+                                        <div class="row">
+                                            <div class="col-xl-8 col-xs-12">
+                                                <div class="caption uppercase">
+                                                    <i class="ti-user"></i> Clientes
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-xs-12 text-right">
+                                        
+                                            </div>
+                                        </div>                  
+                                    
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Título</th>
+                                                        <th>Número</th>
+                                                        <th>Preço</th>
+                                                        <th>Quantidade</th>
+                                                        <th>Ações</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Abraçadeira</td>
+                                                        <td>513130</td>
+                                                        <td>€70</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary">
+                                                                <i class="ti-plus"></i> Nova Ação
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Abraçadeira</td>
+                                                        <td>2186325</td>
+                                                        <td>€22</td>
+                                                        <td>33</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary">
+                                                                <i class="ti-plus"></i> Nova Ação
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Abraçadeira</td>
+                                                        <td>215216</td>
+                                                        <td>€59</td>
+                                                        <td>20</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary">
+                                                                <i class="ti-plus"></i> Nova Ação
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </p>
+                </div>
 
           </div>
       </div>

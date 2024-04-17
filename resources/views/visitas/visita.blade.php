@@ -1,7 +1,7 @@
 @extends('main')
 @section('body')
 
-    <div class="row">
+    <div class="row navigationLinks">
         <div class="col">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href=""><i class="ti-calendar"></i> Visitas</a></li>

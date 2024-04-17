@@ -31,6 +31,9 @@
                 <li class="nav-item">
                     <a href="#tab6" data-toggle="tab" class="nav-link {{$tabDetalhesEncomendas}}">Detalhes Encomenda</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#tab7" data-toggle="tab" class="nav-link ">Campanhas</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
@@ -241,68 +244,9 @@
 
                         @if($specificProduct == 0)
                          <div class="row tab-encomenda-produto">
-                            <div class="col-sm-3 coluna-buttons" style="padding-left: 30px;">
-                                <div class="row d-flex d-md-block flex-nowrap wrapper" style="padding-bottom: 25px;">
-                                    <div class="col-12 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-                                        <div class="list-group border-0 text-center text-md-left">
-                                            <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Dashboard</span> </a>
-                                            <div class="collapse submenu" id="menu1" data-parent="#sidebar">
-                                                <a href="#menu1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 1 </a>
-                                                <div class="collapse subitem" id="menu1sub1" data-parent="#menu1">
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem a</a>
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem b</a>
-                                                    <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem c </a>
-                                                    <div class="collapse subitemInterno" id="menu1sub1sub1">
-                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem c.1</a>
-                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem c.2</a>
-                                                    </div>
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem d</a>
-                                                    <a href="#menu1sub1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem e </a>
-                                                    <div class="collapse subitemInterno" id="menu1sub1sub2">
-                                                        <a href="#" class="list-group-item">Subitem e.1</a>
-                                                        <a href="#" class="list-group-item">Subitem e.2</a>
-                                                    </div>
-                                                </div>
-                                                <a href="#menu1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 2</a>
-                                                <div class="collapse subitem" id="menu1sub2" data-parent="#menu1">
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 1 a</a>
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 2 b</a>
-                                                    <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 3 c </a>
-                                                    <div class="collapse subitemInterno" id="menu1sub1sub1">
-                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.1</a>
-                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem 3 c.2</a>
-                                                    </div>
-                                                    <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem 4 d</a>
-                                                    <a href="#menu1sub1sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 5 e </a>
-                                                    <div class="collapse subitemInterno" id="menu1sub1sub2">
-                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.1</a>
-                                                        <a href="#" class="list-group-item" data-parent="#menu1sub1sub2">Subitem 5 e.2</a>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="list-group-item">Subitem 3</a>
-                                            </div>
-                                            <a href="#" class="list-group-item d-inline-block collapsed"><i class="fa fa-film"></i> <span class="d-none d-md-inline">Item 2</span></a>
-                                            <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Item 3 </span></a>
-                                            <div class="collapse submenu" id="menu3" data-parent="#sidebar">
-                                                <a href="#" class="list-group-item" data-parent="#menu3">3.1</a>
-                                                <a href="#menu3sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">3.2 </a>
-                                                <div class="collapse subitem" id="menu3sub2">
-                                                    <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 a</a>
-                                                    <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 b</a>
-                                                    <a href="#" class="list-group-item" data-parent="#menu3sub2">3.2 c</a>
-                                                </div>
-                                                <a href="#" class="list-group-item" data-parent="#menu3">3.3</a>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>
-                                   
-                                </div>
-                               
-                            </div>
-                            <div class="col-sm-9">
+                            <div class="col">
 
-                                <div class="row">
+                                <div class="row navigationLinks">
                                     
                                     <div class="col">
                                         <ol class="breadcrumb">
@@ -312,91 +256,333 @@
                                         </ol>
                                     </div>
                                 </div>
-                                <div class="row">                                   
- 
-                                    <div class="col-6 col-md-4 col-xl-3">
-                                        <div class="card card-decoration card-outline-primary mb-3 border border-0">
-                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg"
-                                                class="card-img-top" alt="...">
-                                            <div class="body-decoration">
-                                                <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                <div class="container-buttons">
-                                                    <button class="btn" wire:click="openDetailProduto(1)"><i class="ti-eye"></i><span> Ver</span></button>
-                                                    <button class="btn" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                <div class="subsidebarProd overflow-y-auto" id="subItemInput1" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    <h2>Sistemas</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+
+                                    <br>
+                                    <h5 class="family_title">Latão</h5>
+                                    <br>
+                                    <div class="containerCards row">
+                                        <div class="col-3 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
                                                 </div>
+                                                <h5 class="title-description-family">Abraçadeira</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">Acessórios Rega</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">PPFV</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">Acessórios Express</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 col-xl-2 col-md-3 ">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">Acessórios Express</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">PPFV</h5>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-4 col-xl-3">
-                                        <div class="card card-decoration card-outline-primary mb-3 border border-0">
-                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-1.jpg"
-                                                class="card-img-top" alt="...">
-                                            <div class="body-decoration">
-                                                <h5 class="title-description">Abraçadeira c/Parafuso</h5>
-                                                <div class="container-buttons">
-                                                    <button class="btn" wire:click="openDetailProduto(2)"><i class="ti-eye"></i><span> Ver</span></button>
-                                                    <button class="btn" wire:click="adicionarProduto(2)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
+                                    <br>
+                                    <h5 class="family_title">Válvulas</h5>
+                                    <br>
+                                    <div class="containerCards row">
+                                        <div class="col-3 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
                                                 </div>
+                                                <h5 class="title-description-family">Abraçadeira</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">Acessórios Rega</h5>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-4 col-xl-3">
-                                        <div class="card card-decoration card-outline-primary mb-3 border border-0">
-                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-2.jpg"
-                                                class="card-img-top" alt="...">
-                                            <div class="body-decoration">
-                                                <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                <div class="container-buttons">
-                                                    <button class="btn" wire:click="openDetailProduto(3)"><i class="ti-eye"></i><span> Ver</span></button>
-                                                    <button class="btn" wire:click="adicionarProduto(3)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-4 col-xl-3 ">
-                                        <div class="card card-decoration card-outline-primary mb-3 border border-0" >
-                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-12.jpg"
-                                                class="card-img-top" alt="...">
-                                            <div class="body-decoration">
-                                                <h5 class="title-description">Abraçadeira Dupla c/Parafuso Cobre</h5>
-                                                <div class="container-buttons">
-                                                    <button class="btn" wire:click="openDetailProduto(4)"><i class="ti-eye"></i><span> Ver</span></button>
-                                                    <button class="btn" wire:click="adicionarProduto(4)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-4 col-xl-3">
-                                        <div class="card card-decoration card-outline-primary mb-3 border border-0" >
-                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-8.jpg"
-                                                class="card-img-top" alt="...">
-                                            <div class="body-decoration">
-                                                <h5 class="title-description">Vissen PP-G</h5>
-                                                <div class="container-buttons">
-                                                    <button class="btn" wire:click="openDetailProduto(4)"><i class="ti-eye"></i><span> Ver</span></button>
-                                                    <button class="btn" wire:click="adicionarProduto(4)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-4 col-xl-3">
-                                        <div class="card card-decoration card-outline-primary mb-3 border border-0" >
-                                            <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-9.jpg"
-                                                class="card-img-top" alt="...">
-                                            <div class="body-decoration">
-                                                <h5 class="title-description">Vissen PP-R Tubo S2.5/SDR6</h5>
-                                                <div class="container-buttons">
-                                                    <button class="btn" wire:click="openDetailProduto(4)"><i class="ti-eye"></i><span> Ver</span></button>
-                                                    <button class="btn" wire:click="adicionarProduto(4)"><i class="ti-shopping-cart"></i><span> Compra Rápida</span></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-     
+
                                 </div>
-                                   
+                                <div class="subsidebarProd" id="subItemInput2" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    
+                                    <h2>Água</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+
+                                    <br>
+                                    <h5 class="family_title">Autoclismos</h5>
+                                    <br>
+                                    <div class="containerCards row">
+                                        <div class="col-4 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">Abraçadeira</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">Acessórios Rega</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-xl-2 col-md-3">
+                                            <div class="card-decorate">
+                                                <div class="img-card-cicle">
+                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
+                                                </div>
+                                                <h5 class="title-description-family">PPFV</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="subsidebarProd" id="subItemInput3" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    <h2>Conforto</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="subsidebarProd" id="subItemInput4" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    <h2>Solar</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="subsidebarProd" id="subItemInput5" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    <h2>ArCondicionado</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="subsidebarProd" id="subItemInput6" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    <h2>Ventilação</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="subsidebarProd" id="subItemInput7" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    <h2>Piscinas</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="subsidebarProd" id="subItemInput8" style="display: none;">
+                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                    <h2>Marcas</h2>
+                                    <div class="d-flex inputSeachfamily">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control " placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="sidebarProd" id="sidebarProd">
+                                    <label for="checkbox" style="width: 100%;">
+                                        <div class="input-group" id="checkboxSidbar">
+                                            <label><i class="ti-menu"></i></label>
+                                            <p>PRODUTOS</p>
+                                        </div>
+                                    </label>
+                                    
+                                    <div class="input-group d-flex justify-content-between" id="input1">
+                                        <p>Sistemas</p>
+                                        <label>></label>
+                                    </div>
+                                    <div class="input-group d-flex justify-content-between" id="input2">
+                                        <p>Água</p>
+                                        <label>></label>
+                                    </div>
+                                    <div class="input-group d-flex justify-content-between" id="input3">
+                                        <p>Conforto</p>
+                                        <label>></label>
+                                    </div>
+                                    <div class="input-group d-flex justify-content-between" id="input4">
+                                        <p>Solar</p>
+                                        <label>></label>
+                                    </div>
+                                    <div class="input-group d-flex justify-content-between" id="input5">
+                                        <p>ArCondicionado</p>
+                                        <label>></label>
+                                    </div>
+                                    <div class="input-group d-flex justify-content-between" id="input6">
+                                        <p>Ventilação</p>
+                                        <label>></label>
+                                    </div>
+                                    <div class="input-group d-flex justify-content-between" id="input7">
+                                        <p>Piscinas</p>
+                                        <label>></label>
+                                    </div>
+                                    <div class="input-group d-flex justify-content-between" id="input8">
+                                        <p>Marcas</p>
+                                        <label>></label>
+                                    </div>
+                                </div> 
+                                <div class="row justify-content-between">
+                                    <div class="col">
+                                        <div class="input-group" id="checkboxSidbar">
+                                            <input id="checkbox" type="checkbox">
+                                            <label class="toggle" for="checkbox">
+                                                <div id="bar1" class="bars"></div>
+                                                <div id="bar2" class="bars"></div>
+                                                <div id="bar3" class="bars"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8 col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Search">
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="row">                                   
+
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    
+
+                                </div>
                             </div>
-                            </div>
+                        </div>
                     
                         @else
                             <div class="row mb-2 border-bottom">
@@ -571,6 +757,126 @@
 
                     </p>
                 </div>
+                <div class="tab-pane fade" id="tab7">
+    
+                    <p class="card-text">
+                        
+                        
+                        <div class="row form-group">
+                            <div class="col-xl-4 col-xs-12">
+
+                                <div class="form-group">
+                                    <label>Referência</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-carolina"><i class="ti-light-bulb text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+
+                            </div>
+                           
+                            <div class="col-xl-4 col-xs-12">
+
+                                <div class="form-group">
+                                    <label>Entrega</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-carolina"><i class="ti-bag text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4 col-xs-12">
+
+                                <div class="form-group">
+                                    <label>Condições de Pagamento</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-carolina"><i class="ti-money text-light"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" value="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card mb-3">
+                                    <div class="card-header d-block">
+                                        <div class="row">
+                                            <div class="col-xl-8 col-xs-12">
+                                                <div class="caption uppercase">
+                                                    <i class="ti-user"></i> Clientes
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-xs-12 text-right">
+                                        
+                                            </div>
+                                        </div>                  
+                                    
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Título</th>
+                                                        <th>Número</th>
+                                                        <th>Preço</th>
+                                                        <th>Quantidade</th>
+                                                        <th>Ações</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Abraçadeira</td>
+                                                        <td>513130</td>
+                                                        <td>€70</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary">
+                                                                <i class="ti-plus"></i> Nova Ação
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Abraçadeira</td>
+                                                        <td>2186325</td>
+                                                        <td>€22</td>
+                                                        <td>33</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary">
+                                                                <i class="ti-plus"></i> Nova Ação
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Abraçadeira</td>
+                                                        <td>215216</td>
+                                                        <td>€59</td>
+                                                        <td>20</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary">
+                                                                <i class="ti-plus"></i> Nova Ação
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </p>
+                </div>
+
 
             </div>
         </div>
@@ -731,4 +1037,48 @@
     
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    const checkbox = document.getElementById('checkbox');
+    
+    const sidebar = document.getElementById('sidebarProd');
+
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            sidebar.classList.add('open');
+        } else {
+            sidebar.classList.remove('open');
+        }
+    });
+
+
+    const inputGroups = document.querySelectorAll('.input-group');
+        let currentSubItem = null;
+
+        inputGroups.forEach(function(inputGroup) {
+            inputGroup.addEventListener('click', function() {
+                const id = this.id;
+                const subItemId = 'subItemInput' + id.slice(-1);
+                const subItem = document.getElementById(subItemId);
+
+                if (currentSubItem === subItem) {
+                    subItem.style.display = 'none';
+                    currentSubItem = null;
+                } else {
+                    document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+                        item.style.display = 'none';
+                    });
+
+                    subItem.style.display = 'block';
+                    currentSubItem = subItem;
+                }
+            });
+        });
+        jQuery('body').on('click', '.buttonGoback', function() {
+            document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+                item.style.display = 'none';
+            });
+        });
+
+</script>
 
