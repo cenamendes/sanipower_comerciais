@@ -37,9 +37,8 @@
 <body class="theme-dark" style="overflow: scroll; overflow-x:hidden;">
 
     <div class="loader"></div>
-    <!-- <div class="grid-wrapper grid-wrapper-small sidebar-bg bg1" style="min-height: 95vh;"> -->
 
-    <div class="grid-wrapper sidebar-bg bg1" style="min-height: 95vh;">
+    <div class="grid-wrapper grid-wrapper-small sidebar-bg bg1" style="min-height: 95vh;">
 
         <!-- BOF HEADER -->
         <div class="header">
