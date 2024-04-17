@@ -29,6 +29,24 @@
                 <li class="nav-item">
                     <a href="#tab5" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises Gerais</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{$tabEncomendas}}">Encomendas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab7" data-toggle="tab" class="nav-link {{$tabPropostas}}">Propostas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab8" data-toggle="tab" class="nav-link {{$tabFinanceiro}}">Financeiro</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab9" data-toggle="tab" class="nav-link {{$tabOcorrencias}}">Ocorrências</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab10" data-toggle="tab" class="nav-link {{$tabVisitas}}">Visitas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab11" data-toggle="tab" class="nav-link {{$tabAssistencias}}">Assistências</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">

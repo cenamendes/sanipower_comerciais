@@ -91,21 +91,15 @@ class VisitasRepository implements VisitasInterface
 
         if($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
-        } else {
-            $nomeVisitas = '';
-        }
+        } 
 
         if($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
-        } else {
-            $numeroVisitas = '';
-        }
+        } 
 
         if($zonaVisitas != "") {
             $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
-        } else {
-            $zonaVisitas = '';
-        }
+        } 
 
         $curl = curl_init();
 
@@ -154,21 +148,15 @@ class VisitasRepository implements VisitasInterface
 
         if($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
-        } else {
-            $nomeVisitas = '';
-        }
+        } 
 
         if($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
-        } else {
-            $numeroVisitas = '';
-        }
+        } 
 
         if($zonaVisitas != "") {
             $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
-        } else {
-            $zonaVisitas = '';
-        }
+        } 
 
         $curl = curl_init();
 

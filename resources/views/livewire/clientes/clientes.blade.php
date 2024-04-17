@@ -144,9 +144,9 @@
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
 
-                            <div class="tools">
+                            {{-- <div class="tools">
                                 <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-user"></i> Criar Cliente</a>
-                            </div>
+                            </div> --}}
                     
                         </div>
                     </div>                  

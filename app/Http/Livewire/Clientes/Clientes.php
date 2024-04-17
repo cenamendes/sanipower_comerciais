@@ -72,6 +72,7 @@ class Clientes extends Component
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
+
     }
 
     public function updatedNumeroCliente()

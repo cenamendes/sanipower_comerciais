@@ -91,21 +91,15 @@ class ClientesRepository implements ClientesInterface
 
         if($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
-        } else {
-            $nomeCliente = '';
-        }
+        } 
 
         if($numeroCliente != "") {
             $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
-        } else {
-            $numeroCliente = '';
         }
 
         if($zonaCliente != "") {
             $zonaCliente = '&Zone='.urlencode($zonaCliente);
-        } else {
-            $zonaCliente = '';
-        }
+        } 
 
         $curl = curl_init();
 
@@ -154,21 +148,15 @@ class ClientesRepository implements ClientesInterface
 
         if($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
-        } else {
-            $nomeCliente = '';
-        }
+        } 
 
         if($numeroCliente != "") {
             $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
-        } else {
-            $numeroCliente = '';
-        }
+        } 
 
         if($zonaCliente != "") {
             $zonaCliente = '&Zone='.urlencode($zonaCliente);
-        } else {
-            $zonaCliente = '';
-        }
+        } 
 
         $curl = curl_init();
 

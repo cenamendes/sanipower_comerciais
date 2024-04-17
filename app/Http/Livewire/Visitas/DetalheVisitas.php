@@ -27,7 +27,12 @@ class DetalheVisitas extends Component
     public string $tabDetail = "show active";
     public string $tabAnalysis = "";
     public string $tabRelatorio = "";
-
+    public string $tabEncomendas = "";
+    public string $tabPropostas = "";
+    public string $tabFinanceiro = "";
+    public string $tabOcorrencia = "";
+    public string $tabVisitas = "";
+    public string $tabAssistencias = "";
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -51,7 +56,6 @@ class DetalheVisitas extends Component
         $this->initProperties();
         $this->idCliente = $cliente;
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
         
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
 
@@ -64,11 +68,16 @@ class DetalheVisitas extends Component
     {
         $this->pageChosen = $page;
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
     
         $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencia = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
     }
 
    
@@ -76,29 +85,32 @@ class DetalheVisitas extends Component
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         
-        if ($this->pageChosen > 1) {
-            $this->pageChosen--;
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        }
-        else if($this->pageChosen == 1){
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        }
+       
         $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencia = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
     }
 
     public function nextPage()
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
-        if ($this->pageChosen < $this->numberMaxPages) {
-            $this->pageChosen++;
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        }
+        
         $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencia = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
     }
 
     public function getPageRange()
@@ -126,10 +138,14 @@ class DetalheVisitas extends Component
         $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencia = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
 
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
 
@@ -145,10 +161,14 @@ class DetalheVisitas extends Component
         $this->tabRelatorio = "show active";
         $this->tabDetail = "";
         $this->tabAnalysis = "";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencia = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
 
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPageRelatorio,$this->pageChosen,$this->idCliente);
 
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPageRelatorio,$this->idCliente);
 

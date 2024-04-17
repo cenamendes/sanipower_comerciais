@@ -24,6 +24,12 @@ class DetalheCliente extends Component
 
     public string $tabDetail = "show active";
     public string $tabAnalysis = "";
+    public string $tabEncomendas = "";
+    public string $tabPropostas = "";
+    public string $tabFinanceiro = "";
+    public string $tabOcorrencias = "";
+    public string $tabVisitas = "";
+    public string $tabAssistencias = "";
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -64,6 +70,12 @@ class DetalheCliente extends Component
     
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencias = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
     }
 
    
@@ -81,6 +93,12 @@ class DetalheCliente extends Component
 
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencias = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
     }
 
     public function nextPage()
@@ -94,6 +112,12 @@ class DetalheCliente extends Component
 
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencias = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
     }
 
     public function getPageRange()
@@ -119,6 +143,12 @@ class DetalheCliente extends Component
 
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencias = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
 
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 

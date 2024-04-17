@@ -32,6 +32,24 @@
                 <li class="nav-item">
                     <a href="#tab6" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises De Vendas</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#tab7" data-toggle="tab" class="nav-link {{$tabEncomendas}}">Encomendas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab8" data-toggle="tab" class="nav-link {{$tabPropostas}}">Propostas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab9" data-toggle="tab" class="nav-link {{$tabFinanceiro}}">Financeiro</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab10" data-toggle="tab" class="nav-link {{$tabOcorrencia}}">Ocorrências</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab11" data-toggle="tab" class="nav-link {{$tabVisitas}}">Visitas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab12" data-toggle="tab" class="nav-link {{$tabAssistencias}}">Assistências</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
@@ -242,7 +260,7 @@
     
                     <p class="card-text">
                         
-                        <!-- INICIO TABELA  -->
+                        <!-- INICIO RELATORIO  -->
 
                         <div class="row">
                             <div class="col-lg-12">
@@ -259,56 +277,72 @@
                                     
                                     </div>
                                     <div class="card-body">
-                                    
-                                        <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
-                                            <div class="dataTables_length" id="dataTables_length">
-                                                <label>Mostrar
-                                                    <select name="perPage" wire:model="perPageRelatorio">
-                                                        <option value="10"
-                                                            @if ($perPage == 10) selected @endif>10</option>
-                                                        <option value="25"
-                                                            @if ($perPage == 25) selected @endif>25</option>
-                                                        <option value="50"
-                                                            @if ($perPage == 50) selected @endif>50</option>
-                                                        <option value="100"
-                                                            @if ($perPage == 100) selected @endif>100</option>
-                                                    </select>
-                                                    registos</label>
+
+                                        <div class="form-group">
+                                            <label>Assunto</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text bg-carolina"><i class="ti-clip text-light"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" value="" readonly>
                                             </div>
                                         </div>
-                                    
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-hover" id="tabela-cliente2">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th>Data</th>
-                                                        <th>Encomenda</th>
-                                                        <th>Total</th>
-                                                        <th>Estado</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                
-                                                    @foreach ($analisesCliente as $clt )
-                                                        <tr>
-                                                            <td>{{date('Y-m-d',strtotime($clt->date))}}</td>
-                                                            <td>{{$clt->order}}</td>
-                                                            <td>{{$clt->total}}</td>
-                                                            <td>{{$clt->status}}</td>
-                                                        </tr>
-                                                    @endforeach
-                                        
-                                                </tbody>
-                                            </table>
-                                        </div>  
-                                        {{ $analisesCliente->links() }}             
+
+                                        <div class="form-group">
+                                            <label>Relatório</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Pendentes para a próxima visita</label>
+                                            <div class="input-group">
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+
+                                            <div class="col-xs-12 col-xl-3">
+                                                <label>Comentário sobre encomendas</label>
+                                                <div class="input-group">
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-xl-3">
+                                                <label>Comentário sobre propostas</label>
+                                                <div class="input-group">
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-xl-3">
+                                                <label>Comentário sobre financeiro</label>
+                                                <div class="input-group">
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-xl-3">
+                                                <label>Comentário sobre ocorrências</label>
+                                                <div class="input-group">
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+
+                                                                                    
                                     </div>
                                 </div>
                             </div>
                             
                         </div>
 
-                        <!-- FIM TABELA  -->
+                        <!-- FIM RELATORIO  -->
 
                     </p>
                 </div>
@@ -365,20 +399,18 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                   
-                                                    @foreach ($analisesCliente as $clt )
-                                                        <tr>
-                                                            <td>{{date('Y-m-d',strtotime($clt->date))}}</td>
-                                                            <td>{{$clt->order}}</td>
-                                                            <td>{{$clt->total}}</td>
-                                                            <td>{{$clt->status}}</td>
-                                                        </tr>
-                                                    @endforeach
+                                                    <tr>
+                                                        <td>2024/04/12</td>
+                                                        <td>Encomenda 77</td>
+                                                        <td>500</td>
+                                                        <td>Nova</td>
+                                                    </tr>
+                                            
                                         
                                                 </tbody>
                                             </table>
                                         </div>  
-                                        {{ $analisesCliente->links() }}             
+                                        {{-- {{ $analisesCliente->links() }}              --}}
                                     </div>
                                 </div>
                             </div>

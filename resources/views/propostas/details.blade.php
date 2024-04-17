@@ -28,6 +28,19 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+
+    document.addEventListener('compraRapida', function() {
+           
+           jQuery('#modalProdutos').modal();
+         
+       });
+
+    document.addEventListener('encomendaAtual', function() {
+          
+          jQuery('#modalEncomenda').modal();
+        
+      });
+      
 </script>
 
 @endpush
