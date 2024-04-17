@@ -7,9 +7,12 @@
     </div>
     <div class="btn-toggle">
         <div class="nav-responsive">
-        <div class="maincat">
-
+            <div class="maincat">
             </div>
+            <div class="item-respos">
+                <a href="#" class="slide-sidebar-btn"><i class="ti-menu"></i></a>
+            </div>
+
             <div class="item-respos">
                 <a href="{{route('clientes')}}" class="{{ Str::contains(request()->route()->getName(), 'clientes') ? 'text-info' : '' }}">
                     <i class="ti-user"></i>
@@ -27,12 +30,12 @@
                 </a>
             </div>
             <div class="item-respos2">
-            <a href="{{route('propostas')}}" class="{{ Str::contains(request()->route()->getName(), 'propostas') ? 'text-info' : '' }}">
+                <a href="{{route('propostas')}}" class="{{ Str::contains(request()->route()->getName(), 'propostas') ? 'text-info' : '' }}">
                     <i class="ti-wallet"></i>
                 </a>
             </div>
         </div>
-        <a href="#" class="slide-sidebar-btn" style="display: none;"><i class="ti-menu"></i></a>
+        <a href="#" class="slide-sidebar-btn" style="display:none;"><i class="ti-menu"></i></a>
     </div>
    
 
@@ -60,7 +63,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="menu-item">
+            <!-- <div class="menu-item">
                 <a href="#" class="btn" data-toggle="dropdown">
                     <i class="ti-email"></i>
                     <span class="badge badge-pill badge-success">7</span>
@@ -101,7 +104,7 @@
                         </div>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             <div class="menu-item d-flex align-items-center">
                 <div class="logo-img-container">
                     <a href="#" class="right-sidebar-toggle">

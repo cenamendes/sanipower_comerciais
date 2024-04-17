@@ -1,7 +1,7 @@
 @extends('main')
 @section('body')
 
-    <div class="row">
+    <div class="row navigationLinks">
         <div class="col">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href=""><i class="ti-user"></i> Clientes</a></li>
@@ -41,6 +41,7 @@
            jQuery('#modalEncomenda').modal();
          
        });
+       
 </script>
 
 @endpush

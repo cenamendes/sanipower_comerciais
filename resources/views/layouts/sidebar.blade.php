@@ -1,7 +1,8 @@
 <div class="sidebar-content sidebar-responsive">
     <!-- sidebar-menu  -->
     <div class="sidebar-menu">
-        <ul>
+       
+        <ul class="sidebar-responsive">
             <li>
                 <a href="{{route('dashboard')}}" >
                     <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-sidbar">  
@@ -9,7 +10,7 @@
             </li>
             
             <li class="header-menu">
-                <span>Menu</span>
+                Menu
             </li>
             
             <li class="active">
@@ -27,7 +28,7 @@
                     <ul>
                         <li class="tier1">
                             <a href="javascript:;">Tier 1</a>
-                            <div class="subcat">
+                            <div class="subcat subcatInter" style="background-color: #ffffff00">
                                 <ul>
                                     <li><a href="javascript:;">Level 2</a></li>
                                     <li><a href="javascript:;">Level 2</a></li>
@@ -46,27 +47,27 @@
             <li>
                 <a href="{{route('clientes')}}" class="{{ Str::contains(request()->route()->getName(), 'clientes') ? 'text-info' : '' }}">
                     <i class="ti-user"></i>
-                    Clientes
+                    <span>Clientes</span>
                 </a>
             </li>
             <li>
                 <a href="{{route('visitas')}}" class="{{ Str::contains(request()->route()->getName(), 'visitas') ? 'text-info' : '' }}">
                     <i class="ti-calendar"></i>
-                    Visitas
+                    <span>Visitas</span>
                 </a>
             </li>
 
             <li>
                 <a href="{{route('encomendas')}}" class="{{ Str::contains(request()->route()->getName(), 'encomendas') ? 'text-info' : '' }}">
                     <i class="ti-agenda"></i>
-                    Encomendas
+                    <span>Encomendas</span>
                 </a>
             </li>
 
             <li>
                 <a href="{{route('propostas')}}" class="{{ Str::contains(request()->route()->getName(), 'propostas') ? 'text-info' : '' }}">
                     <i class="ti-wallet"></i>
-                    Propostas
+                    <span>Propostas</span>
                 </a>
             </li>
         </ul>
