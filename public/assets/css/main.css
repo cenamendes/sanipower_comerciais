@@ -125,6 +125,20 @@ body::-webkit-scrollbar {
     z-index: 1;
  
 }
+.img-temporary-products{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(85, 85, 85);
+    font-size: 32px;
+    font-weight: bold;
+    border-radius: 50%;
+}
+
 .img-temporary{
     position: relative;
     width: 120px;
@@ -473,8 +487,9 @@ body::-webkit-scrollbar {
 }
 
 .title-description-family{
-    color: white;
+    color: #cbccce;
     text-align: center;
+    margin-top:10px;
 }
 .family_title{
     color: #1f9cc5;

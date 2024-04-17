@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Encomendas;
 
 use Livewire\Component;
 use App\Interfaces\ClientesInterface;
+use App\Interfaces\EncomendasInterface;
 use Livewire\WithPagination;
 
 class DetalheEncomenda extends Component
@@ -11,10 +12,14 @@ class DetalheEncomenda extends Component
     use WithPagination;
 
     private ?object $clientesRepository = NULL;
+    private ?object $encomendasRepository =  NULL;
+
     protected ?object $clientes = NULL;
     public string $idCliente = "";
 
     private ?object $detailsClientes = NULL;
+    private ?object $getCategories = NULL;
+    private ?object $products = NULL;
 
     public string $tabDetail = "show active";
     public string $tabProdutos = "";
@@ -22,17 +27,34 @@ class DetalheEncomenda extends Component
 
     public int $specificProduct = 0;
 
-    public function boot(ClientesInterface $clientesRepository)
+    public int $perPage = 10;
+
+    public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository)
     {
         $this->clientesRepository = $clientesRepository;
+        $this->encomendasRepository = $encomendasRepository;
     }
 
+    public function initProperties()
+    {
+        if (isset($this->perPage)) {
+            session()->put('perPage', $this->perPage);
+        } elseif (session('perPage')) {
+            $this->perPage = session('perPage');
+        } else {
+            $this->perPage = 10;
+        }
+    }
 
     public function mount($cliente)
     {
+        $this->initProperties();
         $this->idCliente = $cliente;
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->specificProduct = 0;
+
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        // $this->products = $this->encomendasRepository->getProdutosRandom();
     }
 
     public function openDetailProduto($id)
@@ -68,7 +90,6 @@ class DetalheEncomenda extends Component
     {
         //TENHO DE ASSOCIAR Á AO USER E AO CLIENTE
 
-
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
@@ -82,6 +103,6 @@ class DetalheEncomenda extends Component
 
     public function render()
     {
-        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes]);
+        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories]);
     }
 }

@@ -246,203 +246,37 @@
                          <div class="row tab-encomenda-produto">
                             <div class="col">
 
-                                <div class="row navigationLinks">
-                                    
-                                    <div class="col">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href=""><i class="ti-panel"></i> Categoria</a></li>
-                                            <li class="breadcrumb-item">Familia</li>
-                                            <li class="breadcrumb-item active">Sub-Familia</li>
-                                        </ol>
-                                    </div>
-                                </div>
-                                <div class="subsidebarProd overflow-y-auto" id="subItemInput1" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>Sistemas</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                @foreach ($getCategories->category as $i => $cat )
+                                    <div class="subsidebarProd overflow-y-auto" id="subItemInput{{$i+1}}" style="display: none;">
+                                        <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                        <h2>{{ $cat->name }}</h2>
+                                        <div class="d-flex inputSeachfamily">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control " placeholder="Search">
                                         </div>
-                                        <input type="text" class="form-control " placeholder="Search">
+                                        @foreach ($cat->family as $family )
+                                            <br>
+                                            <h5 class="family_title">{{$family->name}}</h5>
+                                            <br>
+                                            <div class="containerCards row">
+                                                @foreach ($family->subfamily as $subfamily)
+                                                    <div class="col-3 col-xl-2 col-md-3">
+                                                        <div class="card-decorate">
+                                                            <div class="img-card-cicle">
+                                                                <div class="img-temporary-products">{{ ucfirst(substr($subfamily->name, 0, 1)) }}</div>
+                                                            </div>
+                                                            <h5 class="title-description-family">{{$subfamily->name}}</h5>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endforeach
                                     </div>
+                                @endforeach
 
-                                    <br>
-                                    <h5 class="family_title">Latão</h5>
-                                    <br>
-                                    <div class="containerCards row">
-                                        <div class="col-3 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Abraçadeira</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Acessórios Rega</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">PPFV</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Acessórios Express</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 col-xl-2 col-md-3 ">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Acessórios Express</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">PPFV</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <h5 class="family_title">Válvulas</h5>
-                                    <br>
-                                    <div class="containerCards row">
-                                        <div class="col-3 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Abraçadeira</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Acessórios Rega</h5>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                </div>
-                                <div class="subsidebarProd" id="subItemInput2" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    
-                                    <h2>Água</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control " placeholder="Search">
-                                    </div>
-
-                                    <br>
-                                    <h5 class="family_title">Autoclismos</h5>
-                                    <br>
-                                    <div class="containerCards row">
-                                        <div class="col-4 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Abraçadeira</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">Acessórios Rega</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 col-xl-2 col-md-3">
-                                            <div class="card-decorate">
-                                                <div class="img-card-cicle">
-                                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" class="card-img-top" alt="...">
-                                                </div>
-                                                <h5 class="title-description-family">PPFV</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="subsidebarProd" id="subItemInput3" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>Conforto</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control " placeholder="Search">
-                                    </div>
-                                </div>
-                                <div class="subsidebarProd" id="subItemInput4" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>Solar</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control " placeholder="Search">
-                                    </div>
-                                </div>
-                                <div class="subsidebarProd" id="subItemInput5" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>ArCondicionado</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control " placeholder="Search">
-                                    </div>
-                                </div>
-                                <div class="subsidebarProd" id="subItemInput6" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>Ventilação</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control " placeholder="Search">
-                                    </div>
-                                </div>
-                                <div class="subsidebarProd" id="subItemInput7" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>Piscinas</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control " placeholder="Search">
-                                    </div>
-                                </div>
-                                <div class="subsidebarProd" id="subItemInput8" style="display: none;">
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>Marcas</h2>
-                                    <div class="d-flex inputSeachfamily">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control " placeholder="Search">
-                                    </div>
-                                </div>
                                 <div class="sidebarProd" id="sidebarProd">
                                     <label for="checkbox" style="width: 100%;">
                                         <div class="input-group" id="checkboxSidbar">
@@ -451,38 +285,13 @@
                                         </div>
                                     </label>
                                     
-                                    <div class="input-group d-flex justify-content-between" id="input1">
-                                        <p>Sistemas</p>
-                                        <label>></label>
-                                    </div>
-                                    <div class="input-group d-flex justify-content-between" id="input2">
-                                        <p>Água</p>
-                                        <label>></label>
-                                    </div>
-                                    <div class="input-group d-flex justify-content-between" id="input3">
-                                        <p>Conforto</p>
-                                        <label>></label>
-                                    </div>
-                                    <div class="input-group d-flex justify-content-between" id="input4">
-                                        <p>Solar</p>
-                                        <label>></label>
-                                    </div>
-                                    <div class="input-group d-flex justify-content-between" id="input5">
-                                        <p>ArCondicionado</p>
-                                        <label>></label>
-                                    </div>
-                                    <div class="input-group d-flex justify-content-between" id="input6">
-                                        <p>Ventilação</p>
-                                        <label>></label>
-                                    </div>
-                                    <div class="input-group d-flex justify-content-between" id="input7">
-                                        <p>Piscinas</p>
-                                        <label>></label>
-                                    </div>
-                                    <div class="input-group d-flex justify-content-between" id="input8">
-                                        <p>Marcas</p>
-                                        <label>></label>
-                                    </div>
+                                    @foreach ( $getCategories->category as $i => $category)
+                                        <div class="input-group d-flex justify-content-between" id="input{{$i+1}}">
+                                            <p>{{ $category->name }}</p>
+                                            <label>></label>
+                                        </div>
+                                    @endforeach
+                                    
                                 </div> 
                                 <div class="row justify-content-between">
                                     <div class="col">
@@ -492,17 +301,39 @@
                                                 <div id="bar1" class="bars"></div>
                                                 <div id="bar2" class="bars"></div>
                                                 <div id="bar3" class="bars"></div>
-                                            </label>
+                                            </label> &nbsp;<h4>Categorias</h4>
+                                        </div>
+                                        <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
+                                            <div class="dataTables_length" id="dataTables_length">
+                                                <label>Mostrar
+                                                    <select name="perPage" wire:model="perPage">
+                                                        <option value="10"
+                                                            @if ($perPage == 10) selected @endif>10</option>
+                                                        <option value="25"
+                                                            @if ($perPage == 25) selected @endif>25</option>
+                                                        <option value="50"
+                                                            @if ($perPage == 50) selected @endif>50</option>
+                                                        <option value="100"
+                                                            @if ($perPage == 100) selected @endif>100</option>
+                                                    </select>
+                                                    registos</label>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="col-8 col-md-6">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="ti-search text-light"></i></span>
+
+                                        <div class="row justify-content-end">
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="Pesquise Produto">
+                                                </div>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Search">
                                         </div>
+                                                                              
                                         <br>
                                     </div>
                                 </div>
@@ -517,7 +348,7 @@
                                                 </div> 
                                             </div>
                                             <div class="card-body container-buttons">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                             </div>
                                         </div>
                                     
@@ -531,7 +362,7 @@
                                                 </div> 
                                             </div>
                                             <div class="card-body container-buttons">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                             </div>
                                         </div>
                                     
@@ -545,7 +376,7 @@
                                                 </div> 
                                             </div>
                                             <div class="card-body container-buttons">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                             </div>
                                         </div>
                                     
@@ -559,7 +390,7 @@
                                                 </div> 
                                             </div>
                                             <div class="card-body container-buttons">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                             </div>
                                         </div>
                                     
@@ -573,15 +404,52 @@
                                                 </div> 
                                             </div>
                                             <div class="card-body container-buttons">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Comprar</span></button>
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                             </div>
                                         </div>
-                                    
+                                    </div>
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                        <div class="card card-decoration card-outline-primary border border-2" wire:click="openDetailProduto(1)">
+                                            <div class="mb-1">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                <div class="body-decoration">
+                                                    <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body container-buttons">
+                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
+                                            </div>
+                                        </div>
                                     </div>
                                     
 
                                 </div>
-                            </div>
                         </div>
                     
                         @else
@@ -692,7 +560,7 @@
                                 </div>
                             </div>
                         @endif
-                    
+                     </div>
                 </div>
 
                 <div class="tab-pane fade {{$tabDetalhesEncomendas}}" id="tab6">
