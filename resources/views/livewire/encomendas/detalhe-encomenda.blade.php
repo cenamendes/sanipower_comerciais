@@ -942,6 +942,11 @@
                 }
             });
         });
+        jQuery('body').on('click', '.checkboxSidbar', function() {
+            document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+                item.style.display = 'none';
+            });
+        });
         jQuery('body').on('click', '.buttonGoback', function() {
             document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                 item.style.display = 'none';

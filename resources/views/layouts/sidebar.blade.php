@@ -13,13 +13,13 @@
                 Menu
             </li>
             
-            <li class="active">
+            <li class="li-hover">
                 <a href="{{route('dashboard')}}" class="{{ request()->routeIs('dashboard') ? 'text-info' : '' }}">
                     <i class="ti-dashboard"></i>
                     <span class="menu-text">Dashboard</span>
                 </a>
             </li>
-            <li class="maincat">
+            <li class="maincat li-hover">
                 <a href="#">
                     <i class="ti-layers-alt"></i>
                     <span class="menu-text">Multi-Levels Menu</span>
@@ -44,27 +44,27 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li class="li-hover">
                 <a href="{{route('clientes')}}" class="{{ Str::contains(request()->route()->getName(), 'clientes') ? 'text-info' : '' }}">
                     <i class="ti-user"></i>
                     <span>Clientes</span>
                 </a>
             </li>
-            <li>
+            <li class="li-hover">
                 <a href="{{route('visitas')}}" class="{{ Str::contains(request()->route()->getName(), 'visitas') ? 'text-info' : '' }}">
                     <i class="ti-calendar"></i>
                     <span>Visitas</span>
                 </a>
-            </li>
+            </li class="li-hover">
 
-            <li>
+            <li class="li-hover">
                 <a href="{{route('encomendas')}}" class="{{ Str::contains(request()->route()->getName(), 'encomendas') ? 'text-info' : '' }}">
                     <i class="ti-agenda"></i>
                     <span>Encomendas</span>
                 </a>
             </li>
 
-            <li>
+            <li class="li-hover">
                 <a href="{{route('propostas')}}" class="{{ Str::contains(request()->route()->getName(), 'propostas') ? 'text-info' : '' }}">
                     <i class="ti-wallet"></i>
                     <span>Propostas</span>
