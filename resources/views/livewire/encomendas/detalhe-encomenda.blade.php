@@ -245,35 +245,43 @@
                         @if($specificProduct == 0)
                          <div class="row tab-encomenda-produto">
                             <div class="col" >
-
                                 @php
-                                    $conta = 0;
+                                    $contaCat = 0;
                                 @endphp
-                              
                                 @foreach ($getCategories->category as $i => $cat )
                                     @php
-                                        $conta++;
+                                        $contaCat++;
                                     @endphp
-                                    <div class="subsidebarProd overflow-y-auto" id="subItemInput{{$conta}}">
+                                    <div class="subsidebarProd overflow-y-auto" id="subItemInput{{$contaCat}}">
                                        
                                         <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                         <h2>{{ $cat->name }}</h2>
-
-                                        <div class="carousel-family container-fluid">
-                                            @foreach ($cat->family as $j => $familySlider )
-                                                <div class="carouselItem">
-                                                    <a href="javascript:void(0)" id="clicka" class="clicka" wire:click="searchCategory({{$familySlider->id}})">
-                                                    <div class="img-card-cicle d-flex justify-content-center">
-                                                        <div class="img-temporary-family">{{ ucfirst(substr($familySlider->name, 0, 1)) }}</div>
-                                                    </div>
-                                                    <h5 class="title-description-family">{{ $familySlider->name }}</h5>
-                                                    </a>
+                                        
+                                        @foreach($getCategoriesAll->category as $catAll)
+                                            @if($catAll->name == $cat->name)
+                                                <div class="carousel-family container-fluid" id="scrollableDiv">
+                                                    @foreach ($catAll->family as $j => $familySlider )
+                                                        <div class="carouselItem">
+                                                            <a href="javascript:void(0)" id="clicka" class="clicka" wire:click="searchCategory({{$contaCat}},{{json_encode($familySlider->id)}})">
+                                                            <div class="img-card-cicle d-flex justify-content-center">
+                                                                <div class="img-temporary-family">{{ ucfirst(substr($familySlider->name, 0, 1)) }}</div>
+                                                            </div>
+                                                            <h5 class="title-description-family">{{ $familySlider->name }}</h5>
+                                                            </a>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
-                                            @endforeach
-                                        </div>
+                                            @endif
+                                        @endforeach
+
+                                        @if($filter == true)
+                                            <div class="row d-flex justify-content-end mr-0">
+                                                <button type="button" class="btn btn-chili" wire:click="resetFilter({{$contaCat+1}})"><i class="ti ti-close"></i> Limpar filtro</button>
+                                            </div>
+                                        @endif
                                         
                                         @foreach ($cat->family as $family )
-                                        
+                                           
                                             <br>
                                             <h5 class="family_title">{{$family->name}}</h5>
                                             <br>
@@ -301,12 +309,19 @@
                                             <p>PRODUTOS</p>
                                         </div>
                                     </label>
-                                  
+                                    @php
+                                        $conta = 0;
+                                    @endphp
                                     @foreach ( $getCategoriesAll->category as $i => $category)
-                                        <div class="input-group d-flex justify-content-between" id="input{{$i+1}}">
-                                            <p>{{ $category->name }}</p>
-                                            <label>></label>
-                                        </div>
+                                     @php
+                                         $conta++;
+                                     @endphp
+                                        @if(!empty($category->family))
+                                            <div class="input-group d-flex justify-content-between" id="input{{$conta}}">
+                                                <p>{{ $category->name }}</p>
+                                                <label>></label>
+                                            </div>
+                                        @endif
                                     @endforeach
                                     
                                 </div>
@@ -940,14 +955,13 @@
     });
 
     $('body').on('click', '.clicka', function() {
-        jQuery(".sidebarProd").addClass("open");
-        jQuery(".subsidebarProd").addClass("open");
+        // jQuery(".sidebarProd").addClass("open");
+        // jQuery(".subsidebarProd").addClass("open");
     });
 
 
     window.addEventListener('refreshComponent',function(e){
-        jQuery(".subsidebarProd").addClass("open");
-        jQuery(".subsidebarProd").css("display","block");
+        jQuery("#subItemInput"+e.detail.id).css("display","block");
     });
 
     
@@ -1014,6 +1028,31 @@
             document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                 item.style.display = 'none';
             });
+        });
+
+        let isScrolling = false;
+        let startX;
+        let startScrollLeft;
+ 
+        const scrollableDiv = document.getElementById('scrollableDiv');
+ 
+        scrollableDiv.addEventListener('mousedown', function(event) {
+            isScrolling = true;
+            startX = event.clientX;
+            startScrollLeft = scrollableDiv.scrollLeft;
+            // Impede a seleção de texto enquanto arrasta
+            event.preventDefault();
+        });
+ 
+        document.addEventListener('mouseup', function() {
+            isScrolling = false;
+        });
+ 
+        document.addEventListener('mousemove', function(event) {
+            if (isScrolling) {
+                const deltaX = event.clientX - startX;
+                scrollableDiv.scrollLeft = startScrollLeft - deltaX;
+            }
         });
 
 </script>

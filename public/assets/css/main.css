@@ -583,7 +583,13 @@ body::-webkit-scrollbar {
     text-align: center;
     align-items: center;
     flex-direction: column;
-    width: 100px;
+    width: 130px;
+}
+.carousel-family a{
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .carouselItem h5{
     font-size: 14px;

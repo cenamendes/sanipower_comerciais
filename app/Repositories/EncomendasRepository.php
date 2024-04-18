@@ -38,7 +38,7 @@ class EncomendasRepository implements EncomendasInterface
 
     }
 
-    public function getCategoriasSearched($idFamily): object
+    public function getCategoriasSearched($idCategory,$idFamily): object
     {
         $curl = curl_init();
 
@@ -62,45 +62,31 @@ class EncomendasRepository implements EncomendasInterface
 
         $response_decoded = json_decode($response);
 
-        // $filtrado = new StdClass;
-        $filtrado = [];
+
+        $arrayFiltrado = new stdClass;
+        $arrayFiltrado->category = [];
 
     
         foreach($response_decoded->category as $i => $cat)
         {
-            foreach($cat->family as $fam)
-            {
-                if($fam->id == $idFamily)
-                {
-                    array_push($filtrado,$fam); 
-                }
-            }
-
-            // AQUI VERIFICO SE FOR DIFERENTE DA CATEGORIA QUE VEM DE PARAMETRO GUARDO TAMBEM PARA O ARRAY
-            //ASSIM VEM AS OUTRAS
-            
+            array_push($arrayFiltrado->category,$cat);
         }
 
+        foreach($arrayFiltrado->category as $filter)
+        {
+            if($filter->id == $idCategory)
+            {
+                foreach($filter->family as $i => $family)
+                {
+                    if($family->id != $idFamily)
+                    {
+                        unset($filter->family[$i]);
+                    }
+                }
+            }
+        }
 
-
-        $name = "";
-
-        // foreach($response_decoded->category as $nam)
-        // {
-        //     if($nam->id == $idCategory)
-        //     {
-        //         $name = $nam->name;
-        //     }
-        // }
-       
-        $arr = new stdClass;
-        $arr->category = new stdClass;
-        $arr->category->category = new stdClass;
-        $arr->category->category->id = "1";
-        $arr->category->category->name = "Sistemas";
-        $arr->category->category->family = $filtrado; 
-    
-        return $arr; 
+        return $arrayFiltrado; 
 
     }
 
