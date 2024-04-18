@@ -10,7 +10,11 @@ interface EncomendasInterface
 
     public function getCategorias(): object;
 
+    public function getCategoriasSearched($idCategory): object;
+
     // public function getProdutosRandom(): object;
+
+   
 
     /********* */
 

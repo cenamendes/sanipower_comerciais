@@ -244,19 +244,36 @@
 
                         @if($specificProduct == 0)
                          <div class="row tab-encomenda-produto">
-                            <div class="col">
+                            <div class="col" >
 
+                                @php
+                                    $conta = 0;
+                                @endphp
+                              
                                 @foreach ($getCategories->category as $i => $cat )
-                                    <div class="subsidebarProd overflow-y-auto" id="subItemInput{{$i+1}}" style="display: none;">
+                                    @php
+                                        $conta++;
+                                    @endphp
+                                    <div class="subsidebarProd overflow-y-auto" id="subItemInput{{$conta}}">
+                                       
                                         <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                         <h2>{{ $cat->name }}</h2>
-                                        <div class="d-flex inputSeachfamily">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="ti-search text-light"></i></span>
-                                            </div>
-                                            <input type="text" class="form-control " placeholder="Search">
+
+                                        <div class="carousel-family container-fluid">
+                                            @foreach ($cat->family as $j => $familySlider )
+                                                <div class="carouselItem">
+                                                    <a href="javascript:void(0)" id="clicka" class="clicka" wire:click="searchCategory({{$familySlider->id}})">
+                                                    <div class="img-card-cicle d-flex justify-content-center">
+                                                        <div class="img-temporary-family">{{ ucfirst(substr($familySlider->name, 0, 1)) }}</div>
+                                                    </div>
+                                                    <h5 class="title-description-family">{{ $familySlider->name }}</h5>
+                                                    </a>
+                                                </div>
+                                            @endforeach
                                         </div>
+                                        
                                         @foreach ($cat->family as $family )
+                                        
                                             <br>
                                             <h5 class="family_title">{{$family->name}}</h5>
                                             <br>
@@ -277,22 +294,23 @@
                                 @endforeach
 
 
-                                <div class="sidebarProd" id="sidebarProd">
+                                <div class="sidebarProd" id="sidebarProd" wire:ignore>
                                     <label for="checkbox" style="width: 100%;">
                                         <div class="input-group" id="checkboxSidbar">
                                             <label><i class="ti-menu"></i></label>
                                             <p>PRODUTOS</p>
                                         </div>
                                     </label>
-                                    
-                                    @foreach ( $getCategories->category as $i => $category)
+                                  
+                                    @foreach ( $getCategoriesAll->category as $i => $category)
                                         <div class="input-group d-flex justify-content-between" id="input{{$i+1}}">
                                             <p>{{ $category->name }}</p>
                                             <label>></label>
                                         </div>
                                     @endforeach
                                     
-                                </div> 
+                                </div>
+                                
                                 <div class="row justify-content-between">
                                     <div class="col">
                                         <div class="input-group" id="checkboxSidbar">
@@ -911,13 +929,30 @@
     
     const sidebar = document.getElementById('sidebarProd');
 
+
     checkbox.addEventListener('change', function() {
         if (this.checked) {
             sidebar.classList.add('open');
+            
         } else {
             sidebar.classList.remove('open');
         }
     });
+
+    $('body').on('click', '.clicka', function() {
+        jQuery(".sidebarProd").addClass("open");
+        jQuery(".subsidebarProd").addClass("open");
+    });
+
+
+    window.addEventListener('refreshComponent',function(e){
+        jQuery(".subsidebarProd").addClass("open");
+        jQuery(".subsidebarProd").css("display","block");
+    });
+
+    
+
+
 
 
     const inputGroups = document.querySelectorAll('.input-group');
@@ -942,6 +977,34 @@
                 }
             });
         });
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebarProd');
+            const subbars = document.querySelectorAll('.subsidebarProd');
+            const targetElement = event.target;
+            if (!sidebar.contains(targetElement)) {
+    
+                let clickedOutsideSubbars = true;
+                subbars.forEach(function(subbar) {
+                    if (subbar.contains(targetElement)) {
+                
+                        clickedOutsideSubbars = false;
+                    }
+                });
+    
+                if (clickedOutsideSubbars) {
+                    document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+                        item.style.display = 'none';
+                    });
+                    if (this.checked) {
+                        sidebar.classList.add('open');
+                } else {
+                        sidebar.classList.remove('open');
+                    }
+                }
+            }
+        });
+
         jQuery('body').on('click', '.checkboxSidbar', function() {
             document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                 item.style.display = 'none';

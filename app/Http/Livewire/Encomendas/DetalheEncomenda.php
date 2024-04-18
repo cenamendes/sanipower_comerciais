@@ -19,7 +19,9 @@ class DetalheEncomenda extends Component
 
     private ?object $detailsClientes = NULL;
     private ?object $getCategories = NULL;
+    private ?object $getCategoriesAll = NULL;
     private ?object $products = NULL;
+    public ?string $searchTextCategory = "";
 
     public string $tabDetail = "show active";
     public string $tabProdutos = "";
@@ -28,6 +30,7 @@ class DetalheEncomenda extends Component
     public int $specificProduct = 0;
 
     public int $perPage = 10;
+    public $iteration = 0;
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository)
     {
@@ -54,6 +57,7 @@ class DetalheEncomenda extends Component
         $this->specificProduct = 0;
 
         $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         // $this->products = $this->encomendasRepository->getProdutosRandom();
     }
 
@@ -98,11 +102,25 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('encomendaAtual');
     }
 
-   
+
+    public function searchCategory($idCategory)
+    {
+        
+            $this->getCategories = $this->encomendasRepository->getCategoriasSearched($idCategory);
+            $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+            $this->getCategoriesAll = $this->encomendasRepository->getCategorias();  
+            
+            $this->tabDetail = "";
+            $this->tabProdutos = "show active";
+            $this->tabDetalhesEncomendas = "";
+
+            $this->iteration++;
+            $this->dispatchBrowserEvent('refreshComponent');
+    }
 
 
     public function render()
     {
-        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories]);
+        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll]);
     }
 }
