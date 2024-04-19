@@ -23,10 +23,12 @@ class DetalheEncomenda extends Component
     private ?object $products = NULL;
     public ?string $searchTextCategory = "";
     public bool $filter;
+    public bool $showLoaderPrincipal = true;
 
     public string $tabDetail = "show active";
     public string $tabProdutos = "";
     public string $tabDetalhesEncomendas = "";
+    public string $tabDetalhesCampanhas = "";
 
     public int $specificProduct = 0;
 
@@ -60,15 +62,22 @@ class DetalheEncomenda extends Component
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         // $this->products = $this->encomendasRepository->getProdutosRandom();
+
+        $this->showLoaderPrincipal = true;
     }
 
     public function openDetailProduto($id)
     {
         $this->specificProduct = 1;
+
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesCampanhas = "";
+
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
         $this->filter = false;
     }
@@ -76,20 +85,31 @@ class DetalheEncomenda extends Component
     public function recuarLista($id)
     {
         $this->specificProduct = 0;
+
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesCampanhas = "";
+
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
     
     }
 
     public function adicionarProduto($id)
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
+
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesCampanhas = "";
+
+        $this->specificProduct = 0;
 
         $this->dispatchBrowserEvent('compraRapida');
     }
@@ -101,8 +121,11 @@ class DetalheEncomenda extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesCampanhas = "";
         
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->dispatchBrowserEvent('encomendaAtual');
     }
 
@@ -118,8 +141,13 @@ class DetalheEncomenda extends Component
             $this->tabDetail = "";
             $this->tabProdutos = "show active";
             $this->tabDetalhesEncomendas = "";
+            $this->tabDetalhesCampanhas = "";
 
             $this->filter = true;
+
+            $this->showLoaderPrincipal = false;
+
+            $this->specificProduct = 0;
 
             $this->dispatchBrowserEvent('refreshComponent',["id" => $idCategory]);
     }
@@ -135,6 +163,11 @@ class DetalheEncomenda extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesCampanhas = "";
+
+        $this->specificProduct = 0;
+
+        $this->showLoaderPrincipal = false;
 
         $this->dispatchBrowserEvent('refreshComponent',["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }

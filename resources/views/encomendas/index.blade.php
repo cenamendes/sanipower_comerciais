@@ -22,7 +22,7 @@
 
 <script>
      document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
+            Livewire.hook('message.sent', (message,component) => {
                 document.getElementById('loader').style.display = 'block';
             });
 
@@ -30,6 +30,7 @@
             Livewire.hook('message.processed', () => {
                 document.getElementById('loader').style.display = 'none';
             });
+
         });
 </script>
 

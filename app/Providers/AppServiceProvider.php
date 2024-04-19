@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\EncomendasInterface;
+use App\Interfaces\PropostasInterface;
 use App\Repositories\ClientesRepository;
 use App\Repositories\EncomendasRepository;
+use App\Repositories\PropostasRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use App\View\Components\AppLayout;
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(ClientesInterface::class, ClientesRepository::class);
         $this->app->bind(EncomendasInterface::class, EncomendasRepository::class);
+        $this->app->bind(PropostasInterface::class, PropostasRepository::class);
     }
 
     /**
