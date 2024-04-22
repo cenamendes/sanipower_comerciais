@@ -23,16 +23,19 @@ class DetalheEncomenda extends Component
     private ?object $products = NULL;
     public ?string $searchTextCategory = "";
     public bool $filter;
+    public bool $familyInfo = false;
+
     public bool $showLoaderPrincipal = true;
 
-    public string $tabDetail = "show active";
-    public string $tabProdutos = "";
+    public string $tabDetail = "";
+    public string $tabProdutos = "show active";
     public string $tabDetalhesEncomendas = "";
     public string $tabDetalhesCampanhas = "";
 
     public int $specificProduct = 0;
 
     public int $perPage = 10;
+    protected $listeners=["rechargeFamilys" => "rechargeFamilys"];
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository)
     {
@@ -65,6 +68,15 @@ class DetalheEncomenda extends Component
 
         $this->showLoaderPrincipal = true;
     }
+    public function rechargeFamilys($id)
+    {
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
+
+        $this->familyInfo = false;
+        $this->dispatchBrowserEvent('refreshComponent',["id" => $id]);
+    }
 
     public function openDetailProduto($id)
     {
@@ -94,7 +106,8 @@ class DetalheEncomenda extends Component
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-    
+     
+        return redirect()->route('encomendas.detail', ['id' => $this->idCliente]);
     }
 
     public function adicionarProduto($id)
@@ -128,7 +141,7 @@ class DetalheEncomenda extends Component
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->dispatchBrowserEvent('encomendaAtual');
     }
-
+   
 
     public function searchCategory($idCategory,$idFamily)
     {
@@ -144,6 +157,7 @@ class DetalheEncomenda extends Component
             $this->tabDetalhesCampanhas = "";
 
             $this->filter = true;
+            $this->familyInfo = true;
 
             $this->showLoaderPrincipal = false;
 
@@ -158,7 +172,7 @@ class DetalheEncomenda extends Component
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
-        $this->filter = false;
+        $this->familyInfo = false;
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";

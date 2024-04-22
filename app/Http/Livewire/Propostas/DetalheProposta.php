@@ -24,12 +24,14 @@ class DetalheProposta extends Component
     private ?object $products = NULL;
     public ?string $searchTextCategory = "";
     public bool $filter;
+    public bool $familyInfo = false;
     public bool $showLoaderPrincipal = true;
 
-    public string $tabDetail = "show active";
-    public string $tabProdutos = "";
+    public string $tabDetail = "";
+    public string $tabProdutos = "show active";
     public string $tabDetalhesPropostas = "";
     public string $tabDetalhesCampanhas = "";
+    protected $listeners=["rechargeFamilys" => "rechargeFamilys"];
 
     public int $specificProduct = 0;
 
@@ -66,7 +68,15 @@ class DetalheProposta extends Component
 
         $this->showLoaderPrincipal = true;
     }
+    public function rechargeFamilys($id)
+    {
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->propostasRepository->getCategorias();
+        $this->getCategoriesAll = $this->propostasRepository->getCategorias();
 
+        $this->familyInfo = false;
+        $this->dispatchBrowserEvent('refreshComponent',["id" => $id]);
+    }
     public function openDetailProduto($id)
     {
         $this->specificProduct = 1;
@@ -96,8 +106,7 @@ class DetalheProposta extends Component
         $this->getCategories = $this->propostasRepository->getCategorias();
         $this->getCategoriesAll = $this->propostasRepository->getCategorias();
 
-   
-    
+        return redirect()->route('propostas.detail', ['id' => $this->idCliente]);
     }
 
     public function adicionarProduto($id)
@@ -146,6 +155,7 @@ class DetalheProposta extends Component
             $this->tabDetalhesCampanhas = "";
 
             $this->filter = true;
+            $this->familyInfo = true;
 
             $this->showLoaderPrincipal = false;
 
@@ -160,7 +170,7 @@ class DetalheProposta extends Component
         $this->getCategoriesAll = $this->propostasRepository->getCategorias();
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
-        $this->filter = false;
+        $this->familyInfo = false;
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
