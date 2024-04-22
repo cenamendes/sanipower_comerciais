@@ -258,71 +258,58 @@
                                     $contaCat++;
                                 @endphp
                                 <div class="subsidebarProd overflow-y-auto" id="subItemInput{{$contaCat}}">
-                                    <div wire:loading wire:target="searchCategory">
-                                        <div id="filtroLoader" style="display: block;">
-                                            <div class="filtroLoader" role="status">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div wire:loading wire:target="resetFilter">
-                                        <div id="filtroLoader" style="display: block;">
-                                            <div class="filtroLoader" role="status">
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
-                                    <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                    <h2>{{ $cat->name }}</h2>
-                                    
-                                    @foreach($getCategoriesAll->category as $catAll)
-                                        @if($catAll->name == $cat->name)
-                                            <div class="carousel-family container-fluid scrollableDiv">
-                                                @foreach ($catAll->family as $j => $familySlider )
-                                                    <div class="carouselItem">
-                                                        <a href="javascript:void(0)" id="clicka" class="clicka" wire:click="searchCategory({{$contaCat}},{{json_encode($familySlider->id)}})">
-                                                        <div class="img-card-cicle d-flex justify-content-center">
-                                                            <div class="img-temporary-family">{{ ucfirst(substr($familySlider->name, 0, 1)) }}</div>
-                                                        </div>
-                                                        <h5 class="title-description-family">{{ $familySlider->name }}</h5>
-                                                        </a>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    @endforeach
-
-                                    @if($filter == true)
-                                        <div class="row d-flex justify-content-end mr-0">
-                                            <button type="button" class="btn btn-chili" wire:click="resetFilter({{$contaCat}})"><i class="ti ti-close"></i> Limpar filtro</button>
-                                        </div>
-                                    @endif
-                                    
-                                    @foreach ($cat->family as $family )
-                                       
-                                        <br>
-                                        <h5 class="family_title">{{$family->name}}</h5>
-                                        <br>
-                                        <div class="containerCards row">
-                                            @foreach ($family->subfamily as $subfamily)
-                                                <div class="col-3 col-xl-2 col-md-3">
-                                                    <div class="card-decorate">
-                                                        <div class="img-card-cicle">
-                                                            <div class="img-temporary-products">{{ ucfirst(substr($subfamily->name, 0, 1)) }}</div>
-                                                        </div>
-                                                        <h5 class="title-description-family">{{$subfamily->name}}</h5>
-                                                    </div>
+                                        <div wire:loading wire:target="searchCategory">
+                                            <div id="filtroLoader" style="display: block;">
+                                                <div class="filtroLoader" role="status">
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div wire:loading wire:target="resetFilter">
+                                            <div id="filtroLoader" style="display: block;">
+                                                <div class="filtroLoader" role="status">
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                        <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                        <h2>{{ $cat->name }}</h2>
+                                    
+                                        <div class="row">
+                                            @foreach ($cat->family as $family )
+                                                
+                                            
+                                                <div class="col-4">
+                                                    <a href="javascript:void(0);" wire:click="searchCategory({{$contaCat}},{{json_encode($family->id)}})">
+                                                        <h5 class="family_title">{{$family->name}}</h5>
+                                                    </a>
+                                                </div>
+                                                @if($familyInfo == true)
+                                                    <div class="col-12">
+                                                         <!-- <div class="row d-flex justify-content-end mr-0"> -->
+                                                         <div class="row mb-2">
+                                                                <a href="javascript:void(0)" wire:click="resetFilter({{$contaCat}})" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
+                                                            </div>
+                                                        <!-- </div> -->
+                                                        <div class="row">
+                                                            @foreach ($family->subfamily as $subfamily)
+                                                            <div class="col-4">
+                                                                <h5 class="title-description-family">{{$subfamily->name}}</h5>
+                                                            </div>
+
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             @endforeach
                                         </div>
-                                    @endforeach
-                                </div>
+                                    </div>
                             @endforeach
 
 
                             <div class="sidebarProd" id="sidebarProd" wire:ignore>
                                 <label for="checkbox" style="width: 100%;">
-                                    <div class="input-group input-group-config input-config-produtos" id="checkboxSidbar" style="padding: 0;">
+                                    <div class="input-group input-group-config-Goback input-config-produtos" id="checkboxSidbar" style="padding: 0;">
                                         <label><i class="ti-menu"></i>
                                             <p>PRODUTOS</p>
                                         </label>
@@ -332,11 +319,11 @@
                                     $conta = 0;
                                 @endphp
                                 @foreach ( $getCategoriesAll->category as $i => $category)
-                                 @php
-                                     $conta++;
-                                 @endphp
+                                    @php
+                                        $conta++;
+                                    @endphp
                                     @if(!empty($category->family))
-                                        <div class="input-group input-group-config d-flex justify-content-between" id="input{{$conta}}">
+                                        <div class="input-group d-flex input-group-config justify-content-between" id="input{{$conta}}">
                                             <p>{{ $category->name }}</p>
                                             <label>></label>
                                         </div>
@@ -546,17 +533,17 @@
                     </div>
                 
                     @else
-                    <div class="row tab-encomenda-produto">
+                    <div class="tab-encomenda-produto">
                         <div class="row mb-2 border-bottom">
                             <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
                         </div>
                         
                         <div class="row container-detalhes-produto">
 
-                            <div class="col-4 d-none d-lg-block">
+                            <div class="col-md-2 col-4" style="padding: 0;padding-bottom: 20px;">
                                 <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" width=100%>
                             </div>
-                            <div class="col-lg-8 col-12">
+                            <div class="col-12">
 
                                 <div class="row">
                                     <div class="col-xl-12 mb-2">
@@ -571,7 +558,7 @@
                                     </div>
 
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover">
+                                        <table class="table table-bordered table-hover" style="min-width: 995px;">
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th>Referência</th>
@@ -1018,13 +1005,6 @@
 
     });
 
-
-
-    
-
-
-
-
     const inputProdutos = document.querySelectorAll('.input-config-produtos');
     inputProdutos.forEach(function(inputProduto) {
         inputProduto.addEventListener('click', function() {
@@ -1044,13 +1024,25 @@
 
           inputGroups.forEach(function(inputGroup) {
                 inputGroup.addEventListener('click', function() {
+                    
                     const id = this.id;
+                    const InputId = 'input' + id.slice(-1);
                     const subItemId = 'subItemInput' + id.slice(-1);
                     const subItem = document.getElementById(subItemId);
+                    const Input = document.getElementById(InputId);
+
+                    inputGroups.forEach(function(group) {
+                        if (group !== inputGroup) {
+                            group.style.backgroundColor = 'transparent';
+                        }
+                    });
+                    Input.style.backgroundColor = 'rgba(36, 36, 36, 0.623)';
+
                     const subbars = document.querySelectorAll('.subsidebarProd');
-        
+                    
                     if (subItem) {
                         const currentDisplayStyle = window.getComputedStyle(subItem).display;
+                        
                         if (currentDisplayStyle === 'block') {
                             subItem.style.display = 'none';
                         
@@ -1058,7 +1050,16 @@
                             document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                                 item.style.display = 'none';
                             });
-                            subItem.style.display = 'block';
+                            var familyInfo = @this.get('familyInfo');
+
+                            if (familyInfo) {
+                                Livewire.emit("rechargeFamilys", id);
+                                setTimeout(function() {
+                                    subItem.style.display = 'block';
+                                }, 1500); 
+                            } else {
+                                subItem.style.display = 'block';
+                            }
                         }
                         currentSubItem = subItem;
                     }
@@ -1086,6 +1087,9 @@
 
                     checkbox.checked = true;
                     sidebar.classList.remove('open');
+                    inputGroups.forEach(function(group) {
+                        group.style.backgroundColor = 'transparent';
+                    });
 
                     } else {
                         checkbox.checked = false;
@@ -1142,10 +1146,10 @@
         }
     }
  
-        const scrollableDivs = document.querySelectorAll('.scrollableDiv');
-        scrollableDivs.forEach(function(div) {
-            new ScrollableDiv(div);
-        });
+    const scrollableDivs = document.querySelectorAll('.scrollableDiv');
+    scrollableDivs.forEach(function(div) {
+        new ScrollableDiv(div);
+    });
 
 </script>
 

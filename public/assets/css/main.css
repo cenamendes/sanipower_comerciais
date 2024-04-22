@@ -487,16 +487,16 @@ body::-webkit-scrollbar {
 .sidebarProd #checkboxSidbar:active{
     background-color: #106481;
 }
-.sidebarProd .input-group label{
+.sidebarProd #checkboxSidbar label{
     font-size: 16px;
     font-weight: 100;
     color: #ebf3f1;
 }
-.sidebarProd .input-group label,.sidebarProd .input-group p{
+.sidebarProd #checkboxSidbar label,#checkboxSidbar .input-group p{
     margin: 0;
 }
 .sidebarProd .input-group{
-    padding: 20px 20px;
+    padding: 20px 20px 0 20px;
     border-bottom: 0.05px solid rgb(73, 80, 87);
     font-family: "Comfortaa", sans-serif;
     font-optical-sizing: auto;
@@ -514,6 +514,7 @@ body::-webkit-scrollbar {
     background-color:rgba(36, 36, 36, 0.623);
     cursor: pointer;
 }
+
 .sidebarProd.open {
     left: 0;
 }
@@ -551,10 +552,14 @@ body::-webkit-scrollbar {
     color: #cbccce;
     text-align: center;
     margin-top:10px;
+    cursor: pointer;
 }
 .family_title{
     color: #1f9cc5;
     font-weight: 500;
+    font-size: 16px;
+    margin: 15px 0;
+    cursor: pointer;
 }
 .card-decorate{
     display: flex;
@@ -612,7 +617,10 @@ body::-webkit-scrollbar {
     .inputSeachfamily{
         width: 200px;
     }
-
+    .family_title{
+        font-size: 13px;
+        
+    }
 }
 
 
