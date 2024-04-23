@@ -540,10 +540,10 @@
                         
                         <div class="row container-detalhes-produto">
 
-                            <div class="col-md-2 col-4" style="padding: 0;padding-bottom: 20px;">
+                            <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px;">
                                 <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" width=100%>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-lg-9">
 
                                 <div class="row">
                                     <div class="col-xl-12 mb-2">
