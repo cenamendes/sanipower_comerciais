@@ -38,6 +38,15 @@ class EncomendasRepository implements EncomendasInterface
 
     }
 
+    public function getSubFamily($idCategory, $idFamily, $idSubFamily): object
+    {
+        $object = new stdClass();
+        $object->idCategory = $idCategory;
+        $object->idFamily = $idFamily;
+        $object->idSubFamily = $idSubFamily;
+
+        return $object;
+    }
     public function getCategoriasSearched($idCategory,$idFamily): object
     {
         $curl = curl_init();

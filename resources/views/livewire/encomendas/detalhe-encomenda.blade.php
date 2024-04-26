@@ -293,7 +293,7 @@
                                                         <div class="row">
                                                             @foreach ($family->subfamily as $subfamily)
                                                             <div class="col-4">
-                                                                <h5 class="title-description-family">{{$subfamily->name}}</h5>
+                                                                <h5 class="title-description-family" wire:click="searchSubFamily({{$contaCat}},{{json_encode($family->id)}},{{json_encode($subfamily->id)}})">{{$subfamily->name}}</h5>
                                                             </div>
                                                             @endforeach
                                                         </div>
