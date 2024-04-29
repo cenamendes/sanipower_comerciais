@@ -33,6 +33,7 @@ class DetalheEncomenda extends Component
     public string $tabDetalhesCampanhas = "";
 
     public int $specificProduct = 0;
+    public int $idFamilyInfo = 0;
 
     public int $perPage = 10;
     protected $listeners=["rechargeFamilys" => "rechargeFamilys"];
@@ -158,6 +159,7 @@ class DetalheEncomenda extends Component
 
             $this->filter = true;
             $this->familyInfo = true;
+            $this->idFamilyInfo = $idFamily;
 
             $this->showLoaderPrincipal = false;
 

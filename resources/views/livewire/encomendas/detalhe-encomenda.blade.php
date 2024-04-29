@@ -283,21 +283,25 @@
                                                     </a>
                                                 </div>
                                                 @if($familyInfo == true)
-                                                    <div class="col-12">
-                                                        <!-- <div class="row d-flex justify-content-end mr-0"> -->
-                                                            <div class="row mb-2">
-                                                                <a href="javascript:void(0)" wire:click="resetFilter({{$contaCat}})" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
+                                                    @if($idFamilyInfo == $family->id)
+
+                                                        <div class="col-12">
+                                                            <!-- <div class="row d-flex justify-content-end mr-0"> -->
+                                                                <div class="row mb-2">
+                                                                    <a href="javascript:void(0)" wire:click="resetFilter({{$contaCat}})" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
+                                                                </div>
+                                                            <!-- </div> -->
+                                                            
+                                                            <div class="row">
+                                                                @foreach ($family->subfamily as $subfamily)
+                                                                <div class="col-4">
+                                                                    <h5 class="title-description-family" wire:click="searchSubFamily({{$contaCat}},{{json_encode($family->id)}},{{json_encode($subfamily->id)}})">{{$subfamily->name}}</h5>
+                                                                </div>
+                                                                @endforeach
                                                             </div>
-                                                        <!-- </div> -->
-                                                        
-                                                        <div class="row">
-                                                            @foreach ($family->subfamily as $subfamily)
-                                                            <div class="col-4">
-                                                                <h5 class="title-description-family" wire:click="searchSubFamily({{$contaCat}},{{json_encode($family->id)}},{{json_encode($subfamily->id)}})">{{$subfamily->name}}</h5>
-                                                            </div>
-                                                            @endforeach
                                                         </div>
-                                                    </div>
+                                                    @endif
+
                                                 @endif
                                             @endforeach
                                         </div>
@@ -321,6 +325,7 @@
                                          $conta++;
                                      @endphp
                                         @if(!empty($category->family))
+                                        <!-- <div class="input-group d-flex input-group-config justify-content-between" wire:click="rechargeFamilys({{$conta}})" id="input{{$conta}}" > -->
                                             <div class="input-group d-flex input-group-config justify-content-between" id="input{{$conta}}">
                                                 <p>{{ $category->name }}</p>
                                                 <label>></label>
@@ -1010,14 +1015,6 @@
         jQuery("#subItemInput"+e.detail.id).css("display","block");
 
     });
-
-
-
-    
-
-
-
-
     const inputProdutos = document.querySelectorAll('.input-config-produtos');
     inputProdutos.forEach(function(inputProduto) {
         inputProduto.addEventListener('click', function() {
@@ -1068,16 +1065,16 @@
                                 item.style.display = 'none';
                             });
 
-                            var familyInfo = @this.get('familyInfo');
+                            // var familyInfo = @this.get('familyInfo');
 
-                            if (familyInfo) {
-                                Livewire.emit("rechargeFamilys", id);
-                                setTimeout(function() {
-                                    subItem.style.display = 'block';
-                                }, 1500);
-                            } else {
-                                subItem.style.display = 'block';
-                            }
+                            // if (familyInfo) {
+                            //     Livewire.emit("rechargeFamilys", id);
+                            //     setTimeout(function() {
+                            //         subItem.style.display = 'block';
+                            //     }, 1500);
+                            // } else {
+                            subItem.style.display = 'block';
+                            // }
                                 
                         }
                         currentSubItem = subItem;
