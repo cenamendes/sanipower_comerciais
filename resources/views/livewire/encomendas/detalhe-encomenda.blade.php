@@ -154,6 +154,7 @@
                                 </div>
 
                             </div>
+                     
                             <div class="col-xl-4">
                                 
                                 <div class="form-group">
@@ -283,21 +284,25 @@
                                                     </a>
                                                 </div>
                                                 @if($familyInfo == true)
-                                                    <div class="col-12">
-                                                        <!-- <div class="row d-flex justify-content-end mr-0"> -->
-                                                            <div class="row mb-2">
-                                                                <a href="javascript:void(0)" wire:click="resetFilter({{$contaCat}})" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
+                                                    @if($idFamilyInfo == $family->id)
+
+                                                        <div class="col-12">
+                                                            <!-- <div class="row d-flex justify-content-end mr-0"> -->
+                                                                <div class="row mb-2">
+                                                                    <a href="javascript:void(0)" wire:click="resetFilter({{$contaCat}})" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
+                                                                </div>
+                                                            <!-- </div> -->
+                                                            
+                                                            <div class="row">
+                                                                @foreach ($family->subfamily as $subfamily)
+                                                                <div class="col-4">
+                                                                    <h5 class="title-description-family" wire:click="searchSubFamily({{$contaCat}},{{json_encode($family->id)}},{{json_encode($subfamily->id)}})">{{$subfamily->name}}</h5>
+                                                                </div>
+                                                                @endforeach
                                                             </div>
-                                                        <!-- </div> -->
-                                                        
-                                                        <div class="row">
-                                                            @foreach ($family->subfamily as $subfamily)
-                                                            <div class="col-4">
-                                                                <h5 class="title-description-family">{{$subfamily->name}}</h5>
-                                                            </div>
-                                                            @endforeach
                                                         </div>
-                                                    </div>
+                                                    @endif
+
                                                 @endif
                                             @endforeach
                                         </div>
@@ -321,6 +326,7 @@
                                          $conta++;
                                      @endphp
                                         @if(!empty($category->family))
+                                        <!-- <div class="input-group d-flex input-group-config justify-content-between" wire:click="rechargeFamilys({{$conta}})" id="input{{$conta}}" > -->
                                             <div class="input-group d-flex input-group-config justify-content-between" id="input{{$conta}}">
                                                 <p>{{ $category->name }}</p>
                                                 <label>></label>
@@ -374,158 +380,33 @@
                                         <br>
                                     </div>
                                 </div>
-                                <div class="row">                                   
-
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                        <div class="card card-decoration card-outline-primary border border-2" >
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
-                                          
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
+                                <div class="row">
+                                    @if($searchSubFamily)
+                                        @foreach ( $searchSubFamily->product as $prodt)
+                                            <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                                <div class="card card-decoration card-outline-primary border border-2" >
+                                                <!-- <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto"> -->
+                                                <a href="javascript:void(0)" wire:click="openDetailProduto('1')" style="pointer-events: auto">
+                                                    <div class="mb-1" >
+                                                        <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
+                                                        <div class="body-decoration">
+                                                            <h5 class="title-description">{{$prodt->product_name}}</h5>
+                                                        </div> 
+                                                        <p>{{$prodt->category_number}},{{$prodt->family_number}},{{$prodt->subfamily_number}},{{$detalhesCliente->customers[0]->no}}</p>
+                                                    </div>
+                                                </a>
+                                                
+                                                    <div class="card-body container-buttons" style="z-index:10;">
+                                                        <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
+                                                    </div>
+                                                </div>
+                                            
                                             </div>
-                                        </div>
-                                      
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                      
-                                        <div class="card card-decoration card-outline-primary border border-2">
-                                         
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
-                                           
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                            </div>
-                                        </div>
-                                      
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                      
-                                        <div class="card card-decoration card-outline-primary border border-2">
-                                          
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
+                                        @endforeach
                                        
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                            </div>
-                                        </div>
-                                     
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                     
-                                        <div class="card card-decoration card-outline-primary border border-2">
-                                         
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
-                                          
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                            </div>
-                                        </div>
-                                      
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                      
-                                        <div class="card card-decoration card-outline-primary border border-2">
-                                         
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
-                                          
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                            </div>
-                                        </div>
-                                     
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                        <div class="card card-decoration card-outline-primary border border-2">
-                                          
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
-                                          
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                            </div>
-                                        </div>
-                                      
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                     
-                                        <div class="card card-decoration card-outline-primary border border-2">
-                                          
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
-                                         
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                            </div>
-                                        </div>
-                                    
-                                    </div>
-                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
-                                      
-                                        <div class="card card-decoration card-outline-primary border border-2">
-                                         
-                                          <a href="javascript:void(0)" wire:click="openDetailProduto(1)" style="pointer-events: auto">
-                                              <div class="mb-1" >
-                                                  <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="...">
-                                                  <div class="body-decoration">
-                                                      <h5 class="title-description">Abraçadeira Quadrada c/Parafuso</h5>
-                                                  </div> 
-                                              </div>
-                                          </a>
-                                         
-                                            <div class="card-body container-buttons" style="z-index:10;">
-                                                <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                            </div>
-                                        </div>
-                                     
-                                    </div>
-                                    
+                                    @else
+                                    Não tem produtos
+                                    @endif
                                 </div>
                                 </div>
                         </div>
@@ -564,9 +445,9 @@
                                                         <th>PVP unitário</th>
                                                         <th>Desconto</th>
                                                         <th>Preço unitário</th>
-                                                        <th>Quantidade mínima</th>
+                                                        <th>Qtd mínima</th>
                                                         <th>Stock</th>
-                                                        <th>Quantidade a encomendar</th>
+                                                        <th style=" width: 150px;">Qtd a encomendar</th>
                                                         <th class="text-center">Ações</th>
                                                     </tr>
                                                 </thead>
@@ -1005,18 +886,25 @@
         }
     });
 
+    window.addEventListener('refreshAllComponent',function(){
+        const sidebar = document.getElementById('sidebarProd');
+            const subbars = document.querySelectorAll('.subsidebarProd');
+            const targetElement = event.target;
+          
+            document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+                item.style.display = 'none';
+            });
 
-    window.addEventListener('refreshComponent',function(e){
-        jQuery("#subItemInput"+e.detail.id).css("display","block");
+            checkbox.checked = true;
+            sidebar.classList.remove('open');  
+            inputGroups.forEach(function(group) {
+                group.style.backgroundColor = 'transparent';
+            });
 
     });
-
-
-
-    
-
-
-
+    window.addEventListener('refreshComponent',function(e){
+        jQuery("#subItemInput"+e.detail.id).css("display","block");
+    });
 
     const inputProdutos = document.querySelectorAll('.input-config-produtos');
     inputProdutos.forEach(function(inputProduto) {
@@ -1068,16 +956,16 @@
                                 item.style.display = 'none';
                             });
 
-                            var familyInfo = @this.get('familyInfo');
+                            // var familyInfo = @this.get('familyInfo');
 
-                            if (familyInfo) {
-                                Livewire.emit("rechargeFamilys", id);
-                                setTimeout(function() {
-                                    subItem.style.display = 'block';
-                                }, 1500);
-                            } else {
-                                subItem.style.display = 'block';
-                            }
+                            // if (familyInfo) {
+                            //     Livewire.emit("rechargeFamilys", id);
+                            //     setTimeout(function() {
+                            //         subItem.style.display = 'block';
+                            //     }, 1500);
+                            // } else {
+                            subItem.style.display = 'block';
+                            // }
                                 
                         }
                         currentSubItem = subItem;

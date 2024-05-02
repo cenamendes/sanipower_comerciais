@@ -285,6 +285,7 @@
                                                     </a>
                                                 </div>
                                                 @if($familyInfo == true)
+                                                    @if($idFamilyInfo == $family->id)
                                                     <div class="col-12">
                                                          <!-- <div class="row d-flex justify-content-end mr-0"> -->
                                                          <div class="row mb-2">
@@ -300,6 +301,7 @@
                                                             @endforeach
                                                         </div>
                                                     </div>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                         </div>
@@ -1052,14 +1054,14 @@
                             });
                             var familyInfo = @this.get('familyInfo');
 
-                            if (familyInfo) {
-                                Livewire.emit("rechargeFamilys", id);
-                                setTimeout(function() {
-                                    subItem.style.display = 'block';
-                                }, 1500); 
-                            } else {
+                            // if (familyInfo) {
+                            //     Livewire.emit("rechargeFamilys", id);
+                            //     setTimeout(function() {
+                            //         subItem.style.display = 'block';
+                            //     }, 1500); 
+                            // } else {
                                 subItem.style.display = 'block';
-                            }
+                            // }
                         }
                         currentSubItem = subItem;
                     }
