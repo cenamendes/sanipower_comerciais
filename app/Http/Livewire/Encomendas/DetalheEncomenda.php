@@ -36,6 +36,8 @@ class DetalheEncomenda extends Component
     public int $specificProduct = 0;
     public string $idFamilyInfo = "";
 
+    public $iteration = 0;
+
     public int $perPage = 10;
     protected $listeners=["rechargeFamilys" => "rechargeFamilys"];
 
@@ -172,6 +174,8 @@ class DetalheEncomenda extends Component
 
             $this->specificProduct = 0;
 
+            $this->iteration++;
+
             $this->dispatchBrowserEvent('refreshComponent',["id" => $idCategory]);
     }
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
@@ -195,6 +199,8 @@ class DetalheEncomenda extends Component
         $this->showLoaderPrincipal = false;
 
         $this->specificProduct = 0;
+
+        $this->iteration++;
 
         $this->dispatchBrowserEvent('refreshAllComponent');
 

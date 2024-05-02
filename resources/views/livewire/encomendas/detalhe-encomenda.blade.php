@@ -247,7 +247,7 @@
                         @if($specificProduct == 0)
                          <div class="row tab-encomenda-produto">
                             
-                            <div class="col" >
+                            <div class="col" wire:key="select-field-model-version-{{ $iteration }}" >
                                 
                                 @php
                                     $contaCat = 0;
@@ -380,7 +380,7 @@
                                         <br>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" wire:ignore>
                                     @if($searchSubFamily)
                                         @foreach ( $searchSubFamily->product as $prodt)
                                             <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
