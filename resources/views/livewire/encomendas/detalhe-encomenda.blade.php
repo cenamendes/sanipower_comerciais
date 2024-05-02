@@ -380,9 +380,12 @@
                                         <br>
                                     </div>
                                 </div>
-                                <div class="row" wire:ignore>
+                                <div class="row">
+                                    @php
+                                        $searchSubFamily = session('searchSubFamily')
+                                    @endphp
                                     @if($searchSubFamily)
-                                        @foreach ( $searchSubFamily->product as $prodt)
+                                        @foreach ($searchSubFamily->product as $prodt)
                                             <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
                                                 <div class="card card-decoration card-outline-primary border border-2" >
                                                 <!-- <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto"> -->
