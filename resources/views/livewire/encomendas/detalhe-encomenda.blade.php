@@ -391,7 +391,6 @@
                                                 <!-- <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto"> -->
                                                 <a href="javascript:void(0)" wire:click="openDetailProduto('1')" style="pointer-events: auto">
                                                     <div class="mb-1" >
-                                                        {{-- <img src="https://storage.sanipower.pt/storage/produtos/2/2-1-5.jpg" class="card-img-top" alt="..."> --}}
                                                         <img src="https://storage.sanipower.pt/storage/produtos/{{$prodt->family_number}}/{{$prodt->family_number}}-{{$prodt->subfamily_number}}-{{$prodt->product_number}}.jpg" class="card-img-top" alt="...">
                                                         <div class="body-decoration">
                                                             <h5 class="title-description">{{$prodt->product_name}}</h5>
