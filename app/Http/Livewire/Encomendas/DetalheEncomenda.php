@@ -36,10 +36,13 @@ class DetalheEncomenda extends Component
     public int $specificProduct = 0;
     public string $idFamilyInfo = "";
 
+    public string $idSubFamilyRecuar = "";
+    public string $idFamilyRecuar = "";
+    public string $idCategoryRecuar = "";
     public $iteration = 0;
 
     public int $perPage = 10;
-    protected $listeners=["rechargeFamilys" => "rechargeFamilys"];
+    protected $listeners=["rechargeFamily" => "rechargeFamily"];
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository)
     {
@@ -72,7 +75,7 @@ class DetalheEncomenda extends Component
 
         $this->showLoaderPrincipal = true;
     }
-    public function rechargeFamilys($id)
+    public function rechargeFamily($id)
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
@@ -113,13 +116,15 @@ class DetalheEncomenda extends Component
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
 
+        $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar);  
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-     
+        
+  
         return redirect()->route('encomendas.detail', ['id' => $this->idCliente]);
+   
     }
-
     public function adicionarProduto($id)
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
@@ -184,12 +189,17 @@ class DetalheEncomenda extends Component
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->searchSubFamily = $this->encomendasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);  
-        // dd($this->searchSubFamily);
 
+        session(['searchSubFamily' => $this->searchSubFamily]);
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+
+
+        $this->idCategoryRecuar = $idCategory;
+        $this->idFamilyRecuar = $idFamily;
+        $this->idSubFamilyRecuar = $idSubFamily;
 
         $this->filter = true;
         $this->familyInfo = true;
