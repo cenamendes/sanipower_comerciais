@@ -18,6 +18,7 @@ class DetalheEncomenda extends Component
     public string $idCliente = "";
 
     private ?object $detailsClientes = NULL;
+    private ?object $searchSubFamily = NULL;
     private ?object $getCategories = NULL;
     private ?object $getCategoriesAll = NULL;
     private ?object $products = NULL;
@@ -33,7 +34,7 @@ class DetalheEncomenda extends Component
     public string $tabDetalhesCampanhas = "";
 
     public int $specificProduct = 0;
-    public int $idFamilyInfo = 0;
+    public string $idFamilyInfo = "";
 
     public int $perPage = 10;
     protected $listeners=["rechargeFamilys" => "rechargeFamilys"];
@@ -79,15 +80,21 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('refreshComponent',["id" => $id]);
     }
 
+    // public function openDetailProduto($idCategory, $idFamily, $idSubFamily, $idCustomer)
     public function openDetailProduto($id)
     {
+        // dd($idCategory, $idFamily, $idSubFamily, $idCustomer);
         $this->specificProduct = 1;
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
-
+        
+ 
+        //tem que filtrar o produto aqui!
+        // $this->searchFamilyProdutos = $this->encomendasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $idCustomer);  
+        // dd($this->searchFamilyProdutos);
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
@@ -169,8 +176,28 @@ class DetalheEncomenda extends Component
     }
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->searchSubFamily = $this->encomendasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);  
-        dd($this->searchSubFamily);
+        // dd($this->searchSubFamily);
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "show active";
+        $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesCampanhas = "";
+
+        $this->filter = true;
+        $this->familyInfo = true;
+
+        $this->idFamilyInfo = "";
+
+        $this->showLoaderPrincipal = false;
+
+        $this->specificProduct = 0;
+
+        $this->dispatchBrowserEvent('refreshAllComponent');
+
     }
     
     public function resetFilter($idCategory)
@@ -192,10 +219,8 @@ class DetalheEncomenda extends Component
 
         $this->dispatchBrowserEvent('refreshComponent',["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
-
-
     public function render()
     {
-        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll]);
+        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily]);
     }
 }

@@ -166,8 +166,6 @@ class DetalheCliente extends Component
         return 'livewire.pagination';
     }
 
-
-
     public function render()
     {
         return view('livewire.clientes.detalhe-cliente',["detalhesCliente" => $this->detailsClientes, "analisesCliente" =>$this->analysisClientes]);
