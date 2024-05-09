@@ -227,7 +227,7 @@ body::-webkit-scrollbar {
 #filtroLoader {
     display: flex;
     JUSTIFY-CONTENT: CENTER;
-    position: absolute;
+    position: fixed;
     background: #595656bd;
     transition: opacity 0.75s, visibility 1.75s;
     z-index: 9999;
@@ -679,6 +679,7 @@ body::-webkit-scrollbar {
 }
 
 
+
 #scrollModal::-webkit-scrollbar{
     height: 0.6rem;
 }
@@ -689,4 +690,5 @@ body::-webkit-scrollbar {
 #scrollModal::-webkit-scrollbar{
     width: 0.6rem;
 }
+
 

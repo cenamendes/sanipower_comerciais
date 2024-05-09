@@ -780,6 +780,7 @@
                                         @if(!empty($quickBuyProducts))
                                       
                                             @foreach ($quickBuyProducts->product as $prod)
+
                                                 <tr>
                                                     <td>{{ $prod->referense }}</td>
                                                     <td>{{ $prod->model }}</td>
@@ -789,8 +790,18 @@
                                                     <td>{{ $prod->quantity }}</td>
                                                     <td style="text-align:center;font-size:large;">
                                                         @if($prod->in_stock == true) 
-                                                            <a href="javascript:;" role="button" class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
-                                                                <i class="ti-check text-lg text-forest"></i> 
+                                                            <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
+                                                                <!-- <i class="ti-check text-lg text-forest"></i>  -->
+                                                                <div class="dropdownIcon">
+                                                                    <i class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
+                                                                    <ul class="dropdownIcon-menu">
+                                                                        <li><i class="fa fa-play icon-play"></i></li>
+                                                                        <li style="border-bottom: 1px solid;"><h5>Title</h5></li>
+                                                                        <li>value 1</li>
+                                                                        <li>value 2</li>
+                                                                        <li>value 3</li>
+                                                                    </ul>
+                                                                </div>
                                                             </a>
                                                         @else 
                                                             <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
@@ -889,6 +900,42 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Função para fechar todos os dropdowns
+    function closeAllDropdowns() {
+        var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
+        dropdownMenus.forEach(function(dropdownMenu) {
+            dropdownMenu.style.display = "none";
+        });
+    }
+
+    // Função para mostrar ou esconder o dropdown
+    function toggleDropdown(dropdownBtn) {
+        var dropdownMenu = dropdownBtn.nextElementSibling;
+        if (dropdownMenu.style.display === "block") {
+            dropdownMenu.style.display = "none";
+        } else {
+            closeAllDropdowns(); // Fecha todos os dropdowns antes de abrir o novo
+            dropdownMenu.style.display = "block";
+        }
+    }
+
+    // Adiciona evento de clique no documento inteiro
+    document.addEventListener("click", function(event) {
+        // Verifica se o elemento clicado é um botão de dropdown
+        if (event.target.classList.contains('dropdownIcon-toggle')) {
+            var dropdownBtn = event.target;
+            toggleDropdown(dropdownBtn);
+        } else {
+            // Fecha todos os dropdowns se clicar fora deles
+            closeAllDropdowns();
+        }
+    });
+});
+
+    
+    // vinicius
     const checkbox = document.getElementById('checkbox');
     
     const sidebar = document.getElementById('sidebarProd');
@@ -1083,4 +1130,3 @@
     });
 
 </script>
-
