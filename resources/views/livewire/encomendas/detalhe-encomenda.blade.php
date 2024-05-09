@@ -1,17 +1,5 @@
 <div>
 
-    <style>
-        /* Estilo opcional para a tooltip */
-        .tooltip {
-            position: absolute;
-            display: none;
-            background-color: #f9f9f9;
-            color: #333;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-    </style>
 
       <!--  LOADING -->
       @if($showLoaderPrincipal == true)
@@ -1087,10 +1075,6 @@
     const scrollableDivs = document.querySelectorAll('.scrollableDiv');
     scrollableDivs.forEach(function(div) {
         new ScrollableDiv(div);
-    });
-
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
     });
 
 </script>
