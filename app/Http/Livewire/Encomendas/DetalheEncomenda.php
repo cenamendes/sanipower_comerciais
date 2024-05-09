@@ -50,6 +50,8 @@ class DetalheEncomenda extends Component
     protected ?object $quickBuyProducts = NULL;
     public $iterationQuickBuy = 0;
 
+    private ?object $detailProduto = NULL;
+
     public int $perPage = 10;
     protected $listeners=["rechargeFamily" => "rechargeFamily"];
 
@@ -127,8 +129,7 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('refreshComponent',["id" => $id]);
     }
 
-     public function openDetailProduto($idCategory, $idFamily, $idSubFamily, $idCustomer)
-    //public function openDetailProduto($id)
+     public function openDetailProduto($idCategory, $idFamily, $idSubFamily, $productNumber,$idCustomer, $productName)
     {
         // dd($idCategory, $idFamily, $idSubFamily, $idCustomer);
         $this->specificProduct = 1;
@@ -142,10 +143,17 @@ class DetalheEncomenda extends Component
         $this->idFamilyRecuar = $idFamily;
         $this->idSubFamilyRecuar = $idSubFamily;
         
+
+        $this->detailProduto = $this->encomendasRepository->getProdutos($idCategory,$idFamily,$idSubFamily,$productNumber,$idCustomer);
  
-        //tem que filtrar o produto aqui!
-        // $this->searchFamilyProdutos = $this->encomendasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $idCustomer);  
-        // dd($this->searchFamilyProdutos);
+
+        session(['detailProduto' => $this->detailProduto]);
+        session(['productNameDetail' => $productName]);
+
+        session(['family' => $idFamily]);
+        session(['subFamily' => $idSubFamily]);
+        session(['productNumber' => $productNumber]);
+       
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
