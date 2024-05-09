@@ -470,7 +470,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="table-responsive">
+                                        <div class="table-responsive" style="overflow-x:inherit !important;">
                                             <table class="table table-bordered table-hover" style="min-width: 995px;">
                                                 <thead class="thead-light">
                                                     <tr>
@@ -696,7 +696,7 @@
                                     
                                     </div>
                                     <div class="card-body">
-                                        <div class="table-responsive">
+                                        <div class="table-responsive" style="overflow-x:inherit!important;">
                                             <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
                                                 <thead class="thead-light">
                                                     <tr>
@@ -780,7 +780,7 @@
                 <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="overflow-x:none!important;">
                                 <table class="table table-bordered table-hover">
                                     <thead class="thead-light">
                                         <tr>
@@ -879,7 +879,7 @@
                <div class="modal-body">
                    <div class="card mb-3">
                        <div class="card-body">
-                           <div class="table-responsive">
+                           <div class="table-responsive" style="overflow-x:none!important;">
                                <table class="table table-bordered table-hover">
                                    <thead class="thead-light">
                                        <tr>
