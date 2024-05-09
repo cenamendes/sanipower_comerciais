@@ -835,67 +835,84 @@
    aria-hidden="true">
       <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
           <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title text-primary" id="modalProdutos"><img src="https://digital.sanipower.pt/assets/marcas/vissen.jpg" width=50> (NOME DO PRODUTO PHC)</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <div class="card mb-3">
-                      <div class="card-body">
-                          <div class="table-responsive">
-                              <table class="table table-bordered table-hover">
-                                  <thead class="thead-light">
-                                      <tr>
-                                          <th>Referência</th>
-                                          <th>Modelo</th>
-                                          <th>PVP unitário</th>
-                                          <th>Desconto</th>
-                                          <th>Preço unitário</th>
-                                          <th>Quantidade mínima</th>
-                                          <th>Stock</th>
-                                          <th>Quantidade a encomendar</th>
-                                          <th class="text-center">Ações</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                      <tr>
-                                          <td>COP10700016</td>
-                                          <td>Ø16</td>
-                                          <td>1,450 €</td>
-                                          <td>50 %</td>
-                                          <td>0,725 €</td>
-                                          <td></td>
-                                          <td style="text-align:center;font-size:large;"><i class="ti-check text-lg text-forest"></i></td>
-                                          <td><input type="number" id="qtdEnc" class="form-control"></td>
-                                          <td class="text-center">
-                                              <button class="btn btn-sm btn-primary"><i class="ti-plus"></i></button>
-                                              <button class="btn btn-sm btn-warning"><i class="ti-comment"></i></button>
-                                          </td>
-                                      </tr>
+             
+              @php
+                    $quickBuyProducts = session('quickBuyProducts');
+                    $nameProduct = session('productName');
+                @endphp
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="modalProdutos">{{$nameProduct}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+              <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Referência</th>
+                                            <th>Modelo</th>
+                                            <th>PVP unitário</th>
+                                            <th>Desconto</th>
+                                            <th>Preço unitário</th>
+                                            <th>Quantidade mínima</th>
+                                            <th>Stock</th>
+                                            <th>Quantidade a encomendar</th>
+                                            <th class="text-center">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                        @if(!empty($quickBuyProducts))
+                                      
+                                            @foreach ($quickBuyProducts->product as $prod)
 
-                                      <tr>
-                                          <td>COP10700020</td>
-                                          <td>Ø20x3.4</td>
-                                          <td>1,851 €</td>
-                                          <td>50 %</td>
-                                          <td>0,926 €</td>
-                                          <td></td>
-                                          <td style="text-align:center;font-size:large;"><i class="ti-close text-lg text-chili"></i></td>
-                                          <td><input type="number" id="qtdEnc" class="form-control"></td>
-                                          <td class="text-center">
-                                              <button class="btn btn-sm btn-primary"><i class="ti-plus"></i></button>
-                                              <button class="btn btn-sm btn-warning"><i class="ti-comment"></i></button>
-                                          </td>
-                                      </tr>
-                                  
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                                                <tr>
+                                                    <td>{{ $prod->referense }}</td>
+                                                    <td>{{ $prod->model }}</td>
+                                                    <td>{{ $prod->pvp }}</td>
+                                                    <td>{{ $prod->discount }}</td>
+                                                    <td>{{ $prod->price }}</td>
+                                                    <td>{{ $prod->quantity }}</td>
+                                                    <td style="text-align:center;font-size:large;">
+                                                        @if($prod->in_stock == true) 
+                                                            <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
+                                                                <!-- <i class="ti-check text-lg text-forest"></i>  -->
+                                                                <div class="dropdownIcon">
+                                                                    <i class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
+                                                                    <ul class="dropdownIcon-menu">
+                                                                        <li><i class="fa fa-play icon-play"></i></li>
+                                                                        <li style="border-bottom: 1px solid;"><h5>Title</h5></li>
+                                                                        <li>value 1</li>
+                                                                        <li>value 2</li>
+                                                                        <li>value 3</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </a>
+                                                        @else 
+                                                            <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
+                                                                <i class="ti-close text-lg text-chili"></i> 
+                                                            </a>
+                                                        @endif
+
+                                                    </td>
+                                                    <td><input type="number" class="form-control" id="valueEncomendar"></td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-success"><i class="ti-shopping-cart"></i></button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif                  
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Limpar seleção</button>
                   <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
@@ -982,6 +999,41 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Função para fechar todos os dropdowns
+        function closeAllDropdowns() {
+            var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
+            dropdownMenus.forEach(function(dropdownMenu) {
+                dropdownMenu.style.display = "none";
+            });
+        }
+
+        // Função para mostrar ou esconder o dropdown
+        function toggleDropdown(dropdownBtn) {
+            var dropdownMenu = dropdownBtn.nextElementSibling;
+            if (dropdownMenu.style.display === "block") {
+                dropdownMenu.style.display = "none";
+            } else {
+                closeAllDropdowns(); // Fecha todos os dropdowns antes de abrir o novo
+                dropdownMenu.style.display = "block";
+            }
+        }
+
+        // Adiciona evento de clique no documento inteiro
+        document.addEventListener("click", function(event) {
+            // Verifica se o elemento clicado é um botão de dropdown
+            if (event.target.classList.contains('dropdownIcon-toggle')) {
+                var dropdownBtn = event.target;
+                toggleDropdown(dropdownBtn);
+            } else {
+                // Fecha todos os dropdowns se clicar fora deles
+                closeAllDropdowns();
+            }
+        });
+    });
+
+
     const checkbox = document.getElementById('checkbox');
     
     const sidebar = document.getElementById('sidebarProd');
