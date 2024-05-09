@@ -19,7 +19,7 @@
 
 <script>
 
-        document.addEventListener('compraRapida', function() {
+        document.addEventListener('compraRapida', function(e) {
            
             jQuery('#modalProdutos').modal();
           

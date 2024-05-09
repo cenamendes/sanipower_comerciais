@@ -15,7 +15,9 @@ interface EncomendasInterface
 
     public function getSubFamily($idCategory, $idFamily, $idSubFamily): object;
 
-    public function getProdutos($idCategory, $idFamily, $idSubFamily, $idCustomer): object;
+    public function getSubFamilySearch($idCategory, $idFamily, $idSubFamily,$searchProduct): object;
+
+    public function getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer): object;
 
     // public function getProdutosRandom(): object;
 

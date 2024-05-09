@@ -1,4 +1,18 @@
 <div>
+
+    <style>
+        /* Estilo opcional para a tooltip */
+        .tooltip {
+            position: absolute;
+            display: none;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+
       <!--  LOADING -->
       @if($showLoaderPrincipal == true)
             <div id="loader" style="display: none;">
@@ -372,7 +386,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="ti-search text-light"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" placeholder="Pesquise Produto">
+                                                    <input type="text" class="form-control" placeholder="Pesquise Produto" wire:model="searchProduct" @if(session('searchProduct') !== null) value="{{session('searchProduct')}}" @endif>
                                                 </div>
                                             </div>
                                         </div>
@@ -381,15 +395,31 @@
                                     </div>
                                 </div>
                                 <div class="row">
+
+                                    <div wire:loading wire:target="searchProduct">
+                                        <div id="filtroLoader" style="display: block;">
+                                            <div class="filtroLoader" role="status">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div wire:loading wire:target="adicionarProduto">
+                                        <div id="filtroLoader" style="display: block;">
+                                            <div class="filtroLoader" role="status">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     @php
                                         $searchSubFamily = session('searchSubFamily')
                                     @endphp
+                                   
                                     @if($searchSubFamily)
                                         @foreach ($searchSubFamily->product as $prodt)
                                             <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
                                                 <div class="card card-decoration card-outline-primary border border-2" >
-                                                <!-- <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto"> -->
-                                                <a href="javascript:void(0)" wire:click="openDetailProduto('1')" style="pointer-events: auto">
+                                                 {{-- <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto"> --> --}}
+                                                <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto">
                                                     <div class="mb-1" >
                                                         <img src="https://storage.sanipower.pt/storage/produtos/{{$prodt->family_number}}/{{$prodt->family_number}}-{{$prodt->subfamily_number}}-{{$prodt->product_number}}.jpg" class="card-img-top" alt="...">
                                                         <div class="body-decoration">
@@ -400,7 +430,7 @@
                                                 </a>
                                                 
                                                     <div class="card-body container-buttons" style="z-index:10;">
-                                                        <button class="btn btn-sm btn-primary" wire:click="adicionarProduto(1)"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
+                                                        <button class="btn btn-sm btn-primary" wire:click="adicionarProduto({{json_encode($prodt->category_number)}},{{json_encode($prodt->family_number)}},{{json_encode($prodt->subfamily_number)}},{{json_encode($prodt->product_number)}},{{json_encode($detalhesCliente->customers[0]->no)}},{{json_encode($prodt->product_name)}})"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                                     </div>
                                                 </div>
                                             
@@ -724,8 +754,12 @@
      aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
+                @php
+                    $quickBuyProducts = session('quickBuyProducts');
+                    $nameProduct = session('productName');
+                @endphp
                 <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="modalProdutos"><img src="https://digital.sanipower.pt/assets/marcas/vissen.jpg" width=50> (NOME DO PRODUTO PHC)</h5>
+                    <h5 class="modal-title text-primary" id="modalProdutos">{{$nameProduct}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -749,35 +783,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>COP10700016</td>
-                                            <td>Ø16</td>
-                                            <td>1,450 €</td>
-                                            <td>50 %</td>
-                                            <td>0,725 €</td>
-                                            <td></td>
-                                            <td style="text-align:center;font-size:large;"><i class="ti-check text-lg text-forest"></i></td>
-                                            <td><input type="number" id="qtdEnc" class="form-control"></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-primary"><i class="ti-plus"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="ti-comment"></i></button>
-                                            </td>
-                                        </tr>
+                                       
+                                        @if(!empty($quickBuyProducts))
+                                      
+                                            @foreach ($quickBuyProducts->product as $prod)
+                                                <tr>
+                                                    <td>{{ $prod->referense }}</td>
+                                                    <td>{{ $prod->model }}</td>
+                                                    <td>{{ $prod->pvp }}</td>
+                                                    <td>{{ $prod->discount }}</td>
+                                                    <td>{{ $prod->price }}</td>
+                                                    <td>{{ $prod->quantity }}</td>
+                                                    <td style="text-align:center;font-size:large;">
+                                                        @if($prod->in_stock == true) 
+                                                            <a href="javascript:;" role="button" class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
+                                                                <i class="ti-check text-lg text-forest"></i> 
+                                                            </a>
+                                                        @else 
+                                                            <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
+                                                                <i class="ti-close text-lg text-chili"></i> 
+                                                            </a>
+                                                        @endif
 
-                                        <tr>
-                                            <td>COP10700020</td>
-                                            <td>Ø20x3.4</td>
-                                            <td>1,851 €</td>
-                                            <td>50 %</td>
-                                            <td>0,926 €</td>
-                                            <td></td>
-                                            <td style="text-align:center;font-size:large;"><i class="ti-close text-lg text-chili"></i></td>
-                                            <td><input type="number" id="qtdEnc" class="form-control"></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-primary"><i class="ti-plus"></i></button>
-                                                <button class="btn btn-sm btn-warning"><i class="ti-comment"></i></button>
-                                            </td>
-                                        </tr>
+                                                    </td>
+                                                    <td><input type="number" class="form-control" id="valueEncomendar"></td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-danger"><i class="ti-shopping-cart"></i></button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif                  
                                     
                                     </tbody>
                                 </table>
@@ -824,33 +859,23 @@
                                        </tr>
                                    </thead>
                                    <tbody>
-                                       <tr>
-                                           <td>COP10700016</td>
-                                           <td>Ø16</td>
-                                           <td>1,450 €</td>
-                                           <td>50 %</td>
-                                           <td>0,725 €</td>
-                                           <td></td>
-                                           <td>22</td>
-                                           <td class="text-center">
-                                               <button class="btn btn-sm btn-danger"><i class="ti-trash"></i></button>
-                                           </td>
-                                       </tr>
-
-                                       <tr>
-                                        <td>COP10700020</td>
-                                        <td>Ø20x3.4</td>
-                                        <td>1,851 €</td>
-                                        <td>50 %</td>
-                                        <td>0,926 €</td>
-                                        <td></td>
-                                        <td>22</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-danger"><i class="ti-trash"></i></button>
-                                        </td>
-                                          
-                                       </tr>
-                                   
+            
+                                       @if(!empty($quickBuyProducts))
+                                        @foreach ($quickBuyProducts->product as $prod)
+                                            <tr>
+                                                <td>{{ $prod->referense }}</td>
+                                                <td>{{ $prod->model }}</td>
+                                                <td>{{ $prod->quantity }}</td>
+                                                <td>{{ $prod->price }}</td>
+                                                <td>{{ $prod->discount }}</td>
+                                                <td></td>
+                                                <td>{{ $prod->pvp }}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-danger"><i class="ti-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                       @endif                                   
                                    </tbody>
                                </table>
                            </div>
@@ -1062,6 +1087,10 @@
     const scrollableDivs = document.querySelectorAll('.scrollableDiv');
     scrollableDivs.forEach(function(div) {
         new ScrollableDiv(div);
+    });
+
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
 </script>

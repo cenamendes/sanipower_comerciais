@@ -64,12 +64,50 @@ class EncomendasRepository implements EncomendasInterface
     
         return $response_decoded; 
     }
-    public function getProdutos($idCategory, $idFamily, $idSubFamily, $idCustomer): object
+
+
+    public function getSubFamilySearch($idCategory, $idFamily, $idSubFamily,$searchProduct): object
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&customer_number='.$idCustomer.'',
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        foreach($response_decoded->product as $i => $prod)
+        {
+            if (stripos($prod->product_name, $searchProduct) === false) {
+                unset($response_decoded->product[$i]);
+            }
+        }
+    
+        return $response_decoded; 
+    }
+
+
+
+    public function getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer): object
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&product_number='.$productNumber.'&customer_number='.$idCustomer.'&img=false',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
