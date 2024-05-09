@@ -65,6 +65,10 @@
             padding: 8px 0;
         }
 
+        .dropdownIcon-menu li{
+            font-size: 16px;
+        }
+        
         .dropdownIcon-item:hover {
             background-color: #ddd;
         }
