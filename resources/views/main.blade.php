@@ -31,6 +31,43 @@
         #tab5 #DataTables_Table_0_wrapper .row:nth-of-type(2){
             height: 650px;
         }
+        .dropdownIcon {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdownIcon-menu {
+            left: -186px;
+            top: -7px;
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color: #2b2e2f;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 2px;
+            margin: 2px 0 0;
+            border-radius: 5px;
+            list-style: none;
+        }
+        .dropdownIcon-menu .icon-play{
+            position: absolute;
+            top: 0px;
+            right: -26px;
+            font-size: 36px;
+            color: #2b2e2f;
+        }
+
+        .dropdownIcon-item {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+
+        .dropdownIcon-item:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 

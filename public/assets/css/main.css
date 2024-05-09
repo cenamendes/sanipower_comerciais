@@ -227,7 +227,7 @@ body::-webkit-scrollbar {
 #filtroLoader {
     display: flex;
     JUSTIFY-CONTENT: CENTER;
-    position: absolute;
+    position: fixed;
     background: #595656bd;
     transition: opacity 0.75s, visibility 1.75s;
     z-index: 9999;
