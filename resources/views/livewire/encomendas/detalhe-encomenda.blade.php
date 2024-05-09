@@ -39,7 +39,7 @@
                 </li>
             </ul>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="overflow-y:auto;max-height:60vh;">
             <div class="tab-content">
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
                     <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>
@@ -398,6 +398,13 @@
                                         </div>
                                     </div>
 
+                                    <div wire:loading wire:target="openDetailProduto">
+                                        <div id="filtroLoader" style="display: block;">
+                                            <div class="filtroLoader" role="status">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     @php
                                         $searchSubFamily = session('searchSubFamily')
                                     @endphp
@@ -406,14 +413,13 @@
                                         @foreach ($searchSubFamily->product as $prodt)
                                             <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
                                                 <div class="card card-decoration card-outline-primary border border-2" >
-                                                 {{-- <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto"> --> --}}
-                                                <a href="javascript:void(0)" wire:click="openDetailProduto('{{ $prodt->category_number }}','{{ $prodt->family_number }}','{{ $prodt->subfamily_number }}','{{ isset($detalhesCliente->customers[0]->no) ? $detalhesCliente->customers[0]->no : '' }}')" style="pointer-events: auto">
+                                                <a href="javascript:void(0)" wire:click="openDetailProduto({{json_encode($prodt->category_number)}},{{json_encode($prodt->family_number)}},{{json_encode($prodt->subfamily_number)}},{{json_encode($prodt->product_number)}},{{json_encode($detalhesCliente->customers[0]->no)}},{{json_encode($prodt->product_name)}})" style="pointer-events: auto">
                                                     <div class="mb-1" >
                                                         <img src="https://storage.sanipower.pt/storage/produtos/{{$prodt->family_number}}/{{$prodt->family_number}}-{{$prodt->subfamily_number}}-{{$prodt->product_number}}.jpg" class="card-img-top" alt="...">
                                                         <div class="body-decoration">
                                                             <h5 class="title-description">{{$prodt->product_name}}</h5>
                                                         </div>
-                                                        {{-- <p>{{$prodt->category_number}},{{$prodt->family_number}},{{$prodt->subfamily_number}},{{$detalhesCliente->customers[0]->no}}, {{$prodt->product_number}}</p> --}}
+                                    
                                                     </div>
                                                 </a>
                                                 
@@ -437,22 +443,29 @@
                             <div class="row mb-2 border-bottom">
                                 <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
                             </div>
+
+                            @php
+                                $detailProduto = session('detailProduto');
+                                $produtoNameDetail = session('productNameDetail');
+                                $family = session('family');
+                                $subFamily = session('subFamily');
+                                $productNumber = session('productNumber');
+
+                            @endphp
                             
                             <div class="row container-detalhes-produto">
 
                                 <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px;">
-                                    <img src="https://storage.sanipower.pt/storage/produtos/3-C/3-C-1-1.jpg" width=100%>
+                                    <img src="https://storage.sanipower.pt/storage/produtos/{{$family}}/{{$family}}-{{$subFamily}}-{{$productNumber}}.jpg" width=100%>
                                 </div>
                                 <div class="col-12 col-lg-9">
 
                                     <div class="row">
                                         <div class="col-xl-12 mb-2">
                                             <div class="row">
-                                                <div class="col-xs-3">
-                                                    <img src="https://digital.sanipower.pt/assets/marcas/vissen.jpg" width=50>
-                                                </div>
+                                               
                                                 <div class="col-xs-9 d-flex align-middle pl-2" style="align-items:center;">
-                                                    <h3>VISSEN (NOME DO PRODUTO)</h3>
+                                                    <h3>{{ $produtoNameDetail }}</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -473,16 +486,28 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @if(!empty($detailProduto))
+                                                    @foreach ($detailProduto->product as $prod)
+                                                      <tr>
+                                                        <td>{{ $prod->referense }}</td>
+                                                        <td>{{ $prod->model }}</td>
+                                                        <td>{{ $prod->pvp }}</td>
+                                                        <td>{{ $prod->discount }}</td>
+                                                        <td>{{ $prod->price }}</td>
+                                                        <td>{{ $prod->quantity }}</td>
+                                                        <td style="text-align:center;font-size:large;">
+                                                            @if($prod->in_stock == true) 
+                                                                <a href="javascript:;" role="button" class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
+                                                                    <i class="ti-check text-lg text-forest"></i> 
+                                                                </a>
+                                                            @else 
+                                                                <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
+                                                                    <i class="ti-close text-lg text-chili"></i> 
+                                                                </a>
+                                                            @endif
 
-                                                    <tr>
-                                                        <td>COP10700016</td>
-                                                        <td>Ø16</td>
-                                                        <td>1,450 €</td>
-                                                        <td>50 %</td>
-                                                        <td>0,725 €</td>
-                                                        <td></td>
-                                                        <td style="text-align:center;font-size:large;"><i class="ti-check text-lg text-forest"></i></td>
-                                                        <td><input type="number" id="qtdEnc" class="form-control"></td>
+                                                        </td>
+                                                        <td><input type="number" class="form-control" id="valueEncomendar"></td>
                                                         <td class="text-center">
                                                             <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
                                                                 <i class="ti-settings text-light"></i>
@@ -494,29 +519,9 @@
                                                                 <button class="btn btn-sm dropdown-item" >Adicionar Encomenda</button>
                                                             </div>
                                                         </td>
-                                                    </tr>
-            
-                                                    <tr>
-                                                        <td>COP10700020</td>
-                                                        <td>Ø20x3.4</td>
-                                                        <td>1,851 €</td>
-                                                        <td>50 %</td>
-                                                        <td>0,926 €</td>
-                                                        <td></td>
-                                                        <td style="text-align:center;font-size:large;"><i class="ti-close text-lg text-chili"></i></td>
-                                                        <td><input type="number" id="qtdEnc" class="form-control"></td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
-                                                                <i class="ti-settings text-light"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <button class="btn btn-sm dropdown-item">Consultar Caixa</button>
-                                                                <button class="btn btn-sm dropdown-item">Adicionar Visita</button>
-                                                                <button class="btn btn-sm dropdown-item">Justificar Quantidade</button>
-                                                                <button class="btn btn-sm dropdown-item" >Adicionar Encomenda</button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                      </tr>
+                                                      @endforeach
+                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>   
@@ -752,7 +757,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -807,7 +812,7 @@
                                                     </td>
                                                     <td><input type="number" class="form-control" id="valueEncomendar"></td>
                                                     <td class="text-center">
-                                                        <button class="btn btn-sm btn-danger"><i class="ti-shopping-cart"></i></button>
+                                                        <button class="btn btn-sm btn-success"><i class="ti-shopping-cart"></i></button>
                                                     </td>
                                                 </tr>
                                             @endforeach
