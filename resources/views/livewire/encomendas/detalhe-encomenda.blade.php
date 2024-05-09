@@ -39,7 +39,7 @@
                 </li>
             </ul>
         </div>
-        <div class="card-body" style="overflow-y:auto;max-height:60vh;">
+        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:60vh;">
             <div class="tab-content">
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
                     <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>

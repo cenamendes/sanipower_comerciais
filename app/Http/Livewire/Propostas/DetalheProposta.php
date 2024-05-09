@@ -155,6 +155,10 @@ class DetalheProposta extends Component
             $this->tabDetalhesPropostas = "";
             $this->tabDetalhesCampanhas = "";
 
+            $this->searchProduct = "";
+            //unset($_SESSION['searchProduct']);
+            session()->forget('searchProduct');
+
             $this->filter = true;
             $this->familyInfo = true;
             $this->idFamilyInfo = $idFamily;
@@ -163,6 +167,8 @@ class DetalheProposta extends Component
             $this->showLoaderPrincipal = false;
 
             $this->specificProduct = 0;
+            
+            $this->iteration++;
 
             $this->dispatchBrowserEvent('refreshComponent',["id" => $idCategory]);
     }
