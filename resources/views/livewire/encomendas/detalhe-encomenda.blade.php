@@ -5,7 +5,7 @@
       @if($showLoaderPrincipal == true)
             <div id="loader" style="display: none;">
                 <div class="loader" role="status">
-                
+
                 </div>
             </div>
         @endif
@@ -39,12 +39,12 @@
                 </li>
             </ul>
         </div>
-        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:60vh;">
+        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;">
             <div class="tab-content">
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
                     <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>
                     <p class="card-text">
-                       
+
                         <!--  INICIO DOS DETALHES   -->
 
                         <div class="row form-group">
@@ -156,9 +156,9 @@
                                 </div>
 
                             </div>
-                     
+
                             <div class="col-xl-4">
-                                
+
                                 <div class="form-group">
                                     <label>Nº Propostas em aberto</label>
                                     <div class="input-group">
@@ -240,7 +240,7 @@
 
                             </div>
                         </div>
-                        
+
                         <!--  FIM DETALHES   -->
                     </p>
                 </div>
@@ -248,9 +248,9 @@
 
                         @if($specificProduct == 0)
                          <div class="row tab-encomenda-produto">
-                            
+
                             <div class="col" wire:key="select-field-model-version-{{ $iteration }}" >
-                                
+
                                 @php
                                     $contaCat = 0;
                                 @endphp
@@ -272,14 +272,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                       
+
                                         <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                         <h2>{{ $cat->name }}</h2>
-                                    
+
                                         <div class="row">
                                             @foreach ($cat->family as $family )
-                                                
-                                            
+
+
                                                 <div class="col-4">
                                                     <a href="javascript:void(0);" wire:click="searchCategory({{$contaCat}},{{json_encode($family->id)}})">
                                                         <h5 class="family_title">{{$family->name}}</h5>
@@ -294,7 +294,7 @@
                                                                     <a href="javascript:void(0)" wire:click="resetFilter({{$contaCat}})" class="mb-3 ml-4"><i class="ti-angle-left"></i> Atrás</a>
                                                                 </div>
                                                             <!-- </div> -->
-                                                            
+
                                                             <div class="row">
                                                                 @foreach ($family->subfamily as $subfamily)
                                                                 <div class="col-4">
@@ -335,9 +335,9 @@
                                             </div>
                                         @endif
                                     @endforeach
-                                    
+
                                 </div>
-                                
+
                                 <div class="row justify-content-between">
                                     <div class="col">
                                         <div class="input-group" id="checkboxSidbar">
@@ -372,13 +372,13 @@
                                             <div class="col-6">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="ti-search text-light"></i></span>
+                                                        <span class="input-group-text search"><i class="ti-search text-light"></i></span>
                                                     </div>
                                                     <input type="text" class="form-control" placeholder="Pesquise Produto" wire:model="searchProduct" @if(session('searchProduct') !== null) value="{{session('searchProduct')}}" @endif>
                                                 </div>
                                             </div>
                                         </div>
-                                                                              
+
                                         <br>
                                     </div>
                                 </div>
@@ -408,7 +408,7 @@
                                     @php
                                         $searchSubFamily = session('searchSubFamily')
                                     @endphp
-                                   
+
                                     @if($searchSubFamily)
                                         @foreach ($searchSubFamily->product as $prodt)
                                             <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
@@ -419,25 +419,25 @@
                                                         <div class="body-decoration">
                                                             <h5 class="title-description">{{$prodt->product_name}}</h5>
                                                         </div>
-                                    
+
                                                     </div>
                                                 </a>
-                                                
+
                                                     <div class="card-body container-buttons" style="z-index:10;">
                                                         <button class="btn btn-sm btn-primary" wire:click="adicionarProduto({{json_encode($prodt->category_number)}},{{json_encode($prodt->family_number)}},{{json_encode($prodt->subfamily_number)}},{{json_encode($prodt->product_number)}},{{json_encode($detalhesCliente->customers[0]->no)}},{{json_encode($prodt->product_name)}})"><i class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                                     </div>
                                                 </div>
-                                            
+
                                             </div>
                                         @endforeach
-                                       
+
                                     @else
-                                    
+
                                     @endif
                                 </div>
                                 </div>
                         </div>
-                    
+
                         @else
                         <div class="tab-encomenda-produto">
                             <div class="row mb-2 border-bottom">
@@ -452,7 +452,7 @@
                                 $productNumber = session('productNumber');
 
                             @endphp
-                            
+
                             <div class="row container-detalhes-produto">
 
                                 <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px;">
@@ -463,7 +463,7 @@
                                     <div class="row">
                                         <div class="col-xl-12 mb-2">
                                             <div class="row">
-                                               
+
                                                 <div class="col-xs-9 d-flex align-middle pl-2" style="align-items:center;">
                                                     <h3>{{ $produtoNameDetail }}</h3>
                                                 </div>
@@ -496,7 +496,7 @@
                                                         <td>{{ $prod->price }}</td>
                                                         <td>{{ $prod->quantity }}</td>
                                                         <td style="text-align:center;font-size:large;">
-                                                            @if($prod->in_stock == true) 
+                                                            @if($prod->in_stock == true)
                                                                 <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
                                                                     <!-- <i class="ti-check text-lg text-forest"></i>  -->
                                                                     <div class="dropdownIcon">
@@ -506,26 +506,26 @@
                                                                             <li style="border-bottom: 1px solid;"><h5>Stocks em loja</h5></li>
                                                                             @foreach($prod->stocks as $stock)
                                                                                 <li>
-                                                                                    
+
                                                                                     {{$stock->warehouse}}
-                                                                                
+
                                                                                     @if($stock->stock == true)
                                                                                         <i class="ti-check text-lg text-forest"></i>
                                                                                     @else
-                                                                                        <i class="ti-close text-lg text-chili"></i> 
+                                                                                        <i class="ti-close text-lg text-chili"></i>
                                                                                     @endif
-                                                                                    
+
                                                                                 </li>
                                                                             @endforeach
                                                                         </ul>
                                                                     </div>
                                                                 </a>
-                                                            @else 
+                                                            @else
                                                                 <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
-                                                                    <i class="ti-close text-lg text-chili"></i> 
+                                                                    <i class="ti-close text-lg text-chili"></i>
                                                                 </a>
                                                             @endif
-    
+
                                                         </td>
                                                         <td><input type="number" class="form-control" id="valueEncomendar"></td>
                                                         <td class="text-center">
@@ -544,7 +544,7 @@
                                                     @endif
                                                 </tbody>
                                             </table>
-                                        </div>   
+                                        </div>
                                         <div class="container-buttons-produtos">
                                             <div>
                                                 <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
@@ -571,10 +571,10 @@
                 </div>
 
                 <div class="tab-pane fade {{$tabDetalhesEncomendas}}" id="tab6">
-    
+
                     <p class="card-text">
-                        
-                        
+
+
                         <div class="row form-group">
                             <div class="col-xl-4 col-xs-12">
 
@@ -589,7 +589,7 @@
                                 </div>
 
                             </div>
-                           
+
                             <div class="col-xl-4 col-xs-12">
 
                                 <div class="form-group">
@@ -616,7 +616,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row form-group">
                             <div class="col-xl-12 col-xs-12">
 
@@ -628,15 +628,15 @@
                             </div>
                         </div>
 
-                        
+
 
                     </p>
                 </div>
                 <div class="tab-pane fade" id="tab7">
-    
+
                     <p class="card-text">
-                        
-                        
+
+
                         <div class="row form-group">
                             <div class="col-xl-4 col-xs-12">
 
@@ -651,7 +651,7 @@
                                 </div>
 
                             </div>
-                           
+
                             <div class="col-xl-4 col-xs-12">
 
                                 <div class="form-group">
@@ -678,7 +678,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card mb-3">
@@ -690,10 +690,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-4 col-xs-12 text-right">
-                                        
+
                                             </div>
-                                        </div>                  
-                                    
+                                        </div>
+
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive" style="overflow-x:inherit!important;">
@@ -743,11 +743,11 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>  
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </p>
                 </div>
@@ -796,11 +796,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
+
                                         @if(!empty($quickBuyProducts))
-                                      
+
                                             @foreach ($quickBuyProducts->product as $prod)
-                                  
+
                                                 <tr>
                                                     <td>{{ $prod->referense }}</td>
                                                     <td>{{ $prod->model }}</td>
@@ -809,7 +809,7 @@
                                                     <td>{{ $prod->price }}</td>
                                                     <td>{{ $prod->quantity }}</td>
                                                     <td style="text-align:center;font-size:large;">
-                                                        @if($prod->in_stock == true) 
+                                                        @if($prod->in_stock == true)
                                                             <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
                                                                 <!-- <i class="ti-check text-lg text-forest"></i>  -->
                                                                 <div class="dropdownIcon">
@@ -819,23 +819,23 @@
                                                                         <li style="border-bottom: 1px solid;"><h5>Stocks em loja</h5></li>
                                                                         @foreach($prod->stocks as $stock)
                                                                             <li>
-                                                                                
+
                                                                                 {{$stock->warehouse}}
-                                                                            
+
                                                                                 @if($stock->stock == true)
                                                                                     <i class="ti-check text-lg text-forest"></i>
                                                                                 @else
-                                                                                    <i class="ti-close text-lg text-chili"></i> 
+                                                                                    <i class="ti-close text-lg text-chili"></i>
                                                                                 @endif
-                                                                                
+
                                                                             </li>
                                                                         @endforeach
                                                                     </ul>
                                                                 </div>
                                                             </a>
-                                                        @else 
+                                                        @else
                                                             <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
-                                                                <i class="ti-close text-lg text-chili"></i> 
+                                                                <i class="ti-close text-lg text-chili"></i>
                                                             </a>
                                                         @endif
 
@@ -847,8 +847,8 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        @endif                  
-                                    
+                                        @endif
+
                                     </tbody>
                                 </table>
                             </div>
@@ -894,7 +894,7 @@
                                        </tr>
                                    </thead>
                                    <tbody>
-            
+
                                        @if(!empty($quickBuyProducts))
                                         @foreach ($quickBuyProducts->product as $prod)
                                             <tr>
@@ -910,7 +910,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                       @endif                                   
+                                       @endif
                                    </tbody>
                                </table>
                            </div>
@@ -926,7 +926,7 @@
    </div>
 
    <!----->
-    
+
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -965,15 +965,15 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-    
+
     // vinicius
     const checkbox = document.getElementById('checkbox');
-    
+
     const sidebar = document.getElementById('sidebarProd');
 
 
     checkbox.addEventListener('change', function() {
- 
+
         const sidebarHasOpenClass = sidebar.classList.contains('open');
 
         if (this.checked && !sidebarHasOpenClass) {
@@ -981,7 +981,7 @@ document.addEventListener("DOMContentLoaded", function() {
             checkbox.checked = true;
         } else if (!this.checked && sidebarHasOpenClass) {
             sidebar.classList.remove('open');
-            
+
         }
     });
 
@@ -989,13 +989,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const sidebar = document.getElementById('sidebarProd');
             const subbars = document.querySelectorAll('.subsidebarProd');
             const targetElement = event.target;
-          
+
             document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                 item.style.display = 'none';
             });
 
             checkbox.checked = true;
-            sidebar.classList.remove('open');  
+            sidebar.classList.remove('open');
             inputGroups.forEach(function(group) {
                 group.style.backgroundColor = 'transparent';
             });
@@ -1015,7 +1015,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     item.style.display = 'none';
                 });
             }
-           
+
         });
     });
 
@@ -1024,16 +1024,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
           inputGroups.forEach(function(inputGroup) {
                 inputGroup.addEventListener('click', function() {
-                    
+
                     const id = this.id;
                     const subItemId = 'subItemInput' + id.slice(-1);
                     const InputId = 'input' + id.slice(-1);
-   
+
 
                     const subItem = document.getElementById(subItemId);
-                    const Input = document.getElementById(InputId);              
-   
-                   
+                    const Input = document.getElementById(InputId);
+
+
                     inputGroups.forEach(function(group) {
                         if (group !== inputGroup) {
                             group.style.backgroundColor = 'transparent';
@@ -1042,11 +1042,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     Input.style.backgroundColor = 'rgba(36, 36, 36, 0.623)';
 
                     const subbars = document.querySelectorAll('.subsidebarProd');
-                    
+
                     if (subItem) {
-                        
+
                         const currentDisplayStyle = window.getComputedStyle(subItem).display;
-                        
+
                         if (currentDisplayStyle === 'block') {
                             subItem.style.display = 'none';
                             Input.style.backgroundColor = 'transparent';
@@ -1065,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             // } else {
                             subItem.style.display = 'block';
                             // }
-                                
+
                         }
                         currentSubItem = subItem;
                     }
@@ -1078,22 +1078,22 @@ document.addEventListener("DOMContentLoaded", function() {
             const targetElement = event.target;
             if(sidebar){
             if (!sidebar.contains(targetElement)) {
-    
+
                 let clickedOutsideSubbars = true;
                 subbars.forEach(function(subbar) {
                     if (subbar.contains(targetElement)) {
-                
+
                         clickedOutsideSubbars = false;
                     }
                 });
-    
+
                 if (clickedOutsideSubbars) {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
                     });
 
                     checkbox.checked = true;
-                    sidebar.classList.remove('open');  
+                    sidebar.classList.remove('open');
                     inputGroups.forEach(function(group) {
                         group.style.backgroundColor = 'transparent';
                     });
@@ -1101,8 +1101,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         checkbox.checked = false;
                     }
-                
-            
+
+
                 }
             }else{
             }
@@ -1130,23 +1130,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 this.isScrolling = false;
                 this.startX = null;
                 this.startScrollLeft = null;
- 
+
                 this.element.addEventListener('mousedown', this.handleMouseDown.bind(this));
                 document.addEventListener('mouseup', this.handleMouseUp.bind(this));
                 document.addEventListener('mousemove', this.handleMouseMove.bind(this));
             }
- 
+
         handleMouseDown(event) {
             this.isScrolling = true;
             this.startX = event.clientX;
             this.startScrollLeft = this.element.scrollLeft;
             event.preventDefault();
         }
- 
+
         handleMouseUp() {
             this.isScrolling = false;
         }
- 
+
         handleMouseMove(event) {
             if (this.isScrolling) {
                 const deltaX = event.clientX - this.startX;
@@ -1154,7 +1154,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     }
- 
+
     const scrollableDivs = document.querySelectorAll('.scrollableDiv');
     scrollableDivs.forEach(function(div) {
         new ScrollableDiv(div);

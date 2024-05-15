@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -15,14 +14,14 @@
     @include('layouts.styles')
 </head>
 
-<body class="theme-dark">
+<body class="theme-light">
 
     <div class="login-wrapper">
         <div class="d-flex justify-content-center align-items-center h-100">
-            
+
             <div class="card" id="forget-card">
                 <div class="card-body text-center">
-                    <img src="{{asset('logo/sanipower_Azul.svg')}}" width="200">
+                    <img src="{{asset('logo/sanipower.png')}}" width="200">
                  </div>
                 <div class="card-body">
                     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -40,7 +39,7 @@
                             </div>
                             <x-text-input id="email" class="form-control" type="email" name="email" placeholder="email" :value="old('email')" required autofocus />
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                
+
                         </div>
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-carolina">Recuperar password</button>
@@ -52,7 +51,7 @@
 
         </div>
     </div>
-    
+
     <script src="{{asset('assets/scripts/pages/pg_login.js')}}" type="text/javascript"></script>
 </body>
 
