@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
 .logo-sanipower-navbar{
     width: 200px;
+    padding-left: 10px;
 }
 @media (max-width: 768px) {
     .logo-sanipower-navbar{
@@ -44,9 +45,9 @@ body::-webkit-scrollbar {
 }
 .button-img {
     position: relative;
- 
+
 }
- 
+
 .containe-img{
     position: relative;
     width: 120px;
@@ -60,7 +61,7 @@ body::-webkit-scrollbar {
     align-items: center;
     flex-direction: column;
 }
- 
+
 .containe-form{
     position: fixed;
     top: 50%;
@@ -123,7 +124,7 @@ body::-webkit-scrollbar {
     font-size: 30px;
     top: -55px;
     z-index: 1;
- 
+
 }
 .img-temporary-products{
     position: relative;
@@ -195,12 +196,12 @@ body::-webkit-scrollbar {
     transition: opacity 0.75s, visibility 0.75s;
     z-index: 9999;
   }
-  
+
   .loader--hidden {
     opacity: 0;
     visibility: hidden;
   }
-  
+
   .loader::after {
     content: "";
     width: 75px;
@@ -210,7 +211,7 @@ body::-webkit-scrollbar {
     border-radius: 50%;
     animation: loading 0.75s ease infinite;
   }
-  
+
   @keyframes loading {
     from {
       transform: rotate(0turn);
@@ -248,12 +249,12 @@ body::-webkit-scrollbar {
     z-index: 9999;
     justify-content: center;
   }
-  
+
   .filtroLoader--hidden {
     opacity: 0;
     visibility: hidden;
   }
-  
+
   .filtroLoader::after {
     content: "";
     width: 75px;
@@ -263,7 +264,7 @@ body::-webkit-scrollbar {
     border-radius: 50%;
     animation: loading 0.75s ease infinite;
   }
-  
+
   @keyframes loading {
     from {
       transform: rotate(0turn);
@@ -288,7 +289,7 @@ body::-webkit-scrollbar {
     }
 }
 /* Encomendas */
- 
+
 .tab-encomenda-produto a{
     background-color: #00000000;
 }
@@ -343,7 +344,7 @@ body::-webkit-scrollbar {
     line-height: 1.4;
     font-weight: 700;
   }
- 
+
 
 .container-buttons-produtos{
     display: flex;
@@ -400,8 +401,8 @@ body::-webkit-scrollbar {
 
 .bars {
   width: 100%;
-  height: 3px;
-  background-color: rgba(18 17 17);
+  height: 2.5px;
+  background-color: rgb(35 43 88);
   border-radius: 0;
   transition-duration: .3s;
 }
@@ -428,7 +429,7 @@ body::-webkit-scrollbar {
   transform: rotate(-90deg);
   gap: 11px;
   width: 25px;
-  
+
 } */
 /* #checkbox:checked + .toggle #bar3 {
   transform: rotate(90deg);
@@ -451,11 +452,11 @@ body::-webkit-scrollbar {
 .sidebarProd::-webkit-scrollbar {
     width: 0.5em;
 }
- 
+
 .sidebarProd::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
- 
+
 .sidebarProd::-webkit-scrollbar-thumb {
   background-color: rgb(121, 121, 121);
   outline: 1px solid slategrey;
@@ -474,7 +475,7 @@ body::-webkit-scrollbar {
 
 .sidebarProd #checkboxSidbar p{
     margin: 0;
-    color: #e1e4e4;
+    color:#232b58;
 }
 .sidebarProd #checkboxSidbar{
     display: flex;
@@ -488,20 +489,27 @@ body::-webkit-scrollbar {
     background-color: #106481;
 }
 .sidebarProd #checkboxSidbar label{
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 100;
-    color: #ebf3f1;
+    color: #232b58;
+    cursor: pointer;
 }
 .sidebarProd #checkboxSidbar label,#checkboxSidbar .input-group p{
     margin: 0;
+    display: flex;
+    align-items: baseline;
 }
 .sidebarProd .input-group{
     padding: 20px 20px 0 20px;
-    border-bottom: 0.05px solid rgb(73, 80, 87);
+    border-bottom: 0.05px solid rgb(158, 209, 251)!important;
     font-family: "Comfortaa", sans-serif;
     font-optical-sizing: auto;
     font-weight: weight;
     font-style: normal;
+    background: #ffffff00 !important;
+}
+div#input.input-group.d-flex.input-group-config.justify-content-between:focus{
+    background-color: rgb(158, 209, 251)!important;
 }
 .buttonGoback{
     display: none;
@@ -511,7 +519,7 @@ body::-webkit-scrollbar {
     padding-right: 10px;
 }
 .sidebarProd .input-group:hover{
-    background-color:rgba(36, 36, 36, 0.623);
+    background-color:rgb(158, 209, 251)!important;
     cursor: pointer;
 }
 
@@ -535,11 +543,11 @@ body::-webkit-scrollbar {
 .subsidebarProd::-webkit-scrollbar {
     width: 0.5em;
 }
- 
+
 .subsidebarProd::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
- 
+
 .subsidebarProd::-webkit-scrollbar-thumb {
   background-color: rgb(121, 121, 121);
   outline: 1px solid slategrey;
@@ -619,7 +627,7 @@ body::-webkit-scrollbar {
     }
     .family_title{
         font-size: 13px;
-        
+
     }
 }
 
@@ -637,17 +645,17 @@ body::-webkit-scrollbar {
 .carousel-family::-webkit-scrollbar {
     height: 0.3em;
 }
- 
+
 .carousel-family::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
- 
+
 .carousel-family::-webkit-scrollbar-thumb {
   background-color: rgb(99, 99, 99);
   outline: 1px solid rgba(112, 128, 144, 0.397);
 }
 .carouselItem{
-    margin: 0 20px;    
+    margin: 0 20px;
     display: flex;
     text-align: center;
     align-items: center;
@@ -703,4 +711,28 @@ body::-webkit-scrollbar {
 }
 
 
+span.input-group-text.search{
+    background-color: #1791ba!important;
+}
+
+.btn.btn-sm.btn-outline-secondary{
+    background-color: #1791ba!important;
+    color: #ffffff!important;
+}
+
+.btn.btn-sm.btn-outline-secondary:hover{
+    background-color: #232b58!important;
+}
+
+.btn-primary:hover {
+    color: #f8f9fa;
+    background-color: #232b58!important;
+    border-color: #232b58!important;
+}
+
+.row.container-detalhes-produto div.col-4.col-md-3 img{
+    box-shadow: 0px 0px 5px 2px rgba(141, 141, 141, 0.77)!important;
+    border-radius: 4px;
+    display: block;
+}
 

@@ -14,13 +14,13 @@
     @include('layouts.styles')
 </head>
 
-<body class="theme-dark">
+<body class="theme-light">
 
     <div class="login-wrapper">
         <div class="d-flex justify-content-center align-items-center h-100">
             <div class="card" id="login-card">
                 <div class="card-body text-center">
-                   <img src="{{asset('logo/sanipower_Azul.svg')}}" width="200">
+                   <img src="{{asset('logo/sanipower.png')}}" width="200">
                 </div>
                 <div class="card-body">
                     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -66,7 +66,7 @@
                         </div>
                     </form>
                 </div>
-        
+
                 <div class="card-footer text-center">
                     <p><small>Copyright © 2024 BR&VR. All rights reserved.</small></p>
                 </div>
@@ -74,7 +74,7 @@
 
         </div>
     </div>
-    
+
     <script src="{{asset('assets/scripts/pages/pg_login.js')}}" type="text/javascript"></script>
 </body>
 

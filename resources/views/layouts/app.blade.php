@@ -21,22 +21,22 @@
     </head>
     <body class="font-sans antialiased theme-dark" style="overflow: scroll;">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <div class="grid-wrapper sidebar-bg bg1" style="min-height: 95vh;">
-                
+            <div class="grid-wrapper sidebar-bg bg1" style="min-height: 95vh;background: #f8f9fa;">
+
                 <div class="header">
                     @include('layouts.navbar')
                 </div>
-    
+
 
                 <div id="sidebar" class="sidebar">
                     @include('layouts.sidebar')
                 </div>
                 <
                 <!-- Page Heading -->
-                
+
                 @if (isset($header))
                 <header>
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" style="background-color: #2a2f34;"> 
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" style="background-color: #2a2f34;">
                     <br>
                         <ol class="breadcrumb" style="margin:0;">
                             <li class="breadcrumb-item"><a href="javascript:;"><i class="ti-user"></i>  {{ __('Profile') }}</a></li>

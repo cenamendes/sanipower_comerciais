@@ -1,18 +1,18 @@
 <div class="sidebar-content sidebar-responsive">
     <!-- sidebar-menu  -->
     <div class="sidebar-menu">
-       
+
         <ul class="sidebar-responsive">
             <li>
                 <a href="{{route('dashboard')}}" >
-                    <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-sidbar">  
+                    <img src="{{asset('logo/sanipower.png')}}" class="logo-sanipower-sidbar">
                 </a>
             </li>
-            
+
             <li class="header-menu">
                 Menu
             </li>
-            
+
             <li class="li-hover">
                 <a href="{{route('dashboard')}}" class="{{ request()->routeIs('dashboard') ? 'text-info' : '' }}">
                     <i class="ti-dashboard"></i>

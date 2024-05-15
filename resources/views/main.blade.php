@@ -11,13 +11,13 @@
 
     <link href="{{asset('assets/css/siqtheme.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/main.css')}}" rel="stylesheet">
-    
+
     <link href="/your-path-to-fontawesome/css/fontawesome.css" rel="stylesheet" />
     <link href="/your-path-to-fontawesome/css/brands.css" rel="stylesheet" />
     <link href="/your-path-to-fontawesome/css/solid.css" rel="stylesheet" />
 
     @livewireStyles
-    
+
 
     @include('layouts.styles')
 
@@ -42,7 +42,7 @@
             display: none;
             position: absolute;
             z-index: 1;
-            background-color: #2b2e2f;
+            background-color: #ffffff;
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             padding: 2px;
@@ -55,7 +55,7 @@
             top: 0px;
             right: -26px;
             font-size: 36px;
-            color: #2b2e2f;
+            color: #ffffff;
         }
 
         .dropdownIcon-item {
@@ -68,7 +68,7 @@
         .dropdownIcon-menu li{
             font-size: 16px;
         }
-        
+
         .dropdownIcon-item:hover {
             background-color: #ddd;
         }
@@ -79,14 +79,14 @@
 
     <div class="loader"></div>
 
-    <div class="grid-wrapper grid-wrapper-small sidebar-bg bg1" style="min-height: 95vh;">
+    <div class="grid-wrapper grid-wrapper-small sidebar-bg bg1" style="min-height: 95vh;background: #f8f9fa;">
 
         <!-- BOF HEADER -->
         <div class="header">
             @include('layouts.navbar')
         </div>
         <!-- EOF HEADER -->
-        
+
         <!-- BOF ASIDE-LEFT -->
         <div id="sidebar" class="sidebar">
             @include('layouts.sidebar')
@@ -103,7 +103,7 @@
         <!-- EOF MAIN -->
 
         <!-- BOF FOOTER -->
-        <div class="footer" style="padding-bottom: 70px;">
+        <div class="footer" style="padding-bottom: 78px; padding-top:15px;">
             @include('layouts.footer')
         </div>
         <!-- EOF FOOTER -->
@@ -119,7 +119,7 @@
     </div> <!-- END WRAPPER -->
 
     <script src="{{asset('assets/scripts/siqtheme.js')}}"></script>
-    
+
     <script>
 
 
@@ -155,7 +155,7 @@
     </script>
     @livewireScripts
     @stack('scripts_footer')
-  
+
 </body>
 
 </html>

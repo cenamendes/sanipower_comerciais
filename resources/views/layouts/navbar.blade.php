@@ -1,9 +1,9 @@
 <div class="header-bar">
     <div class="brand d-flex">
         <a href="{{route('dashboard')}}">
-            <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-navbar" width="200">  
-        </a> 
-        
+            <img src="{{asset('logo/sanipower_Azul.svg')}}" class="logo-sanipower-navbar" width="200">
+        </a>
+
     </div>
     <div class="btn-toggle">
         <div class="nav-responsive">
@@ -37,12 +37,12 @@
         </div>
         <a href="#" class="slide-sidebar-btn" style="display:none;"><i class="ti-menu"></i></a>
     </div>
-   
+
 
     <div class="navigation d-flex">
         <!-- BOF Header Nav -->
         <div class="navbar-menu d-flex">
-            
+
             <div class="menu-item">
                 <a href="#" class="btn" data-toggle="dropdown">
                     <i class="ti-bell"></i>
@@ -51,15 +51,15 @@
                 <ul class="dropdown-menu dropdown-menu-right dropdown-alert">
                     <li class="dropdown-header text-center"><a href="#"><i class="ti-comment-alt"></i> View
                             All Alerts <i class="ti-angle-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-user"></i> New user registered <span>Just now</span></a>
+                    <li><a style="color: #292929;"  href="#"><i class="fa fa-user"></i> New user registered <span>Just now</span></a>
                     </li>
-                    <li><a href="#"><i class="fa fa-calendar-plus-o"></i> New event created <span>5 min
+                    <li><a style="color: #292929;" href="#"><i class="fa fa-calendar-plus-o"></i> New event created <span>5 min
                                 ago</span></a></li>
-                    <li><a href="#"><i class="fa fa-area-chart"></i> Report ready to download <span>1 day
+                    <li><a style="color: #292929;" href="#"><i class="fa fa-area-chart"></i> Report ready to download <span>1 day
                                 ago</span></a></li>
-                    <li><a href="#"><i class="fa fa-bank"></i> Bill payment reminder <span>1 day
+                    <li><a style="color: #292929;" href="#"><i class="fa fa-bank"></i> Bill payment reminder <span>1 day
                                 ago</span></a></li>
-                    <li><a href="#"><i class="fa fa-clock-o"></i> Staff meeting <span>3 days ago</span></a>
+                    <li><a style="color: #292929;" href="#"><i class="fa fa-clock-o"></i> Staff meeting <span>3 days ago</span></a>
                     </li>
                 </ul>
             </div>
