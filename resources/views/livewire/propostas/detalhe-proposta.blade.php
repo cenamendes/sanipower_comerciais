@@ -432,7 +432,7 @@
                                         @endforeach
                                        
                                     @else
-                                    Não tem produtos
+                                    
                                     @endif
                                 </div>
                                 </div>
