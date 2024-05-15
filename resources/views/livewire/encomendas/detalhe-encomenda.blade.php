@@ -465,7 +465,7 @@
                                             <div class="row">
 
                                                 <div class="col-xs-9 d-flex align-middle pl-2" style="align-items:center;">
-                                                    <h3>{{ $produtoNameDetail }}</h3>
+                                                    <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
                                                 </div>
                                             </div>
                                         </div>
