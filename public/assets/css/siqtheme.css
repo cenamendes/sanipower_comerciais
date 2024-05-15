@@ -20771,7 +20771,7 @@ label.error {
   grid-area: header;
   position: fixed;
   width: calc(100% - 32px);
-  background-color: #343a40;
+  background-color: #232b58;
   z-index: 21;
 }
 
@@ -21172,7 +21172,7 @@ label.error {
 
 .footer {
   grid-area: footer;
-  background-color: #343a40;
+  background-color: #232b58;
   color: #6c757d;
   margin: 20px 0 10px;
 }

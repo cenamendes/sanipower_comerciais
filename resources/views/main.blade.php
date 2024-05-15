@@ -75,7 +75,7 @@
     </style>
 </head>
 
-<body class="theme-dark" style="overflow: scroll; overflow-x:hidden;">
+<body class="theme" style="overflow: scroll; overflow-x:hidden;">
 
     <div class="loader"></div>
 

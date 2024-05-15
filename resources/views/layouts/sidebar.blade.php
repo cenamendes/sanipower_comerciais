@@ -19,7 +19,7 @@
                     <span class="menu-text">Dashboard</span>
                 </a>
             </li>
-            <li class="maincat li-hover">
+            {{-- <li class="maincat li-hover">
                 <a href="#">
                     <i class="ti-layers-alt"></i>
                     <span class="menu-text">Multi-Levels Menu</span>
@@ -43,7 +43,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
             <li class="li-hover">
                 <a href="{{route('clientes')}}" class="{{ Str::contains(request()->route()->getName(), 'clientes') ? 'text-info' : '' }}">
                     <i class="ti-user"></i>
