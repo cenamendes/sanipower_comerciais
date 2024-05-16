@@ -810,12 +810,15 @@ tr th{
 
   /* Style the accordion buttons */
   .accordion2 {
-    background-color: #333;
-    color: white;
+    background-color: #ffffff00;
+    color:#232b58;
     cursor: pointer;
-    padding: 18px;
+    padding: 8px;
     width: 100%;
-    border: none;
+    border: 1px solid #232b58;
+    border-top:0;
+    border-left:0;
+    border-right:0;
     text-align: left;
     outline: none;
     transition: 0.4s;
@@ -823,7 +826,11 @@ tr th{
 
   /* Style the active accordion button (and hover) */
   .accordion2.active, .accordion2:hover {
-    background-color: #555;
+    background-color: #d8dde1;
+    border: 1px solid #232b58;
+    border-top:0;
+    border-left:0;
+    border-right:0;
   }
 
   /* Style the panel that holds the links */
@@ -850,4 +857,5 @@ tr th{
   }
   .arrow {
     float: right;
+    color: #555;
   }
