@@ -16,6 +16,12 @@
         display: flex !important;
     }
 }
+html {
+    scroll-behavior: smooth;
+    font-family: "Fedra Sans Pro Book";
+    font-size: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
 
 
 body::-webkit-scrollbar {
@@ -502,11 +508,9 @@ body::-webkit-scrollbar {
 .sidebarProd .input-group{
     padding: 20px 20px 0 20px;
     border-bottom: 0.05px solid rgb(158, 209, 251)!important;
-    font-family: "Comfortaa", sans-serif;
     font-optical-sizing: auto;
     font-weight: weight;
     font-style: normal;
-    background: #ffffff00 !important;
 }
 div#input.input-group.d-flex.input-group-config.justify-content-between:focus{
     background-color: rgb(158, 209, 251)!important;
@@ -519,7 +523,6 @@ div#input.input-group.d-flex.input-group-config.justify-content-between:focus{
     padding-right: 10px;
 }
 .sidebarProd .input-group:hover{
-    background-color:rgb(158, 209, 251)!important;
     cursor: pointer;
 }
 
