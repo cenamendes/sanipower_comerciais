@@ -327,7 +327,18 @@
                                      @endphp
                                         @if(!empty($category->family))
                                         <!-- <div class="input-group d-flex input-group-config justify-content-between" wire:click="rechargeFamilys({{$conta}})" id="input{{$conta}}" > -->
-                                            <div class="input-group d-flex input-group-config justify-content-between" id="input{{$conta}}">
+                                            <div class="input-group d-flex input-group-config justify-content-between" id="input{{$conta}}"
+                                            @if($category->name == "Sistemas") style="background-color: #42c69f;"
+                                            @elseif($category->name == "Água") style="background-color: #0179b5;" 
+                                            @elseif($category->name == "Conforto") style="background-color: #cd3d3c;"
+                                            @elseif($category->name == "Solar") style="background-color: #cc7d3b;"
+                                            @elseif($category->name == "Ar Condicionado") style="background-color: #9fa2a2;"
+                                            @elseif($category->name == "Ventilação") style="background-color: #141b62;"
+                                            @elseif($category->name == "Marcas") style="background-color: #5c2a5d;"
+                                            @elseif($category->name == "Piscinas") style="background-color: #01cbdf;"
+                                            @elseif($category->name == "Marcas") style="background-color: #5c2a5d;"
+
+                                            @endif>
                                                 <p>{{ $category->name }}</p>
                                                 <label>></label>
                                             </div>
@@ -994,9 +1005,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
             checkbox.checked = true;
             sidebar.classList.remove('open');
-            inputGroups.forEach(function(group) {
-                group.style.backgroundColor = 'transparent';
-            });
 
     });
     window.addEventListener('refreshComponent',function(e){
@@ -1032,12 +1040,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const Input = document.getElementById(InputId);
 
 
-                    inputGroups.forEach(function(group) {
-                        if (group !== inputGroup) {
-                            group.style.backgroundColor = 'transparent';
-                        }
-                    });
-                    Input.style.backgroundColor = 'rgba(36, 36, 36, 0.623)';
+                    
 
                     const subbars = document.querySelectorAll('.subsidebarProd');
 
@@ -1047,7 +1050,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         if (currentDisplayStyle === 'block') {
                             subItem.style.display = 'none';
-                            Input.style.backgroundColor = 'transparent';
+                            
                         } else {
                             document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                                 item.style.display = 'none';
@@ -1092,9 +1095,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     checkbox.checked = true;
                     sidebar.classList.remove('open');
-                    inputGroups.forEach(function(group) {
-                        group.style.backgroundColor = 'transparent';
-                    });
+                  
 
                     } else {
                         checkbox.checked = false;
