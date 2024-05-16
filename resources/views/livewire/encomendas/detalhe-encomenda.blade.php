@@ -275,10 +275,8 @@
 
                                         <a href="javascript:void(0)" class="buttonGoback"><i class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                         <h2>{{ $cat->name }}</h2>
-
                                         <div class="row">
                                             @foreach ($cat->family as $family )
-
 
                                                 <div class="col-4">
                                                     <a href="javascript:void(0);" wire:click="searchCategory({{$contaCat}},{{json_encode($family->id)}})">
