@@ -800,3 +800,53 @@ tr th{
         display: none;
     }
 }
+
+
+
+.navbar2 {
+    overflow: hidden;
+  }
+
+  /* Style the accordion buttons */
+  .accordion2 {
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+  }
+
+  /* Style the active accordion button (and hover) */
+  .accordion2.active, .accordion2:hover {
+    background-color: #555;
+  }
+
+  /* Style the panel that holds the links */
+  .panel2 {
+    padding: 0;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+
+  /* Style the links */
+  .panel2 a {
+    display: block;
+    padding: 12px 18px;
+    text-decoration: none;
+    color: #333;
+    transition: 0.3s;
+  }
+
+  /* Style the links on hover */
+  .panel2 a:hover {
+    background-color: #f4f4f4;
+  }
+  .arrow {
+    float: right;
+  }
