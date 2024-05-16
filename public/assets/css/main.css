@@ -320,6 +320,13 @@ body::-webkit-scrollbar {
     height: 100.5%;
     padding: 3px 10px 10px 10px;
 }
+.border{
+    border: 1px solid #c9c9c9 !important;
+}
+.border:hover{
+    border: 1px solid #c9c9c9 !important;
+    box-shadow: 0px 0px 12px 3px rgba(196, 196, 196, 0.77)!important;
+}
 .container-buttons{
     display: flex;
     justify-content: center;
@@ -327,15 +334,19 @@ body::-webkit-scrollbar {
     background-color: rgba(241, 241, 241, 0);
 }
 
-.body-decoration .btn{
+div.body-decoration .btn{
     background-color: rgb(36, 40, 44) !important;
     color: #1791ba;
-    border-color: rgb(73, 80, 87);
+    border-color: rgb(0, 128, 255);
     width: 100%;
     font-size: 16px;
 }
-.body-decoration .btn:hover{
-    color: #1791ba8d;
+div.body-decoration.btn:hover{
+    background-color: rgb(36, 40, 44) !important;
+    color: #1791ba;
+    border-color: rgb(255, 0, 0);
+    width: 100%;
+    font-size: 16px;
 }
 .title-description{
     margin: 10px 0 0;
@@ -731,12 +742,58 @@ span.input-group-text.search{
 }
 
 .row.container-detalhes-produto div.col-4.col-md-3 img{
-    box-shadow: 0px 0px 5px 2px rgba(141, 141, 141, 0.77)!important;
+    box-shadow: 0px 0px 8px 2px rgba(187, 187, 187, 0.77) !important;
+    border: 1px solid #afafaf !important;
     border-radius: 4px;
     display: block;
+    position: fixed;
+    width: 27rem;
+    height: auto;
 }
 
 #detailNameProduct {
-    color: #4e6180;
+    color: #232b58;
+    font-weight: 600;
 }
 
+tr th{
+    background: #ffffff00!important;
+    border: none!important;
+}
+
+.table-bordered td {
+    border: 1px solid #232b58!important;
+    border-top: 0!important;
+    border-left: 0!important;
+    border-right: none!important;
+}
+
+@media only screen and (max-width: 1800px) {
+    .row.container-detalhes-produto div.col-4.col-md-3 img{
+        width: 23rem;
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+    .row.container-detalhes-produto div.col-4.col-md-3 img{
+        width: 19rem;
+    }
+}
+
+@media only screen and (max-width: 1435px) {
+    .row.container-detalhes-produto div.col-4.col-md-3 img{
+        width: 15rem;
+    }
+}
+
+@media only screen and (max-width: 1170px) {
+    .row.container-detalhes-produto div.col-4.col-md-3 img{
+        width: 12rem;
+    }
+}
+
+@media only screen and (max-width: 995px) {
+    .row.container-detalhes-produto div.col-4.col-md-3 img{
+        display: none;
+    }
+}
