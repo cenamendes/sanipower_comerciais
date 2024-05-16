@@ -246,10 +246,35 @@
                 </div>
                 <div class="tab-pane fade {{$tabProdutos}}" id="tab5">
 
+                    <div class="navbar2">
+                        <button class="accordion2">Item 1 <span class="arrow">&#9660;</span></button>
+                        <div class="panel2">
+                          <a href="#">Subitem 1</a>
+                          <a href="#">Subitem 2</a>
+                          <a href="#">Subitem 3</a>
+                        </div>
+
+                        <button class="accordion2">Item 2 <span class="arrow">&#9660;</span></button>
+                        <div class="panel2">
+                          <a href="#">Subitem 1</a>
+                          <a href="#">Subitem 2</a>
+                        </div>
+
+                        <button class="accordion2">Item 3 <span class="arrow">&#9660;</span></button>
+                        <div class="panel2">
+                          <a href="#">Subitem 1</a>
+                          <a href="#">Subitem 2</a>
+                          <a href="#">Subitem 3</a>
+                          <a href="#">Subitem 4</a>
+                        </div>
+                      </div>
+
                         @if($specificProduct == 0)
                          <div class="row tab-encomenda-produto">
 
                             <div class="col" wire:key="select-field-model-version-{{ $iteration }}" >
+
+                                <div>
 
                                 @php
                                     $contaCat = 0;
@@ -1157,5 +1182,29 @@ document.addEventListener("DOMContentLoaded", function() {
     scrollableDivs.forEach(function(div) {
         new ScrollableDiv(div);
     });
+
+
+
+
+
+    var accordions = document.getElementsByClassName("accordion2");
+
+// Add click event listener to each accordion button
+for (var i = 0; i < accordions.length; i++) {
+  accordions[i].addEventListener("click", function() {
+    // Toggle active class to button
+    this.classList.toggle("active");
+
+    // Toggle the panel visibility
+    var panel2 = this.nextElementSibling;
+    if (panel2.style.maxHeight) {
+      panel2.style.maxHeight = null;
+      this.querySelector('.arrow').innerHTML = '&#9660;'; // Change arrow down
+    } else {
+      panel2.style.maxHeight = panel2.scrollHeight + "px";
+      this.querySelector('.arrow').innerHTML = '&#9650;'; // Change arrow up
+    }
+  });
+}
 
 </script>
