@@ -522,6 +522,7 @@ div.body-decoration.btn:hover{
     font-optical-sizing: auto;
     font-weight: weight;
     font-style: normal;
+    color: white;
 }
 div#input.input-group.d-flex.input-group-config.justify-content-between:focus{
     background-color: rgb(158, 209, 251)!important;
