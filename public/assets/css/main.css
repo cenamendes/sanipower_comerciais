@@ -822,6 +822,9 @@ tr th{
     text-align: left;
     outline: none;
     transition: 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   /* Style the active accordion button (and hover) */
@@ -859,3 +862,5 @@ tr th{
     float: right;
     color: #555;
   }
+  
+  
