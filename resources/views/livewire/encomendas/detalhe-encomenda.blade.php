@@ -41,7 +41,7 @@
                 </li>
             </ul>
         </div>
-        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;">
+        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;padding-right: 0;">
             <div class="tab-content">
 
                 <div class="tab-pane fade {{ $tabDetail }}" id="tab4">
@@ -387,7 +387,7 @@
 
                                     <div class="row justify-content-between">
                                         <div class="col">
-                                            <div class="input-group" id="checkboxSidbar">
+                                            <div class="input-group d-block d-md-none" id="checkboxSidbar">
                                                 <input id="checkbox" type="checkbox">
                                                 <label class="toggle" for="checkbox">
                                                     <div id="bar1" class="bars"></div>
@@ -437,9 +437,9 @@
                                             <br>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="justify-content: flex-end;">
 
-                                        <div class="navbar2 col-3">
+                                        <div class="navbar2 col-3 d-none d-md-block">
                                             @php
                                                 $contaCat = 0;
                                             @endphp
@@ -448,14 +448,14 @@
                                                     $contaCat++;
                                                 @endphp
                                                 @if (!empty($category->family))
-                                                    <button class="accordion2">{{ $category->id }} -
+                                                    <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
                                                         {{ $category->name }}<span
-                                                            class="arrow">&#9660;</span></button>
+                                                            class="arrow"><i class="fa-regular fa-square-caret-up"></i></span></button>
                                                     <div class="panel2">
                                                         @foreach ($category->family as $family)
-                                                            <button class="accordion2">{{ $family->id }} -
+                                                            <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
                                                                 {{ $family->name }}<span
-                                                                    class="arrow">&#9660;</span></button>
+                                                                    class="arrow"><i class="fa-regular fa-square-caret-up"></i></span></button>
                                                             <div class="panel2">
                                                                 @foreach ($family->subfamily as $subfamily)
                                                                     <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
@@ -469,7 +469,7 @@
                                             @endforeach
                                         </div>
 
-                                        <div class="row col-9">
+                                        <div class="row col-md-9">
 
                                             <div wire:loading wire:target="searchProduct">
                                                 <div id="filtroLoader" style="display: block;">
@@ -1163,10 +1163,10 @@
             var panel2 = this.nextElementSibling;
             if (panel2.style.maxHeight) {
                 panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '&#9660;'; // Change arrow down
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
             } else {
                 panel2.style.maxHeight = panel2.scrollHeight + "px";
-                this.querySelector('.arrow').innerHTML = '&#9650;'; // Change arrow up
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
             }
         });
     }
@@ -1337,10 +1337,10 @@
             var panel2 = this.nextElementSibling;
             if (panel2.style.maxHeight) {
                 panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '&#9660;'; // Change arrow down
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
             } else {
                 panel2.style.maxHeight = panel2.scrollHeight + "px";
-                this.querySelector('.arrow').innerHTML = '&#9650;'; // Change arrow up
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
             }
         });
     }
