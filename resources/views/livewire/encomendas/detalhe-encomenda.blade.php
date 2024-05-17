@@ -1163,10 +1163,10 @@
             var panel2 = this.nextElementSibling;
             if (panel2.style.maxHeight) {
                 panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '&#9660;'; // Change arrow down
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
             } else {
                 panel2.style.maxHeight = panel2.scrollHeight + "px";
-                this.querySelector('.arrow').innerHTML = '&#9650;'; // Change arrow up
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
             }
         });
     }
