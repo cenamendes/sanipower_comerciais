@@ -3,9 +3,9 @@
 
     <div class="row navigationLinks">
         <div class="col">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb pl-4">
                 <li class="breadcrumb-item"><a href=""><i class="ti-user"></i> Clientes</a></li>
-                <li class="breadcrumb-item">Informação</li>
+                <li class="breadcrumb-item">Encomenda Cliente</li>
                 <li class="breadcrumb-item active">{{$nameCliente}}</li>
 
             </ol>

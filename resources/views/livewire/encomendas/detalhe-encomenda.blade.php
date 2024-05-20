@@ -14,14 +14,14 @@
 
     <!-- TABS  -->
 
-    <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
+    {{-- <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
         <div class="tools">
             <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i class="ti-eye"></i>
                 Ver Encomenda</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
         </div>
-    </div>
+    </div> --}}
 
     <div class="card card-tabs-pills mb-3">
         <div class="card-header">
@@ -33,10 +33,21 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link {{ $tabProdutos }}">Produtos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Detalhes
-                        Encomenda</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
                 </li>
             </ul>
+
+            <div class="teste" style="padding-right:35px;">
+                <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
+                    <div class="tools">
+                        <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i class="ti-eye"></i>
+                            Ver Encomenda</a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar</a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;padding-right: 0;">
             <div class="tab-content">
