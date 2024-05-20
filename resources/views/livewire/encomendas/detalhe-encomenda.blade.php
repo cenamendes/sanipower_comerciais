@@ -387,7 +387,7 @@
 
                                     <div class="row justify-content-between">
                                         <div class="col">
-                                            <div class="input-group d-block d-md-none" id="checkboxSidbar">
+                                            <div class="input-group" id="checkboxSidbar">
                                                 <input id="checkbox" type="checkbox">
                                                 <label class="toggle" for="checkbox">
                                                     <div id="bar1" class="bars"></div>
@@ -697,7 +697,7 @@
                                 </div>
                             </div>
                     @endif
-                    {{-- </div> --}}
+                </div>
                 </div>
 
                 <div class="tab-pane fade {{ $tabDetalhesEncomendas }}" id="tab6">
