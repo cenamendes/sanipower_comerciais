@@ -30,6 +30,7 @@ class DetalheCliente extends Component
     public string $tabOcorrencias = "";
     public string $tabVisitas = "";
     public string $tabAssistencias = "";
+    public string $tabCampanhas = "";
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -76,6 +77,7 @@ class DetalheCliente extends Component
         $this->tabOcorrencias = "";
         $this->tabVisitas = "";
         $this->tabAssistencias = "";
+        $this->tabCampanhas = "";
     }
 
    
@@ -99,6 +101,7 @@ class DetalheCliente extends Component
         $this->tabOcorrencias = "";
         $this->tabVisitas = "";
         $this->tabAssistencias = "";
+        $this->tabCampanhas = "";
     }
 
     public function nextPage()
@@ -118,6 +121,7 @@ class DetalheCliente extends Component
         $this->tabOcorrencias = "";
         $this->tabVisitas = "";
         $this->tabAssistencias = "";
+        $this->tabCampanhas = "";
     }
 
     public function getPageRange()
@@ -149,6 +153,7 @@ class DetalheCliente extends Component
         $this->tabOcorrencias = "";
         $this->tabVisitas = "";
         $this->tabAssistencias = "";
+        $this->tabCampanhas = "";
 
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
