@@ -302,7 +302,7 @@ class DetalheEncomenda extends Component
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-
+        
         if($this->searchProduct != "")
         {
             $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily,$this->searchProduct);  
