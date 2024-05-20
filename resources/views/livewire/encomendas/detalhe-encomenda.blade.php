@@ -49,6 +49,7 @@
             </div>
 
         </div>
+       
         <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;padding-right: 0;">
             <div class="tab-content">
 
@@ -394,7 +395,7 @@
                                     </div>
 
                                     <div class="row justify-content-between">
-                                        <div class="col">
+                                        <div class="col-3">
                                             <div class="input-group" id="checkboxSidbar">
                                                 <input id="checkbox" type="checkbox">
                                                 <label class="toggle" for="checkbox">
@@ -425,7 +426,22 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div class="col d-flex">
+                                           @php
+                                                $searchNameCategory = session('searchNameCategory');
+                                                $searchNameFamily = session('searchNameFamily');
+                                                $searchNameSubFamily = session('searchNameSubFamily');
+                                            @endphp
+                                            <div class="row navigationLinks">
+                                                <div class="col">
+                                                    <ol class="breadcrumb" style="border-bottom:none;">
+                                                        <li class="breadcrumb-item"><a href="">{{$searchNameCategory}}</a></li>
+                                                        <li class="breadcrumb-item"> {{$searchNameFamily}}</li>
+                                                        <li class="breadcrumb-item active">{{$searchNameSubFamily}}</li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-8 col-md-6">
 
                                             <div class="row justify-content-end">
@@ -553,7 +569,6 @@
                                     $family = session('family');
                                     $subFamily = session('subFamily');
                                     $productNumber = session('productNumber');
-
                                 @endphp
 
                                 <div class="row container-detalhes-produto">
