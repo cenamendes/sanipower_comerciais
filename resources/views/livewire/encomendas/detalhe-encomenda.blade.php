@@ -432,15 +432,17 @@
                                                 $searchNameFamily = session('searchNameFamily');
                                                 $searchNameSubFamily = session('searchNameSubFamily');
                                             @endphp
+                                           
                                             <div class="row navigationLinks">
                                                 <div class="col">
                                                     <ol class="breadcrumb" style="border-bottom:none;">
-                                                        <li class="breadcrumb-item"><a href="">{{$searchNameCategory}}</a></li>
-                                                        <li class="breadcrumb-item"> {{$searchNameFamily}}</li>
-                                                        <li class="breadcrumb-item active">{{$searchNameSubFamily}}</li>
+                                                        @if($searchNameCategory)<li class="breadcrumb-item"><a href="">{{$searchNameCategory}}</a></li>@endif
+                                                        @if($searchNameFamily)<li class="breadcrumb-item"> {{$searchNameFamily}}</li>@endif
+                                                        @if($searchNameSubFamily)<li class="breadcrumb-item active">{{$searchNameSubFamily}}</li>@endif
                                                     </ol>
                                                 </div>
                                             </div>
+                                        
                                         </div>
                                         <div class="col-8 col-md-6">
 

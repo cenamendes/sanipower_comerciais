@@ -136,7 +136,7 @@ class DetalheProposta extends Component
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
-        $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesPropostas = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->idCategoryRecuar = $idCategory;
@@ -167,7 +167,7 @@ class DetalheProposta extends Component
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
-        $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesPropostas = "";
         $this->tabDetalhesCampanhas = "";
 
         if($this->searchProduct != "")
@@ -199,7 +199,7 @@ class DetalheProposta extends Component
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
-        $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesPropostas = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->specificProduct = 0;
@@ -218,7 +218,7 @@ class DetalheProposta extends Component
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
-        $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesPropostas = "";
         $this->tabDetalhesCampanhas = "";
         
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
@@ -238,7 +238,7 @@ class DetalheProposta extends Component
             
             $this->tabDetail = "";
             $this->tabProdutos = "show active";
-            $this->tabDetalhesEncomendas = "";
+            $this->tabDetalhesPropostas = "";
             $this->tabDetalhesCampanhas = "";
 
             $this->searchProduct = "";
@@ -257,6 +257,7 @@ class DetalheProposta extends Component
 
             $this->dispatchBrowserEvent('refreshComponent',["id" => $idCategory]);
     }
+
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
@@ -267,12 +268,37 @@ class DetalheProposta extends Component
         $this->actualCategory = $idCategory;
         $this->actualFamily = $idFamily;
         $this->actualSubFamily = $idSubFamily;
-
+    
 
         session(['searchSubFamily' => $this->searchSubFamily]);
+        // dd($this->getCategories->category[]);
+        foreach ($this->getCategories->category as $index => $idCtgry) {
+            
+            if ($idCtgry->id == $idCategory) {
+                session(['searchNameCategory' => $idCtgry->name]);
+
+
+                foreach($idCtgry->family as $idFmly) {
+                    if($idFmly->id === $idFamily) {
+                    session(['searchNameFamily' => $idFmly->name]);
+
+                    foreach($idFmly->subfamily as $idSubFmly) {
+                        if($idSubFmly->id === $idSubFamily) {
+                            session(['searchNameSubFamily' => $idSubFmly->name]);
+                        }
+                    }
+
+                    }
+                }
+        
+            }
+        }
+        
+
+
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
-        $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesPropostas = "";
         $this->tabDetalhesCampanhas = "";
 
 
@@ -335,7 +361,7 @@ class DetalheProposta extends Component
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
-        $this->tabDetalhesEncomendas = "";
+        $this->tabDetalhesPropostas = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->specificProduct = 0;

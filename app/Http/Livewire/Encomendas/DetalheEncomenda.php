@@ -259,6 +259,7 @@ class DetalheEncomenda extends Component
 
             $this->dispatchBrowserEvent('refreshComponent',["id" => $idCategory]);
     }
+    
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
