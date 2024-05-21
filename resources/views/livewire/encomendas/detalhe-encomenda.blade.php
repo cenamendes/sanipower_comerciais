@@ -67,7 +67,7 @@
             </div>
 
         </div>
-       
+
         <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;padding-right: 0;">
             <div class="tab-content">
 
@@ -450,7 +450,7 @@
                                                 $searchNameFamily = session('searchNameFamily');
                                                 $searchNameSubFamily = session('searchNameSubFamily');
                                             @endphp
-                                           
+
                                             <div class="row navigationLinks">
                                                 <div class="col">
                                                     <ol class="breadcrumb" style="border-bottom:none;">
@@ -460,7 +460,7 @@
                                                     </ol>
                                                 </div>
                                             </div>
-                                        
+
                                         </div>
                                         <div class="col-6">
 
@@ -483,11 +483,11 @@
                                     </div>
                                     <div class="row" style="justify-content: flex-end;">
 
-                                    <div class="row tab-encomenda-produto">
+
                                     <div class="col-sm-3 coluna-buttons" style="padding-left: 30px;">
                                         <div class="row d-none d-md-flex flex-nowrap wrapper" style="padding-bottom: 25px;">
                                             <div class="col-12 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-                                                
+
                                                 <div class="list-group border-0 text-center text-md-left">
                                                 @php
                                                     $contaCat = 0;
@@ -497,30 +497,30 @@
                                                         $contaCat++;
                                                     @endphp
                                                     @if (!empty($category->family))
-                                                        <a href="#menu{{ $category->id }}" class="accordion2 d-inline-block collapsed" data-toggle="collapse" aria-expanded="false" style="background: #5f77921c;">{{ $category->id }} - {{ $category->name }} 
-                                                            <span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span>
+                                                        <a href="#menu{{ $category->id }}" class="accordion2 d-inline-block collapsed" data-toggle="collapse" aria-expanded="false" style="background: #925f5f1c;">{{ $category->id }} - {{ $category->name }}
+                                                            <i class="fa-regular fa-square-caret-down arrow"></i>
                                                         </a>
                                                         <div class="collapse submenu" id="menu{{ $category->id }}" >
                                                             @foreach ($category->family as $family)
                                                             <a href="#menu{{ $category->id }}sub{{ $family->id }}" class="accordion2" data-toggle="collapse" aria-expanded="false" style="background-color: #1791ba26;">{{ $family->id }} - {{ $family->name }}
-                                                                <span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span>
+                                                                <i class="fa-regular fa-square-caret-down arrow"></i>
                                                             </a>
                                                             <div class="collapse subitem" id="menu{{ $category->id }}sub{{ $family->id }}" data-parent="#menu{{ $category->id }}">
                                                                 @foreach ($family->subfamily as $subfamily)
                                                                     <a class="accordion2" wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})" href="#">{{ $subfamily->id }} - {{ $subfamily->name }}</a>
                                                                 @endforeach
-                                                                
+
                                                             </div>
                                                             @endforeach
                                                         </div>
-                                                    
+
                                                         @endif
                                                 @endforeach
                                                 </div>
                                             </div>
-                                        
+
                                         </div>
-                                    
+
                                     </div>
                                         <div class="row col-md-9">
 
@@ -832,7 +832,7 @@
 
                     </p>
                 </div>
-                
+
 
 
             </div>
@@ -1096,22 +1096,23 @@
         var accordions2 = document.getElementsByClassName("accordion2");
 
     // Add click event listener to each accordion button
-    for (var i = 0; i < accordions2.length; i++) {
+    for (var i = 0; i < accordions2.length; i+) {
         accordions2[i].addEventListener("click", function() {
             // Toggle active class to button
             this.classList.toggle("active");
 
             // Toggle the panel visibility
             var panel2 = this.nextElementSibling;
-            if (this.querySelector('.arrow').innerHTML != '<i class="fa-regular fa-square-caret-up"></i>') {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
+            if (this.querySelector('.arrow').innerHTML != '<i class="fa-regular fa-square-caret-down"></i>') {
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
             } else {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
             }
         });
     }
 
     });
+
     window.addEventListener('refreshComponent', function(e) {
         jQuery("#subItemInput" + e.detail.id).css("display", "block");
     });
@@ -1260,26 +1261,4 @@
     scrollableDivs.forEach(function(div) {
         new ScrollableDiv(div);
     });
-
-
-
-
-   
-    var accordions2 = document.getElementsByClassName("accordion2");
-
-    // Add click event listener to each accordion button
-    for (var i = 0; i < accordions2.length; i++) {
-        accordions2[i].addEventListener("click", function() {
-            // Toggle active class to button
-            this.classList.toggle("active");
-
-            // Toggle the panel visibility
-            var panel2 = this.nextElementSibling;
-            if (this.querySelector('.arrow').innerHTML != '<i class="fa-regular fa-square-caret-up"></i>') {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
-            } else {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
-            }
-        });
-    }
 </script>
