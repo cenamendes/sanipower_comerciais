@@ -476,12 +476,12 @@
                                                 @if (!empty($category->family))
                                                     <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
                                                         {{ $category->name }}<span
-                                                            class="arrow"><i class="fa-regular fa-square-caret-up"></i></span></button>
+                                                            class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
                                                     <div class="panel2">
                                                         @foreach ($category->family as $family)
                                                             <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
                                                                 {{ $family->name }}<span
-                                                                    class="arrow"><i class="fa-regular fa-square-caret-up"></i></span></button>
+                                                                    class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
                                                             <div class="panel2">
                                                                 @foreach ($family->subfamily as $subfamily)
                                                                     <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
@@ -1078,10 +1078,10 @@
             var panel2 = this.nextElementSibling;
             if (panel2.style.maxHeight) {
                 panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
             } else {
-                panel2.style.maxHeight = panel2.scrollHeight + "px";
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
+                panel2.style.maxHeight = panel2.scrollHeight + "%";
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
             }
         });
     }
@@ -1252,10 +1252,10 @@
             var panel2 = this.nextElementSibling;
             if (panel2.style.maxHeight) {
                 panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
             } else {
-                panel2.style.maxHeight = panel2.scrollHeight + "px";
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
+                panel2.style.maxHeight = panel2.scrollHeight + "%";
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
             }
         });
     }

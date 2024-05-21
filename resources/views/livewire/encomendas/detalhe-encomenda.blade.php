@@ -1,23 +1,5 @@
  <div>
-    <style>
-        .accordion2 {
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            text-align: left;
-            border: none;
-            outline: none;
-            transition: 0.4s;
-        }
-
-        .panel2 {
-            padding: 0 18px;
-            display: none;
-            overflow: hidden;
-            background-color: white;
-        }
-
-    </style>
+   
 
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
@@ -413,7 +395,7 @@
                                     </div>
 
                                     <div class="row justify-content-between">
-                                        <div class="col-md-3 col-4">
+                                        <div class="col-3">
                                             <div class="input-group" id="checkboxSidbar">
                                                 <input id="checkbox" type="checkbox">
                                                 <label class="toggle" for="checkbox">
@@ -472,45 +454,36 @@
                                     </div>
                                     <div class="row" style="justify-content: flex-end;">
 
-                                    <div class="row tab-encomenda-produto">
-                                    <div class="col-sm-3 coluna-buttons" style="padding-left: 30px;">
-                                        <div class="row d-none d-md-flex flex-nowrap wrapper" style="padding-bottom: 25px;">
-                                            <div class="col-12 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-                                                
-                                                <div class="list-group border-0 text-center text-md-left">
+                                    <div class="navbar2 col-3 d-none d-md-block">
+                                            @php
+                                                $contaCat = 0;
+                                            @endphp
+                                            @foreach ($getCategoriesAll->category as $i => $category)
                                                 @php
-                                                    $contaCat = 0;
+                                                    $contaCat++;
                                                 @endphp
-                                                @foreach ($getCategoriesAll->category as $i => $category)
-                                                    @php
-                                                        $contaCat++;
-                                                    @endphp
-                                                    @if (!empty($category->family))
-                                                        <a href="#menu{{ $category->id }}" class="accordion2 d-inline-block collapsed" data-toggle="collapse" aria-expanded="false" style="background: #5f77921c;">{{ $category->id }} - {{ $category->name }} 
-                                                            <span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span>
-                                                        </a>
-                                                        <div class="collapse submenu" id="menu{{ $category->id }}" >
-                                                            @foreach ($category->family as $family)
-                                                            <a href="#menu{{ $category->id }}sub{{ $family->id }}" class="accordion2" data-toggle="collapse" aria-expanded="false" style="background-color: #1791ba26;">{{ $family->id }} - {{ $family->name }}
-                                                                <span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span>
-                                                            </a>
-                                                            <div class="collapse subitem" id="menu{{ $category->id }}sub{{ $family->id }}" data-parent="#menu{{ $category->id }}">
+                                                @if (!empty($category->family))
+                                                    <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
+                                                        {{ $category->name }}<span
+                                                            class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                    <div class="panel2">
+                                                        @foreach ($category->family as $family)
+                                                            <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
+                                                                {{ $family->name }}<span
+                                                                    class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                            <div class="panel2">
                                                                 @foreach ($family->subfamily as $subfamily)
-                                                                    <a class="accordion2" wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})" href="#">{{ $subfamily->id }} - {{ $subfamily->name }}</a>
+                                                                    <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
+                                                                        href="#">{{ $subfamily->id }} -
+                                                                        {{ $subfamily->name }}</a>
                                                                 @endforeach
-                                                                
                                                             </div>
-                                                            @endforeach
-                                                        </div>
-                                                    
-                                                        @endif
-                                                @endforeach
-                                                </div>
-                                            </div>
-                                        
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            @endforeach
                                         </div>
-                                    
-                                    </div>
+
                                         <div class="row col-md-9">
 
                                             <div wire:loading wire:target="searchProduct">
@@ -822,188 +795,7 @@
                     </p>
                 </div>
                 
-                 <!-- MODALS -->
 
-    <!-- Modal adicionar compra rapida -->
-    <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-        <div class="modal-content">
-            @php
-                $quickBuyProducts = session('quickBuyProducts');
-                $nameProduct = session('productName');
-            @endphp
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="modalProdutos">{{ $nameProduct }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="table-responsive" style="overflow-x:none!important;">
-                            <table class="table table-bordered table-hover">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Referência</th>
-                                        <th>Modelo</th>
-                                        <th>PVP unitário</th>
-                                        <th>Desconto</th>
-                                        <th>Preço unitário</th>
-                                        <th>Quantidade mínima</th>
-                                        <th>Stock</th>
-                                        <th>Quantidade a encomendar</th>
-                                        <th class="text-center">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (!empty($quickBuyProducts))
-
-                                        @foreach ($quickBuyProducts->product as $prod)
-                                            <tr>
-                                                <td>{{ $prod->referense }}</td>
-                                                <td>{{ $prod->model }}</td>
-                                                <td>{{ $prod->pvp }}</td>
-                                                <td>{{ $prod->discount }}</td>
-                                                <td>{{ $prod->price }}</td>
-                                                <td>{{ $prod->quantity }}</td>
-                                                <td style="text-align:center;font-size:large;">
-                                                    @if ($prod->in_stock == true)
-                                                        <a class="popover-test" data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="Clique para ver os valores">
-                                                            <!-- <i class="ti-check text-lg text-forest"></i>  -->
-                                                            <div class="dropdownIcon">
-                                                                <i
-                                                                    class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
-                                                                <ul class="dropdownIcon-menu">
-                                                                    <li><i class="fa fa-play icon-play"></i></li>
-                                                                    <li style="border-bottom: 1px solid;">
-                                                                        <h5>Stocks em loja</h5>
-                                                                    </li>
-                                                                    @foreach ($prod->stocks as $stock)
-                                                                        <li>
-
-                                                                            {{ $stock->warehouse }}
-
-                                                                            @if ($stock->stock == true)
-                                                                                <i
-                                                                                    class="ti-check text-lg text-forest"></i>
-                                                                            @else
-                                                                                <i
-                                                                                    class="ti-close text-lg text-chili"></i>
-                                                                            @endif
-
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                        </a>
-                                                    @else
-                                                        <a href="javascript:;" role="button"
-                                                            class="popover-test" data-toggle="popover"
-                                                            aria-describedby="popover817393">
-                                                            <i class="ti-close text-lg text-chili"></i>
-                                                        </a>
-                                                    @endif
-
-                                                </td>
-                                                <td><input type="number" class="form-control"
-                                                        id="valueEncomendar"></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart"></i></button>
-                                                    <button class="btn btn-sm btn-warning"><i
-                                                            class="ti-comment"></i></button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Limpar
-                    seleção</button>
-                <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!----->
-
-<!-- Modal ver encomenda -->
-
-<div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary"><i class="ti-archive"></i> Encomenda
-                    atual</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="table-responsive" style="overflow-x:none!important;">
-                            <table class="table table-bordered table-hover">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Referência</th>
-                                        <th>Designação</th>
-                                        <th>Quantidade</th>
-                                        <th>Preço unitário</th>
-                                        <th>Desconto 1</th>
-                                        <th>Desconto 2</th>
-                                        <th>Preço Total</th>
-                                        <th class="text-center">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (!empty($quickBuyProducts))
-                                        @foreach ($quickBuyProducts->product as $prod)
-                                            <tr>
-                                                <td>{{ $prod->referense }}</td>
-                                                <td>{{ $prod->model }}</td>
-                                                <td>{{ $prod->quantity }}</td>
-                                                <td>{{ $prod->price }}</td>
-                                                <td>{{ $prod->discount }}</td>
-                                                <td></td>
-                                                <td>{{ $prod->pvp }}</td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-danger"><i
-                                                            class="ti-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Limpar
-                    seleção</button>
-                <button type="button" class="btn btn-outline-primary">Concluir Encomenda</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!----->
 
             </div>
         </div>
@@ -1012,7 +804,7 @@
     <!-- FIM TABS  -->
 
 
-    {{-- <!-- MODALS -->
+    <!-- MODALS -->
 
     <!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
@@ -1130,7 +922,6 @@
     <!----->
 
     <!-- Modal ver encomenda -->
-    
     <div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
         aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
@@ -1192,8 +983,8 @@
             </div>
         </div>
     </div>
- 
-    <!-----> --}}
+
+    <!----->
 
 
 </div>
@@ -1273,19 +1064,16 @@
             this.classList.toggle("active");
 
             // Toggle the panel visibility
-            // Toggle the panel visibility
             var panel2 = this.nextElementSibling;
-                if (panel2.style.maxHeight) {
-                    panel2.style.maxHeight = null;
-                    this.querySelector('.arrow').innerHTML =
-                        '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
-                } else {
-                    panel2.style.maxHeight = panel2.scrollHeight + "px";
-                    this.querySelector('.arrow').innerHTML =
-                        '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
-                }
-            });
-        }
+            if (panel2.style.maxHeight) {
+                panel2.style.maxHeight = null;
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+            } else {
+                panel2.style.maxHeight = panel2.scrollHeight + "%";
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+            }
+        });
+    }
 
     });
     window.addEventListener('refreshComponent', function(e) {
@@ -1440,23 +1228,24 @@
 
 
 
-   
+
     var accordions2 = document.getElementsByClassName("accordion2");
 
-// Add click event listener to each accordion button
-for (var i = 0; i < accordions2.length; i++) {
-    accordions2[i].addEventListener("click", function() {
-        // Toggle active class to button
-        this.classList.toggle("active");
+    // Add click event listener to each accordion button
+    for (var i = 0; i < accordions2.length; i++) {
+        accordions2[i].addEventListener("click", function() {
+            // Toggle active class to button
+            this.classList.toggle("active");
 
-        // Toggle the panel visibility
-        var panel2 = this.nextElementSibling;
-        if (this.querySelector('.arrow').innerHTML !== '<i class="fa-regular fa-square-caret-down"></i>') {
-            this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
-        } else {
-            this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
-        }
-    });
-}
-
+            // Toggle the panel visibility
+            var panel2 = this.nextElementSibling;
+            if (panel2.style.maxHeight) {
+                panel2.style.maxHeight = null;
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+            } else {
+                panel2.style.maxHeight = panel2.scrollHeight + "%";
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+            }
+        });
+    }
 </script>
