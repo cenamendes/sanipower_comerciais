@@ -1,5 +1,23 @@
 <div>
+    <style>
+        .accordion2 {
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
 
+.panel2 {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: white;
+}
+
+    </style>
 
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
@@ -444,7 +462,7 @@
                                             </div>
                                         
                                         </div>
-                                        <div class="col-8 col-md-6">
+                                        <div class="col-6">
 
                                             <div class="row justify-content-end">
                                                 <div class="col-6">
@@ -465,36 +483,45 @@
                                     </div>
                                     <div class="row" style="justify-content: flex-end;">
 
-                                        <div class="navbar2 col-3 d-none d-md-block">
-                                            @php
-                                                $contaCat = 0;
-                                            @endphp
-                                            @foreach ($getCategoriesAll->category as $i => $category)
+                                    <div class="row tab-encomenda-produto">
+                                    <div class="col-sm-3 coluna-buttons" style="padding-left: 30px;">
+                                        <div class="row d-none d-md-flex flex-nowrap wrapper" style="padding-bottom: 25px;">
+                                            <div class="col-12 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+                                                
+                                                <div class="list-group border-0 text-center text-md-left">
                                                 @php
-                                                    $contaCat++;
+                                                    $contaCat = 0;
                                                 @endphp
-                                                @if (!empty($category->family))
-                                                    <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
-                                                        {{ $category->name }}<span
-                                                            class="arrow"><i class="fa-regular fa-square-caret-up"></i></span></button>
-                                                    <div class="panel2">
-                                                        @foreach ($category->family as $family)
-                                                            <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
-                                                                {{ $family->name }}<span
-                                                                    class="arrow"><i class="fa-regular fa-square-caret-up"></i></span></button>
-                                                            <div class="panel2">
+                                                @foreach ($getCategoriesAll->category as $i => $category)
+                                                    @php
+                                                        $contaCat++;
+                                                    @endphp
+                                                    @if (!empty($category->family))
+                                                        <a href="#menu{{ $category->id }}" class="accordion2 d-inline-block collapsed" data-toggle="collapse" aria-expanded="false" style="background: #5f77921c;">{{ $category->id }} - {{ $category->name }} 
+                                                            <span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span>
+                                                        </a>
+                                                        <div class="collapse submenu" id="menu{{ $category->id }}" >
+                                                            @foreach ($category->family as $family)
+                                                            <a href="#menu{{ $category->id }}sub{{ $family->id }}" class="accordion2" data-toggle="collapse" aria-expanded="false" style="background-color: #1791ba26;">{{ $family->id }} - {{ $family->name }}
+                                                                <span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span>
+                                                            </a>
+                                                            <div class="collapse subitem" id="menu{{ $category->id }}sub{{ $family->id }}" data-parent="#menu{{ $category->id }}">
                                                                 @foreach ($family->subfamily as $subfamily)
-                                                                    <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
-                                                                        href="#">{{ $subfamily->id }} -
-                                                                        {{ $subfamily->name }}</a>
+                                                                    <a class="accordion2" wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})" href="#">{{ $subfamily->id }} - {{ $subfamily->name }}</a>
                                                                 @endforeach
+                                                                
                                                             </div>
-                                                        @endforeach
-                                                    </div>
-                                                @endif
-                                            @endforeach
+                                                            @endforeach
+                                                        </div>
+                                                    
+                                                        @endif
+                                                @endforeach
+                                                </div>
+                                            </div>
+                                        
                                         </div>
-
+                                    
+                                    </div>
                                         <div class="row col-md-9">
 
                                             <div wire:loading wire:target="searchProduct">
@@ -1076,11 +1103,9 @@
 
             // Toggle the panel visibility
             var panel2 = this.nextElementSibling;
-            if (panel2.style.maxHeight) {
-                panel2.style.maxHeight = null;
+            if (this.querySelector('.arrow').innerHTML != '<i class="fa-regular fa-square-caret-up"></i>') {
                 this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
             } else {
-                panel2.style.maxHeight = panel2.scrollHeight + "px";
                 this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
             }
         });
@@ -1239,7 +1264,7 @@
 
 
 
-
+   
     var accordions2 = document.getElementsByClassName("accordion2");
 
     // Add click event listener to each accordion button
@@ -1250,11 +1275,9 @@
 
             // Toggle the panel visibility
             var panel2 = this.nextElementSibling;
-            if (panel2.style.maxHeight) {
-                panel2.style.maxHeight = null;
+            if (this.querySelector('.arrow').innerHTML != '<i class="fa-regular fa-square-caret-up"></i>') {
                 this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
             } else {
-                panel2.style.maxHeight = panel2.scrollHeight + "px";
                 this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
             }
         });
