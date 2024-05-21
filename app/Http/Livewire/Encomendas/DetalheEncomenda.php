@@ -98,8 +98,21 @@ class DetalheEncomenda extends Component
                 break;
             }
 
-
             $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);  
+        }else{
+            $this->getCategories = $this->encomendasRepository->getCategorias();
+
+            $firstCategories = $this->getCategories->category[0];
+            session(['searchNameCategory' => $firstCategories->name]);
+
+            $firstFamily = $firstCategories->family[0];
+            session(['searchNameFamily' => $firstFamily->name]);
+
+            $firstSubFamily = $firstFamily->subfamily[0];
+            session(['searchNameSubFamily' => $firstSubFamily->name]);
+
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);  
+            session(['searchSubFamily' => $this->searchSubFamily]);
         }
 
 
@@ -266,7 +279,7 @@ class DetalheEncomenda extends Component
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->searchSubFamily = $this->encomendasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);  
-
+        
         $this->actualCategory = $idCategory;
         $this->actualFamily = $idFamily;
         $this->actualSubFamily = $idSubFamily;
@@ -325,6 +338,7 @@ class DetalheEncomenda extends Component
 
     public function updatedSearchProduct()
     {
+
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
@@ -351,8 +365,12 @@ class DetalheEncomenda extends Component
 
         $this->specificProduct = 0;
         $this->iteration++;
+<<<<<<< HEAD
 
         $this->dispatchBrowserEvent('refreshAllComponent');
+=======
+    
+>>>>>>> be5863d16e55b0c04347e525885bb505d5bfa622
     }
     
     public function resetFilter($idCategory)
