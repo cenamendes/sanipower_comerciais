@@ -1,21 +1,21 @@
  <div>
     <style>
         .accordion2 {
-    cursor: pointer;
-    padding: 10px;
-    width: 100%;
-    text-align: left;
-    border: none;
-    outline: none;
-    transition: 0.4s;
-}
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+        }
 
-.panel2 {
-    padding: 0 18px;
-    display: none;
-    overflow: hidden;
-    background-color: white;
-}
+        .panel2 {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: white;
+        }
 
     </style>
 
@@ -1266,21 +1266,22 @@
 
         var accordions2 = document.getElementsByClassName("accordion2");
 
-    // Add click event listener to each accordion button
-    for (var i = 0; i < accordions2.length; i+) {
-        accordions2[i].addEventListener("click", function() {
-            // Toggle active class to button
-            this.classList.toggle("active");
+        // Add click event listener to each accordion button
+        for (var i = 0; i < accordions2.length; i++) {
+            accordions2[i].addEventListener("click", function() {
+                // Toggle active class to button
+                this.classList.toggle("active");
 
-            // Toggle the panel visibility
-            var panel2 = this.nextElementSibling;
-            if (this.querySelector('.arrow').innerHTML != '<i class="fa-regular fa-square-caret-down"></i>') {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
-            } else {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
-            }
-        });
-    }
+                // Toggle the panel visibility
+                var panel2 = this.nextElementSibling;
+                if (this.querySelector('.arrow').innerHTML !== '<i class="fa-regular fa-square-caret-down"></i>') {
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+                } else {
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                }
+            });
+        }
+
 
     });
     window.addEventListener('refreshComponent', function(e) {
@@ -1438,19 +1439,20 @@
    
     var accordions2 = document.getElementsByClassName("accordion2");
 
-    // Add click event listener to each accordion button
-    for (var i = 0; i < accordions2.length; i++) {
-        accordions2[i].addEventListener("click", function() {
-            // Toggle active class to button
-            this.classList.toggle("active");
+// Add click event listener to each accordion button
+for (var i = 0; i < accordions2.length; i++) {
+    accordions2[i].addEventListener("click", function() {
+        // Toggle active class to button
+        this.classList.toggle("active");
 
-            // Toggle the panel visibility
-            var panel2 = this.nextElementSibling;
-            if (this.querySelector('.arrow').innerHTML != '<i class="fa-regular fa-square-caret-up"></i>') {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
-            } else {
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
-            }
-        });
-    }
+        // Toggle the panel visibility
+        var panel2 = this.nextElementSibling;
+        if (this.querySelector('.arrow').innerHTML !== '<i class="fa-regular fa-square-caret-down"></i>') {
+            this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+        } else {
+            this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+        }
+    });
+}
+
 </script>
