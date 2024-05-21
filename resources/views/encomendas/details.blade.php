@@ -27,10 +27,10 @@
         });
 
         document.addEventListener('encomendaAtual', function() {
-           
+            
            jQuery('#modalEncomenda').modal();
          
-       });
+        });
        
 </script>
 
