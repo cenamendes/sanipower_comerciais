@@ -296,23 +296,7 @@ body::-webkit-scrollbar {
 }
 /* Encomendas */
 
-.tab-encomenda-produto a{
-    background-color: #00000000;
-}
-.tab-encomenda-produto .submenu{
-    background-color: #181b1ec1;
-}
-.tab-encomenda-produto .submenu .subitem{
-    background-color: #293c548a;
-}
-.tab-encomenda-produto .submenu .subitem .subitemInterno{
-    background-color: #2a7ab737;
-}
-@media only screen and (max-width: 575px) {
-    .tab-encomenda-produto .coluna-buttons{
-        padding-right: 30px !important;
-    }
-}
+
 
 .body-decoration{
     display: flex;
@@ -830,7 +814,6 @@ tr th{
   /* Style the active accordion button (and hover) */
   .accordion2.active, .accordion2:hover {
     background-color: #d8dde1;
-    border: 1px solid #232b58;
     border-top:0;
     border-left:0;
     border-right:0;
