@@ -349,6 +349,8 @@ class DetalheProposta extends Component
 
         $this->specificProduct = 0;
         $this->iteration++;
+
+        $this->dispatchBrowserEvent('refreshAllComponent');
     }
     
     public function resetFilter($idCategory)
