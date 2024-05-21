@@ -1266,22 +1266,26 @@
 
         var accordions2 = document.getElementsByClassName("accordion2");
 
-        // Add click event listener to each accordion button
-        for (var i = 0; i < accordions2.length; i++) {
-            accordions2[i].addEventListener("click", function() {
-                // Toggle active class to button
-                this.classList.toggle("active");
+    // Add click event listener to each accordion button
+    for (var i = 0; i < accordions2.length; i++) {
+        accordions2[i].addEventListener("click", function() {
+            // Toggle active class to button
+            this.classList.toggle("active");
 
-                // Toggle the panel visibility
-                var panel2 = this.nextElementSibling;
-                if (this.querySelector('.arrow').innerHTML !== '<i class="fa-regular fa-square-caret-down"></i>') {
-                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+            // Toggle the panel visibility
+            // Toggle the panel visibility
+            var panel2 = this.nextElementSibling;
+                if (panel2.style.maxHeight) {
+                    panel2.style.maxHeight = null;
+                    this.querySelector('.arrow').innerHTML =
+                        '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow down
                 } else {
-                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                    panel2.style.maxHeight = panel2.scrollHeight + "px";
+                    this.querySelector('.arrow').innerHTML =
+                        '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow up
                 }
             });
         }
-
 
     });
     window.addEventListener('refreshComponent', function(e) {
