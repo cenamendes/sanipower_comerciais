@@ -52,6 +52,8 @@ class DetalheEncomenda extends Component
 
     private ?object $detailProduto = NULL;
 
+    public $modalShow = false;
+
     public int $perPage = 10;
     protected $listeners=["rechargeFamily" => "rechargeFamily"];
 
@@ -239,6 +241,7 @@ class DetalheEncomenda extends Component
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
+
         $this->dispatchBrowserEvent('encomendaAtual');
     }
    
