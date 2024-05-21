@@ -365,12 +365,9 @@ class DetalheEncomenda extends Component
 
         $this->specificProduct = 0;
         $this->iteration++;
-<<<<<<< HEAD
 
         $this->dispatchBrowserEvent('refreshAllComponent');
-=======
-    
->>>>>>> be5863d16e55b0c04347e525885bb505d5bfa622
+
     }
     
     public function resetFilter($idCategory)
