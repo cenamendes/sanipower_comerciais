@@ -6,7 +6,7 @@
             <!-- BOF Breadcrumb -->
             <div class="row navigationLinks">
                 <div class="col">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" style="padding-left: 25px;">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="ti-home"></i> Dashboard</a></li>
                     </ol>
                 </div>
