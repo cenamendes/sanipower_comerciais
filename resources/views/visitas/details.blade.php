@@ -28,6 +28,15 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+
+        document.addEventListener('openComentarioModal', function() {
+            jQuery("#modalComentario").modal();
+        });
+
+        document.addEventListener('openComentarioModalPropostas', function() {
+            jQuery("#modalComentarioProp").modal();
+        });
+        
 </script>
 
 @endpush

@@ -13,7 +13,6 @@
 
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
         <div class="tools">
-            <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
@@ -421,10 +420,33 @@
 
                     </p>
                 </div>
+
+                <div class="tab-pane fade {{$tabEncomendas}}" id="tab7">
+    
+                    <p class="card-text">
+             
+                       @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
+
+                <div class="tab-pane fade {{$tabPropostas}}" id="tab8">
+    
+                    <p class="card-text">
+             
+                       @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
+
+
+
+
             </div>
         </div>
     </div>
 
     <!-- FIM TABS  -->
+
 
 </div>

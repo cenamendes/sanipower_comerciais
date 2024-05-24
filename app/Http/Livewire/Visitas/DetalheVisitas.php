@@ -34,6 +34,8 @@ class DetalheVisitas extends Component
     public string $tabVisitas = "";
     public string $tabAssistencias = "";
 
+    private ?object $encomendasDetail = NULL;
+
     public function boot(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -55,12 +57,9 @@ class DetalheVisitas extends Component
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->restartDetails();
+
     }
 
     
@@ -145,12 +144,8 @@ class DetalheVisitas extends Component
         $this->tabVisitas = "";
         $this->tabAssistencias = "";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->restartDetails();
 
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
-        $this->totalRecords = $getInfoClientes["nr_registos"];
     }
     public function updatedPerPageRelatorio(): void
     {
@@ -168,14 +163,19 @@ class DetalheVisitas extends Component
         $this->tabVisitas = "";
         $this->tabAssistencias = "";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
+        $this->restartDetails();
+
+    }
+
+    public function restartDetails()
+    {
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPageRelatorio,$this->idCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
-
     
     public function paginationView()
     {
