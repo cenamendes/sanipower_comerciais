@@ -3,10 +3,10 @@
 
     <div class="row navigationLinks">
         <div class="col">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb" style="padding-left: 25px;">
                 <li class="breadcrumb-item"><a href=""><i class="ti-calendar"></i> Clientes</a></li>
                 <li class="breadcrumb-item">Informação</li>
-                <li class="breadcrumb-item active">{{$idCliente}}</li>
+                <li class="breadcrumb-item active">{{$nameCliente}}</li>
             </ol>
         </div>
     </div>
