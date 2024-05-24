@@ -132,7 +132,6 @@ class ClientesRepository implements ClientesInterface
 
     public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente): LengthAwarePaginator
     {
-
         if($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } 
@@ -174,7 +173,7 @@ class ClientesRepository implements ClientesInterface
             $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
 
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
-
+            dd($itemsPaginate);
         }
         else {
 

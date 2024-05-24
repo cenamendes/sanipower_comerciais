@@ -182,7 +182,7 @@
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
                                         <td>
-                                            <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
+                                            <a href="javascript:;" class="btn btn-primary" data-toggle="dropdown" aria-expanded="false">
                                                 <i class="ti-settings text-light"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
