@@ -777,7 +777,7 @@
                                 {{-- @foreach ($clientes as $clt ) --}}
                                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Spiro* Curva 80 - 90º</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">Spiro* Curva 80 - 90º</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">16,196 €</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">8,098 €</td>
@@ -816,7 +816,7 @@
                                 {{-- @foreach ($clientes como $clt ) --}}
                                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Proteu Elemento Radiador Douro Gold 600X95</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">Proteu Elemento Radiador Douro Gold 600X95</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">26,800 €</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">9,250 €</td>
