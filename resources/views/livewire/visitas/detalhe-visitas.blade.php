@@ -13,7 +13,7 @@
 
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
         <div class="tools">
-            <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
+            <a href="javascript:void(0);" wire:click="saveVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
@@ -284,21 +284,21 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text bg-carolina"><i class="ti-clip text-light"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" value="" readonly>
+                                                <input type="text" class="form-control" value="" wire:model.defer="assunto">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Relatório</label>
                                             <div class="input-group">
-                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="relatorio"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Pendentes para a próxima visita</label>
                                             <div class="input-group">
-                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="pendentes"></textarea>
                                             </div>
                                         </div>
 
@@ -307,28 +307,28 @@
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre encomendas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_encomendas"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre propostas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_propostas"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre financeiro</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_financeiro"></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre ocorrências</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_occorencias"></textarea>
                                                 </div>
                                             </div>
                                             

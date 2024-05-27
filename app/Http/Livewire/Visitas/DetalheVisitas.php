@@ -34,6 +34,16 @@ class DetalheVisitas extends Component
     public string $tabVisitas = "";
     public string $tabAssistencias = "";
 
+
+    //FORM
+    public string $assunto = "";
+    public string $relatorio = "";
+    public string $pendentes = "";
+    public string $comentario_encomendas = "";
+    public string $comentario_propostas = "";
+    public string $comentario_financeiro = "";
+    public string $comentario_occorencias = "";
+
     private ?object $encomendasDetail = NULL;
 
     public function boot(ClientesInterface $clientesRepository)
@@ -176,13 +186,31 @@ class DetalheVisitas extends Component
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
+
+    public function saveVisita()
+    {
+        $this->restartDetails();
+
+        $response = $this->clientesRepository->storeVisita($this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
+
+        $responseArray = $response->getData(true);
+        
+        if($responseArray["success"] == true){
+            session()->flash('success', "Visita criada com sucesso");
+         } else {
+             session()->flash('error', "Não foi possivel adicionar a visita");
+         }
+
+        $this->skipRender();
+
+        return redirect()->route('visitas');
+
+    }
     
     public function paginationView()
     {
         return 'livewire.pagination';
     }
-
-
 
     public function render()
     {

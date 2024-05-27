@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\Visitas;
 use App\Models\Comentarios;
 use Illuminate\Http\JsonResponse;
 use App\Models\ComentariosPropostas;
+use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
 use App\Models\ComentariosEncomendas;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -457,10 +459,9 @@ class ClientesRepository implements ClientesInterface
     public function sendComentarios($idProposta, $comentario, $type): JsonResponse
     {
         $comentarioCreated = Comentarios::create([
-            "id_visita" => 1,
             "stamp" => $idProposta,
             "tipo" => $type,
-            "comentario" => $comentario
+            "comentario" => $comentario,
         ]);
 
         if ($comentarioCreated) {
@@ -480,6 +481,38 @@ class ClientesRepository implements ClientesInterface
         return $comentarioCreated;
     }
 
+
+    public function storeVisita($numero_cliente,$assunto,$relatorio,$pendentes,$comentario_encomendas,$comentario_propostas,$comentario_financeiro,$comentario_occorencias): JsonResponse
+    {
+        $visitaCreate = Visitas::create([
+            "numero_cliente" => $numero_cliente,
+            "assunto" => $assunto,
+            "relatorio" => $relatorio,
+            "pendentes_proxima_visita" => $pendentes,
+            "comentario_encomendas" => $comentario_encomendas,
+            "comentario_propostas" => $comentario_propostas,
+            "comentario_financeiro" => $comentario_financeiro,
+            "comentario_occorrencias" => $comentario_occorencias,
+            "data" => date('Y-m-d'),
+            "user_id" => Auth::user()->id
+        ]);
+
+        if ($visitaCreate) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $visitaCreate
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir visita na base de dados.'
+            ], 500);
+        }
+
+        return $visitaCreate;
+    }
 
 
 }
