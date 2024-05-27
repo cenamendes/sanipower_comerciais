@@ -29,6 +29,9 @@
             });
         });
 
+
+
+
         document.addEventListener('openComentarioModal', function() {
             jQuery("#modalComentario").modal();
         });
@@ -37,7 +40,21 @@
             jQuery("#modalComentarioProp").modal();
         });
 
-        
+
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+
+            document.getElementById('loader').style.display = 'none';
+        });
+
+        window.addEventListener('beforeunload', function () {
+            // Show the loader when the user navigates away or the page is being unloaded
+            document.getElementById('loader').style.display = 'block';
+        });
+
+
+
+
         window.addEventListener('checkToaster', function(e) {
 
             jQuery("#modalComentario").modal('hide');
