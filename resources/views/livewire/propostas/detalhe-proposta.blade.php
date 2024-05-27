@@ -732,9 +732,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                    @endif
-                </div>
+                        @endif
+                    </div>
                 </div>
 
                 <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
@@ -806,7 +805,6 @@
                     </p>
                 </div>
                 
-                [14:10] João Mendes
  <!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">

@@ -335,7 +335,7 @@
                                                                     <a href="javascript:void(0)"
                                                                         wire:click="resetFilter({{ $contaCat }})"
                                                                         class="mb-3 ml-4"><i
-                                                                            class="ti-angle-left"></i> Atrás</a>
+                                                                        class="ti-angle-left"></i> Atrás</a>
                                                                 </div>
                                                                 <!-- </div> -->
 
@@ -551,7 +551,7 @@
                             <div class="tab-encomenda-produto">
                                 <div class="row mb-2 border-bottom">
                                     <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
-                                            class="ti-angle-left"></i> Atrás</a>
+                                        class="ti-angle-left"></i> Atrás</a>
                                 </div>
 
                                 @php
@@ -721,9 +721,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                    @endif
-                </div>
+
+                        @endif
+                    </div>
                 </div>
 
                 <div class="tab-pane fade {{ $tabDetalhesEncomendas }}" id="tab6">
@@ -794,8 +794,6 @@
 
                     </p>
                 </div>
-                
-                [14:10] João Mendes
  <!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">
