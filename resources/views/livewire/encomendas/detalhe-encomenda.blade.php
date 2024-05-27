@@ -1551,8 +1551,28 @@
         });
 
 
+
+
         document.getElementById('finalizarEncomenda').addEventListener('click', function() {
     // Fecha o modal
     $('.modal').modal('hide');
+
+    // Adiciona as classes 'show active' à aba especificada
+    document.querySelector('#tab6').classList.add('show', 'active');
+
+    // Remove as classes 'show active' das outras abas, se necessário
+    var otherTabs = document.querySelectorAll('.tab-pane');
+    otherTabs.forEach(function(tab) {
+        if (tab.id !== 'tab6') {
+            tab.classList.remove('show', 'active');
+        }
+    });
+
+    // Atualiza o link da navegação para refletir a aba ativa
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(function(link) {
+        link.classList.remove('active');
+    });
+    document.querySelector('a[href="#tab6"]').classList.add('active');
 });
 </script>

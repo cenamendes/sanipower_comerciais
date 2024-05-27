@@ -1101,7 +1101,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary {{ $tabDetalhesEncomendas }}">Finalizar Encomenda</a>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary {{ $tabDetalhesPropostas }}">Finalizar Encomenda</a>
             </div>
         </div>
     </div>
@@ -1559,19 +1559,26 @@
         });
     }
 
-    document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
-                document.getElementById('loader').style.display = 'block';
-            });
-
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
-                document.getElementById('loader').style.display = 'none';
-            });
-        });
-
-        document.getElementById('finalizarEncomenda').addEventListener('click', function() {
+    document.getElementById('finalizarEncomenda').addEventListener('click', function() {
     // Fecha o modal
     $('.modal').modal('hide');
+
+    // Adiciona as classes 'show active' à aba especificada
+    document.querySelector('#tab6').classList.add('show', 'active');
+
+    // Remove as classes 'show active' das outras abas, se necessário
+    var otherTabs = document.querySelectorAll('.tab-pane');
+    otherTabs.forEach(function(tab) {
+        if (tab.id !== 'tab6') {
+            tab.classList.remove('show', 'active');
+        }
+    });
+
+    // Atualiza o link da navegação para refletir a aba ativa
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(function(link) {
+        link.classList.remove('active');
+    });
+    document.querySelector('a[href="#tab6"]').classList.add('active');
 });
 </script>
