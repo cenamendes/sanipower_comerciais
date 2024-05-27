@@ -760,10 +760,10 @@
                         <table class="table table-hover init-datatable" id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Referência</th>
+                                    <th class="d-none d-lg-table-cell">Referência</th>
                                     <th>Produto</th>
                                     <th>PVP (UNI)</th>
-                                    <th>Desconto</th>
+                                    <th class="d-none d-md-table-cell">Desconto</th>
                                     <th>Preço (c/desc.)</th>
                                     <th>Qtd.Enc.</th>
                                     <th>Total</th>
@@ -776,11 +776,11 @@
                                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Spiro* Curva 80 - 90º</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">16,196 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">8,098 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">10</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">80,980 €</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
                                 </tr>
                                 {{-- @endforeach --}}
@@ -798,10 +798,10 @@
                         <table class="table table-hover init-datatable" id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Referência</th>
+                                    <th class="d-none d-lg-table-cell">Referência</th>
                                     <th>Produto</th>
                                     <th>PVP (UNI)</th>
-                                    <th>Desconto</th>
+                                    <th class="d-none d-md-table-cell">Desconto</th>
                                     <th>Preço (c/desc.)</th>
                                     <th>Qtd.Enc.</th>
                                     <th>Total</th>
@@ -813,12 +813,12 @@
                                 {{-- @foreach ($clientes como $clt ) --}}
                                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Spiro* Curva 80 - 90º</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Proteu Elemento Radiador Douro Gold 600X95</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">26,800 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">9,250 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">200</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">1 850,000 €</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
                                 </tr>
                                 {{-- @endforeach --}}
@@ -844,7 +844,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row p-4">
                     <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
                         <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;"><i class="las la-eraser"></i> Limpar Carrinho</a>
                         <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
