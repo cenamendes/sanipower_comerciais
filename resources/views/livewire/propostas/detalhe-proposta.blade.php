@@ -1101,7 +1101,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#tab6" data-toggle="tab" class="nav-link btn btn-outline-primary {{ $tabDetalhesPropostas }}">Finalizar Encomenda</a>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary {{ $tabDetalhesEncomendas }}">Finalizar Encomenda</a>
             </div>
         </div>
     </div>
@@ -1569,4 +1569,9 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+
+        document.getElementById('finalizarEncomenda').addEventListener('click', function() {
+    // Fecha o modal
+    $('.modal').modal('hide');
+});
 </script>
