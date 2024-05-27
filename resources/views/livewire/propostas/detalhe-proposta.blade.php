@@ -748,11 +748,11 @@
 
                             </div>
                     @endif
-        
+
                </div>
             </div>
 
-            <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
+            <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;">
                 <div class="row">
                     <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                         <img src="https://storage.sanipower.pt/storage/produtos/9/9-1-2.jpg"
