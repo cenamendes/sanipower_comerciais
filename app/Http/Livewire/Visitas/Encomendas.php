@@ -141,7 +141,7 @@ class Encomendas extends Component
 
     public function sendComentario($idEncomenda)
     {
-        $response = $this->clientesRepository->sendComentariosEncomendas($idEncomenda,$this->comentarioEncomenda);
+        $response = $this->clientesRepository->sendComentarios($idEncomenda,$this->comentarioEncomenda,"encomendas");
 
         $responseArray = $response->getData(true);
 

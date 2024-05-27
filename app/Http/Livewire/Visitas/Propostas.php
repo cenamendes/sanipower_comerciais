@@ -141,7 +141,7 @@ class Propostas extends Component
 
     public function sendComentario($idProposta)
     {
-        $response = $this->clientesRepository->sendComentariosPropostas($idProposta,$this->comentarioProposta);
+        $response = $this->clientesRepository->sendComentarios($idProposta,$this->comentarioProposta, "propostas");
 
         $responseArray = $response->getData(true);
         

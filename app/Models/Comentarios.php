@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ComentariosPropostas extends Model
+class Comentarios extends Model
 {
     use HasFactory;
 
-    protected $table="comentarios_propostas";
+    protected $table="comentarios";
 
     protected $fillable = [
-        'id_proposta',
+        'id_visita',
+        'stamp',
+        'tipo',
         'comentario'
     ];
 }

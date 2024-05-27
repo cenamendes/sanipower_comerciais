@@ -37,15 +37,13 @@ interface ClientesInterface
 
     public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array;
 
-    public function sendComentariosEncomendas($idEncomenda,$comentarioEncomenda): JsonResponse;
-
     //DETALHES CLIENTE -> ABA PROPOSTAS **/
 
     public function getPropostasCliente($perPage,$page,$nomeCliente): LengthAwarePaginator;
 
     public function getNumberOfPagesPropostasCliente($perPage,$idCliente): array;
 
-    public function sendComentariosPropostas($idProposta, $comentarioProposta): JsonResponse;  
+    public function sendComentarios($idProposta, $comentario,$type): JsonResponse;  
 
     /****** */
 
