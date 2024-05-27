@@ -4,6 +4,9 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Interfaces\ClientesInterface;
+use App\Models\ComentariosEncomendas;
+use App\Models\ComentariosPropostas;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientesRepository implements ClientesInterface
@@ -53,6 +56,50 @@ class ClientesRepository implements ClientesInterface
 
     }
 
+    public function getListagemAnalisesCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    {
+        $curl = curl_init();
+ 
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+ 
+        $response = curl_exec($curl);
+ 
+        curl_close($curl);
+ 
+        $response_decoded = json_decode($response);
+ 
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+ 
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
+ 
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+ 
+        }
+        else {
+ 
+            $currentItems = [];
+ 
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+ 
+   
+        return $itemsPaginate;
+    }
+
     public function getNumberOfPages($perPage): array
     {
         $curl = curl_init();
@@ -88,7 +135,6 @@ class ClientesRepository implements ClientesInterface
 
     public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente): LengthAwarePaginator
     {
-
         if($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } 
@@ -130,7 +176,7 @@ class ClientesRepository implements ClientesInterface
             $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
 
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
-
+            dd($itemsPaginate);
         }
         else {
 
@@ -224,7 +270,7 @@ class ClientesRepository implements ClientesInterface
 
     /***  DETALHES DO CLIENTE *****/
 
-    public function getListagemAnalisesCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getEncomendasCliente($perPage,$page,$idCliente): LengthAwarePaginator
     {
         $curl = curl_init();
 
@@ -297,6 +343,162 @@ class ClientesRepository implements ClientesInterface
         $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
 
         return $arrayInfo;
+    }
+
+    public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
+
+
+    public function sendComentariosEncomendas($idEncomenda,$comentarioEncomenda): JsonResponse
+    {
+        $comentarioEncomenda = ComentariosEncomendas::create([
+            "id_encomenda" => $idEncomenda,
+            "comentario" => $comentarioEncomenda
+        ]);
+
+        if ($comentarioEncomenda) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $comentarioEncomenda
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir o comentário na base de dados.'
+            ], 500);
+        }
+    }
+
+
+    
+    public function getPropostasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+    
+        return $itemsPaginate; 
+    }
+
+    public function getNumberOfPagesPropostasCliente($perPage,$idCliente): array
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
+    public function sendComentariosPropostas($idProposta, $comentarioProposta): JsonResponse
+    {
+        $comentarioProposta = ComentariosPropostas::create([
+            "id_proposta" => $idProposta,
+            "comentario" => $comentarioProposta
+        ]);
+
+        if ($comentarioProposta) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $comentarioProposta
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir o comentário na base de dados.'
+            ], 500);
+        }
+
+        return $comentarioProposta;
     }
 
 

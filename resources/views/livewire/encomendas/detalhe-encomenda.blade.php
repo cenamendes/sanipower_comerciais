@@ -336,7 +336,7 @@
                                                                     <a href="javascript:void(0)"
                                                                         wire:click="resetFilter({{ $contaCat }})"
                                                                         class="mb-3 ml-4"><i
-                                                                            class="ti-angle-left"></i> Atrás</a>
+                                                                        class="ti-angle-left"></i> Atrás</a>
                                                                 </div>
                                                                 <!-- </div> -->
 
@@ -552,7 +552,7 @@
                             <div class="tab-encomenda-produto">
                                 <div class="row mb-2 border-bottom">
                                     <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
-                                            class="ti-angle-left"></i> Atrás</a>
+                                        class="ti-angle-left"></i> Atrás</a>
                                 </div>
 
                                 @php
@@ -726,6 +726,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                     @endif
                 </div>
@@ -767,6 +768,7 @@
                                 {{-- @endforeach --}}
                             </tbody>
                         </table>
+
                     </div>
                 </div>
 
@@ -904,7 +906,9 @@
 
 
                     </p>
+
                 </div> --}}
+
 
  <!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"

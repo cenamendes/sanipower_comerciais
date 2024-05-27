@@ -745,9 +745,11 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                     @endif
-                </div>
+        
+               </div>
             </div>
 
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
@@ -786,6 +788,7 @@
                                 {{-- @endforeach --}}
                             </tbody>
                         </table>
+
                     </div>
                 </div>
 
@@ -923,7 +926,9 @@
 
 
                     </p>
+
                 </div> --}}
+
 
  <!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
