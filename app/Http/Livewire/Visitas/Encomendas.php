@@ -133,13 +133,30 @@ class Encomendas extends Component
         $this->encomendaID = $id;
         $this->encomendaName = $name;
 
+        $this->comentarioEncomenda = "";
+
         $this->dispatchBrowserEvent('openComentarioModal');
         
     }
 
     public function sendComentario($idEncomenda)
     {
-        dD($idEncomenda,$this->comentarioEncomenda);
+        $response = $this->clientesRepository->sendComentariosEncomendas($idEncomenda,$this->comentarioEncomenda);
+
+        $responseArray = $response->getData(true);
+
+        if($responseArray["success"] == true){
+           $message = "Comentário adicionado com sucesso!";
+           $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar o comentário!";
+            $status = "error";
+        }
+
+        $this->restartDetails();
+
+        $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
+
     }
 
 

@@ -2,6 +2,9 @@
 
 namespace App\Interfaces;
 
+use Illuminate\Http\JsonResponse;
+use App\Models\ComentariosPropostas;
+use App\Models\ComentariosEncomendas;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ClientesInterface
@@ -29,15 +32,20 @@ interface ClientesInterface
 
 
 
+    //DETALHES CLIENTE -> ABA ENCOMENDAS **/
     public function getEncomendasCliente($perPage,$page,$nomeCliente): LengthAwarePaginator;
 
     public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array;
+
+    public function sendComentariosEncomendas($idEncomenda,$comentarioEncomenda): JsonResponse;
+
+    //DETALHES CLIENTE -> ABA PROPOSTAS **/
 
     public function getPropostasCliente($perPage,$page,$nomeCliente): LengthAwarePaginator;
 
     public function getNumberOfPagesPropostasCliente($perPage,$idCliente): array;
 
-   
+    public function sendComentariosPropostas($idProposta, $comentarioProposta): JsonResponse;  
 
     /****** */
 

@@ -4,6 +4,9 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Interfaces\ClientesInterface;
+use App\Models\ComentariosEncomendas;
+use App\Models\ComentariosPropostas;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientesRepository implements ClientesInterface
@@ -375,6 +378,29 @@ class ClientesRepository implements ClientesInterface
 
 
 
+    public function sendComentariosEncomendas($idEncomenda,$comentarioEncomenda): JsonResponse
+    {
+        $comentarioEncomenda = ComentariosEncomendas::create([
+            "id_encomenda" => $idEncomenda,
+            "comentario" => $comentarioEncomenda
+        ]);
+
+        if ($comentarioEncomenda) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $comentarioEncomenda
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir o comentário na base de dados.'
+            ], 500);
+        }
+    }
+
+
     
     public function getPropostasCliente($perPage,$page,$idCliente): LengthAwarePaginator
     {
@@ -449,6 +475,30 @@ class ClientesRepository implements ClientesInterface
         $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
 
         return $arrayInfo;
+    }
+
+    public function sendComentariosPropostas($idProposta, $comentarioProposta): JsonResponse
+    {
+        $comentarioProposta = ComentariosPropostas::create([
+            "id_proposta" => $idProposta,
+            "comentario" => $comentarioProposta
+        ]);
+
+        if ($comentarioProposta) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $comentarioProposta
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir o comentário na base de dados.'
+            ], 500);
+        }
+
+        return $comentarioProposta;
     }
 
 

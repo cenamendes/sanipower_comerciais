@@ -31,6 +31,16 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if ("{{ session('success') }}") {
+                toastr.success("{{ session('success') }}");
+            }
+
+            if("{{ session('error') }}"){
+                toastr.warning("{{ session('error') }}");
+            }
+        });
 </script>
 
 @endpush

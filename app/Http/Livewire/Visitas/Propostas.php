@@ -133,13 +133,29 @@ class Propostas extends Component
         $this->propostaID = $id;
         $this->propostaName = $name;
 
+        $this->comentarioProposta = "";
+
         $this->dispatchBrowserEvent('openComentarioModalPropostas');
         
     }
 
-    public function sendComentario($idEncomenda)
+    public function sendComentario($idProposta)
     {
-        dD($idEncomenda,$this->comentarioProposta);
+        $response = $this->clientesRepository->sendComentariosPropostas($idProposta,$this->comentarioProposta);
+
+        $responseArray = $response->getData(true);
+        
+        if($responseArray["success"] == true){
+            $message = "Comentário adicionado com sucesso!";
+            $status = "success";
+         } else {
+             $message = "Não foi possivel adicionar o comentário!";
+             $status = "error";
+         }
+
+        $this->restartDetails();
+
+        $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
     }
 
 
