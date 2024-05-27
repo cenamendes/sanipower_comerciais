@@ -4,7 +4,7 @@
 
     <div class="row navigationLinks">
         <div class="col">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb" style="padding-left: 25px;">
                 <li class="breadcrumb-item"><a href=""><i class="ti-calendar"></i> Clientes</a></li>
                 <li class="breadcrumb-item active">Listagem</li>
             </ol>
@@ -30,6 +30,16 @@
             Livewire.hook('message.processed', () => {
                 document.getElementById('loader').style.display = 'none';
             });
+        });
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if ("{{ session('success') }}") {
+                toastr.success("{{ session('success') }}");
+            }
+
+            if("{{ session('error') }}"){
+                toastr.warning("{{ session('error') }}");
+            }
         });
 </script>
 

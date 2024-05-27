@@ -3,10 +3,10 @@
 
     <div class="row navigationLinks">
         <div class="col">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb" style="padding-left: 25px;">
                 <li class="breadcrumb-item"><a href=""><i class="ti-calendar"></i> Clientes</a></li>
                 <li class="breadcrumb-item">Informação</li>
-                <li class="breadcrumb-item active">{{$idCliente}}</li>
+                <li class="breadcrumb-item active">{{$nameCliente}}</li>
             </ol>
         </div>
     </div>
@@ -28,6 +28,30 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+
+        document.addEventListener('openComentarioModal', function() {
+            jQuery("#modalComentario").modal();
+        });
+
+        document.addEventListener('openComentarioModalPropostas', function() {
+            jQuery("#modalComentarioProp").modal();
+        });
+
+        
+        window.addEventListener('checkToaster', function(e) {
+
+            jQuery("#modalComentario").modal('hide');
+            jQuery("#modalComentarioProp").modal('hide');
+
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+
+            if(e.detail.status == "error"){
+                toastr.warning(e.detail.message);
+            }
+        });
+        
 </script>
 
 @endpush
