@@ -845,5 +845,12 @@ tr th{
     float: right;
     color: #555;
   }
-  
-  
+
+
+
+
+  a.btn_limpar_carrinho:hover{
+    background-color: #232b58;
+    color: white;
+  }
+

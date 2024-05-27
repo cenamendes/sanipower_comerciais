@@ -1,5 +1,5 @@
  <div>
-   
+
 
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
@@ -40,7 +40,8 @@
             <div class="teste" style="padding-right:35px;">
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
-                        <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i class="ti-eye"></i>
+                        <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
+                                class="ti-eye"></i>
                             Ver Encomenda</a>
                         <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar</a>
                         <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
@@ -49,7 +50,7 @@
             </div>
 
         </div>
-       
+
         <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;padding-right: 0;">
             <div class="tab-content">
 
@@ -426,8 +427,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <div class="col-md col-12"> 
+
+                                        <div class="col-md col-12">
                                             @php
                                                 $searchNameCategory = session('searchNameCategory');
                                                 $searchNameFamily = session('searchNameFamily');
@@ -677,16 +678,20 @@
                                                                                 class="btn btn-sm dropdown-item">Adicionar
                                                                                 Encomenda</button>
                                                                         </div> --}}
-                                                                        <a href="javascript:;" class="btn btn-sm btn-outline-secondary">
+                                                                        <a href="javascript:;"
+                                                                            class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-package text-light"></i>
                                                                         </a>
-                                                                        <a href="javascript:;" class="btn btn-sm btn-outline-secondary">
+                                                                        <a href="javascript:;"
+                                                                            class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-comment text-light"></i>
                                                                         </a>
-                                                                        <a href="javascript:;" class="btn btn-sm btn-outline-secondary">
+                                                                        <a href="javascript:;"
+                                                                            class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-notepad text-light"></i>
                                                                         </a>
-                                                                        <a href="javascript:;" class="btn btn-sm btn-outline-secondary">
+                                                                        <a href="javascript:;"
+                                                                            class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-shopping-cart text-light"></i>
                                                                         </a>
                                                                     </td>
@@ -722,78 +727,189 @@
                                     </div>
                                 </div>
 
-                        @endif
+                            </div>
+                    @endif
+                </div>
+            </div>
+
+            <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
+                <div class="row" style="border-top: 1px solid #232b58;">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                        <img src="https://storage.sanipower.pt/storage/produtos/9/9-1-2.jpg"
+                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                    </div>
+                    <div class="col-md-10 p-0">
+                        <table class="table table-hover init-datatable" id="tabela-cliente">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="d-none d-lg-table-cell">Referência</th>
+                                    <th>Produto</th>
+                                    <th>PVP (UNI)</th>
+                                    <th class="d-none d-md-table-cell">Desconto</th>
+                                    <th>Preço (c/desc.)</th>
+                                    <th>Qtd.Enc.</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{-- @foreach ($clientes as $clt ) --}}
+                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Spiro* Curva 80 - 90º</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">16,196 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">8,098 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">10</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">80,980 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
+                                </tr>
+                                {{-- @endforeach --}}
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
 
-                <div class="tab-pane fade {{ $tabDetalhesEncomendas }}" id="tab6">
+                <div class="row" style="border-top: 1px solid #232b58; border-bottom: 1px solid #232b58;">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                        <img src="https://storage.sanipower.pt/storage/produtos/30/30-6-2.jpg"
+                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                    </div>
+                    <div class="col-md-10 p-0">
+                        <table class="table table-hover init-datatable" id="tabela-cliente">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="d-none d-lg-table-cell">Referência</th>
+                                    <th>Produto</th>
+                                    <th>PVP (UNI)</th>
+                                    <th class="d-none d-md-table-cell">Desconto</th>
+                                    <th>Preço (c/desc.)</th>
+                                    <th>Qtd.Enc.</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
 
-                    <p class="card-text">
+                            <tbody>
+                                {{-- @foreach ($clientes como $clt ) --}}
+                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Proteu Elemento Radiador Douro Gold 600X95</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">26,800 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">9,250 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">200</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">1 850,000 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
+                                </tr>
+                                {{-- @endforeach --}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-right" style="border-bottom: none;">
+                        <table class="float-right" style="width: 240px; margin-top: 1rem;">
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #232b58!important;">
+                                    <td style="width: 100px; text-align: left;">Total s/IVA</td>
+                                    <td style="width: 140px;" class="bold">1&nbsp;930,980&nbsp;€</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #232b58!important;">
+                                    <td style="width: 100px; text-align: left;">Total c/IVA</td>
+                                    <td style="width: 140px;" class="bold">2&nbsp;375,105&nbsp;€</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row p-4">
+                    <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
+                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
+                    </div>
+                    <div class="col-12 pb-3 p-0 d-md-none text-center">
+                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul w-100"><i class="las la-angle-right"></i> Seguinte</a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
+
+                <p class="card-text">
 
 
-                    <div class="row form-group">
-                        <div class="col-xl-4 col-xs-12">
+                <div class="row form-group">
+                    <div class="col-xl-4 col-xs-12">
 
-                            <div class="form-group">
-                                <label>Referência</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-light-bulb text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                        <div class="form-group">
+                            <label>Referência</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-carolina"><i
+                                            class="ti-light-bulb text-light"></i></span>
                                 </div>
+                                <input type="text" class="form-control"
+                                    value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
                             </div>
-
                         </div>
 
-                        <div class="col-xl-4 col-xs-12">
+                    </div>
 
-                            <div class="form-group">
-                                <label>Entrega</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-bag text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
+                    <div class="col-xl-4 col-xs-12">
+
+                        <div class="form-group">
+                            <label>Entrega</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-carolina"><i
+                                            class="ti-bag text-light"></i></span>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4 col-xs-12">
-
-                            <div class="form-group">
-                                <label>Condições de Pagamento</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-money text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
-                                </div>
+                                <input type="text" class="form-control"
+                                    value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row form-group">
-                        <div class="col-xl-12 col-xs-12">
+                    <div class="col-xl-4 col-xs-12">
 
-                            <div class="form-group">
-                                <label>Observação</label>
-                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                        <div class="form-group">
+                            <label>Condições de Pagamento</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-carolina"><i
+                                            class="ti-money text-light"></i></span>
+                                </div>
+                                <input type="text" class="form-control"
+                                    value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
                             </div>
-
                         </div>
                     </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-xl-12 col-xs-12">
+
+                        <div class="form-group">
+                            <label>Observação</label>
+                            <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                        </div>
+
+                    </div>
+                </div>
 
 
 
                     </p>
-                </div>
+
+                </div> --}}
+
+
  <!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">
@@ -828,9 +944,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
- 
+
                                     @if (!empty($quickBuyProducts))
- 
+
                                         @foreach ($quickBuyProducts->product as $prod)
                                             <tr>
                                                 <td>{{ $prod->referense }}</td>
@@ -855,9 +971,9 @@
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
- 
+
                                                                             {{ $stock->warehouse }}
- 
+
                                                                             @if ($stock->stock == true)
                                                                                 <i
                                                                                     class="ti-check text-lg text-forest"></i>
@@ -865,7 +981,7 @@
                                                                                 <i
                                                                                     class="ti-close text-lg text-chili"></i>
                                                                             @endif
- 
+
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -878,7 +994,7 @@
                                                             <i class="ti-close text-lg text-chili"></i>
                                                         </a>
                                                     @endif
- 
+
                                                 </td>
                                                 <td><input type="number" class="form-control"
                                                         id="valueEncomendar"></td>
@@ -891,7 +1007,7 @@
                                             </tr>
                                         @endforeach
                                     @endif
- 
+
                                 </tbody>
                             </table>
                         </div>
@@ -906,11 +1022,11 @@
         </div>
     </div>
 </div>
- 
+
 <!----->
- 
+
 <!-- Modal ver encomenda -->
- 
+
 <div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
     aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
@@ -940,7 +1056,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
- 
+
                                     @if (!empty($quickBuyProducts))
                                         @foreach ($quickBuyProducts->product as $prod)
                                             <tr>
@@ -973,11 +1089,11 @@
     </div>
 </div>
 
-            </div>
         </div>
     </div>
+</div>
 
-    <!-- FIM TABS  -->
+<!-- FIM TABS  -->
 
 
     <!-- MODALS -->
@@ -1252,6 +1368,7 @@
     }
 
     });
+
     window.addEventListener('refreshComponent', function(e) {
         jQuery("#subItemInput" + e.detail.id).css("display", "block");
     });

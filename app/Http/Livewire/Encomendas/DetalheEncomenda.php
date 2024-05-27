@@ -100,7 +100,7 @@ class DetalheEncomenda extends Component
                 break;
             }
 
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);  
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
         }else{
             $this->getCategories = $this->encomendasRepository->getCategorias();
 
@@ -113,7 +113,7 @@ class DetalheEncomenda extends Component
             $firstSubFamily = $firstFamily->subfamily[0];
             session(['searchNameSubFamily' => $firstSubFamily->name]);
 
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);  
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
             session(['searchSubFamily' => $this->searchSubFamily]);
         }
 
@@ -125,11 +125,11 @@ class DetalheEncomenda extends Component
 
             if($this->searchProduct != "")
             {
-                $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily,$this->searchProduct);  
+                $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily,$this->searchProduct);
             }
 
         }
-        
+
 
         $this->showLoaderPrincipal = true;
     }
@@ -157,10 +157,10 @@ class DetalheEncomenda extends Component
         $this->idCategoryRecuar = $idCategory;
         $this->idFamilyRecuar = $idFamily;
         $this->idSubFamilyRecuar = $idSubFamily;
-        
+
 
         $this->detailProduto = $this->encomendasRepository->getProdutos($idCategory,$idFamily,$idSubFamily,$productNumber,$idCustomer);
- 
+
 
         session(['detailProduto' => $this->detailProduto]);
         session(['productNameDetail' => $productName]);
@@ -168,7 +168,7 @@ class DetalheEncomenda extends Component
         session(['family' => $idFamily]);
         session(['subFamily' => $idSubFamily]);
         session(['productNumber' => $productNumber]);
-       
+
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
@@ -187,24 +187,24 @@ class DetalheEncomenda extends Component
 
         if($this->searchProduct != "")
         {
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar,$this->searchProduct); 
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar,$this->searchProduct);
             session(['searchProduct' => $this->searchProduct]);
         } else {
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar);  
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar);
             Session::forget('searchProduct');
         }
 
         session(['searchSubFamily' => $this->searchSubFamily]);
-       
+
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
-       
-        
-  
+
+
+
         return redirect()->route('encomendas.detail', ['id' => $this->idCliente]);
-   
+
     }
     public function adicionarProduto($categoryNumber,$familyNumber,$subFamilyNumber,$productNumber,$customerNumber,$productName)
     {
@@ -237,23 +237,23 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
-        
+
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
         $this->dispatchBrowserEvent('encomendaAtual');
     }
-   
+
 
     public function searchCategory($idCategory,$idFamily)
     {
-            $this->getCategoriesAll = $this->encomendasRepository->getCategorias();  
-            
+            $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
+
             $this->getCategories = $this->encomendasRepository->getCategoriasSearched($this->getCategoriesAll->category[$idCategory - 1]->id,$idFamily);
             $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-            
-            
+
+
             $this->tabDetail = "";
             $this->tabProdutos = "show active";
             $this->tabDetalhesEncomendas = "";
@@ -275,23 +275,23 @@ class DetalheEncomenda extends Component
 
             $this->dispatchBrowserEvent('refreshComponent',["id" => $idCategory]);
     }
-    
+
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-        $this->searchSubFamily = $this->encomendasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);  
-        
+        $this->searchSubFamily = $this->encomendasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);
+
         $this->actualCategory = $idCategory;
         $this->actualFamily = $idFamily;
         $this->actualSubFamily = $idSubFamily;
-    
+
 
         session(['searchSubFamily' => $this->searchSubFamily]);
         // dd($this->getCategories->category[]);
         foreach ($this->getCategories->category as $index => $idCtgry) {
-            
+
             if ($idCtgry->id == $idCategory) {
                 session(['searchNameCategory' => $idCtgry->name]);
 
@@ -308,10 +308,10 @@ class DetalheEncomenda extends Component
 
                     }
                 }
-        
+
             }
         }
-        
+
 
 
         $this->tabDetail = "";
@@ -345,24 +345,24 @@ class DetalheEncomenda extends Component
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        
+
         if($this->searchProduct != "")
         {
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily,$this->searchProduct);  
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily,$this->searchProduct);
             session(['searchSubFamily' => $this->searchSubFamily]);
-    
+
             session(['searchProduct' => $this->searchProduct]);
         }
         else
         {
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);  
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
             session(['searchSubFamily' => $this->searchSubFamily]);
-    
+
             //unset($_SESSION['searchProduct']);
             session()->forget('searchProduct');
         }
-        
-       
+
+
 
         $this->showLoaderPrincipal = false;
 
@@ -372,7 +372,7 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('refreshAllComponent');
 
     }
-    
+
     public function resetFilter($idCategory)
     {
         $this->getCategories = $this->encomendasRepository->getCategorias();
