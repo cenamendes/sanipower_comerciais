@@ -731,7 +731,113 @@
                 </div>
             </div>
 
-            <div class="tab-pane fade {{ $tabDetalhesEncomendas }}" id="tab6">
+            <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
+                <div class="row" style="border-top: 1px solid #232b58;">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                        <img src="https://storage.sanipower.pt/storage/produtos/9/9-1-2.jpg"
+                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                    </div>
+                    <div class="col-md-10 p-0">
+                        <table class="table table-hover init-datatable" id="tabela-cliente">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="d-none d-lg-table-cell">Referência</th>
+                                    <th>Produto</th>
+                                    <th>PVP (UNI)</th>
+                                    <th class="d-none d-md-table-cell">Desconto</th>
+                                    <th>Preço (c/desc.)</th>
+                                    <th>Qtd.Enc.</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{-- @foreach ($clientes as $clt ) --}}
+                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Spiro* Curva 80 - 90º</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">16,196 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">8,098 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">10</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">80,980 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
+                                </tr>
+                                {{-- @endforeach --}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row" style="border-top: 1px solid #232b58; border-bottom: 1px solid #232b58;">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                        <img src="https://storage.sanipower.pt/storage/produtos/30/30-6-2.jpg"
+                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                    </div>
+                    <div class="col-md-10 p-0">
+                        <table class="table table-hover init-datatable" id="tabela-cliente">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="d-none d-lg-table-cell">Referência</th>
+                                    <th>Produto</th>
+                                    <th>PVP (UNI)</th>
+                                    <th class="d-none d-md-table-cell">Desconto</th>
+                                    <th>Preço (c/desc.)</th>
+                                    <th>Qtd.Enc.</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {{-- @foreach ($clientes como $clt ) --}}
+                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Proteu Elemento Radiador Douro Gold 600X95</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">26,800 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">9,250 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">200</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">1 850,000 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
+                                </tr>
+                                {{-- @endforeach --}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-right" style="border-bottom: none;">
+                        <table class="float-right" style="width: 240px; margin-top: 1rem;">
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #232b58!important;">
+                                    <td style="width: 100px; text-align: left;">Total s/IVA</td>
+                                    <td style="width: 140px;" class="bold">1&nbsp;930,980&nbsp;€</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #232b58!important;">
+                                    <td style="width: 100px; text-align: left;">Total c/IVA</td>
+                                    <td style="width: 140px;" class="bold">2&nbsp;375,105&nbsp;€</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row p-4">
+                    <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
+                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
+                    </div>
+                    <div class="col-12 pb-3 p-0 d-md-none text-center">
+                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul w-100"><i class="las la-angle-right"></i> Seguinte</a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
 
                 <p class="card-text">
 
@@ -798,9 +904,8 @@
 
 
                     </p>
-                </div>
+                </div> --}}
 
-                [14:10] João Mendes
  <!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">
