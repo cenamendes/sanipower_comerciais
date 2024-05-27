@@ -31,6 +31,11 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+
+        window.addEventListener('beforeunload', function () {
+            // Show the loader when the user navigates away or the page is being unloaded
+            document.getElementById('loader').style.display = 'block';
+        });
 </script>
 
 @endpush
