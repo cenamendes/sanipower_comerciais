@@ -733,7 +733,7 @@
             </div>
 
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
-                <div class="row" style="border-top: 1px solid #232b58;">
+                <div class="row">
                     <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                         <img src="https://storage.sanipower.pt/storage/produtos/9/9-1-2.jpg"
                              class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
@@ -758,12 +758,12 @@
                                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Spiro* Curva 80 - 90º</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">16,196 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">8,098 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">10</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">80,980 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">16,196 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">8,098 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">10</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">80,980 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
                                 </tr>
                                 {{-- @endforeach --}}
                             </tbody>
@@ -797,12 +797,12 @@
                                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
                                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">Proteu Elemento Radiador Douro Gold 600X95</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">26,800 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-md-table-cell"></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">9,250 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">200</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">1 850,000 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; "><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">26,800 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">9,250 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">200</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">1 850,000 €</td>
+                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
                                 </tr>
                                 {{-- @endforeach --}}
                             </tbody>
