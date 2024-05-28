@@ -1051,8 +1051,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-primary"><i class="ti-archive"></i> Encomenda
-                    atual</h5>
+                <h5 class="modal-title text-primary"><i class="ti-archive"></i> Carrinho</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -1064,35 +1063,37 @@
                             <table class="table table-bordered table-hover">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Referência</th>
-                                        <th>Designação</th>
-                                        <th>Quantidade</th>
-                                        <th>Preço unitário</th>
-                                        <th>Desconto 1</th>
-                                        <th>Desconto 2</th>
-                                        <th>Preço Total</th>
-                                        <th class="text-center">Ações</th>
+                                        <th>Ref.</th>
+                                        <th>Descrição</th>
+                                        <th>Qtd.</th>
+                                        <th>Preço</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    @if (!empty($quickBuyProducts))
-                                        @foreach ($quickBuyProducts->product as $prod)
+                                    {{-- @if (!empty($quickBuyProducts))
+                                        @foreach ($quickBuyProducts->product as $prod) --}}
                                             <tr>
-                                                <td>{{ $prod->referense }}</td>
-                                                <td>{{ $prod->model }}</td>
-                                                <td>{{ $prod->quantity }}</td>
-                                                <td>{{ $prod->price }}</td>
-                                                <td>{{ $prod->discount }}</td>
-                                                <td></td>
-                                                <td>{{ $prod->pvp }}</td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-danger"><i
-                                                            class="ti-trash"></i></button>
-                                                </td>
+                                                <td style="border-bottom:1px solid #232b58!important; width:10%">5502000080</td>
+                                                <td style="border-bottom:1px solid #232b58!important; width:10%">Spiro* Curva 80 - 90º</td>
+                                                <td style="border-bottom:1px solid #232b58!important; width:10%">10</td>
+                                                <td style="border-bottom:1px solid #232b58!important; width:10%">80,980 €</td>
+                                                <td style="border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
                                             </tr>
-                                        @endforeach
-                                    @endif
+                                        {{-- @endforeach
+                                    @endif --}}
+                                    <tbody>
+
+                                        {{-- @if (!empty($quickBuyProducts))
+                                            @foreach ($quickBuyProducts->product as $prod) --}}
+                                                <tr>
+                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">30-0300100</td>
+                                                    <td style="border-bottom:1px solid #232b58!important; width:20%">Proteu Elemento Radiador Douro Gold 600X95</td>
+                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">200</td>
+                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">1 850,000 €</td>
+                                                    <td style="border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
+                                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1100,9 +1101,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Limpar
-                    seleção</button>
-                <button type="button" class="btn btn-outline-primary">Concluir Encomenda</button>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary {{ $tabDetalhesPropostas }}">Finalizar Encomenda</a>
             </div>
         </div>
     </div>
@@ -1227,6 +1226,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!----->
 
@@ -1558,14 +1559,26 @@
         });
     }
 
-    document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
-                document.getElementById('loader').style.display = 'block';
-            });
+    document.getElementById('finalizarEncomenda').addEventListener('click', function() {
+    // Fecha o modal
+    $('.modal').modal('hide');
 
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
-                document.getElementById('loader').style.display = 'none';
-            });
-        });
+    // Adiciona as classes 'show active' à aba especificada
+    document.querySelector('#tab6').classList.add('show', 'active');
+
+    // Remove as classes 'show active' das outras abas, se necessário
+    var otherTabs = document.querySelectorAll('.tab-pane');
+    otherTabs.forEach(function(tab) {
+        if (tab.id !== 'tab6') {
+            tab.classList.remove('show', 'active');
+        }
+    });
+
+    // Atualiza o link da navegação para refletir a aba ativa
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(function(link) {
+        link.classList.remove('active');
+    });
+    document.querySelector('a[href="#tab6"]').classList.add('active');
+});
 </script>
