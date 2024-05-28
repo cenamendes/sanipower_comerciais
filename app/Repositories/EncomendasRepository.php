@@ -2,11 +2,14 @@
 
 namespace App\Repositories;
 
+use stdClass;
 use App\Models\User;
+use App\Models\Carrinho;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\EncomendasInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
-use stdClass;
 
 class EncomendasRepository implements EncomendasInterface
 {
@@ -182,35 +185,31 @@ class EncomendasRepository implements EncomendasInterface
 
     }
 
-    // public function getProdutosRandom(): object
-    // {
-    //     $curl = curl_init();
+    public function addProductToDatabase($idCliente,$productId,$qtd): JsonResponse
+    {
+        $addProduct = Carrinho::create([
+            "id_user" => Auth::user()->id,
+            "id_cliente" => $idCliente,
+            "id_produto" => $productId,
+            "qtd" => $qtd
+        ]);
 
-    //     curl_setopt_array($curl, array(
-    //         CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/GetProducts',
-    //         CURLOPT_RETURNTRANSFER => true,
-    //         CURLOPT_ENCODING => '',
-    //         CURLOPT_MAXREDIRS => 10,
-    //         CURLOPT_TIMEOUT => 0,
-    //         CURLOPT_FOLLOWLOCATION => true,
-    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //         CURLOPT_CUSTOMREQUEST => 'GET',
-    //         CURLOPT_HTTPHEADER => array(
-    //             'Content-Type: application/json'
-    //         ),
-    //     ));
+        if ($addProduct) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $addProduct
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir na base de dados.'
+            ], 500);
+        }
 
-    //     $response = curl_exec($curl);
-
-    //     curl_close($curl);
-
-    //     $response_decoded = json_decode($response);
-
-    //     dd($response_decoded);
-    
-    //     return $response_decoded; 
-
-    // }
+        return $addProduct;
+    }
 
 
 }

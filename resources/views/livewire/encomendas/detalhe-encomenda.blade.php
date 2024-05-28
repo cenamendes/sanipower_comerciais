@@ -945,7 +945,7 @@
 
                                     @if (!empty($quickBuyProducts))
 
-                                        @foreach ($quickBuyProducts->product as $prod)
+                                        @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr>
                                                 <td>{{ $prod->referense }}</td>
                                                 <td>{{ $prod->model }}</td>
@@ -992,13 +992,12 @@
                                                             <i class="ti-close text-lg text-chili"></i>
                                                         </a>
                                                     @endif
-
                                                 </td>
                                                 <td><input type="number" class="form-control"
-                                                        id="valueEncomendar"></td>
+                                                        id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart"></i></button>
+                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}})"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
@@ -1013,9 +1012,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Limpar
+                <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar
                     seleção</button>
-                <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
+                <button type="button" class="btn btn-outline-primary" wire:click="addAll">Adicionar todos</button>
             </div>
         </div>
     </div>
@@ -1575,4 +1574,21 @@
     });
     document.querySelector('a[href="#tab6"]').classList.add('active');
 });
+
+
+    jQuery('#cleanSelectionQuick').on('click', function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        //fazer aqui para limpar as linhas todas
+        jQuery('td #valueEncomendar').each(function(){
+            jQuery(this).val("");
+            
+        })
+
+        jQuery('#modalProdutos').modal('hide');
+
+        Livewire.emit("cleanModal");
+    
+    });
 </script>

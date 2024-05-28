@@ -1016,10 +1016,10 @@
 
                                                 </td>
                                                 <td><input type="number" class="form-control"
-                                                        id="valueEncomendar"></td>
+                                                    id="valueEncomendar" wire:model.defer="produtosRapida.{{json_encode($prod->referense)}}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart"></i></button>
+                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{json_encode($prod->referense)}})"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
@@ -1034,7 +1034,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Limpar
+                <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar
                     seleção</button>
                 <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
             </div>
@@ -1581,4 +1581,20 @@
     });
     document.querySelector('a[href="#tab6"]').classList.add('active');
 });
+
+jQuery('#cleanSelectionQuick').on('click', function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        //fazer aqui para limpar as linhas todas
+        jQuery('td #valueEncomendar').each(function(){
+            jQuery(this).val("");
+            
+        })
+
+        jQuery('#modalProdutos').modal('hide');
+
+        Livewire.emit("cleanModalProposta");
+    
+    });
 </script>

@@ -52,8 +52,10 @@ class DetalheProposta extends Component
 
     private ?object $detailProduto = NULL;
 
+    public ?array $produtosRapida = [];
+
     public int $perPage = 10;
-    protected $listeners=["rechargeFamily" => "rechargeFamily"];
+    protected $listeners=["rechargeFamily" => "rechargeFamily", "cleanModalProposta" => "cleanModalProposta"];
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository)
     {
@@ -351,6 +353,53 @@ class DetalheProposta extends Component
         $this->iteration++;
 
         $this->dispatchBrowserEvent('refreshAllComponent');
+    }
+
+    public function addProductQuickBuy($prodID)
+    {
+        dd($this->produtosRapida);
+
+        $flag = 0;
+        foreach($this->produtosRapida as $pr => $qt){
+            if($pr == $prodID)
+            {
+                if($qt == 0)
+                {
+                    $this->dispatchBrowserEvent('checkToaster',["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                    $flag = 1;
+                    break;
+                }
+            }
+           
+        }
+
+        if($flag == 1)
+        {
+            return false;
+        }
+
+        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodID,$this->produtosRapida);
+
+        $responseArray = $response->getData(true);
+
+        if($responseArray["success"] == true){
+           $message = "Produto adicionado ao carrinho com sucesso!";
+           $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar o produto!";
+            $status = "error";
+        }
+
+        $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
+    }
+
+    public function cleanModalProposta()
+    {
+        $this->produtosRapida = [];
+        
+        $this->dispatchBrowserEvent('compraRapida');
+        
+        $this->skipRender();
     }
     
     public function resetFilter($idCategory)

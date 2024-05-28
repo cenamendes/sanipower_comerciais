@@ -179,7 +179,6 @@ class ClientesRepository implements ClientesInterface
             $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
 
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
-            dd($itemsPaginate);
         }
         else {
 

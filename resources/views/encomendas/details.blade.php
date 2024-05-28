@@ -50,6 +50,21 @@
         });
 
 
+        window.addEventListener('checkToaster', function(e) {
+    
+            jQuery("#modalProdutos").modal('hide');
+            jQuery("#modalEncomenda").modal('hide');
+
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+
+            if(e.detail.status == "error"){
+                toastr.warning(e.detail.message);
+            }
+        });
+
+        
        
 </script>
 
