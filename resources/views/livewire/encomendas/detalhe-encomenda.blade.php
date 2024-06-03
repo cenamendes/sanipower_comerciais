@@ -755,21 +755,23 @@
                             <tbody>
                                 {{-- @foreach ($clientes as $clt ) --}}
                                 @php
-                                $ValorTotal = 0
+                                 $ValorTotal = 0;
                                 @endphp
-                                @forelse ($carrinhoCompras as $item)
-                                @php
-                                $ValorTotal = $ValorTotal + $item->preco_com_desconto;
-                                @endphp
+                                    @forelse ($carrinhoCompras as $item)
+                                        @php
+                                            $totalItem = $item->price * $item->qtd;
+                                            $ValorTotal += $totalItem;
+                                        @endphp
                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
                     <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $item->referencia }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $item->produto }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->pvp, 3, ',', '.') }} €</td>
-                    <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->desconto ?? '' }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->preco_com_desconto, 3, ',', '.') }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $item->model }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->pvp }} €</td>
+                    <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->discount }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->price }} €</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->total, 3, ',', '.') }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $totalItem }} €</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a></strong></td>
+
                 </tr>
             @empty
                 <tr>
@@ -789,11 +791,11 @@
                             <tbody>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                    <td style="width: 140px;" class="bold">{{$ValorTotal}}</td>
+                                    <td style="width: 140px;" class="bold">{{$ValorTotal}} €</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                    <td style="width: 140px;" class="bold">{{$ValorTotal}}</td>
+                                    <td style="width: 140px;" class="bold">{{$ValorTotal}} €</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1027,7 +1029,7 @@
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->referencia }}</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
-                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->preco, 3, ',') }} €</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->price }} €</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:5%">
                                                 <strong>
                                                     <a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a>
