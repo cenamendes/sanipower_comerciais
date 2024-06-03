@@ -770,7 +770,8 @@
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->price }} €</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $totalItem }} €</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" wire:click="delete({{ $item->id }})" style="color:#000">X</a></strong></td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a></strong></td>
+
                 </tr>
             @empty
                 <tr>
@@ -1003,7 +1004,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-primary"><i class="ti-archive"></i>Carrinho</h5>
+                <h5 class="modal-title text-primary"><i class="ti-archive"></i> Carrinho</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -1031,7 +1032,7 @@
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->price }} €</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:5%">
                                                 <strong>
-                                                    <a href="javascript:void(0);" class="remover_produto" style="color:#000" wire:click="delete({{ $item->id }})">X</a>
+                                                    <a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a>
                                                 </strong>
                                             </td>
                                         </tr>
