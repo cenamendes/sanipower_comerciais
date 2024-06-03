@@ -14,9 +14,10 @@ class Carrinho extends Model
     protected $fillable = [
         'id_encomenda',
         'id_proposta',
-        'id_user',
         'id_cliente',
-        'id_produto',
+        'id_user',
+        'referencia',
+        'designacao',
         'qtd'
     ];
 }
