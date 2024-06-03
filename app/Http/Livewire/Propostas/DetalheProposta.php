@@ -355,7 +355,7 @@ class DetalheProposta extends Component
         $this->dispatchBrowserEvent('refreshAllComponent');
     }
 
-    public function addProductQuickBuy($prodID)
+    public function addProductQuickBuy($prodID,$nameProduct,$no)
     {
         dd($this->produtosRapida);
 

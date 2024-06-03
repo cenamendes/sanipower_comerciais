@@ -18,6 +18,10 @@ class Carrinho extends Model
         'id_user',
         'referencia',
         'designacao',
-        'qtd'
+        'pvp',
+        'discount',
+        'qtd',
+        'model',
+        'price',
     ];
 }

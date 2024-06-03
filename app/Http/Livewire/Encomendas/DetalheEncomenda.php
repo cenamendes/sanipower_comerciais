@@ -16,7 +16,7 @@ class DetalheEncomenda extends Component
     private ?object $encomendasRepository =  NULL;
 
     protected ?object $clientes = NULL;
-    public string $idCliente = "";
+    public string $addProductQuickBuy = "";
 
     private ?object $detailsClientes = NULL;
     private ?object $searchSubFamily = NULL;
@@ -85,6 +85,7 @@ class DetalheEncomenda extends Component
     {
         $this->initProperties();
         $this->idCliente = $cliente;
+
         
         $this->specificProduct = 0;
         $this->filter = false;
@@ -350,7 +351,7 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('refreshComponent',["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
     
-    public function addProductQuickBuy($prodID)
+    public function addProductQuickBuy($prodID,$nameProduct,$no)
     {
         $quickBuyProducts = session('quickBuyProducts');
 
@@ -359,13 +360,16 @@ class DetalheEncomenda extends Component
         $productChosen = [];
 
         foreach($quickBuyProducts->product as $i => $prod)
-        {
+        {   
             if($i == $prodID)
             {
                 foreach($this->produtosRapida as $j => $prodRap)
                 {
+                    
                     if($i == $j)
                     {
+                    
+
                         if($prodRap == "0" || $prodRap == "")
                         {
                             $this->dispatchBrowserEvent('checkToaster',["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
@@ -397,11 +401,7 @@ class DetalheEncomenda extends Component
             return false;
         }
 
-
-        //PRECISO DE PASSAR O ID DO PRODUTO DIREITO
-
-        dD("hello", $productChosen);
-        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodID,$this->produtosRapida);
+        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $prodID, $productChosen, $nameProduct, $no);
 
         $responseArray = $response->getData(true);
 
@@ -418,7 +418,6 @@ class DetalheEncomenda extends Component
 
     public function addAll()
     {
-
         $quickBuyProducts = session('quickBuyProducts');
 
         $productChosen = [];
@@ -454,8 +453,6 @@ class DetalheEncomenda extends Component
         }
 
         dD($productChosen);
-
-
 
     }
 
