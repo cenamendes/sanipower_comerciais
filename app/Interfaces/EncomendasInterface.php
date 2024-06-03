@@ -2,6 +2,7 @@
 
 namespace App\Interfaces;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface EncomendasInterface
@@ -19,7 +20,12 @@ interface EncomendasInterface
 
     public function getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer): object;
 
-    // public function getProdutosRandom(): object;
+    
+    /*** PARTE DO CARRINHO ***/
+
+    public function addProductToDatabase($idCliente,$productId,$qtd): JsonResponse;
+
+    /********** */
 
    
 

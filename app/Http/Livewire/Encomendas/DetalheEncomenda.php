@@ -54,8 +54,15 @@ class DetalheEncomenda extends Component
 
     public $modalShow = false;
 
+
+    /** PARTE DA COMPRA */
+
+    public ?array $produtosRapida = [];
+
+    /***** */
+
     public int $perPage = 10;
-    protected $listeners=["rechargeFamily" => "rechargeFamily"];
+    protected $listeners=["rechargeFamily" => "rechargeFamily", "cleanModal" => "cleanModal"];
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository)
     {
@@ -78,58 +85,9 @@ class DetalheEncomenda extends Component
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        
         $this->specificProduct = 0;
         $this->filter = false;
-
-        $this->getCategories = $this->encomendasRepository->getCategorias();
-        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-        // $this->products = $this->encomendasRepository->getProdutosRandom();
-
-
-        if(session('searchSubFamily') !== null)
-        {
-            $sessao = session('searchSubFamily');
-
-            foreach($sessao->product as $prod)
-            {
-                $this->actualCategory = $prod->category_number;
-                $this->actualFamily = $prod->family_number;
-                $this->actualSubFamily = $prod->subfamily_number;
-
-                break;
-            }
-
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
-        }else{
-            $this->getCategories = $this->encomendasRepository->getCategorias();
-
-            $firstCategories = $this->getCategories->category[0];
-            session(['searchNameCategory' => $firstCategories->name]);
-
-            $firstFamily = $firstCategories->family[0];
-            session(['searchNameFamily' => $firstFamily->name]);
-
-            $firstSubFamily = $firstFamily->subfamily[0];
-            session(['searchNameSubFamily' => $firstSubFamily->name]);
-
-            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
-            session(['searchSubFamily' => $this->searchSubFamily]);
-        }
-
-
-
-        if(session('searchProduct') !== null)
-        {
-            $this->searchProduct = session('searchProduct');
-
-            if($this->searchProduct != "")
-            {
-                $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily,$this->searchProduct);
-            }
-
-        }
-
 
         $this->showLoaderPrincipal = true;
     }
@@ -224,6 +182,8 @@ class DetalheEncomenda extends Component
         session(['quickBuyProducts' => $this->quickBuyProducts]);
         session(['productName' => $productName]);
 
+        $this->produtosRapida = [];
+
         $this->dispatchBrowserEvent('compraRapida');
 
 
@@ -238,9 +198,6 @@ class DetalheEncomenda extends Component
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->getCategories = $this->encomendasRepository->getCategorias();
-        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
         $this->dispatchBrowserEvent('encomendaAtual');
     }
@@ -392,8 +349,175 @@ class DetalheEncomenda extends Component
 
         $this->dispatchBrowserEvent('refreshComponent',["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
+    
+    public function addProductQuickBuy($prodID)
+    {
+        $quickBuyProducts = session('quickBuyProducts');
+
+        $flag = 0;
+
+        $productChosen = [];
+
+        foreach($quickBuyProducts->product as $i => $prod)
+        {
+            if($i == $prodID)
+            {
+                foreach($this->produtosRapida as $j => $prodRap)
+                {
+                    if($i == $j)
+                    {
+                        if($prodRap == "0" || $prodRap == "")
+                        {
+                            $this->dispatchBrowserEvent('checkToaster',["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                            $flag = 1;
+                            break;
+                        } else {
+
+                            if($prod->in_stock == false)
+                            {
+                                $this->dispatchBrowserEvent('checkToaster',["message" => "Não existe quantidades em stock", "status" => "error"]);
+                                $flag = 1;
+                                break;
+                            }
+                            $productChosen = ["product" => $prod, "quantidade" => $prodRap];
+                        }
+                    }
+                }
+            }
+
+            if($flag == 1)
+            {
+                break;
+            }
+           
+        }
+
+        if($flag == 1)
+        {
+            return false;
+        }
+
+
+        //PRECISO DE PASSAR O ID DO PRODUTO DIREITO
+
+        dD("hello", $productChosen);
+        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodID,$this->produtosRapida);
+
+        $responseArray = $response->getData(true);
+
+        if($responseArray["success"] == true){
+           $message = "Produto adicionado ao carrinho com sucesso!";
+           $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar o produto!";
+            $status = "error";
+        }
+
+        $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
+    }
+
+    public function addAll()
+    {
+
+        $quickBuyProducts = session('quickBuyProducts');
+
+        $productChosen = [];
+        $count = 0;
+
+        if(empty($this->produtosRapida))
+        {
+            $this->dispatchBrowserEvent('checkToaster',["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+            return false;
+        }
+
+        foreach($quickBuyProducts->product as $i => $prod)
+        {
+            foreach($this->produtosRapida as $j => $prodRap)
+            {
+                if($i == $j)
+                {
+                    if($prodRap != "0" && $prodRap != "")
+                    {
+                        if($prod->in_stock == true)
+                        {
+                            $productChosen[$count] = [
+                                "product" => $prod,
+                                "quantidade" => $prodRap
+                            ];
+    
+                            $count++;
+                        }
+                        
+                    }
+                }
+            }   
+        }
+
+        dD($productChosen);
+
+
+
+    }
+
+    public function cleanModal()
+    {
+        $this->produtosRapida = [];
+
+        $this->dispatchBrowserEvent('compraRapida');
+        
+        $this->skipRender();
+    }
+
     public function render()
     {
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
+
+        if(session('searchSubFamily') !== null)
+        {
+            $sessao = session('searchSubFamily');
+
+            foreach($sessao->product as $prod)
+            {
+                $this->actualCategory = $prod->category_number;
+                $this->actualFamily = $prod->family_number;
+                $this->actualSubFamily = $prod->subfamily_number;
+
+                break;
+            }
+
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
+        }else{
+            $this->getCategories = $this->encomendasRepository->getCategorias();
+
+            $firstCategories = $this->getCategories->category[0];
+            session(['searchNameCategory' => $firstCategories->name]);
+
+            $firstFamily = $firstCategories->family[0];
+            session(['searchNameFamily' => $firstFamily->name]);
+
+            $firstSubFamily = $firstFamily->subfamily[0];
+            session(['searchNameSubFamily' => $firstSubFamily->name]);
+
+            $this->searchSubFamily = $this->encomendasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
+            session(['searchSubFamily' => $this->searchSubFamily]);
+        }
+
+
+
+        if(session('searchProduct') !== null)
+        {
+            $this->searchProduct = session('searchProduct');
+
+            if($this->searchProduct != "")
+            {
+                $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily,$this->searchProduct);
+            }
+
+        }
+
         return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily]);
     }
 }
