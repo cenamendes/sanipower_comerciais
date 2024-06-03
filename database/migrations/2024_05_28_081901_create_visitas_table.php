@@ -15,7 +15,7 @@ class CreateVisitasTable extends Migration
     {
         Schema::create('visitas', function (Blueprint $table) {
             $table->id();
-            $table->integer('numero_cliente')->nullable();
+            $table->unsignedInteger('numero_cliente')->nullable();
             $table->string('assunto', 150)->nullable();
             $table->longText('relatorio')->nullable();
             $table->longText('pendentes_proxima_visita')->nullable();
@@ -24,8 +24,9 @@ class CreateVisitasTable extends Migration
             $table->longText('comentario_financeiro')->nullable();
             $table->longText('comentario_ocorrencias')->nullable();
             $table->string('data', 50)->nullable();
-            $table->integer('user_id')->nullable();
-            $table->timestamps();
+            $table->unsignedInteger('user_id')->nullable();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
