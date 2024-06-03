@@ -13,14 +13,16 @@ class CreateComentariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('comentarios', function (Blueprint $table) {
-            $table->id();
-            $table->integer('id_visita')->nullable();
-            $table->string('stamp', 50)->nullable();
-            $table->string('tipo', 50)->nullable();
-            $table->longText('comentario')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('comentarios')) {
+            Schema::create('comentarios', function (Blueprint $table) {
+                $table->id();
+                $table->integer('id_visita')->nullable();
+                $table->string('stamp', 50)->nullable();
+                $table->string('tipo', 50)->nullable();
+                $table->longText('comentario')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
