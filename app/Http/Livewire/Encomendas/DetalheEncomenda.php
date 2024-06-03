@@ -7,11 +7,14 @@ use Livewire\WithPagination;
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\EncomendasInterface;
 use Illuminate\Support\Facades\Session;
+use App\Models\Carrinho;
+use Illuminate\Support\Facades\Auth;
 
 class DetalheEncomenda extends Component
 {
     use WithPagination;
 
+    public $carrinhoCompras = [];
     private ?object $clientesRepository = NULL;
     private ?object $encomendasRepository =  NULL;
 
@@ -54,6 +57,8 @@ class DetalheEncomenda extends Component
 
     public $modalShow = false;
 
+    public $iterationDelete = 0;
+
 
     /** PARTE DA COMPRA */
 
@@ -85,7 +90,7 @@ class DetalheEncomenda extends Component
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-        
+
         $this->specificProduct = 0;
         $this->filter = false;
 
@@ -191,15 +196,27 @@ class DetalheEncomenda extends Component
 
     public function verEncomenda()
     {
-        //TENHO DE ASSOCIAR Á AO USER E AO CLIENTE
-
+        // Atualizar abas
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
 
 
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->getCategories = $this->encomendasRepository->getCategorias();
+        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
+
+        // Disparar evento para o navegador
         $this->dispatchBrowserEvent('encomendaAtual');
+    }
+
+    public function delete($itemId)
+    {
+        Carrinho::where('id', $itemId)->delete();
+
+        $this->dispatchBrowserEvent('itemDeleted', ['itemId' => $itemId]);
+
     }
 
 
@@ -349,7 +366,7 @@ class DetalheEncomenda extends Component
 
         $this->dispatchBrowserEvent('refreshComponent',["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
-    
+
     public function addProductQuickBuy($prodID)
     {
         $quickBuyProducts = session('quickBuyProducts');
@@ -389,7 +406,7 @@ class DetalheEncomenda extends Component
             {
                 break;
             }
-           
+
         }
 
         if($flag == 1)
@@ -444,13 +461,13 @@ class DetalheEncomenda extends Component
                                 "product" => $prod,
                                 "quantidade" => $prodRap
                             ];
-    
+
                             $count++;
                         }
-                        
+
                     }
                 }
-            }   
+            }
         }
 
         dD($productChosen);
@@ -464,7 +481,7 @@ class DetalheEncomenda extends Component
         $this->produtosRapida = [];
 
         $this->dispatchBrowserEvent('compraRapida');
-        
+
         $this->skipRender();
     }
 
@@ -517,6 +534,8 @@ class DetalheEncomenda extends Component
             }
 
         }
+
+        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->get();
 
         return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily]);
     }
