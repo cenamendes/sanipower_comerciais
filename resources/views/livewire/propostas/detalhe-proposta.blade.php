@@ -675,7 +675,7 @@
 
                                                                     </td>
                                                                     <td><input type="number" class="form-control"
-                                                                            id="valueEncomendar"></td>
+                                                                            id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                                     <td class="text-center">
                                                                         {{-- <a href="javascript:;"
                                                                             class="btn btn-sm btn-outline-secondary"
@@ -709,7 +709,7 @@
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-notepad text-light"></i>
                                                                         </a>
-                                                                        <a href="javascript:;"
+                                                                        <a href="javascript:; " wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}})"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-shopping-cart text-light"></i>
                                                                         </a>
@@ -990,7 +990,6 @@
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
-
                                                                             {{ $stock->warehouse }}
 
                                                                             @if ($stock->stock == true)
@@ -1019,7 +1018,7 @@
                                                     id="valueEncomendar" wire:model.defer="produtosRapida.{{json_encode($prod->referense)}}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{json_encode($prod->referense)}})"></i></button>
+                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}})"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>

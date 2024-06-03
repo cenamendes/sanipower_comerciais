@@ -84,6 +84,11 @@ class VisitasRepository implements VisitasInterface
         return $arrayInfo;
     }
 
+    public function getAlgumaCoisaDasVisitas($ValorQualquer1,$ValorQualquer2,$ValorQualquer3): LengthAwarePaginator
+    {
+        // vinicius
+        dd("Algo de errado nao está certo!");
+    }
     /*** FILTROS ***/
 
     public function getListagemVisitasFiltro($perPage,$page,$nomeVisitas,$numeroVisitas,$zonaVisitas): LengthAwarePaginator
