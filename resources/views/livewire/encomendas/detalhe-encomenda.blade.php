@@ -754,58 +754,32 @@
 
                             <tbody>
                                 {{-- @foreach ($clientes as $clt ) --}}
-                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">Spiro* Curva 80 - 90º</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">16,196 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">8,098 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">10</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">80,980 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                </tr>
+                                @php
+                                $ValorTotal = 0
+                                @endphp
+                                @forelse ($carrinhoCompras as $item)
+                                @php
+                                $ValorTotal = $ValorTotal + $item->preco_com_desconto;
+                                @endphp
+                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
+                    <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $item->referencia }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $item->produto }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->pvp, 3, ',', '.') }} €</td>
+                    <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->desconto ?? '' }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->preco_com_desconto, 3, ',', '.') }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->total, 3, ',', '.') }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" wire:click="delete({{ $item->id }})" style="color:#000">X</a></strong></td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                </tr>
+            @endforelse
                                 {{-- @endforeach --}}
                             </tbody>
                         </table>
 
-                    </div>
-                </div>
-
-                <div class="row" style="border-top: 1px solid #232b58; border-bottom: 1px solid #232b58;">
-                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="https://storage.sanipower.pt/storage/produtos/30/30-6-2.jpg"
-                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
-                    </div>
-                    <div class="col-md-10 p-0">
-                        <table class="table table-hover init-datatable" id="tabela-cliente">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="d-none d-lg-table-cell">Referência</th>
-                                    <th>Produto</th>
-                                    <th>PVP (UNI)</th>
-                                    <th class="d-none d-md-table-cell">Desconto</th>
-                                    <th>Preço (c/desc.)</th>
-                                    <th>Qtd.Enc.</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {{-- @foreach ($clientes como $clt ) --}}
-                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">Proteu Elemento Radiador Douro Gold 600X95</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">26,800 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">9,250 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">200</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">1 850,000 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                </tr>
-                                {{-- @endforeach --}}
-                            </tbody>
-                        </table>
                     </div>
                 </div>
 
@@ -815,11 +789,11 @@
                             <tbody>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                    <td style="width: 140px;" class="bold">1&nbsp;930,980&nbsp;€</td>
+                                    <td style="width: 140px;" class="bold">{{$ValorTotal}}</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                    <td style="width: 140px;" class="bold">2&nbsp;375,105&nbsp;€</td>
+                                    <td style="width: 140px;" class="bold">{{$ValorTotal}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1024,13 +998,11 @@
 <!----->
 
 <!-- Modal ver encomenda -->
-
-<div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
-    aria-hidden="true">
+<div  wire:ignore.self class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda" aria-hidden="true" >
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-primary"><i class="ti-archive"></i> Carrinho</h5>
+                <h5 class="modal-title text-primary"><i class="ti-archive"></i>Carrinho</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -1050,29 +1022,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    {{-- @if (!empty($quickBuyProducts))
-                                        @foreach ($quickBuyProducts->product as $prod) --}}
-                                            <tr>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">5502000080</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">Spiro* Curva 80 - 90º</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">10</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">80,980 €</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                            </tr>
-                                        {{-- @endforeach
-                                    @endif --}}
-                                    <tbody>
-
-                                        {{-- @if (!empty($quickBuyProducts))
-                                            @foreach ($quickBuyProducts->product as $prod) --}}
-                                                <tr>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">30-0300100</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:20%">Proteu Elemento Radiador Douro Gold 600X95</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">200</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">1 850,000 €</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                                </tr>
+                                    @forelse ($carrinhoCompras as $item)
+                                        <tr>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->referencia }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->preco, 3, ',') }} €</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:5%">
+                                                <strong>
+                                                    <a href="javascript:void(0);" class="remover_produto" style="color:#000" wire:click="delete({{ $item->id }})">X</a>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                     @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">No items in the cart.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -1080,7 +1046,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary {{ $tabDetalhesEncomendas }}">Finalizar Encomenda</a>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary">Finalizar Encomenda</a>
             </div>
         </div>
     </div>
@@ -1584,12 +1550,18 @@
         //fazer aqui para limpar as linhas todas
         jQuery('td #valueEncomendar').each(function(){
             jQuery(this).val("");
-            
+
         })
 
         jQuery('#modalProdutos').modal('hide');
 
         Livewire.emit("cleanModal");
-    
+
+    });
+
+    document.addEventListener('deleteModal', function(event) {
+    jQuery('#modalEncomenda').modal();
+
+        jQuery('#modalEncomenda').modal('show');
     });
 </script>
