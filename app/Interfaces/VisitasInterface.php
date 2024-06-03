@@ -10,6 +10,7 @@ interface VisitasInterface
 
     public function getNumberOfPages($perPage): array;
 
+    public function getAlgumaCoisaDasVisitas($ValorQualquer1,$ValorQualquer2,$ValorQualquer3): LengthAwarePaginator;
 
     /** FILTRO POR Visitas */
 
