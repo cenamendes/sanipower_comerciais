@@ -84,10 +84,12 @@ class DetalheEncomenda extends Component
         }
     }
 
-    public function mount($cliente)
+    public function mount($cliente, $codEncomenda)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
+        $this->codEncomenda = $codEncomenda;
+
 
         $this->specificProduct = 0;
         $this->filter = false;
@@ -372,7 +374,7 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('refreshComponent', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
 
-    public function addProductQuickBuy($prodID, $nameProduct, $no, $ref)
+    public function addProductQuickBuy($prodID, $nameProduct, $no, $ref, $codEncomenda)
     {
         $quickBuyProducts = session('quickBuyProducts');
 
@@ -413,7 +415,7 @@ class DetalheEncomenda extends Component
             return false;
         }
 
-        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $prodID, $productChosen, $nameProduct, $no, $ref);
+        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $prodID, $productChosen, $nameProduct, $no, $ref, $codEncomenda);
 
         $responseArray = $response->getData(true);
 
@@ -541,7 +543,7 @@ class DetalheEncomenda extends Component
         }
 
    
-        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart]);
+        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
     }
 }

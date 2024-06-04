@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\ClientesInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EncomendasController extends Controller
 {
@@ -20,7 +21,13 @@ class EncomendasController extends Controller
 
     public function showDetail($id)
     {
+
         $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
-        return view('encomendas.details',["idCliente" => $id,"nameCliente" => $detailsClientes->customers[0]->name]);
+
+        $codEncomenda = $detailsClientes->customers[0]->no;
+        $randomChar = Str::random(1);
+        $codEncomenda .= $randomChar;
+
+        return view('encomendas.details',["idCliente" => $id,"nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda]);
     }
 }
