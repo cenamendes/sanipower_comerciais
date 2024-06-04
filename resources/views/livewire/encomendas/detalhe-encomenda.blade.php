@@ -535,8 +535,7 @@
                                                                 style="z-index:10;">
                                                                 <button class="btn btn-sm btn-primary"
                                                                     wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"><i
-                                                                        class="ti-shopping-cart"></i><span> Compra
-                                                                        rápida</span></button>
+                                                                        class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                                             </div>
                                                         </div>
 
@@ -554,7 +553,6 @@
                                     <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
-
                                 @php
                                     $detailProduto = session('detailProduto');
                                     $produtoNameDetail = session('productNameDetail');

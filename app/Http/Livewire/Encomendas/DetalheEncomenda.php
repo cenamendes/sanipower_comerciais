@@ -121,6 +121,9 @@ class DetalheEncomenda extends Component
 
         $this->detailProduto = $this->encomendasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
 
+
+        session(['quickBuyProducts' => $this->detailProduto]);
+
         session(['detailProduto' => $this->detailProduto]);
         session(['productNameDetail' => $productName]);
 
