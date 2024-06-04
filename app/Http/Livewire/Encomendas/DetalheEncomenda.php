@@ -121,6 +121,9 @@ class DetalheEncomenda extends Component
 
         $this->detailProduto = $this->encomendasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
 
+
+        session(['quickBuyProducts' => $this->detailProduto]);
+
         session(['detailProduto' => $this->detailProduto]);
         session(['productNameDetail' => $productName]);
 
@@ -178,6 +181,13 @@ class DetalheEncomenda extends Component
 
         session(['quickBuyProducts' => $this->quickBuyProducts]);
         session(['productName' => $productName]);
+
+        session(['detailProduto' => $this->detailProduto]);
+        session(['productNameDetail' => $productName]);
+        
+        session(['family' => $familyNumber]);
+        session(['subFamily' => $subFamilyNumber]);
+        session(['productNumber' => $productNumber]);
 
         $this->produtosRapida = [];
 
