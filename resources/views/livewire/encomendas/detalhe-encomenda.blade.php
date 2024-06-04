@@ -569,6 +569,9 @@
                                         <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
                                             width=100%>
                                     </div>
+                                    @php
+                                        $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
+                                    @endphp
                                     <div class="col-12 col-lg-9">
 
                                         <div class="row">
@@ -691,7 +694,7 @@
                                                                             <i class="ti-notepad text-light"></i>
                                                                         </a>
                                                                         {{-- vinicius --}}
-                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}})"
+                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}')"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-shopping-cart text-light"></i>
                                                                         </a>
@@ -918,6 +921,7 @@
                                         <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
+                             
                                 <tbody>
 
                                     @if (!empty($quickBuyProducts))

@@ -367,7 +367,7 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('refreshComponent',["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
     
-    public function addProductQuickBuy($prodID,$nameProduct,$no)
+    public function addProductQuickBuy($prodID,$nameProduct,$no,$ref)
     {
         $quickBuyProducts = session('quickBuyProducts');
 
@@ -417,7 +417,7 @@ class DetalheEncomenda extends Component
             return false;
         }
 
-        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $prodID, $productChosen, $nameProduct, $no);
+        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $prodID, $productChosen, $nameProduct, $no, $ref);
 
         $responseArray = $response->getData(true);
 
