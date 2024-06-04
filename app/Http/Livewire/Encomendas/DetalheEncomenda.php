@@ -182,6 +182,13 @@ class DetalheEncomenda extends Component
         session(['quickBuyProducts' => $this->quickBuyProducts]);
         session(['productName' => $productName]);
 
+        session(['detailProduto' => $this->detailProduto]);
+        session(['productNameDetail' => $productName]);
+        
+        session(['family' => $familyNumber]);
+        session(['subFamily' => $subFamilyNumber]);
+        session(['productNumber' => $productNumber]);
+
         $this->produtosRapida = [];
 
         $this->dispatchBrowserEvent('compraRapida');
