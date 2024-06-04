@@ -735,45 +735,48 @@
             </div>
 
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
-                <div class="row">
-                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="https://storage.sanipower.pt/storage/produtos/9/9-1-2.jpg"
-                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
-                    </div>
-                    <div class="col-md-10 p-0">
-                        <table class="table table-hover init-datatable" id="tabela-cliente">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="d-none d-lg-table-cell">Referência</th>
-                                    <th>Produto</th>
-                                    <th>PVP (UNI)</th>
-                                    <th class="d-none d-md-table-cell">Desconto</th>
-                                    <th>Preço (c/desc.)</th>
-                                    <th>Qtd.Enc.</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {{-- @foreach ($clientes as $clt ) --}}
-                                @php
-                                 $ValorTotal = 0;
-                                @endphp
-                                    @forelse ($carrinhoCompras as $item)
+            @php
+                $ValorTotal = 0;
+            @endphp
+            @forelse ($arrayCart  as $img => $item)
+                   
+                    <div class="row">
+                        <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                            <img src="{{ $img }}"
+                                class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                        </div>
+                        <div class="col-md-10 p-0">
+                            <table class="table table-hover init-datatable" id="tabela-cliente">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="d-none d-lg-table-cell">Referência</th>
+                                        <th>Produto</th>
+                                        <th>PVP (UNI)</th>
+                                        <th class="d-none d-md-table-cell">Desconto</th>
+                                        <th>Preço (c/desc.)</th>
+                                        <th>Qtd.Enc.</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($item as $prod)
+                                        
                                         @php
-                                            $totalItem = $item->price * $item->qtd;
+                                            $totalItem = $prod->price * $prod->qtd;
                                             $ValorTotal += $totalItem;
                                         @endphp
                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
-                    <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $item->referencia }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $item->model }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->pvp, 2, ',', '.') }} €</td>
-                    <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->discount }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->price, 2, ',', '.') }} €</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
+                    <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $prod->model }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
+                    <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar({{ $item->id }})">X</a></strong></td>
+
 
                 </tr>
             @empty
