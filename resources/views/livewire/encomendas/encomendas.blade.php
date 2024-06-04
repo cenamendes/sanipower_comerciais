@@ -4,7 +4,7 @@
 
     <div id="loader" style="display: none;">
         <div class="loader" role="status">
-        
+
         </div>
     </div>
 
@@ -24,7 +24,7 @@
 
                 <div class="card-body" >
                     <div class="form-group">
-                        
+
                         <div class="row">
 
                             <div class="col-lg-4">
@@ -36,7 +36,7 @@
                                     <input type="text" class="form-control" placeholder="Nome do Cliente" wire:model.lazy="nomeCliente">
                                 </div>
                             </div>
-    
+
                             <div class="col-lg-4">
                                 <label class="mt-2">Número do Cliente</label>
                                 <div class="input-group">
@@ -46,7 +46,7 @@
                                     <input type="text" class="form-control" placeholder="Número do Cliente" wire:model.lazy="numeroCliente">
                                 </div>
                             </div>
-    
+
                             <div class="col-lg-4">
                                 <label class="mt-2">Zona</label>
                                 <div class="input-group">
@@ -73,7 +73,7 @@
                                           </button>
                                         </h2>
                                       </div>
-                                  
+
                                       <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
                                         <div class="card-body">
 
@@ -98,7 +98,7 @@
                                                         <input type="text" class="form-control" placeholder="Telemóvel" wire:model.lazy="telemovelCliente">
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-lg-4">
                                                     <label class="mt-2">Email</label>
                                                     <div class="input-group">
@@ -109,19 +109,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
 
                                         </div>
                                       </div>
                                     </div>
                                   </div>
 
-                            </div>                        
+                            </div>
 
                         <!-- FIM DO ACCORDEON -->
 
                         </div>
-                                                
+
                     </div>
                 </div>
             </div>
@@ -143,10 +143,10 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
-                    
+
                         </div>
-                    </div>                  
-                   
+                    </div>
+
                 </div>
                 <div class="card-body">
                     <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
@@ -177,7 +177,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                                 @foreach ($clientes as $clt )
                                     <tr data-href="{{route('encomendas.detail',$clt->id)}}">
                                         <td>{{$clt->name}}</td>
@@ -191,20 +191,20 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                    
+
                             </tbody>
                         </table>
-                    </div>  
-                    {{ $clientes->links() }}             
+                    </div>
+                    {{ $clientes->links() }}
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <!-- FIM TABELA  -->
     <script>
-      
+
         // Obtém todas as linhas da tabela
         const tableRows = document.querySelectorAll('tr[data-href]');
 
@@ -230,8 +230,8 @@
             });
         });
 
-    
-      
+
+
     </script>
-    
+
 </div>

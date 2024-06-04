@@ -773,7 +773,7 @@
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->price, 2, ',', '.') }} €</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a></strong></td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar({{ $item->id }})">X</a></strong></td>
 
                 </tr>
             @empty
@@ -807,12 +807,12 @@
 
                 <div class="row p-4">
                     <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a class="btn btn-primary fundo_azul" style=" color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                     <div class="col-12 pb-3 p-0 d-md-none text-center">
-                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul w-100"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a  class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px; color:white;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a class="btn btn-primary fundo_azul w-100" style=" color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                 </div>
             </div>
@@ -921,7 +921,7 @@
                                         <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
-                             
+
                                 <tbody>
 
                                     @if (!empty($quickBuyProducts))
@@ -1033,7 +1033,7 @@
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->referencia }}</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
-                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->price }} €</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->price, 2, ',', '.') }} €</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:5%">
                                                 <strong>
                                                     <a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a>
@@ -1569,5 +1569,13 @@
     jQuery('#modalEncomenda').modal();
 
         jQuery('#modalEncomenda').modal('show');
+    });
+
+    document.addEventListener('itemDeletar', function (event) {
+        // Mudar para a aba #tab6
+        var tab = document.querySelector('a[href="#tab6"]');
+        if (tab) {
+            tab.click();
+        }
     });
 </script>
