@@ -533,6 +533,30 @@ class DetalheEncomenda extends Component
 
         $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->get();
 
-        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily]);
+        $imagens = [];
+
+        foreach($this->carrinhoCompras as $carrinho){
+            array_push($imagens,$carrinho->image_ref);
+        }
+
+        $iamgens_unique = array_unique($imagens);
+
+        $arrayCart = [];
+
+        foreach($iamgens_unique as $img)
+        {
+            $arrayCart[$img] = [];
+            foreach($this->carrinhoCompras as $cart)
+            {
+                
+                if($img == $cart->image_ref)
+                {
+                    array_push($arrayCart[$img],$cart);
+                }
+            }
+        }
+
+   
+        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart]);
     }
 }
