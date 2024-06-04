@@ -812,11 +812,11 @@
                 <div class="row p-4">
                     <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
                         <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                     <div class="col-12 pb-3 p-0 d-md-none text-center">
                         <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a class="btn btn-primary fundo_azul w-100"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                 </div>
             </div>
@@ -907,6 +907,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            @php
+            $detailProduto = session('detailProduto');
+            $produtoNameDetail = session('productNameDetail');
+            $family = session('family');
+            $subFamily = session('subFamily');
+            $productNumber = session('productNumber');
+        @endphp
+            <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px; display:none;">
+                <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
+                    width=100%>
+            </div>
+            @php
+                $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
+            @endphp
             <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -982,7 +996,7 @@
                                                         id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}})"></i></button>
+                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}')"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
