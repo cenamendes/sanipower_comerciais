@@ -187,7 +187,7 @@ class EncomendasRepository implements EncomendasInterface
 
     }
 
-    public function addProductToDatabase($idCliente,$productId,$qtd,$nameProduct,$no): JsonResponse
+    public function addProductToDatabase($idCliente,$productId,$qtd,$nameProduct,$no,$ref): JsonResponse
     {
         $gerateCod = $no;
         $randomChar = Str::random(1);
@@ -206,6 +206,7 @@ class EncomendasRepository implements EncomendasInterface
             "price" => $qtd["product"]->price,
             "model" => $qtd["product"]->model,
             "qtd" => intval($qtd["quantidade"]),
+            "image_ref" => $ref,
         ]);
 
         if ($addProduct) {

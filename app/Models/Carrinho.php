@@ -21,6 +21,7 @@ class Carrinho extends Model
         'pvp',
         'discount',
         'qtd',
+        'image_ref',
         'model',
         'price',
     ];
