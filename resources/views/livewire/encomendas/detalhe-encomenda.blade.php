@@ -766,60 +766,56 @@
                                             $totalItem = $prod->price * $prod->qtd;
                                             $ValorTotal += $totalItem;
                                         @endphp
-                                        <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
-                                            <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
-                                            <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $prod->model }}</td>
-                                            <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->pvp }} €</td>
-                                            <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                                            <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->price }} €</td>
-                                            <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
-                                            <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $totalItem }} €</td>
-                                            <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $prod->id }})">X</a></strong></td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
+                    <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $prod->model }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
+                    <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $prod->id }})">X</a></strong></td>
 
-                    
-                @empty
-                    <div class="row">
-                        <div class="col-12 text-center">Nenhum produto no carrinho</div>
-                    </div>
-                @endforelse
-                    <div class="row">
-                        <div class="col-12 text-right" style="border-bottom: none;">
-                            <table class="float-right" style="width: 240px; margin-top: 1rem;">
-                                <tbody>
-                                    <tr style="border-bottom: 1px solid #232b58!important;">
-                                        <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                        <td style="width: 140px;" class="bold">{{ $ValorTotal }} €</td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid #232b58!important;">
-                                        <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                        <td style="width: 140px;" class="bold">{{ $ValorTotal }} €</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row p-4">
-                        <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                            <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                            <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
-                        </div>
-                        <div class="col-12 pb-3 p-0 d-md-none text-center">
-                            <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                            <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul w-100"><i class="las la-angle-right"></i> Seguinte</a>
-                        </div>
-                    </div>
-            
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                </tr>
+            @endforelse
+                                {{-- @endforeach --}}
+                            </tbody>
+                        </table>
 
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-right" style="border-bottom: none;">
+                        <table class="float-right" style="width: 240px; margin-top: 1rem;">
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #232b58!important;">
+                                    <td style="width: 100px; text-align: left;">Total s/IVA</td>
+                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #232b58!important;">
+                                    <td style="width: 100px; text-align: left;">Total c/IVA</td>
+                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row p-4">
+                    <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
+                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
+                    </div>
+                    <div class="col-12 pb-3 p-0 d-md-none text-center">
+                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul w-100"><i class="las la-angle-right"></i> Seguinte</a>
+                    </div>
+                </div>
             </div>
 
             {{-- <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
