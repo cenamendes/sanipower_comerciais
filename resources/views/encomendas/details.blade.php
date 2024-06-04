@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    @livewire('encomendas.detalhe-encomenda',["cliente" => $idCliente])
+    @livewire('encomendas.detalhe-encomenda',["cliente" => $idCliente , "codEncomenda" => $codEncomenda])
 
 @endsection
 

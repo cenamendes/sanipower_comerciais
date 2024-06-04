@@ -692,7 +692,7 @@
                                                                             <i class="ti-notepad text-light"></i>
                                                                         </a>
                                                                         {{-- vinicius --}}
-                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}')"
+                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-shopping-cart text-light"></i>
                                                                         </a>
@@ -998,7 +998,7 @@
                                                         id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}')"></i></button>
+                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
