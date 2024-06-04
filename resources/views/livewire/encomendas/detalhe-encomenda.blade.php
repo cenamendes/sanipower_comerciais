@@ -657,28 +657,9 @@
 
                                                                     </td>
                                                                     <td><input type="number" class="form-control"
-                                                                            id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
+                                                                            id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                                     <td class="text-center">
-                                                                        {{-- <a href="javascript:;"
-                                                                            class="btn btn-sm btn-outline-secondary"
-                                                                            data-toggle="dropdown"
-                                                                            aria-expanded="false">
-                                                                            <i class="ti-settings text-light"></i>
-                                                                        </a>
-                                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Consultar
-                                                                                Caixa</button>
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Adicionar
-                                                                                Visita</button>
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Justificar
-                                                                                Quantidade</button>
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Adicionar
-                                                                                Encomenda</button>
-                                                                        </div> --}}
+                                                                       
                                                                         <a href="javascript:;"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-package text-light"></i>
@@ -994,14 +975,16 @@
                                                         </a>
                                                     @endif
                                                 </td>
+                                             
                                                 <td><input type="number" class="form-control"
-                                                        id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
+                                                        id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"></i></button>
+                                                    <button class="btn btn-sm btn-success"  wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"><i
+                                                            class="ti-shopping-cart"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
+                                                
                                             </tr>
                                         @endforeach
                                     @endif
@@ -1083,189 +1066,6 @@
 </div>
 
 <!-- FIM TABS  -->
-
-
-    <!-- MODALS -->
-
-    <!-- Modal adicionar compra rapida -->
-    <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-            <div class="modal-content">
-                @php
-                    $quickBuyProducts = session('quickBuyProducts');
-                    $nameProduct = session('productName');
-                @endphp
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="modalProdutos">{{ $nameProduct }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="table-responsive" style="overflow-x:none!important;">
-                                <table class="table table-bordered table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Referência</th>
-                                            <th>Modelo</th>
-                                            <th>PVP unitário</th>
-                                            <th>Desconto</th>
-                                            <th>Preço unitário</th>
-                                            <th>Quantidade mínima</th>
-                                            <th>Stock</th>
-                                            <th>Quantidade a encomendar</th>
-                                            <th class="text-center">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @if (!empty($quickBuyProducts))
-
-                                            @foreach ($quickBuyProducts->product as $prod)
-                                                <tr>
-                                                    <td>{{ $prod->referense }}</td>
-                                                    <td>{{ $prod->model }}</td>
-                                                    <td>{{ $prod->pvp }}</td>
-                                                    <td>{{ $prod->discount }}</td>
-                                                    <td>{{ $prod->price }}</td>
-                                                    <td>{{ $prod->quantity }}</td>
-                                                    <td style="text-align:center;font-size:large;">
-                                                        @if ($prod->in_stock == true)
-                                                            <a class="popover-test" data-toggle="tooltip"
-                                                                data-placement="top"
-                                                                title="Clique para ver os valores">
-                                                                <!-- <i class="ti-check text-lg text-forest"></i>  -->
-                                                                <div class="dropdownIcon">
-                                                                    <i
-                                                                        class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
-                                                                    <ul class="dropdownIcon-menu">
-                                                                        <li><i class="fa fa-play icon-play"></i></li>
-                                                                        <li style="border-bottom: 1px solid;">
-                                                                            <h5>Stocks em loja</h5>
-                                                                        </li>
-                                                                        @foreach ($prod->stocks as $stock)
-                                                                            <li>
-
-                                                                                {{ $stock->warehouse }}
-
-                                                                                @if ($stock->stock == true)
-                                                                                    <i
-                                                                                        class="ti-check text-lg text-forest"></i>
-                                                                                @else
-                                                                                    <i
-                                                                                        class="ti-close text-lg text-chili"></i>
-                                                                                @endif
-
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                </div>
-                                                            </a>
-                                                        @else
-                                                            <a href="javascript:;" role="button"
-                                                                class="popover-test" data-toggle="popover"
-                                                                aria-describedby="popover817393">
-                                                                <i class="ti-close text-lg text-chili"></i>
-                                                            </a>
-                                                        @endif
-
-                                                    </td>
-                                                    <td><input type="number" class="form-control"
-                                                            id="valueEncomendar"></td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-sm btn-success"><i
-                                                                class="ti-shopping-cart"></i></button>
-                                                        <button class="btn btn-sm btn-warning"><i
-                                                                class="ti-comment"></i></button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Limpar
-                        seleção</button>
-                    <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!----->
-
-    <!-- Modal ver encomenda -->
-    <!-- <div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="modalEncomenda"><i class="ti-archive"></i> Encomenda
-                        atual</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="table-responsive" style="overflow-x:none!important;">
-                                <table class="table table-bordered table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Referência</th>
-                                            <th>Designação</th>
-                                            <th>Quantidade</th>
-                                            <th>Preço unitário</th>
-                                            <th>Desconto 1</th>
-                                            <th>Desconto 2</th>
-                                            <th>Preço Total</th>
-                                            <th class="text-center">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @if (!empty($quickBuyProducts))
-                                            @foreach ($quickBuyProducts->product as $prod)
-                                                <tr>
-                                                    <td>{{ $prod->referense }}</td>
-                                                    <td>{{ $prod->model }}</td>
-                                                    <td>{{ $prod->quantity }}</td>
-                                                    <td>{{ $prod->price }}</td>
-                                                    <td>{{ $prod->discount }}</td>
-                                                    <td></td>
-                                                    <td>{{ $prod->pvp }}</td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-sm btn-danger"><i
-                                                                class="ti-trash"></i></button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Limpar
-                        seleção</button>
-                    <button type="button" class="btn btn-outline-primary">Concluir Encomenda</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    <!----->
 
 
 </div>
@@ -1542,33 +1342,32 @@
             Livewire.hook('message.processed', () => {
                 document.getElementById('loader').style.display = 'none';
             });
+
+    });
+
+
+    document.getElementById('finalizarEncomenda').addEventListener('click', function() {
+        // Fecha o modal
+        $('.modal').modal('hide');
+
+        // Adiciona as classes 'show active' à aba especificada
+        document.querySelector('#tab6').classList.add('show', 'active');
+
+        // Remove as classes 'show active' das outras abas, se necessário
+        var otherTabs = document.querySelectorAll('.tab-pane');
+        otherTabs.forEach(function(tab) {
+            if (tab.id !== 'tab6') {
+                tab.classList.remove('show', 'active');
+            }
         });
 
-
-
-
-        document.getElementById('finalizarEncomenda').addEventListener('click', function() {
-    // Fecha o modal
-    $('.modal').modal('hide');
-
-    // Adiciona as classes 'show active' à aba especificada
-    document.querySelector('#tab6').classList.add('show', 'active');
-
-    // Remove as classes 'show active' das outras abas, se necessário
-    var otherTabs = document.querySelectorAll('.tab-pane');
-    otherTabs.forEach(function(tab) {
-        if (tab.id !== 'tab6') {
-            tab.classList.remove('show', 'active');
-        }
+        // Atualiza o link da navegação para refletir a aba ativa
+        var navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(function(link) {
+            link.classList.remove('active');
+        });
+        document.querySelector('a[href="#tab6"]').classList.add('active');
     });
-
-    // Atualiza o link da navegação para refletir a aba ativa
-    var navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(function(link) {
-        link.classList.remove('active');
-    });
-    document.querySelector('a[href="#tab6"]').classList.add('active');
-});
 
 
     jQuery('#cleanSelectionQuick').on('click', function(event) {
@@ -1600,4 +1399,20 @@
             tab.click();
         }
     });
+    
+    document.addEventListener('compraRapida', function(e) {
+           
+           jQuery('#modalProdutos').modal();
+
+           jQuery("td #valueEncomendar").change(function(e) {
+                              
+                @this.set('produtosRapida.'+jQuery(this).attr("data-i"), jQuery(this).val())
+            });
+         
+       });
+
+    
+    
+  
+
 </script>

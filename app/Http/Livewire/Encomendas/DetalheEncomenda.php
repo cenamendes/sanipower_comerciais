@@ -90,7 +90,6 @@ class DetalheEncomenda extends Component
         $this->idCliente = $cliente;
         $this->codEncomenda = $codEncomenda;
 
-
         $this->specificProduct = 0;
         $this->filter = false;
 
