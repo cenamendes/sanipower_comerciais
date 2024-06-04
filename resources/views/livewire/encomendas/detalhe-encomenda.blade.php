@@ -738,7 +738,7 @@
             @endphp
             @forelse ($arrayCart  as $img => $item)
 
-                    <div class="row">
+                    <div class="row" style="align-items: center;">
                         <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                             <img src="{{ $img }}"
                                 class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
@@ -749,6 +749,7 @@
                                     <tr>
                                         <th class="d-none d-lg-table-cell">Referência</th>
                                         <th>Produto</th>
+                                        <th>Modelo</th>
                                         <th>PVP (UNI)</th>
                                         <th class="d-none d-md-table-cell">Desconto</th>
                                         <th>Preço (c/desc.)</th>
@@ -766,7 +767,8 @@
                                         @endphp
                                     <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
                                         <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $prod->model }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                         <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
