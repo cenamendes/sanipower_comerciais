@@ -6,7 +6,6 @@ namespace App\Repositories;
 use stdClass;
 use App\Models\User;
 use App\Models\Carrinho;
-use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
@@ -187,15 +186,11 @@ class EncomendasRepository implements EncomendasInterface
 
     }
 
-    public function addProductToDatabase($idCliente,$productId,$qtd,$nameProduct,$no,$ref): JsonResponse
+    public function addProductToDatabase($idCliente,$productId,$qtd,$nameProduct,$no,$ref,$codEncomenda): JsonResponse
     {
-        $gerateCod = $no;
-        $randomChar = Str::random(1);
-
-        $gerateCod .= $randomChar;
 
         $addProduct = Carrinho::create([
-            "id_encomenda" => $gerateCod,
+            "id_encomenda" => $codEncomenda,
             "id_proposta" => "",
             "id_cliente" => $no,
             "id_user" => Auth::user()->id,

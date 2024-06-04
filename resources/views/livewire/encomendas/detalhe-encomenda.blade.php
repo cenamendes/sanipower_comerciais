@@ -535,8 +535,7 @@
                                                                 style="z-index:10;">
                                                                 <button class="btn btn-sm btn-primary"
                                                                     wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"><i
-                                                                        class="ti-shopping-cart"></i><span> Compra
-                                                                        rápida</span></button>
+                                                                        class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                                             </div>
                                                         </div>
 
@@ -554,7 +553,6 @@
                                     <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
-
                                 @php
                                     $detailProduto = session('detailProduto');
                                     $produtoNameDetail = session('productNameDetail');
@@ -694,7 +692,7 @@
                                                                             <i class="ti-notepad text-light"></i>
                                                                         </a>
                                                                         {{-- vinicius --}}
-                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}')"
+                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-shopping-cart text-light"></i>
                                                                         </a>
@@ -739,8 +737,8 @@
                 $ValorTotal = 0;
             @endphp
             @forelse ($arrayCart  as $img => $item)
-                   
-                    <div class="row">
+
+                    <div class="row" style="align-items: center;">
                         <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                             <img src="{{ $img }}"
                                 class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
@@ -751,6 +749,7 @@
                                     <tr>
                                         <th class="d-none d-lg-table-cell">Referência</th>
                                         <th>Produto</th>
+                                        <th>Modelo</th>
                                         <th>PVP (UNI)</th>
                                         <th class="d-none d-md-table-cell">Desconto</th>
                                         <th>Preço (c/desc.)</th>
@@ -761,36 +760,40 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($item as $prod)
-                                        
+
                                         @php
                                             $totalItem = $prod->price * $prod->qtd;
                                             $ValorTotal += $totalItem;
                                         @endphp
-                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
-                    <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $prod->model }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
-                    <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                                    <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
+                                        <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
+                                        <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar({{ $prod->id }})">X</a></strong></td>
 
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar({{ $item->id }})">X</a></strong></td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                                    </tr>
+                                    @endforelse
 
-
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                </tr>
-            @endforelse
                                 {{-- @endforeach --}}
                             </tbody>
                         </table>
 
                     </div>
                 </div>
-
+        @empty
+            <tr>
+                <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+            </tr>
+        @endforelse
                 <div class="row">
                     <div class="col-12 text-right" style="border-bottom: none;">
                         <table class="float-right" style="width: 240px; margin-top: 1rem;">
@@ -811,11 +814,11 @@
                 <div class="row p-4">
                     <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
                         <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a class="btn btn-primary fundo_azul" style=" color:white;"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                     <div class="col-12 pb-3 p-0 d-md-none text-center">
-                        <a  class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px; color:white;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a class="btn btn-primary fundo_azul w-100" style=" color:white;"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                 </div>
             </div>
@@ -906,6 +909,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            @php
+            $detailProduto = session('detailProduto');
+            $produtoNameDetail = session('productNameDetail');
+            $family = session('family');
+            $subFamily = session('subFamily');
+            $productNumber = session('productNumber');
+        @endphp
+            <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px; display:none;">
+                <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
+                    width=100%>
+            </div>
+            @php
+                $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
+            @endphp
             <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -981,7 +998,7 @@
                                                         id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}})"></i></button>
+                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
