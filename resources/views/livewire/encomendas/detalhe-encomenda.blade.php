@@ -768,11 +768,11 @@
                 <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
                     <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $item->referencia }}</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">{{ $item->model }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->pvp }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->pvp, 2, ',', '.') }} €</td>
                     <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->discount }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->price }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->price, 2, ',', '.') }} €</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
-                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $totalItem }} €</td>
+                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
                     <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a></strong></td>
 
                 </tr>
@@ -794,11 +794,11 @@
                             <tbody>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                    <td style="width: 140px;" class="bold">{{$ValorTotal}} €</td>
+                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                    <td style="width: 140px;" class="bold">{{$ValorTotal}} €</td>
+                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
                                 </tr>
                             </tbody>
                         </table>
