@@ -1391,9 +1391,7 @@
 
            jQuery('#modalProdutos').modal();
 
-       
-
-       });
+    });
 
 
 
