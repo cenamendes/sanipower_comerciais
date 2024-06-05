@@ -1,6 +1,4 @@
  <div>
-
-
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
         <div id="loader" style="display: none;">
@@ -716,36 +714,37 @@
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
             @php
                 $ValorTotal = 0;
+                $ValorTotalComIva = 0;
             @endphp
-            @forelse ($arrayCart  as $img => $item)
-
-                    <div class="row" style="align-items: center;">
-                        <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                            <img src="{{ $img }}"
-                                class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
-                        </div>
-                        <div class="col-md-10 p-0">
-                            <table class="table table-hover init-datatable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="d-none d-lg-table-cell">Referência</th>
-                                        <th>Produto</th>
-                                        <th>Modelo</th>
-                                        <th>PVP (UNI)</th>
-                                        <th class="d-none d-md-table-cell">Desconto</th>
-                                        <th>Preço (c/desc.)</th>
-                                        <th>Qtd.Enc.</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($item as $prod)
-
-                                        @php
-                                            $totalItem = $prod->price * $prod->qtd;
-                                            $ValorTotal += $totalItem;
-                                        @endphp
+            @forelse ($arrayCart as $img => $item)
+                <div class="row" style="align-items: center;">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                    </div>
+                    <div class="col-md-10 p-0">
+                        <table class="table table-hover init-datatable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="d-none d-lg-table-cell">Referência</th>
+                                    <th>Produto</th>
+                                    <th>Modelo</th>
+                                    <th>PVP (UNI)</th>
+                                    <th class="d-none d-md-table-cell">Desconto</th>
+                                    <th>Preço (c/desc.)</th>
+                                    <th>Qtd.Enc.</th>
+                                    <th>Iva</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($item as $prod)
+                                    @php
+                                        $totalItem = $prod->price * $prod->qtd;
+                                        $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+                                        $ValorTotal += $totalItem;
+                                        $ValorTotalComIva += $totalItemComIva;
+                                    @endphp
                                     <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
                                         <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
@@ -754,53 +753,52 @@
                                         <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->iva }} %</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar({{ $prod->id }})">X</a></strong></td>
-
                                     </tr>
-                                    @empty
+                                @empty
                                     <tr>
                                         <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
                                     </tr>
-                                    @endforelse
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-        @empty
-            <tr>
-                <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-            </tr>
-        @endforelse
-                <div class="row">
-                    <div class="col-12 text-right" style="border-bottom: none;">
-                        <table class="float-right" style="width: 240px; margin-top: 1rem;">
-                            <tbody>
-                                <tr style="border-bottom: 1px solid #232b58!important;">
-                                    <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #232b58!important;">
-                                    <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-                <div class="row p-4">
-                    <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                        <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
-                    </div>
-                    <div class="col-12 pb-3 p-0 d-md-none text-center">
-                        <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
-                    </div>
+            @empty
+                <tr>
+                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                </tr>
+            @endforelse
+            <div class="row">
+                <div class="col-12 text-right" style="border-bottom: none;">
+                    <table class="float-right" style="width: 240px; margin-top: 1rem;">
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #232b58!important;">
+                                <td style="width: 100px; text-align: left;">Total s/IVA</td>
+                                <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #232b58!important;">
+                                <td style="width: 100px; text-align: left;">Total c/IVA</td>
+                                <td style="width: 140px;" class="bold">{{ number_format($ValorTotalComIva, 2, ',', '.') }} €</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div class="row p-4">
+                <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
+                    <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                    <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
+                </div>
+                <div class="col-12 pb-3 p-0 d-md-none text-center">
+                    <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                    <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
+                </div>
+            </div>
+        </div>
+
 
             {{-- <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
 
@@ -984,8 +982,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar
-                    seleção</button>
+                <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar seleção</button>
                 <button type="button" class="btn btn-outline-primary" wire:click="addAll">Adicionar todos</button>
             </div>
         </div>

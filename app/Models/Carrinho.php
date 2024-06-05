@@ -23,6 +23,7 @@ class Carrinho extends Model
         'qtd',
         'image_ref',
         'model',
+        'iva',
         'price',
     ];
 }
