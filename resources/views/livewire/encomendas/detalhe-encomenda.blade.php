@@ -659,7 +659,7 @@
                                                                     <td><input type="number" class="form-control"
                                                                             id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                                     <td class="text-center">
-                                                                       
+
                                                                         <a href="javascript:;"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-package text-light"></i>
@@ -725,7 +725,7 @@
                                 class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
                         </div>
                         <div class="col-md-10 p-0">
-                            <table class="table table-hover init-datatable" id="tabela-cliente">
+                            <table class="table table-hover init-datatable">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="d-none d-lg-table-cell">Referência</th>
@@ -763,8 +763,6 @@
                                         <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
                                     </tr>
                                     @endforelse
-
-                                {{-- @endforeach --}}
                             </tbody>
                         </table>
 
@@ -975,7 +973,7 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                             
+
                                                 <td><input type="number" class="form-control"
                                                         id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                 <td class="text-center">
@@ -984,7 +982,7 @@
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
-                                                
+
                                             </tr>
                                         @endforeach
                                     @endif
@@ -1266,7 +1264,7 @@
         });
     });
 
-    
+
     jQuery('body').on('click', '.buttonGoback', function() {
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
             item.style.display = 'none';
@@ -1399,20 +1397,20 @@
             tab.click();
         }
     });
-    
+
     document.addEventListener('compraRapida', function(e) {
-           
+
            jQuery('#modalProdutos').modal();
 
            jQuery("td #valueEncomendar").change(function(e) {
-                              
+
                 @this.set('produtosRapida.'+jQuery(this).attr("data-i"), jQuery(this).val())
             });
-         
+
        });
 
-    
-    
-  
+
+
+
 
 </script>
