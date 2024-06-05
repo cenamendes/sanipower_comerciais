@@ -688,12 +688,12 @@
                                                         Ficha do Produto</button>
                                                 </div>
                                                 <div>
-                                                    <button class="btn btn-md btn-primary"><i class="ti-close"></i>
+                                                    <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i>
                                                         Limpar Seleção</button>
                                                 </div>
                                                 <div>
-                                                    <button class="btn btn-md btn-primary"><i
-                                                            class="ti-shopping-cart"></i> Adicionar Todos</button>
+                                                    <button class="btn btn-md btn-primary" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i
+                                                            class="ti-shopping-cart" ></i> Adicionar Todos </button>
                                                 </div>
                                                 <div>
                                                     <button class="btn btn-md btn-primary"><i class="ti-info"></i>
@@ -983,7 +983,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar seleção</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="addAll">Adicionar todos</button>
+                <button type="button" class="btn btn-outline-primary" wire:click="addAll('{{$nameProduct}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')">Adicionar todos</button>
             </div>
         </div>
     </div>
