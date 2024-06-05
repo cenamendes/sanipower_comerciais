@@ -924,9 +924,8 @@
                                 <tbody>
 
                                     @if (!empty($quickBuyProducts))
-
                                         @foreach ($quickBuyProducts->product as $i => $prod)
-                                            <tr>
+                                            <tr wire:key="product-{{ $i }}">
                                                 <td>{{ $prod->referense }}</td>
                                                 <td>{{ $prod->model }}</td>
                                                 <td>{{ $prod->pvp }}</td>
@@ -935,13 +934,9 @@
                                                 <td>{{ $prod->quantity }}</td>
                                                 <td style="text-align:center;font-size:large;">
                                                     @if ($prod->in_stock == true)
-                                                        <a class="popover-test" data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="Clique para ver os valores">
-                                                            <!-- <i class="ti-check text-lg text-forest"></i>  -->
+                                                        <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
                                                             <div class="dropdownIcon">
-                                                                <i
-                                                                    class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
+                                                                <i class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
                                                                 <ul class="dropdownIcon-menu">
                                                                     <li><i class="fa fa-play icon-play"></i></li>
                                                                     <li style="border-bottom: 1px solid;">
@@ -949,40 +944,35 @@
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
-
                                                                             {{ $stock->warehouse }}
-
                                                                             @if ($stock->stock == true)
-                                                                                <i
-                                                                                    class="ti-check text-lg text-forest"></i>
+                                                                                <i class="ti-check text-lg text-forest"></i>
                                                                             @else
-                                                                                <i
-                                                                                    class="ti-close text-lg text-chili"></i>
+                                                                                <i class="ti-close text-lg text-chili"></i>
                                                                             @endif
-
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
                                                             </div>
                                                         </a>
                                                     @else
-                                                        <a href="javascript:;" role="button"
-                                                            class="popover-test" data-toggle="popover"
-                                                            aria-describedby="popover817393">
+                                                        <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
                                                             <i class="ti-close text-lg text-chili"></i>
                                                         </a>
                                                     @endif
                                                 </td>
 
-                                                <td><input type="number" class="form-control"
-                                                        id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-success"  wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"><i
-                                                            class="ti-shopping-cart"></i></button>
-                                                    <button class="btn btn-sm btn-warning"><i
-                                                            class="ti-comment"></i></button>
+                                                <td>
+                                                    <input type="number" class="form-control" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}">
                                                 </td>
-
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-success" wire:click="addProductQuickBuy({{$i}}, '{{ $nameProduct }}', {{$detalhesCliente->customers[0]->no}}, '{{ $ref }}', '{{ $codEncomenda }}')">
+                                                        <i class="ti-shopping-cart"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-warning">
+                                                        <i class="ti-comment"></i>
+                                                    </button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
@@ -1068,6 +1058,8 @@
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    @livewireScripts
+    <script src="//unpkg.com/alpinejs" defer></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Função para fechar todos os dropdowns
@@ -1402,10 +1394,7 @@
 
            jQuery('#modalProdutos').modal();
 
-           jQuery("td #valueEncomendar").change(function(e) {
-
-                @this.set('produtosRapida.'+jQuery(this).attr("data-i"), jQuery(this).val())
-            });
+       
 
        });
 

@@ -60,7 +60,7 @@ class DetalheEncomenda extends Component
 
     /** PARTE DA COMPRA */
 
-    public ?array $produtosRapida = [];
+    public $produtosRapida = [];
 
     /***** */
 
