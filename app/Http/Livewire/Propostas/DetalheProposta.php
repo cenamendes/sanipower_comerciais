@@ -378,8 +378,9 @@ class DetalheProposta extends Component
         $quickBuyProducts = session('quickBuyProducts');
 
         $flag = 0;
-        if(empty($this->produtosRapida))
+        if(empty($this->produtosRapida[$prodID]))
         {
+            $this->produtosRapida = [];
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
             return false;
         }
@@ -430,7 +431,7 @@ class DetalheProposta extends Component
             $message = "Não foi possivel adicionar o produto!";
             $status = "error";
         }
-
+        $this->produtosRapida = [];
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
     public function CleanAll()
@@ -480,7 +481,7 @@ class DetalheProposta extends Component
             $message = "Não foi possivel adicionar o produto!";
             $status = "error";
         }
-
+        $this->produtosRapida = [];
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
 
     }
