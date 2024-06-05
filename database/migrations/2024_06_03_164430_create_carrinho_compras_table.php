@@ -26,6 +26,7 @@ class CreateCarrinhoComprasTable extends Migration
                 $table->float('pvp')->nullable();
                 $table->string('discount', 50)->nullable();
                 $table->unsignedInteger('qtd')->nullable();
+                $table->unsignedInteger('iva')->nullable();
                 $table->string('model', 50)->nullable();
                 $table->string('image_ref', 250)->nullable();
                 $table->timestamps();

@@ -189,6 +189,7 @@ class EncomendasRepository implements EncomendasInterface
     public function addProductToDatabase($idCliente,$productId,$qtd,$nameProduct,$no,$ref,$codEncomenda): JsonResponse
     {
 
+
         $addProduct = Carrinho::create([
             "id_encomenda" => $codEncomenda,
             "id_proposta" => "",
@@ -201,6 +202,7 @@ class EncomendasRepository implements EncomendasInterface
             "price" => $qtd["product"]->price,
             "model" => $qtd["product"]->model,
             "qtd" => intval($qtd["quantidade"]),
+            "iva" => 12,
             "image_ref" => $ref,
         ]);
 

@@ -201,6 +201,7 @@ class PropostasRepository implements PropostasInterface
             "price" => $qtd["product"]->price,
             "model" => $qtd["product"]->model,
             "qtd" => intval($qtd["quantidade"]),
+            "iva" => 12,
             "image_ref" => $ref,
         ]);
 
