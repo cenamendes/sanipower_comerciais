@@ -3,7 +3,7 @@
 
       <div id="loader" style="display: none;">
         <div class="loader" role="status">
-        
+
         </div>
     </div>
 
@@ -57,7 +57,7 @@
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
                     <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>
                     <p class="card-text">
-                       
+
                         <!--  INICIO DOS DETALHES   -->
 
                         <div class="row form-group">
@@ -170,7 +170,7 @@
 
                             </div>
                             <div class="col-xl-4">
-                                
+
                                 <div class="form-group">
                                     <label>Nº Propostas em aberto</label>
                                     <div class="input-group">
@@ -252,14 +252,14 @@
 
                             </div>
                         </div>
-                        
+
                         <!--  FIM DETALHES   -->
                     </p>
                 </div>
                 <div class="tab-pane fade {{$tabRelatorio}}" id="tab5">
-    
+
                     <p class="card-text">
-                        
+
                         <!-- INICIO RELATORIO  -->
 
                         <div class="row">
@@ -272,9 +272,9 @@
                                                     <i class="ti-files"></i> Relatório
                                                 </div>
                                             </div>
-                                        
-                                        </div>                  
-                                    
+
+                                        </div>
+
                                     </div>
                                     <div class="card-body">
 
@@ -331,15 +331,15 @@
                                                     <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_occorencias"></textarea>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
 
 
-                                                                                    
+
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <!-- FIM RELATORIO  -->
@@ -348,9 +348,9 @@
                 </div>
 
                 <div class="tab-pane fade {{$tabAnalysis}}" id="tab6">
-    
+
                     <p class="card-text">
-                        
+
                         <!-- INICIO TABELA  -->
 
                         <div class="row">
@@ -363,12 +363,12 @@
                                                     <i class="ti-stats-up"></i> Análises De Vendas
                                                 </div>
                                             </div>
-                                           
-                                        </div>                  
-                                       
+
+                                        </div>
+
                                     </div>
                                     <div class="card-body">
-                                    
+
                                         <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                                             <div class="dataTables_length" id="dataTables_length">
                                                 <label>
@@ -387,7 +387,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                      
+
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-hover" id="tabela-cliente2">
                                                 <thead class="thead-light">
@@ -405,16 +405,16 @@
                                                         <td>500</td>
                                                         <td>Nova</td>
                                                     </tr>
-                                            
-                                        
+
+
                                                 </tbody>
                                             </table>
-                                        </div>  
+                                        </div>
                                         {{-- {{ $analisesCliente->links() }}              --}}
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <!-- FIM TABELA  -->
@@ -423,18 +423,18 @@
                 </div>
 
                 <div class="tab-pane fade {{$tabEncomendas}}" id="tab7">
-    
+
                     <p class="card-text">
-             
+
                        @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id])
 
                     </p>
                 </div>
 
                 <div class="tab-pane fade {{$tabPropostas}}" id="tab8">
-    
+
                     <p class="card-text">
-             
+
                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id])
 
                     </p>

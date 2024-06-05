@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Visitas;
 use Livewire\Component;
 use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
+use App\Models\Comentarios;
 
 class Propostas extends Component
 {
@@ -26,6 +27,7 @@ class Propostas extends Component
     public ?string $comentarioProposta = "";
 
     private ?object $detailsPropostas = NULL;
+    public ?object $comentario = NULL;
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -55,14 +57,14 @@ class Propostas extends Component
 
     }
 
-    
+
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
         $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
     }
 
-   
+
     public function previousPage()
     {
         if ($this->pageChosen > 1) {
@@ -72,7 +74,7 @@ class Propostas extends Component
         else if($this->pageChosen == 1){
             $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         }
-        
+
     }
 
     public function nextPage()
@@ -120,7 +122,7 @@ class Propostas extends Component
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
     }
-    
+
     public function paginationView()
     {
         return 'livewire.pagination';
@@ -136,15 +138,19 @@ class Propostas extends Component
         $this->comentarioProposta = "";
 
         $this->dispatchBrowserEvent('openComentarioModalPropostas');
-        
+
     }
 
     public function sendComentario($idProposta)
     {
+        if (empty($this->comentarioProposta)) {
+            $message = "O campo de comentário está vazio!";
+            $status = "error";
+        } else {
         $response = $this->clientesRepository->sendComentarios($idProposta,$this->comentarioProposta, "propostas");
 
         $responseArray = $response->getData(true);
-        
+
         if($responseArray["success"] == true){
             $message = "Comentário adicionado com sucesso!";
             $status = "success";
@@ -153,11 +159,26 @@ class Propostas extends Component
              $status = "error";
          }
 
+        }
+
         $this->restartDetails();
 
         $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
     }
 
+
+    public function verComentario($idProposta)
+{
+    // Carrega o comentário correspondente
+    $comentario = Comentarios::where('stamp', $idProposta)->where('tipo', 'propostas')->get();
+
+    // Define o comentário para exibir no modal
+    $this->comentario = $comentario;
+
+    $this->restartDetails();
+    // Dispara o evento para abrir o modal
+    $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
+}
 
     public function render()
     {

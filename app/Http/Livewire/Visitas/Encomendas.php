@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Visitas;
 use Livewire\Component;
 use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
+use App\Models\Comentarios;
 
 class Encomendas extends Component
 {
@@ -26,6 +27,7 @@ class Encomendas extends Component
     public ?string $comentarioEncomenda = "";
 
     private ?object $detailsEncomenda = NULL;
+    public ?object $comentario = NULL;
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -55,14 +57,14 @@ class Encomendas extends Component
 
     }
 
-    
+
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
         $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
     }
 
-   
+
     public function previousPage()
     {
         if ($this->pageChosen > 1) {
@@ -72,7 +74,7 @@ class Encomendas extends Component
         else if($this->pageChosen == 1){
             $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         }
-        
+
     }
 
     public function nextPage()
@@ -120,7 +122,7 @@ class Encomendas extends Component
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
     }
-    
+
     public function paginationView()
     {
         return 'livewire.pagination';
@@ -136,28 +138,49 @@ class Encomendas extends Component
         $this->comentarioEncomenda = "";
 
         $this->dispatchBrowserEvent('openComentarioModal');
-        
+
     }
 
     public function sendComentario($idEncomenda)
-    {
-        $response = $this->clientesRepository->sendComentarios($idEncomenda,$this->comentarioEncomenda,"encomendas");
+{
+    if (empty($this->comentarioEncomenda)) {
+        $message = "O campo de comentário está vazio!";
+        $status = "error";
+    } else {
+        $response = $this->clientesRepository->sendComentarios($idEncomenda, $this->comentarioEncomenda, "encomendas");
 
         $responseArray = $response->getData(true);
 
-        if($responseArray["success"] == true){
-           $message = "Comentário adicionado com sucesso!";
-           $status = "success";
+        if ($responseArray["success"] == true) {
+            $message = "Comentário adicionado com sucesso!";
+            $status = "success";
         } else {
-            $message = "Não foi possivel adicionar o comentário!";
+            $message = "Não foi possível adicionar o comentário!";
             $status = "error";
         }
-
-        $this->restartDetails();
-
-        $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
-
     }
+
+    // Reinicia os detalhes da encomenda
+    $this->restartDetails();
+
+    // Exibe a mensagem usando o evento do navegador
+    $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+}
+
+
+
+public function verComentario($idEncomenda)
+{
+    // Carrega o comentário correspondente
+    $comentario = Comentarios::where('stamp', $idEncomenda)->where('tipo', 'encomendas')->get();
+
+    // Define o comentário para exibir no modal
+    $this->comentario = $comentario;
+
+    $this->restartDetails();
+    // Dispara o evento para abrir o modal
+    $this->dispatchBrowserEvent('abrirModalVerComentario');
+}
 
 
     public function render()

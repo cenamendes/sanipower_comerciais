@@ -72,12 +72,12 @@ class DetalheVisitas extends Component
 
     }
 
-    
+
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-    
+
         $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
@@ -89,12 +89,12 @@ class DetalheVisitas extends Component
         $this->tabAssistencias = "";
     }
 
-   
+
     public function previousPage()
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        
-       
+
+
         $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
@@ -110,7 +110,7 @@ class DetalheVisitas extends Component
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
-        
+
         $this->tabRelatorio = "";
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
@@ -194,7 +194,7 @@ class DetalheVisitas extends Component
         $response = $this->clientesRepository->storeVisita($this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
 
         $responseArray = $response->getData(true);
-        
+
         if($responseArray["success"] == true){
             session()->flash('success', "Visita criada com sucesso");
          } else {
@@ -207,7 +207,7 @@ class DetalheVisitas extends Component
         return redirect()->route('visitas');
 
     }
-    
+
     public function paginationView()
     {
         return 'livewire.pagination';
