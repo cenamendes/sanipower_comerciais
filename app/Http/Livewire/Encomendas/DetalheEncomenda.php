@@ -378,6 +378,11 @@ class DetalheEncomenda extends Component
         $quickBuyProducts = session('quickBuyProducts');
 
         $flag = 0;
+        if(empty($this->produtosRapida))
+        {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+            return false;
+        }
 
         $productChosen = [];
 
@@ -414,7 +419,7 @@ class DetalheEncomenda extends Component
             return false;
         }
 
-        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $prodID, $productChosen, $nameProduct, $no, $ref, $codEncomenda);
+        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda);
 
         $responseArray = $response->getData(true);
 
@@ -428,9 +433,13 @@ class DetalheEncomenda extends Component
 
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
-
-    public function addAll()
+    public function CleanAll()
     {
+        $this->produtosRapida = [];
+    }
+    public function addAll($nameProduct,$no, $ref ,$codEncomenda)
+    {
+
         $quickBuyProducts = session('quickBuyProducts');
 
         $productChosen = [];
@@ -458,8 +467,21 @@ class DetalheEncomenda extends Component
                 }
             }
         }
+        $response = [];
+        foreach($productChosen as $prodId){
+            $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda);
+        }
+        $responseArray = $response->getData(true);
 
-        dD($productChosen);
+        if ($responseArray["success"] == true) {
+            $message = "Produto adicionado ao carrinho com sucesso!";
+            $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar o produto!";
+            $status = "error";
+        }
+
+        $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
 
     }
 
