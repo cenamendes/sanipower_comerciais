@@ -3,7 +3,7 @@
 
       <div id="loader" style="display: none;">
         <div class="loader" role="status">
-        
+
         </div>
     </div>
 
@@ -22,12 +22,12 @@
                                 <i class="ti-stats-up"></i> Propostas
                             </div>
                         </div>
-                       
-                    </div>                  
-                   
+
+                    </div>
+
                 </div>
                 <div class="card-body">
-                
+
                     <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                         <div class="dataTables_length" id="dataTables_length">
                             <label>
@@ -46,7 +46,7 @@
                             </label>
                         </div>
                     </div>
-                  
+
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover" id="tabela-cliente2">
                             <thead class="thead-light">
@@ -65,17 +65,29 @@
                                         <td>{{$detalhe->order}}</td>
                                         <td>{{$detalhe->total}}</td>
                                         <td>{{$detalhe->status}}</td>
-                                        <td><button type="button" class="btn btn-primary" wire:click="comentarioModal({{json_encode($detalhe->id)}}, {{json_encode($detalhe->order)}})"><i class="ti ti-plus"></i> Comentário</button></td>
+                                        <td><button type="button" class="btn btn-primary" wire:click="comentarioModal({{json_encode($detalhe->id)}}, {{json_encode($detalhe->order)}})"><i class="ti ti-plus"></i> Comentário</button>
+                                            @php
+                                            $cmt = \App\Models\Comentarios::where('stamp',$detalhe->id)
+                                                ->where('tipo', 'propostas')
+                                                ->get();
+                                        @endphp
+                                        @if ($cmt->count() > 0)
+                                            <button type="button" class="btn btn-primary"
+                                                wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                                Ver Comentário
+                                            </button>
+                                        @endif
+                                    </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>  
-                    {{ $detalhesPropostas->links() }}             
+                    </div>
+                    {{ $detalhesPropostas->links() }}
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <!-- FIM TABELA  -->
@@ -111,6 +123,52 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalVerComentarioProposta" tabindex="-1" role="dialog"
+    aria-labelledby="modalVerComentarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerComentarioLabel">Ver Comentário</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="timeline-wrapper">
+                @isset($comentario)
+                    @foreach ($comentario as $comentarios)
+                        <div class="timeline-item" data-date={{$comentarios->created_at}}>
+                            <p>{{ $comentarios->comentario }}</p>
+                        </div>
+                    @endforeach
+                @endisset
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!----->
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            Livewire.hook('message.sent', () => {
+                document.getElementById('loader').style.display = 'block';
+            });
+
+            // Oculta o loader quando o Livewire terminar de carregar
+            Livewire.hook('message.processed', () => {
+                document.getElementById('loader').style.display = 'none';
+            });
+        });
+
+
+        document.addEventListener('abrirModalVerComentarioProposta', function() {
+            $('#modalVerComentarioProposta').modal('show');
+        });
+    </script>
 
 </div>

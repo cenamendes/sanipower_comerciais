@@ -185,7 +185,7 @@ class DetalheEncomenda extends Component
 
         session(['detailProduto' => $this->detailProduto]);
         session(['productNameDetail' => $productName]);
-        
+
         session(['family' => $familyNumber]);
         session(['subFamily' => $subFamilyNumber]);
         session(['productNumber' => $productNumber]);
@@ -516,9 +516,7 @@ class DetalheEncomenda extends Component
 
         }
 
-        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)
-            ->where('id_encomenda', '!=', '')
-            ->get();
+        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->get();
 
         $imagens = [];
 
@@ -535,7 +533,7 @@ class DetalheEncomenda extends Component
             $arrayCart[$img] = [];
             foreach($this->carrinhoCompras as $cart)
             {
-                
+
                 if($img == $cart->image_ref)
                 {
                     array_push($arrayCart[$img],$cart);
@@ -543,7 +541,7 @@ class DetalheEncomenda extends Component
             }
         }
 
-   
+
         return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
     }
