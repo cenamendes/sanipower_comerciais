@@ -1,4 +1,4 @@
-<div>
+ <div>
 
 
     <!--  LOADING -->
@@ -42,7 +42,7 @@
                     <div class="tools">
                         <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
-                            Ver Proposta</a>
+                            Ver Encomenda</a>
                         <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar</a>
                         <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>
@@ -336,7 +336,7 @@
                                                                     <a href="javascript:void(0)"
                                                                         wire:click="resetFilter({{ $contaCat }})"
                                                                         class="mb-3 ml-4"><i
-                                                                            class="ti-angle-left"></i> Atrás</a>
+                                                                        class="ti-angle-left"></i> Atrás</a>
                                                                 </div>
                                                                 <!-- </div> -->
 
@@ -427,54 +427,35 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col d-flex">
+
+                                        <div class="col-md col-12">
                                             @php
                                                 $searchNameCategory = session('searchNameCategory');
                                                 $searchNameFamily = session('searchNameFamily');
                                                 $searchNameSubFamily = session('searchNameSubFamily');
                                             @endphp
-
-                                            <div class="row navigationLinks">
-                                                <div class="col">
-                                                    <ol class="breadcrumb" style="border-bottom:none;">
-                                                        @if ($searchNameCategory)
-                                                            <li class="breadcrumb-item"><a
-                                                                    href="">{{ $searchNameCategory }}</a></li>
-                                                        @endif
-                                                        @if ($searchNameFamily)
-                                                            <li class="breadcrumb-item"> {{ $searchNameFamily }}</li>
-                                                        @endif
-                                                        @if ($searchNameSubFamily)
-                                                            <li class="breadcrumb-item active">
-                                                                {{ $searchNameSubFamily }}</li>
-                                                        @endif
-                                                    </ol>
-                                                </div>
-                                            </div>
-
+                                            <ol class="breadcrumb d-flex" style="border-bottom:none;">
+                                                @if($searchNameCategory)<li class="breadcrumb-item"><a href="">{{$searchNameCategory}}</a></li>@endif
+                                                @if($searchNameFamily)<li class="breadcrumb-item"> {{$searchNameFamily}}</li>@endif
+                                                @if($searchNameSubFamily)<li class="breadcrumb-item active">{{$searchNameSubFamily}}</li>@endif
+                                            </ol>
                                         </div>
-                                        <div class="col-8 col-md-6">
-
-                                            <div class="row justify-content-end">
-                                                <div class="col-6">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text search"><i
-                                                                    class="ti-search text-light"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Pesquise Produto" wire:model="searchProduct"
-                                                            @if (session('searchProduct') !== null) value="{{ session('searchProduct') }}" @endif>
-                                                    </div>
+                                        <div class="col-6 col-md">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text search"><i
+                                                            class="ti-search text-light"></i></span>
                                                 </div>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Pesquise Produto" wire:model="searchProduct"
+                                                    @if (session('searchProduct') !== null) value="{{ session('searchProduct') }}" @endif>
                                             </div>
-
                                             <br>
                                         </div>
                                     </div>
                                     <div class="row" style="justify-content: flex-end;">
 
-                                        <div class="navbar2 col-3 d-none d-md-block">
+                                    <div class="navbar2 col-3 d-none d-md-block">
                                             @php
                                                 $contaCat = 0;
                                             @endphp
@@ -554,8 +535,7 @@
                                                                 style="z-index:10;">
                                                                 <button class="btn btn-sm btn-primary"
                                                                     wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"><i
-                                                                        class="ti-shopping-cart"></i><span> Compra
-                                                                        rápida</span></button>
+                                                                        class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                                             </div>
                                                         </div>
 
@@ -571,9 +551,8 @@
                             <div class="tab-encomenda-produto">
                                 <div class="row mb-2 border-bottom">
                                     <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
-                                            class="ti-angle-left"></i> Atrás</a>
+                                        class="ti-angle-left"></i> Atrás</a>
                                 </div>
-
                                 @php
                                     $detailProduto = session('detailProduto');
                                     $produtoNameDetail = session('productNameDetail');
@@ -588,6 +567,9 @@
                                         <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
                                             width=100%>
                                     </div>
+                                    @php
+                                        $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
+                                    @endphp
                                     <div class="col-12 col-lg-9">
 
                                         <div class="row">
@@ -619,7 +601,7 @@
                                                     </thead>
                                                     <tbody>
                                                         @if (!empty($detailProduto))
-                                                            @foreach ($detailProduto->product as $prod)
+                                                            @foreach ($detailProduto->product as $i => $prod)
                                                                 <tr>
                                                                     <td>{{ $prod->referense }}</td>
                                                                     <td>{{ $prod->model }}</td>
@@ -675,28 +657,9 @@
 
                                                                     </td>
                                                                     <td><input type="number" class="form-control"
-                                                                            id="valueEncomendar" wire:model.defer="produtosRapida.{{$i}}"></td>
+                                                                            id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                                     <td class="text-center">
-                                                                        {{-- <a href="javascript:;"
-                                                                            class="btn btn-sm btn-outline-secondary"
-                                                                            data-toggle="dropdown"
-                                                                            aria-expanded="false">
-                                                                            <i class="ti-settings text-light"></i>
-                                                                        </a>
-                                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Consultar
-                                                                                Caixa</button>
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Adicionar
-                                                                                Visita</button>
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Justificar
-                                                                                Quantidade</button>
-                                                                            <button
-                                                                                class="btn btn-sm dropdown-item">Adicionar
-                                                                                Encomenda</button>
-                                                                        </div> --}}
+                                                                       
                                                                         <a href="javascript:;"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-package text-light"></i>
@@ -709,7 +672,8 @@
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-notepad text-light"></i>
                                                                         </a>
-                                                                        <a href="javascript:; " wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}})"
+                                                                        {{-- vinicius --}}
+                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-shopping-cart text-light"></i>
                                                                         </a>
@@ -744,102 +708,84 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
+                            </div>
                     @endif
-
-               </div>
+                </div>
             </div>
 
             <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;">
-                <div class="row" style="border-top: 1px solid #232b58;">
-                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="https://storage.sanipower.pt/storage/produtos/9/9-1-2.jpg"
-                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
-                    </div>
-                    <div class="col-md-10 p-0">
-                        <table class="table table-hover init-datatable" id="tabela-cliente">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="d-none d-lg-table-cell">Referência</th>
-                                    <th>Produto</th>
-                                    <th>PVP (UNI)</th>
-                                    <th class="d-none d-md-table-cell">Desconto</th>
-                                    <th>Preço (c/desc.)</th>
-                                    <th>Qtd.Enc.</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
+            @php
+                $ValorTotal = 0;
+            @endphp
+            @forelse ($arrayCart  as $img => $item)
 
-                            <tbody>
-                                {{-- @foreach ($clientes as $clt ) --}}
-                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">Spiro* Curva 80 - 90º</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">16,196 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">8,098 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">10</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">80,980 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                </tr>
+                    <div class="row" style="align-items: center;">
+                        <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                            <img src="{{ $img }}"
+                                class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                        </div>
+                        <div class="col-md-10 p-0">
+                            <table class="table table-hover init-datatable" id="tabela-cliente">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="d-none d-lg-table-cell">Referência</th>
+                                        <th>Produto</th>
+                                        <th>Modelo</th>
+                                        <th>PVP (UNI)</th>
+                                        <th class="d-none d-md-table-cell">Desconto</th>
+                                        <th>Preço (c/desc.)</th>
+                                        <th>Qtd.Enc.</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($item as $prod)
+
+                                        @php
+                                            $totalItem = $prod->price * $prod->qtd;
+                                            $ValorTotal += $totalItem;
+                                        @endphp
+                                    <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
+                                        <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
+                                        <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar({{ $prod->id }})">X</a></strong></td>
+
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                                    </tr>
+                                    @endforelse
+
                                 {{-- @endforeach --}}
                             </tbody>
                         </table>
 
                     </div>
                 </div>
-
-                <div class="row" style="border-top: 1px solid #232b58; border-bottom: 1px solid #232b58;">
-                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="https://storage.sanipower.pt/storage/produtos/30/30-6-2.jpg"
-                             class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
-                    </div>
-                    <div class="col-md-10 p-0">
-                        <table class="table table-hover init-datatable" id="tabela-cliente">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="d-none d-lg-table-cell">Referência</th>
-                                    <th>Produto</th>
-                                    <th>PVP (UNI)</th>
-                                    <th class="d-none d-md-table-cell">Desconto</th>
-                                    <th>Preço (c/desc.)</th>
-                                    <th>Qtd.Enc.</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {{-- @foreach ($clientes como $clt ) --}}
-                                <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; ">
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; " class="d-none d-lg-table-cell">5502000080</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:28%">Proteu Elemento Radiador Douro Gold 600X95</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">26,800 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%" class="d-none d-md-table-cell"></td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">9,250 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">200</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">1 850,000 €</td>
-                                    <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                </tr>
-                                {{-- @endforeach --}}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+        @empty
+            <tr>
+                <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+            </tr>
+        @endforelse
                 <div class="row">
                     <div class="col-12 text-right" style="border-bottom: none;">
                         <table class="float-right" style="width: 240px; margin-top: 1rem;">
                             <tbody>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                    <td style="width: 140px;" class="bold">1&nbsp;930,980&nbsp;€</td>
+                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #232b58!important;">
                                     <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                    <td style="width: 140px;" class="bold">2&nbsp;375,105&nbsp;€</td>
+                                    <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -848,12 +794,12 @@
 
                 <div class="row p-4">
                     <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                     <div class="col-12 pb-3 p-0 d-md-none text-center">
-                        <a href="https://www.sanipower.pt/carrinho/limpar" class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                        <a href="https://www.sanipower.pt/carrinho/encomenda" class="btn btn-primary fundo_azul w-100"><i class="las la-angle-right"></i> Seguinte</a>
+                        <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
                     </div>
                 </div>
             </div>
@@ -944,6 +890,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            @php
+            $detailProduto = session('detailProduto');
+            $produtoNameDetail = session('productNameDetail');
+            $family = session('family');
+            $subFamily = session('subFamily');
+            $productNumber = session('productNumber');
+        @endphp
+            <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px; display:none;">
+                <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
+                    width=100%>
+            </div>
+            @php
+                $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
+            @endphp
             <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -962,11 +922,12 @@
                                         <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
 
                                     @if (!empty($quickBuyProducts))
 
-                                        @foreach ($quickBuyProducts->product as $prod)
+                                        @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr>
                                                 <td>{{ $prod->referense }}</td>
                                                 <td>{{ $prod->model }}</td>
@@ -990,6 +951,7 @@
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
+
                                                                             {{ $stock->warehouse }}
 
                                                                             @if ($stock->stock == true)
@@ -1012,16 +974,17 @@
                                                             <i class="ti-close text-lg text-chili"></i>
                                                         </a>
                                                     @endif
-
                                                 </td>
+                                             
                                                 <td><input type="number" class="form-control"
-                                                    id="valueEncomendar" wire:model.defer="produtosRapida.{{json_encode($prod->referense)}}"></td>
+                                                        id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart" wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}})"></i></button>
+                                                    <button class="btn btn-sm btn-success"  wire:click="addProductQuickBuy({{$i}},'{{ $nameProduct }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"><i
+                                                            class="ti-shopping-cart"></i></button>
                                                     <button class="btn btn-sm btn-warning"><i
                                                             class="ti-comment"></i></button>
                                                 </td>
+                                                
                                             </tr>
                                         @endforeach
                                     @endif
@@ -1035,7 +998,7 @@
             <div class="modal-footer">
                 <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar
                     seleção</button>
-                <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
+                <button type="button" class="btn btn-outline-primary" wire:click="addAll">Adicionar todos</button>
             </div>
         </div>
     </div>
@@ -1044,9 +1007,7 @@
 <!----->
 
 <!-- Modal ver encomenda -->
-
-<div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
-    aria-hidden="true">
+<div  wire:ignore.self class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda" aria-hidden="true" >
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1070,29 +1031,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    {{-- @if (!empty($quickBuyProducts))
-                                        @foreach ($quickBuyProducts->product as $prod) --}}
-                                            <tr>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">5502000080</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">Spiro* Curva 80 - 90º</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">10</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:10%">80,980 €</td>
-                                                <td style="border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                            </tr>
-                                        {{-- @endforeach
-                                    @endif --}}
-                                    <tbody>
-
-                                        {{-- @if (!empty($quickBuyProducts))
-                                            @foreach ($quickBuyProducts->product as $prod) --}}
-                                                <tr>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">30-0300100</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:20%">Proteu Elemento Radiador Douro Gold 600X95</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">200</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:10%">1 850,000 €</td>
-                                                    <td style="border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto" data-ref="1207233" style="color:#000">X</a></strong></td>
-                                                </tr>
+                                    @forelse ($carrinhoCompras as $item)
+                                        <tr>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->referencia }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->price, 2, ',', '.') }} €</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:5%">
+                                                <strong>
+                                                    <a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="delete({{ $item->id }})">X</a>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                     @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">Nenhum produto no carrinho</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -1100,7 +1055,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary {{ $tabDetalhesPropostas }}">Finalizar Encomenda</a>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary">Finalizar Encomenda</a>
             </div>
         </div>
     </div>
@@ -1111,189 +1066,6 @@
 </div>
 
 <!-- FIM TABS  -->
-
-
-<!-- MODALS -->
-
-<!-- Modal adicionar compra rapida -->
-<div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-        <div class="modal-content">
-            @php
-                $quickBuyProducts = session('quickBuyProducts');
-                $nameProduct = session('productName');
-            @endphp
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="modalProdutos">{{ $nameProduct }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="table-responsive" style="overflow-x:none!important;">
-                            <table class="table table-bordered table-hover">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Referência</th>
-                                        <th>Modelo</th>
-                                        <th>PVP unitário</th>
-                                        <th>Desconto</th>
-                                        <th>Preço unitário</th>
-                                        <th>Quantidade mínima</th>
-                                        <th>Stock</th>
-                                        <th>Quantidade a encomendar</th>
-                                        <th class="text-center">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @if (!empty($quickBuyProducts))
-
-                                        @foreach ($quickBuyProducts->product as $prod)
-                                            <tr>
-                                                <td>{{ $prod->referense }}</td>
-                                                <td>{{ $prod->model }}</td>
-                                                <td>{{ $prod->pvp }}</td>
-                                                <td>{{ $prod->discount }}</td>
-                                                <td>{{ $prod->price }}</td>
-                                                <td>{{ $prod->quantity }}</td>
-                                                <td style="text-align:center;font-size:large;">
-                                                    @if ($prod->in_stock == true)
-                                                        <a class="popover-test" data-toggle="tooltip"
-                                                            data-placement="top" title="Clique para ver os valores">
-                                                            <!-- <i class="ti-check text-lg text-forest"></i>  -->
-                                                            <div class="dropdownIcon">
-                                                                <i
-                                                                    class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
-                                                                <ul class="dropdownIcon-menu">
-                                                                    <li><i class="fa fa-play icon-play"></i></li>
-                                                                    <li style="border-bottom: 1px solid;">
-                                                                        <h5>Stocks em loja</h5>
-                                                                    </li>
-                                                                    @foreach ($prod->stocks as $stock)
-                                                                        <li>
-
-                                                                            {{ $stock->warehouse }}
-
-                                                                            @if ($stock->stock == true)
-                                                                                <i
-                                                                                    class="ti-check text-lg text-forest"></i>
-                                                                            @else
-                                                                                <i
-                                                                                    class="ti-close text-lg text-chili"></i>
-                                                                            @endif
-
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                        </a>
-                                                    @else
-                                                        <a href="javascript:;" role="button" class="popover-test"
-                                                            data-toggle="popover" aria-describedby="popover817393">
-                                                            <i class="ti-close text-lg text-chili"></i>
-                                                        </a>
-                                                    @endif
-
-                                                </td>
-                                                <td><input type="number" class="form-control" id="valueEncomendar">
-                                                </td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-success"><i
-                                                            class="ti-shopping-cart"></i></button>
-                                                    <button class="btn btn-sm btn-warning"><i
-                                                            class="ti-comment"></i></button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Limpar
-                    seleção</button>
-                <button type="button" class="btn btn-outline-primary">Adicionar todos</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!----->
-
-    <!-- Modal ver encomenda -->
-    <!-- <div class="modal fade" id="modalEncomenda" tabindex="-1" role="dialog" aria-labelledby="modalEncomenda"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="modalEncomenda"><i class="ti-archive"></i> Encomenda
-                        atual</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="table-responsive" style="overflow-x:none!important;">
-                                <table class="table table-bordered table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Referência</th>
-                                            <th>Designação</th>
-                                            <th>Quantidade</th>
-                                            <th>Preço unitário</th>
-                                            <th>Desconto 1</th>
-                                            <th>Desconto 2</th>
-                                            <th>Preço Total</th>
-                                            <th class="text-center">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @if (!empty($quickBuyProducts))
-                                            @foreach ($quickBuyProducts->product as $prod)
-                                                <tr>
-                                                    <td>{{ $prod->referense }}</td>
-                                                    <td>{{ $prod->model }}</td>
-                                                    <td>{{ $prod->quantity }}</td>
-                                                    <td>{{ $prod->price }}</td>
-                                                    <td>{{ $prod->discount }}</td>
-                                                    <td></td>
-                                                    <td>{{ $prod->pvp }}</td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-sm btn-danger"><i
-                                                                class="ti-trash"></i></button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Limpar
-                        seleção</button>
-                    <button type="button" class="btn btn-outline-primary">Concluir Encomenda</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-<!----->
 
 
 </div>
@@ -1366,11 +1138,11 @@
 
         var accordions2 = document.getElementsByClassName("accordion2");
 
-        // Add click event listener to each accordion button
-        for (var i = 0; i < accordions2.length; i++) {
-            accordions2[i].addEventListener("click", function() {
-                // Toggle active class to button
-                this.classList.toggle("active");
+    // Add click event listener to each accordion button
+    for (var i = 0; i < accordions2.length; i++) {
+        accordions2[i].addEventListener("click", function() {
+            // Toggle active class to button
+            this.classList.toggle("active");
 
             // Toggle the panel visibility
             var panel2 = this.nextElementSibling;
@@ -1385,6 +1157,7 @@
     }
 
     });
+
     window.addEventListener('refreshComponent', function(e) {
         jQuery("#subItemInput" + e.detail.id).css("display", "block");
     });
@@ -1492,6 +1265,8 @@
             item.style.display = 'none';
         });
     });
+
+    
     jQuery('body').on('click', '.buttonGoback', function() {
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
             item.style.display = 'none';
@@ -1558,42 +1333,86 @@
         });
     }
 
+    document.addEventListener('livewire:load', function() {
+            Livewire.hook('message.sent', () => {
+                document.getElementById('loader').style.display = 'block';
+            });
+
+            // Oculta o loader quando o Livewire terminar de carregar
+            Livewire.hook('message.processed', () => {
+                document.getElementById('loader').style.display = 'none';
+            });
+
+    });
+
+
     document.getElementById('finalizarEncomenda').addEventListener('click', function() {
-    // Fecha o modal
-    $('.modal').modal('hide');
+        // Fecha o modal
+        $('.modal').modal('hide');
 
-    // Adiciona as classes 'show active' à aba especificada
-    document.querySelector('#tab6').classList.add('show', 'active');
+        // Adiciona as classes 'show active' à aba especificada
+        document.querySelector('#tab6').classList.add('show', 'active');
 
-    // Remove as classes 'show active' das outras abas, se necessário
-    var otherTabs = document.querySelectorAll('.tab-pane');
-    otherTabs.forEach(function(tab) {
-        if (tab.id !== 'tab6') {
-            tab.classList.remove('show', 'active');
-        }
+        // Remove as classes 'show active' das outras abas, se necessário
+        var otherTabs = document.querySelectorAll('.tab-pane');
+        otherTabs.forEach(function(tab) {
+            if (tab.id !== 'tab6') {
+                tab.classList.remove('show', 'active');
+            }
+        });
+
+        // Atualiza o link da navegação para refletir a aba ativa
+        var navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(function(link) {
+            link.classList.remove('active');
+        });
+        document.querySelector('a[href="#tab6"]').classList.add('active');
     });
 
-    // Atualiza o link da navegação para refletir a aba ativa
-    var navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(function(link) {
-        link.classList.remove('active');
-    });
-    document.querySelector('a[href="#tab6"]').classList.add('active');
-});
 
-jQuery('#cleanSelectionQuick').on('click', function(event) {
+    jQuery('#cleanSelectionQuick').on('click', function(event) {
         event.stopPropagation();
         event.preventDefault();
 
         //fazer aqui para limpar as linhas todas
         jQuery('td #valueEncomendar').each(function(){
             jQuery(this).val("");
-            
+
         })
 
         jQuery('#modalProdutos').modal('hide');
 
-        Livewire.emit("cleanModalProposta");
-    
+        Livewire.emit("cleanModal");
+
     });
+
+    document.addEventListener('deleteModal', function(event) {
+    jQuery('#modalEncomenda').modal();
+
+        jQuery('#modalEncomenda').modal('show');
+    });
+
+    document.addEventListener('itemDeletar', function (event) {
+        // Mudar para a aba #tab6
+        var tab = document.querySelector('a[href="#tab6"]');
+        if (tab) {
+            tab.click();
+        }
+    });
+    
+    document.addEventListener('compraRapida', function(e) {
+           
+           jQuery('#modalProdutos').modal();
+
+           jQuery("td #valueEncomendar").change(function(e) {
+                              
+                @this.set('produtosRapida.'+jQuery(this).attr("data-i"), jQuery(this).val())
+            });
+         
+       });
+
+    
+    
+  
+
 </script>

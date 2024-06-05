@@ -1043,7 +1043,7 @@
                                         </tr>
                                      @empty
                                         <tr>
-                                            <td colspan="5" class="text-center">No items in the cart.</td>
+                                            <td colspan="5" class="text-center">Nenhum produto no carrinho</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
