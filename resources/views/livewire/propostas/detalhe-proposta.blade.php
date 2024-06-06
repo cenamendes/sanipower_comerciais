@@ -1,6 +1,20 @@
+
  <div>
+ <style>
+     @media (max-width: 540px) {
+        .container-buttons{
+            padding-left: 0.9rem;
+            padding-right: 0.9rem;
+        }
+        .container-buttons .btn-primary{
+            font-size: 0.75125rem;
+        }
+        .title-description{
+            font-size: 10px;
+        }
+    }
 
-
+</style>
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
         <div id="loader" style="display: none;">
@@ -514,7 +528,7 @@
 
                                             @if ($searchSubFamily)
                                                 @foreach ($searchSubFamily->product as $prodt)
-                                                    <div class="col-4 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
                                                         <div
                                                             class="card card-decoration card-outline-primary border border-2">
                                                             <a href="javascript:void(0)"
