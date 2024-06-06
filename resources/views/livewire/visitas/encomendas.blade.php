@@ -1,6 +1,15 @@
 <div>
 
     <style>
+         @media (max-width: 1100px) {
+            .btn:not(:disabled):not(.disabled) {
+                cursor: pointer;
+                font-size: 0.9rem;
+                height: auto;
+                padding: 0.3rem 0.6rem;
+                margin-top: 0.6rem;
+            }
+        }
         @media (max-width: 680px) {
             .btn:not(:disabled):not(.disabled) {
                 cursor: pointer;
