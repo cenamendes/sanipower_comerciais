@@ -36,7 +36,7 @@
 
                 @if (isset($header))
                 <header>
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" style="background-color: #2a2f34;">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" >
                     <br>
                         <ol class="breadcrumb" style="margin:0;">
                             <li class="breadcrumb-item"><a href="javascript:;"><i class="ti-user"></i>  {{ __('Profile') }}</a></li>

@@ -188,7 +188,6 @@ class PropostasRepository implements PropostasInterface
 
     public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codEncomenda): JsonResponse
     {
-
         $addProduct = Carrinho::create([
             "id_encomenda" => "",
             "id_proposta" => $codEncomenda,
