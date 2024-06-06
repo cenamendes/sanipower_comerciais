@@ -20,14 +20,6 @@
 
 <script>
 
-        // document.addEventListener('compraRapida', function(e) {
-           
-        //     jQuery('#modalProdutos').modal();
-
-
-          
-        // });
-
         document.addEventListener('encomendaAtual', function() {
 
 

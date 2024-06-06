@@ -1056,9 +1056,9 @@
 
 
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    @livewireScripts
-    <script src="//unpkg.com/alpinejs" defer></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
+@livewireScripts
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Função para fechar todos os dropdowns
