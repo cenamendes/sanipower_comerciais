@@ -34337,7 +34337,7 @@ var Dashboard1 = function() {
     var productSalesChart = function() {
         var options = {
             title: {
-                text: 'Product Sales',
+                text: 'Vendas',
                 align: 'left'
             },
             series: [{
@@ -34367,13 +34367,13 @@ var Dashboard1 = function() {
                     color: '#fff'
                 },
                 categories: [
-                    'Coffee Grinder', 
-                    '4PC Cup Set', 
-                    'Salad Spinner', 
-                    'Mandoline', 
-                    'Utensil Set', 
-                    'Food Slicer', 
-                    'Veggie Chopper'
+                    'João Mendes', 
+                    'Lucas Lopes', 
+                    'Vinicius Carvalho', 
+                    'Antonio Sousa', 
+                    'Roberto Costa', 
+                    'Manuela Pinto', 
+                    'Marcio Silva'
                 ],
                 tickPlacement: 'on'
             },
@@ -34404,7 +34404,7 @@ var Dashboard1 = function() {
     var expensesChart = function() {
         var options = {
             title: {
-                text: 'Monthly Expenses',
+                text: 'Despesas Mensais',
                 align: 'left'
             },
             series: [2897, 1570, 560, 4678, 3500],
@@ -34419,7 +34419,7 @@ var Dashboard1 = function() {
             fill: {
                 type: 'gradient',
             },
-            labels: ['Office', 'Travel', 'Entertainment', 'Advertising', 'Mortgage'],
+            labels: ['Local', 'Viagem', 'Entertenimento', 'Teste', 'Teste 2'],
             legend: {
                 formatter: function (val, opts) {
                     return val + " - " + opts.w.globals.series[opts.seriesIndex]
