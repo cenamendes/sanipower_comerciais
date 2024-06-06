@@ -421,7 +421,7 @@
                                             </div>
                                             <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2"
                                                 style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
-                                                <div class="dataTables_length" id="dataTables_length">
+                                                <div class="dataTables_length left" id="dataTables_length">
                                                     <label>Mostrar
                                                         <select name="perPage" wire:model="perPage">
                                                             <option value="10"

@@ -1,4 +1,50 @@
 <div>
+
+    <style>
+         @media (max-width: 1100px) {
+            .btn:not(:disabled):not(.disabled) {
+                cursor: pointer;
+                font-size: 0.9rem;
+                height: auto;
+                padding: 0.3rem 0.6rem;
+                margin-top: 0.6rem;
+            }
+        }
+        @media (max-width: 680px) {
+            .btn:not(:disabled):not(.disabled) {
+                cursor: pointer;
+                font-size: 0.8rem;
+                height: auto;
+                padding: 0.3rem 0.5rem;
+                margin-top: 0.6rem;
+            }
+
+            .col-lg-12 {
+                padding-right: 0;
+                padding-left: 8px;
+            }
+
+            .card-body {
+
+                padding: 0.35rem;
+            }
+
+            .main {
+                padding-left: 0.3rem !important;
+            }
+
+            .table td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .table .thead-light th {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+
+        }
+    </style>
     <!--  LOADING -->
 
     <div id="loader" style="display: none;">
@@ -30,7 +76,7 @@
 
                     <div id="dataTables_wrapper" class="dataTables_wrapper container"
                         style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
-                        <div class="dataTables_length" id="dataTables_length">
+                        <div class="left">
                             <label>
                                 Mostrar
                                 <select name="perPage" wire:model="perPage">
@@ -63,9 +109,11 @@
                                         <td>{{ $detalhe->order }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
-                                        <td><button type="button" class="btn btn-primary"wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i class="ti ti-plus"></i> Comentário</button>
+                                        <td><button type="button"
+                                                class="btn btn-primary"wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i
+                                                    class="ti ti-plus"></i> Comentário</button>
                                             @php
-                                                $cmt = \App\Models\Comentarios::where('stamp',$detalhe->id)
+                                                $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
                                                     ->where('tipo', 'encomendas')
                                                     ->get();
                                             @endphp
@@ -135,13 +183,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="timeline-wrapper">
-                    @isset($comentario)
-                        @foreach ($comentario as $comentarios)
-                            <div class="timeline-item" data-date="{{$comentarios->created_at}} &#8594; {{ $comentarios->user->name }}">
-                                <p>{{ $comentarios->comentario }}</p>
-                            </div>
-                        @endforeach
-                    @endisset
+                        @isset($comentario)
+                            @foreach ($comentario as $comentarios)
+                                <div class="timeline-item"
+                                    data-date="{{ $comentarios->created_at }} &#8594; {{ $comentarios->user->name }}">
+                                    <p>{{ $comentarios->comentario }}</p>
+                                </div>
+                            @endforeach
+                        @endisset
                     </div>
                 </div>
                 <div class="modal-footer">
