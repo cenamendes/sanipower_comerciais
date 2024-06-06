@@ -29,7 +29,7 @@
                             </div>
                             <div class="progress-text text-secondary">
                                 <span class="float-left"><small>0€</small></span>
-                                <span class="float-right"><small>100,000@</small></span>
+                                <span class="float-right"><small>100,000€</small></span>
                             </div>
                         </div>
                     </div>
