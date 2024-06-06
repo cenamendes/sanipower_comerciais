@@ -34247,17 +34247,17 @@ var Dashboard1 = function() {
     var yearCompareChart = function() {
         var options = {
             title: {
-                text: 'Years Comparison',
+                text: 'Comparação anual',
                 align: 'left'
             },
             series: [{
-                name: 'Year 2018',
+                name: 'Ano 2021',
                 data: [2315, 1155, 2231, 2775, 1382, 2242, 3736, 2146, 4414, 2292, 3071]
             }, {
-                name: 'Year 2019',
+                name: 'Ano 2022',
                 data: [2328, 4344, 4712, 6976, 4460, 9009, 5474, 3204, 5480, 7735, 4854]
             }, {
-                name: 'Year 2020',
+                name: 'Ano 2023',
                 data: [4428, 5544, 4112, 6776, 2260, 4309, 2174, 4104, 5680, 2735, 4354]
             }],
             chart: {
@@ -34307,7 +34307,7 @@ var Dashboard1 = function() {
             },
             yaxis: {
                 title: {
-                    text: 'Revenues',
+                    text: 'Vendas',
                 },
                 min: 0
             },
@@ -34321,7 +34321,7 @@ var Dashboard1 = function() {
                 y: {
                     formatter: function (y) {
                         if (typeof y !== "undefined") {
-                            return "$" + y.toFixed(0) + " revenues";
+                            return "vendeu " + y.toFixed(0) + " €";
                         }
                         return y;
 
