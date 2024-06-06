@@ -150,7 +150,7 @@
                 </div>
                 <div class="card-body">
                     <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
-                        <div class="dataTables_length" id="dataTables_length">
+                        <div class="left">
                             <label>Mostrar
                                 <select name="perPage" wire:model="perPage">
                                     <option value="10"

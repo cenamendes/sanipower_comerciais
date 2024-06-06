@@ -3,7 +3,7 @@
 
       <div id="loader" style="display: none;">
         <div class="loader" role="status">
-        
+
         </div>
     </div>
 
@@ -57,7 +57,7 @@
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
                     <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>
                     <p class="card-text">
-                       
+
                         <!--  INICIO DOS DETALHES   -->
 
                         <div class="row form-group">
@@ -170,7 +170,7 @@
 
                             </div>
                             <div class="col-xl-4">
-                                
+
                                 <div class="form-group">
                                     <label>Nº Propostas em aberto</label>
                                     <div class="input-group">
@@ -252,14 +252,14 @@
 
                             </div>
                         </div>
-                        
+
                         <!--  FIM DETALHES   -->
                     </p>
                 </div>
                 <div class="tab-pane fade {{$tabAnalysis}}" id="tab5">
-    
+
                     <p class="card-text">
-                        
+
                         <!-- INICIO TABELA  -->
 
                         <div class="row">
@@ -272,14 +272,14 @@
                                                     <i class="ti-stats-up"></i> Análises
                                                 </div>
                                             </div>
-                                           
-                                        </div>                  
-                                       
+
+                                        </div>
+
                                     </div>
                                     <div class="card-body">
-                                    
+
                                         <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
-                                            <div class="dataTables_length" id="dataTables_length">
+                                            <div class="left">
                                                 <label>Mostrar
                                                     <select name="perPage" wire:model="perPage">
                                                         <option value="10"
@@ -294,7 +294,7 @@
                                                     registos</label>
                                             </div>
                                         </div>
-                                      
+
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-hover" id="tabela-cliente2">
                                                 <thead class="thead-light">
@@ -306,7 +306,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                   
+
                                                     @foreach ($analisesCliente as $clt )
                                                         <tr>
                                                             <td>{{date('Y-m-d',strtotime($clt->date))}}</td>
@@ -315,15 +315,15 @@
                                                             <td>{{$clt->status}}</td>
                                                         </tr>
                                                     @endforeach
-                                        
+
                                                 </tbody>
                                             </table>
-                                        </div>  
-                                        {{ $analisesCliente->links() }}             
+                                        </div>
+                                        {{ $analisesCliente->links() }}
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <!-- FIM TABELA  -->

@@ -3,9 +3,12 @@
     width: 200px;
     padding-left: 10px;
 }
-@media (max-width: 768px) {
+@media (max-width: 765px) {
     .logo-sanipower-navbar{
         width: 150px;
+    }
+    div.left{
+        text-align: right!important;
     }
 }
 @media (max-width: 450px) {
