@@ -170,7 +170,7 @@ class Propostas extends Component
     public function verComentario($idProposta)
 {
     // Carrega o comentário correspondente
-    $comentario = Comentarios::where('stamp', $idProposta)->where('tipo', 'propostas')->get();
+    $comentario = Comentarios::with('user')->where('stamp', $idProposta)->where('tipo', 'propostas')->get();
 
     // Define o comentário para exibir no modal
     $this->comentario = $comentario;

@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\Encomendas;
 
+use Livewire\Component;
+use App\Models\Carrinho;
+use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\EncomendasInterface;
-use App\Models\Carrinho;
 use Illuminate\Support\Facades\Session;
-use Livewire\Component;
-use Livewire\WithPagination;
 
 class DetalheEncomenda extends Component
 {
@@ -232,7 +233,7 @@ class DetalheEncomenda extends Component
     public function deletartodos()
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->delete();
+        Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)->delete();
 
         $this->dispatchBrowserEvent('itemDeletar');
     }
@@ -539,7 +540,7 @@ class DetalheEncomenda extends Component
 
         }
 
-        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->get();
+        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)->get();
 
         $imagens = [];
 

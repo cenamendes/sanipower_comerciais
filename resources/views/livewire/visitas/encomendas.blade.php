@@ -137,7 +137,7 @@
                     <div class="timeline-wrapper">
                     @isset($comentario)
                         @foreach ($comentario as $comentarios)
-                            <div class="timeline-item" data-date="{{$comentarios->created_at}}">
+                            <div class="timeline-item" data-date="{{$comentarios->created_at}} &#8594; {{ $comentarios->user->name }}">
                                 <p>{{ $comentarios->comentario }}</p>
                             </div>
                         @endforeach

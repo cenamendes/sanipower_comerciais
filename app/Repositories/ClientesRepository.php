@@ -461,6 +461,7 @@ class ClientesRepository implements ClientesInterface
             "stamp" => $idProposta,
             "tipo" => $type,
             "comentario" => $comentario,
+            'id_user' => Auth::user()->id
         ]);
 
         if ($comentarioCreated) {

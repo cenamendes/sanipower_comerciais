@@ -172,7 +172,7 @@ class Encomendas extends Component
 public function verComentario($idEncomenda)
 {
     // Carrega o comentário correspondente
-    $comentario = Comentarios::where('stamp', $idEncomenda)->where('tipo', 'encomendas')->get();
+    $comentario = Comentarios::with('user')->where('stamp', $idEncomenda)->where('tipo', 'encomendas')->get();
 
     // Define o comentário para exibir no modal
     $this->comentario = $comentario;
