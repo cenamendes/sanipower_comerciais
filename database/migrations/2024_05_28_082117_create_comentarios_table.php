@@ -20,6 +20,7 @@ class CreateComentariosTable extends Migration
                 $table->string('stamp', 50)->nullable();
                 $table->string('tipo', 50)->nullable();
                 $table->longText('comentario')->nullable();
+                $table->integer('id_user')->nullable();
                 $table->timestamps();
             });
         }
