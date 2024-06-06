@@ -103,8 +103,7 @@
                                             @endphp
                                             @if ($cmt->count() > 0)
                                                 <button type="button" class="btn btn-primary"
-                                                    wire:click="verComentario({{ json_encode($detalhe->id) }})"
-                                                    style="margin-top: 0.6rem;">
+                                                    wire:click="verComentario({{ json_encode($detalhe->id) }})">
                                                     Ver Comentário
                                                 </button>
                                             @endif
