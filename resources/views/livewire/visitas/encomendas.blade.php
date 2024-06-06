@@ -7,6 +7,7 @@
                 font-size: 0.8rem;
                 height: auto;
                 padding: 0.3rem 0.5rem;
+                margin-top: 0.6rem;
             }
 
             .col-lg-12 {
