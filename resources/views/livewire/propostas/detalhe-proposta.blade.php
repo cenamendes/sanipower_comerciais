@@ -887,9 +887,8 @@
                 </div> --}}
 
 
- <!-- Modal adicionar compra rapida -->
-    <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
-    aria-hidden="true">
+<!-- Modal adicionar compra rapida -->
+<div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             @php
@@ -903,12 +902,12 @@
                 </button>
             </div>
             @php
-            $detailProduto = session('detailProduto');
-            $produtoNameDetail = session('productNameDetail');
-            $family = session('family');
-            $subFamily = session('subFamily');
-            $productNumber = session('productNumber');
-        @endphp
+                $detailProduto = session('detailProduto');
+                $produtoNameDetail = session('productNameDetail');
+                $family = session('family');
+                $subFamily = session('subFamily');
+                $productNumber = session('productNumber');
+            @endphp
             <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px; display:none;">
                 <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
                     width=100%>
@@ -1044,7 +1043,7 @@
                                                 </strong>
                                             </td>
                                         </tr>
-                                     @empty
+                                        @empty
                                         <tr>
                                             <td colspan="5" class="text-center">Nenhum produto no carrinho</td>
                                         </tr>

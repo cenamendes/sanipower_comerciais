@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,8 @@ use Illuminate\Validation\ValidationException;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
-     */
+    * Display the user's profile form.
+    */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -23,11 +24,18 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
-     */
+    * Create the user's account.
+    */
+    public function create(): View
+    {
+        $users = User::all();
+        return  view('profile.create', compact('users'));
+    }
+    /**
+    * Update the user's profile information.
+    */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-       
         try {
             $request->user()->fill($request->validated());
 
@@ -45,7 +53,6 @@ class ProfileController extends Controller
             $errors = $e->errors();
             // Aqui você pode enviar os erros para o "toaster"
             // Por exemplo, usando o método session()->flash() para enviar mensagens de erro para a próxima requisição
-           
             foreach ($errors as $error) {
         
                 session()->flash('error', $error[0]);
@@ -55,8 +62,8 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
-     */
+    * Delete the user's account.
+    */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

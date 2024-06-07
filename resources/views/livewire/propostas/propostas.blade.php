@@ -61,60 +61,56 @@
 
                         <div class="row ml-0 mr-0 mt-4 d-block">
 
-                             <!-- PARTE DO ACCORDEON -->
-                             <div class="row ml-0 mr-0 mt-4 d-block">
+                            <!-- PARTE DO ACCORDEON -->
+                            <div class="row ml-0 mr-0 mt-4 d-block">
 
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
-                                      <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
-                                          <button class="btn btn-link btn-block text-left pl-0 text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <i class="ti-plus"></i> MAIS FILTROS
-                                          </button>
-                                        </h2>
-                                      </div>
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left pl-0 text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <i class="ti-plus"></i> MAIS FILTROS
+                                                </button>
+                                            </h2>
+                                        </div>
 
-                                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
-                                        <div class="card-body">
-
-                                            <div class="row">
-
-                                                <div class="col-lg-4">
-                                                    <label class="mt-2">NIF</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i class="ti-receipt"></i></span>
+                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <label class="mt-2">NIF</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="ti-receipt"></i></span>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="NIF" wire:model.lazy="nifCliente">
                                                         </div>
-                                                        <input type="text" class="form-control" placeholder="NIF" wire:model.lazy="nifCliente">
                                                     </div>
-                                                </div>
 
-                                                <div class="col-lg-4">
-                                                    <label class="mt-2">Telemóvel</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i class="ti-microphone-alt"></i></span>
+                                                    <div class="col-lg-4">
+                                                        <label class="mt-2">Telemóvel</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="ti-microphone-alt"></i></span>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="Telemóvel" wire:model.lazy="telemovelCliente">
                                                         </div>
-                                                        <input type="text" class="form-control" placeholder="Telemóvel" wire:model.lazy="telemovelCliente">
                                                     </div>
-                                                </div>
 
-                                                <div class="col-lg-4">
-                                                    <label class="mt-2">Email</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i class="ti-email"></i></span>
+                                                    <div class="col-lg-4">
+                                                        <label class="mt-2">Email</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="ti-email"></i></span>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="Email" wire:model.lazy="emailCliente">
                                                         </div>
-                                                        <input type="text" class="form-control" placeholder="Email" wire:model.lazy="emailCliente">
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                         </div>
-                                      </div>
                                     </div>
-                                  </div>
+                                </div>
 
                             </div>
 

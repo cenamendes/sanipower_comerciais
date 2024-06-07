@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::delete('/logout', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
+
     Route::get('/clientes', [ClientesController::class, 'index'])->name('clientes');
     Route::get('/clientes/detalhes/{id}', [ClientesController::class, 'showDetail'])->name('clientes.detail');
 
