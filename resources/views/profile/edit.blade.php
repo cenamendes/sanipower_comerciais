@@ -40,7 +40,6 @@
 
 @push('scripts_footer')
 <script>
-   
     window.addEventListener('DOMContentLoaded', (event) => {
         if ("{{ session('success') }}") {
             toastr.success("{{ session('success') }}");

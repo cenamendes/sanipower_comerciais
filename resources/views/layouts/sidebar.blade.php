@@ -70,6 +70,12 @@
                     <span>Propostas</span>
                 </a>
             </li>
+            <li class="li-hover">
+                <a href="{{route('profile.create')}}" class="{{ Str::contains(request()->route()->getName(), 'profile.create') ? 'text-info' : '' }}">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Users</span>
+                </a>
+            </li>
         </ul>
     </div>
     <!-- sidebar-menu  -->
