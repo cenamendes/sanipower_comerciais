@@ -1,3 +1,31 @@
+<style>
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1rem 0.4rem 1rem 0.6rem;
+    }
+
+    .table-sm td {
+        font-size: 0.89rem;
+        padding:0.6rem 0;
+    }
+    #sidebar-right{
+    position: fixed;
+    top: 74px;
+    right: -410px;
+    bottom: 0;
+    width: 400px;
+    background: #fff;
+    box-shadow: -10px 10px 10px -11px #adb5bd;
+    overflow-x: hidden;
+    z-index: 11;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    }
+    #sidebar-right.sidebar-open {
+    right: 10px;
+}
+</style>
 <div class="sidebar-right-container">
 
     <!-- BOF TABS -->
@@ -14,22 +42,23 @@
         <!-- BOF TAB-PANE #1 -->
         <div id="tab-1" class="tab-pane show active">
             <div class="pane-header">
-                <h3><i class="ti-user"></i> Informações</h3>
+                <i class="ti-user" style="font-size: 1.2rem;"></i><br>
                 <i class="fa fa-circle text-success"></i> <span class="profile-user">{{ Auth::user()->name }}</span>
-                <span class="float-right"><a href="javascript:void(0)" id="logout" class="text-carolina">Logout</a></span>
+                <span class="float-right"><a href="javascript:void(0)" id="logout"
+                        class="text-carolina">Logout</a></span>
                 <form action="{{ route('logout') }}" method="POST" style="display: none;" id="logoutForm">
                     @csrf
                 </form>
                 <br>
-                <span><a href="{{route('profile.edit')}}" class="text-carolina">Editar utilizador</a></span>
+                <span><a href="{{ route('profile.edit') }}" class="text-carolina">Editar utilizador</a></span>
 
             </div>
             <div class="pane-body">
                 <div class="card bg-transparent mb-3">
                     <ul class="list-group list-group-flush">
 
-                                              
-                        <li class="list-group-item">
+
+                        {{-- <li class="list-group-item">
                             <h5 class="mb-3">
                                 Mensagens
                                 <span class="badge badge-pill badge-info pull-right">4</span>
@@ -68,40 +97,9 @@
                                     Sunt in culpa qui officia deserunt mollit anim est laborum voluptate.
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
                         <li class="list-group-item">
-                            <h5>Upcoming Events</h5>
-                            <p class="card-text">for Monday - February 25, 2019</p>
-                            <div class="profile-calendar">
-                                <table class="table table-bordered table-hover table-sm">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col">Schedule</th>
-                                            <th scope="col">Events</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>All-day</td>
-                                            <td><i class="fa fa-circle text-info"></i> Project concept</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10:00 am</td>
-                                            <td><i class="fa fa-circle text-info"></i> Staff meeting</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2:50 pm</td>
-                                            <td><i class="fa fa-circle text-warning"></i> Send out report
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4:30 pm</td>
-                                            <td><i class="fa fa-circle text-danger"></i> Appointment with
-                                                Tang</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        @livewire('dashboard.detalheagendadas')
                         </li>
                     </ul>
                 </div>
