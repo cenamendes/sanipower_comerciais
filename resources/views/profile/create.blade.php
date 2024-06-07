@@ -9,7 +9,6 @@
             </ol>
         </div>
     </div>
-
     <div class="col-12">
         <div class="card mb-3">
             <div class="card-header uppercase">
@@ -17,7 +16,6 @@
                     <i class="ti-filter"></i> Filtros
                 </div>
             </div>
-
             <div class="card-body" >
                 <div class="form-group">
                     <div class="row">
@@ -30,9 +28,8 @@
                                 <input type="text" class="form-control" placeholder="Nome do Cliente" wire:model.lazy="nomeCliente">
                             </div>
                         </div>
-
                         <div class="col-lg-4">
-                            <label class="mt-2">Número do Utilizador</label>
+                            <label class="mt-2">Email do Utilizador</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="ti-ticket"></i></span>
@@ -40,7 +37,6 @@
                                 <input type="text" class="form-control" placeholder="Número do Cliente" wire:model.lazy="numeroCliente">
                             </div>
                         </div>
-
                         <div class="col-lg-4">
                             <label class="mt-2">Telemóvel</label>
                             <div class="input-group">
@@ -53,7 +49,6 @@
                     </div>
                     <!-- PARTE DO ACCORDEON -->
                     {{-- <div class="row ml-0 mr-0 mt-4 d-block">
-                        
                         <div class="row ml-0 mr-0 mt-4 d-block">
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
@@ -64,7 +59,6 @@
                                             </button>
                                         </h2>
                                     </div>
-
                                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
                                         <div class="card-body">
                                             <div class="row">
@@ -77,7 +71,6 @@
                                                         <input type="text" class="form-control" placeholder="NIF" wire:model.lazy="nifCliente">
                                                     </div>
                                                 </div>
-
                                                 <div class="col-lg-4">
                                                     <label class="mt-2">Telemóvel</label>
                                                     <div class="input-group">
@@ -87,7 +80,6 @@
                                                         <input type="text" class="form-control" placeholder="Telemóvel" wire:model.lazy="telemovelCliente">
                                                     </div>
                                                 </div>
-
                                                 <div class="col-lg-4">
                                                     <label class="mt-2">Email</label>
                                                     <div class="input-group">
@@ -212,7 +204,6 @@
         </div>
     </div>
 @endsection
-
 @push('scripts_footer')
 <script>
     $(document).ready(function(){
@@ -224,7 +215,6 @@
         if ("{{ session('success') }}") {
             toastr.success("{{ session('success') }}");
         }
-
         if("{{ session('error') }}"){
             toastr.warning("{{ session('error') }}");
         }

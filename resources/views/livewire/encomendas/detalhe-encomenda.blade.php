@@ -353,7 +353,6 @@
                                                                         class="ti-angle-left"></i> Atrás</a>
                                                                 </div>
                                                                 <!-- </div> -->
-
                                                                 <div class="row">
                                                                     @foreach ($family->subfamily as $subfamily)
                                                                         <div class="col-4">
@@ -370,8 +369,6 @@
                                             </div>
                                         </div>
                                     @endforeach
-
-
                                     <div class="sidebarProd" id="sidebarProd" wire:ignore>
                                         <label for="checkbox" style="width: 100%;">
                                             <div class="input-group input-group-config-Goback input-config-produtos"
@@ -406,9 +403,7 @@
                                                 </div>
                                             @endif
                                         @endforeach
-
                                     </div>
-
                                     <div class="row justify-content-between">
                                         <div class="col-3">
                                             <div class="input-group" id="checkboxSidbar">
@@ -441,7 +436,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-md col-12">
                                             @php
                                                 $searchNameCategory = session('searchNameCategory');
@@ -468,7 +462,6 @@
                                         </div>
                                     </div>
                                     <div class="row" style="justify-content: flex-end;">
-
                                     <div class="navbar2 col-3 d-none d-md-block">
                                             @php
                                                 $contaCat = 0;
@@ -498,34 +491,28 @@
                                                 @endif
                                             @endforeach
                                         </div>
-
                                         <div class="row col-md-9">
-
                                             <div wire:loading wire:target="searchProduct">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div wire:loading wire:target="adicionarProduto">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div wire:loading wire:target="openDetailProduto">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
                                                     </div>
                                                 </div>
                                             </div>
-
                                             @php
                                                 $searchSubFamily = session('searchSubFamily');
                                             @endphp
-
                                             @if ($searchSubFamily)
                                                 @foreach ($searchSubFamily->product as $prodt)
                                                     <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
@@ -541,10 +528,8 @@
                                                                         <h5 class="title-description">
                                                                             {{ $prodt->product_name }}</h5>
                                                                     </div>
-
                                                                 </div>
                                                             </a>
-
                                                             <div class="card-body container-buttons"
                                                                 style="z-index:10;">
                                                                 <button class="btn btn-sm btn-primary"
@@ -552,7 +537,6 @@
                                                                         class="ti-shopping-cart"></i><span> Compra rápida</span></button>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 @endforeach
                                             @else
@@ -574,9 +558,7 @@
                                     $subFamily = session('subFamily');
                                     $productNumber = session('productNumber');
                                 @endphp
-
                                 <div class="row container-detalhes-produto">
-
                                     <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px;">
                                         <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
                                             width=100%>
@@ -585,18 +567,15 @@
                                         $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
                                     @endphp
                                     <div class="col-12 col-lg-9">
-
                                         <div class="row">
                                             <div class="col-xl-12 mb-2">
                                                 <div class="row">
-
                                                     <div class="col-xs-9 d-flex align-middle pl-2"
                                                         style="align-items:center;">
                                                         <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="table-responsive" style="overflow-x:inherit !important;">
                                                 <table class="table table-bordered table-hover"
                                                     style="min-width: 995px;">
@@ -643,9 +622,7 @@
                                                                                         </li>
                                                                                         @foreach ($prod->stocks as $stock)
                                                                                             <li>
-
                                                                                                 {{ $stock->warehouse }}
-
                                                                                                 @if ($stock->stock == true)
                                                                                                     <i
                                                                                                         class="ti-check text-lg text-forest"></i>
@@ -653,7 +630,6 @@
                                                                                                     <i
                                                                                                         class="ti-close text-lg text-chili"></i>
                                                                                                 @endif
-
                                                                                             </li>
                                                                                         @endforeach
                                                                                     </ul>
@@ -668,12 +644,10 @@
                                                                                     class="ti-close text-lg text-chili"></i>
                                                                             </a>
                                                                         @endif
-
                                                                     </td>
                                                                     <td><input type="number" class="form-control"
                                                                             id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                                                     <td class="text-center">
-
                                                                         <a href="javascript:;"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-package text-light"></i>
@@ -726,7 +700,6 @@
                     @endif
                 </div>
             </div>
-
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
             @php
                 $ValorTotal = 0;
@@ -815,7 +788,6 @@
             </div>
         </div>
 
-
             {{-- <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
 
                 <p class="card-text">
@@ -887,7 +859,7 @@
                 </div> --}}
 
 
- <!-- Modal adicionar compra rapida -->
+<!-- Modal adicionar compra rapida -->
     <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
@@ -934,9 +906,7 @@
                                         <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
-
                                     @if (!empty($quickBuyProducts))
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}">
@@ -975,7 +945,6 @@
                                                         </a>
                                                     @endif
                                                 </td>
-
                                                 <td>
                                                     <input type="number" class="form-control" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}">
                                                 </td>
@@ -990,7 +959,6 @@
                                             </tr>
                                         @endforeach
                                     @endif
-
                                 </tbody>
                             </table>
                         </div>
@@ -1044,7 +1012,7 @@
                                                 </strong>
                                             </td>
                                         </tr>
-                                     @empty
+                                    @empty
                                         <tr>
                                             <td colspan="5" class="text-center">Nenhum produto no carrinho</td>
                                         </tr>
@@ -1404,13 +1372,6 @@
     });
 
     document.addEventListener('compraRapida', function(e) {
-
-           jQuery('#modalProdutos').modal();
-
+        jQuery('#modalProdutos').modal();
     });
-
-
-
-
-
 </script>

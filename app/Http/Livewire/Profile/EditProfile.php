@@ -80,7 +80,7 @@ class EditProfile extends Component
     {
         User::findOrFail($this->userId)->delete();
 
-        return redirect()->to('profile.create');
+        return redirect()->route('profile.create')->with('message', 'Usuário foi escluido com sucesso!')->with('status', 'success');
     }
 
     public function updatedImagemPerfil()

@@ -86,11 +86,11 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-success" wire:click="editarUser" >Editar</button>
-        <button type="button" class="btn btn-danger" wire:click="$set('showConfirmDeleteModal', true)">Excluir</button>
+        <button type="button" class="btn btn-danger" wire:click="deletar">Excluir</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
     </div>
 
-    <!-- Modal de Confirmação -->
+    {{-- <!-- Modal de Confirmação -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -112,5 +112,5 @@
     </div>
     <script>
         $('#confirmDeleteModal').modal('show');
-    </script>
+    </script> --}}
 </div>

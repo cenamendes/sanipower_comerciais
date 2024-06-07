@@ -21,7 +21,6 @@ use App\Http\Controllers\VisitasNewController;
 |
 */
 
-
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
