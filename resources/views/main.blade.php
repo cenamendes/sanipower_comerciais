@@ -155,6 +155,7 @@
 
 
     </script>
+
     @livewireScripts
     @stack('scripts_footer')
 

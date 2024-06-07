@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\VisitasAgendadas;
+use Illuminate\Http\JsonResponse;
 use App\Interfaces\VisitasInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class VisitasRepository implements VisitasInterface
@@ -302,6 +305,36 @@ class VisitasRepository implements VisitasInterface
         $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
 
         return $arrayInfo;
+    }
+
+
+    public function addVisitaDatabase($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido): JsonResponse
+    {
+        $addVisita = VisitasAgendadas::create([
+            "id_visita" => $tipoVisitaEscolhido,
+            "cliente" => $client,
+            "data_inicial" => $dataInicial,
+            "hora_inicial" => $horaInicial,
+            "hora_final" => $horaFinal,
+            "data_final" => $dataInicial,
+            "user_id" => Auth::user()->id,
+        ]);
+
+        if ($addVisita) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $addVisita
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir na base de dados.'
+            ], 500);
+        }
+
+        return $addVisita;
     }
 
 

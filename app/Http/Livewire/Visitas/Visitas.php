@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Visitas;
 use App\Models\User;
 use Livewire\Component;
 use App\Interfaces\ClientesInterface;
-use App\Repositories\ClientesRepository;
+use App\Interfaces\VisitasInterface;
+use App\Models\TiposVisitas;
 use Livewire\WithPagination;
 
 
@@ -18,6 +19,7 @@ class Visitas extends Component
     public int $numberMaxPages;
     public int $totalRecords = 0;
     private ?object $clientesRepository = NULL;
+    private ?object $visitasRepository = NULL;
     protected ?object $clientes = NULL;
 
     public ?string $nomeCliente = '';
@@ -27,10 +29,21 @@ class Visitas extends Component
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
 
+    public ?object $tipoVisita = NULL;
+    public ?string $nomeClienteVisitaTemp = "";
+    public ?string $idClienteVisitaTemp = "";
 
-    public function boot(ClientesInterface $clientesRepository)
+    //Parte do Modal da Visita
+    public ?string $dataInicial = "";
+    public ?string $horaInicial = "";
+    public ?string $horaFinal = "";
+    public ?string $tipoVisitaEscolhido = "";
+
+
+    public function boot(ClientesInterface $clientesRepository, VisitasInterface $visitasRepository)
     {
         $this->clientesRepository = $clientesRepository;
+        $this->visitasRepository = $visitasRepository;
     }
 
     private function initProperties(): void
@@ -50,19 +63,18 @@ class Visitas extends Component
         $this->emailCliente = '';
         $this->nifCliente = '';
         
-
-    }
-
-    public function mount()
-    {
-        $this->initProperties();
         $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
+    }
 
+
+    public function mount()
+    {
+        $this->initProperties();
     }
 
     public function updatedNomeCliente()
@@ -211,6 +223,51 @@ class Visitas extends Component
     public function paginationView()
     {
         return 'livewire.pagination';
+    }
+
+    public function agendarVisita($clientID,$nome)
+    {
+        $this->initProperties();
+
+        $this->nomeClienteVisitaTemp = $nome;
+
+        $this->idClienteVisitaTemp = $clientID;
+
+        $this->tipoVisita = TiposVisitas::all();
+
+        $this->dispatchBrowserEvent('modalAgendar',["clienteid" => $clientID, "nome" => $nome]);
+    }
+
+    public function newVisita($idClienteVisitaTemp)
+    {
+        $this->initProperties();
+
+        if($this->dataInicial == "" ||$this->horaInicial == "" || $this->horaFinal == "" || $this->tipoVisitaEscolhido == "" )
+        {
+            $this->dispatchBrowserEvent('openToastMessage', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
+            return false;
+        }
+
+        if(strtotime($this->horaInicial) > strtotime($this->horaFinal))
+        {
+            $this->dispatchBrowserEvent('openToastMessage', ["message" => "Hora final tem de ser superior á hora inicial", "status" => "error"]);
+            return false;
+        }
+
+        $response = $this->visitasRepository->addVisitaDatabase($idClienteVisitaTemp, $this->dataInicial, $this->horaInicial, $this->horaFinal, $this->tipoVisitaEscolhido);
+
+        $responseArray = $response->getData(true);
+
+        if ($responseArray["success"] == true) {
+            $message = "Visita agendada com sucesso";
+            $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar a visita!";
+            $status = "error";
+        }
+      
+        $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
+        
     }
 
         

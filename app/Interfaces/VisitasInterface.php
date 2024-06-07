@@ -2,6 +2,7 @@
 
 namespace App\Interfaces;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface VisitasInterface
@@ -29,5 +30,12 @@ interface VisitasInterface
     public function getNumberOfPagesAnalisesVisitas($perPage,$idVisitas): array;
 
     /****** */
+
+
+    /** ADD VISITA */
+    
+    public function addVisitaDatabase($client,$dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido): JsonResponse;
+
+    /*** */
 
 }

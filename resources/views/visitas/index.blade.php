@@ -46,7 +46,25 @@
             // Show the loader when the user navigates away or the page is being unloaded
             document.getElementById('loader').style.display = 'block';
         });
+
+
+        window.addEventListener('openToastMessage', function(e) {
+    
+            jQuery("#agendarVisita").modal('hide');
+
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+
+            if(e.detail.status == "error"){
+                toastr.warning(e.detail.message);
+            }
+        });
+
+
 </script>
+
+<script src="{{asset('assets/scripts/pages/cp_datetime.js')}}"></script>
 
 @endpush
 
