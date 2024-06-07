@@ -140,7 +140,7 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Nome do Utilizador</th>
-                                        <th>Número do Utilizador</th>
+                                        <th>Telefone</th>
                                         <th>Email</th>
                                         <th>Nível de Acesso</th>
                                         <th>Status</th>
