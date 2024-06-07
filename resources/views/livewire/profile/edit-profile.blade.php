@@ -25,16 +25,16 @@
                     <div class="col-lg-12">
                         <label class="mt-2">Nome do Utilizador</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Nome do Cliente" wire:model.lazy="nomeUser">
+                            <input type="text" class="form-control" placeholder="Nome do Utilizado" wire:model.lazy="nomeUser">
                         </div>
-                        @error('nomeUser')  <span class="text-danger">O campo Choose file da promoçao é obrigatório.</span> @enderror
+                        @error('nomeUser')  <span class="text-danger">O campo nome do utilizado é obrigatório.</span> @enderror
                     </div>
                     <div class="col-lg-12">
                         <label class="mt-2">Email</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Número do Cliente" wire:model.lazy="Email">
+                            <input type="text" class="form-control" placeholder="Email" wire:model.lazy="Email">
                         </div>
-                        @error('Email')  <span class="text-danger">O campo Choose file da promoçao é obrigatório.</span> @enderror
+                        @error('Email')  <span class="text-danger">O campo email é obrigatório.</span> @enderror
                     </div>
                     <div class="col-lg-3">
                         <label class="mt-2">Status</label>
@@ -43,31 +43,31 @@
                             <option value="Activo">Activo</option>
                             <option value="Inactivo">Inactivo</option>
                         </select>
-                        @error('Status')  <span class="text-danger">O campo Choose file da promoçao é obrigatório.</span> @enderror
+                        @error('Status')  <span class="text-danger">O campo status é obrigatório.</span> @enderror
                     </div>
                     <div class="col-lg-3">
                         <label class="mt-2">Nivel</label>
                         <select class="form-control selectpicker" wire:model.lazy="Nivel">
-                            <option value="0">Nivel</option>
+                            <option value="">Nivel</option>
                             <option value="1">Nivel 1</option>
                             <option value="2">Nivel 2</option>
                             <option value="3">Nivel 3</option>
                         </select>
-                        @error('Nivel')  <span class="text-danger">O campo Choose file da promoçao é obrigatório.</span> @enderror
+                        @error('Nivel')  <span class="text-danger">O campo nivel é obrigatório.</span> @enderror
                     </div>
                     <div class="col-lg-6">
                         <label class="mt-2">Telemóvel</label>
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Telemóvel" wire:model.lazy="TelemovelUser">
                         </div>
-                        @error('TelemovelUser')  <span class="text-danger">O campo Choose file da promoçao é obrigatório.</span> @enderror
+                        @error('TelemovelUser')  <span class="text-danger">O campo telemóvel é obrigatório.</span> @enderror
                     </div>
                     <div class="col-lg-12">
                         <label class="mt-2">Palavra-Passe</label>
                         <div class="input-group">
                             <input type="password" class="form-control" placeholder="Palavra-Passe" wire:model.lazy="Senha">
                         </div>
-                        @error('newSenha')  <span class="text-danger">O campo Choose file da promoçao é obrigatório.</span> @enderror
+                        @error('newSenha')  <span class="text-danger">O campo palavra-passe é obrigatório.</span> @enderror
                     </div>
                     <div class="col-lg-12">
                         <label class="mt-2">Confirme a Palavra-Passe</label>
@@ -77,7 +77,7 @@
                         @if($ErroPasswordNotRepet == "Activo")
                             <span class="text-danger">As senhas não correspondem.</span>
                         @else
-                            @error('ConfirmeSenha')  <span class="text-danger">O campo Choose file da promoçao é obrigatório.</span> @enderror
+                            @error('ConfirmeSenha')  <span class="text-danger">O campo confirme a palavra-passe é obrigatório.</span> @enderror
                         @endif
                     </div>
                 </div>
