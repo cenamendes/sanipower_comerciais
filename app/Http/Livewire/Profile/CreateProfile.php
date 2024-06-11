@@ -60,7 +60,7 @@ class CreateProfile extends Component
             return redirect()->route('profile.create')->with('message', 'Usuario criado com sucesso!')->with('status', 'success');
         }else
         {
-            $this->ErroPasswordNotRepet = "Activo";
+            $this->ErroPasswordNotRepet = "Ativo";
         }
 
     } 

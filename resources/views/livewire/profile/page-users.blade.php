@@ -99,7 +99,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->nivel }}</td>
                                     <td>
-                                        @if($user->status == "Inactivo")
+                                        @if($user->status == "Inativo")
                                             <button class="btn btn-sm btn-chili btn-round" disabled>{{ $user->status }}</button>
                                         @else
                                             <button class="btn btn-sm btn-jade btn-round" disabled>{{ $user->status }}</button>

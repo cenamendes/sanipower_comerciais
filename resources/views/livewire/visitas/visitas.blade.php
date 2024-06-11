@@ -347,7 +347,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-outline-primary"
-                        wire:click="newVisita({{json_encode($idClienteVisitaTemp)}})">Adicionar</button>
+                        wire:click="newVisita({{json_encode($nomeClienteVisitaTemp)}})">Adicionar</button>
                 </div>
             </div>
         </div>

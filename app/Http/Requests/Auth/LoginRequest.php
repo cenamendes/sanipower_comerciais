@@ -50,7 +50,7 @@ class LoginRequest extends FormRequest
         }
 
         $user = Auth::user();
-        if ($user->status !== 'Activo') {
+        if ($user->status !== 'Ativo') {
             Auth::logout();
             throw ValidationException::withMessages([
                 'email' => trans('auth.inactive'),
