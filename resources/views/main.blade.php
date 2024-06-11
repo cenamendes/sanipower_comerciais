@@ -99,7 +99,7 @@
         <div class="main">
 
         <!-- BOF MAIN-BODY -->
-           @yield('body')
+            @yield('body')
         <!-- EOF MAIN-BODY -->
         </div>
         <!-- EOF MAIN -->
