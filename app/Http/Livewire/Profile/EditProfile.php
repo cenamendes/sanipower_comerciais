@@ -51,6 +51,8 @@ class EditProfile extends Component
 
         if ($this->imagemPerfil) {
             $fileName = $this->imagemPerfil->getClientOriginalName();
+            
+            $this->imagemPerfil->storeAs('public/profile', $this->imagemPerfil->getClientOriginalName());
         } else {
             $fileName = $this->user->imagem;
         }
