@@ -1,4 +1,4 @@
-@extends('main')
+ @extends('main')
 
 @section('body')
 
@@ -381,5 +381,5 @@
 
 @push('scripts_footer')
     <script src="{{asset('assets/scripts/pages/dashboard1.js')}}"></script>
-@endpush
+@endpush 
 
