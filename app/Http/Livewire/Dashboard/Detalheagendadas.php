@@ -13,6 +13,8 @@ class Detalheagendadas extends Component
     public $visitas = [];
     public $tiposvisitas = [];
 
+    protected $listeners = ['reloadNotification' => 'notificationArrived'];
+    
     public function mount()
     {
         $currentDate = Carbon::today()->toDateString();
@@ -25,6 +27,22 @@ class Detalheagendadas extends Component
             ->orderBy('data_inicial', 'asc')
             ->get();
 
+        $this->tiposvisitas = TiposVisitas::all();
+    }
+
+    public function notificationArrived()
+    {
+        $currentDate = Carbon::today()->toDateString();
+        $userId = Auth::id();
+
+
+        $this->visitas = VisitasAgendadas::with('tipovisita')
+            ->where('user_id', $userId)
+            ->where('data_inicial', '>=', $currentDate)
+            ->orderBy('data_inicial', 'asc')
+            ->get();
+
+            
         $this->tiposvisitas = TiposVisitas::all();
     }
 

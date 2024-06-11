@@ -203,7 +203,6 @@ class DetalheVisitas extends Component
 
         $this->skipRender();
 
-
         return redirect()->route('visitas');
 
     }

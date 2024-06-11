@@ -265,6 +265,8 @@ class Visitas extends Component
             $message = "Não foi possivel adicionar a visita!";
             $status = "error";
         }
+
+        $this->emit('reloadNotification');
       
         $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
         
