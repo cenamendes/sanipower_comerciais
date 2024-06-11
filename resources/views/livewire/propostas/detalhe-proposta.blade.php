@@ -461,7 +461,7 @@
                                                             class="ti-search text-light"></i></span>
                                                 </div>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Pesquise Produto" wire:model="searchProduct"
+                                                    placeholder="Pesquise Produto" wire:model.debounce.800ms="searchProduct"
                                                     @if (session('searchProduct') !== null) value="{{ session('searchProduct') }}" @endif>
                                             </div>
                                             <br>
