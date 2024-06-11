@@ -1,42 +1,49 @@
 <div>
 
     <style>
-         @media (max-width: 1100px) {
-            .btn:not(:disabled):not(.disabled) {
-                cursor: pointer;
-                font-size: 0.9rem;
-                height: auto;
-                padding: 0.3rem 0.6rem;
-                margin-top: 0.6rem;
-            }
-        }
-        @media (max-width: 720px) {
-            .btn:not(:disabled):not(.disabled) {
-                cursor: pointer;
-                font-size: 0.8rem;
-                height: auto;
-                padding: 0.3rem 0.5rem;
-                margin-top: 0.6rem;
-            }
+        @media (max-width: 1100px) {
+           .btn:not(:disabled):not(.disabled) {
+               cursor: pointer;
+               font-size: 0.9rem;
+               height: auto;
+               padding: 0.3rem 0.6rem;
+               margin-top: 0.6rem;
+           }
+       }
+       @media (max-width: 680px) {
+           .btn:not(:disabled):not(.disabled) {
+               cursor: pointer;
+               font-size: 0.8rem;
+               height: auto;
+               padding: 0.3rem 0.5rem;
+               margin-top: 0.6rem;
+           }
 
-            .col-lg-12 {
-                padding-right: 0;
-                padding-left: 8px;
-            }
+           .col-lg-12 {
+               padding-right: 0;
+               padding-left: 8px;
+           }
 
-            .card-body {
+           .card-body {
 
-                padding: 0.35rem;
-            }
+               padding: 0.35rem;
+           }
 
-            .main {
-        padding-left: 0.3rem !important;
-    }
-    .table td {
-        padding: 0.5rem;
-    }
+           .main {
+               padding-left: 0.3rem !important;
+           }
 
-        }
+           .table td {
+               padding: 0.5rem;
+               font-size: 0.8rem;
+           }
+
+           .table .thead-light th {
+               font-size: 0.9rem;
+               padding: 0.5rem;
+           }
+
+       }
     </style>
     <!--  LOADING -->
 
@@ -104,7 +111,7 @@
                                         <td>{{ $detalhe->status }}</td>
                                         <td><button type="button" class="btn btn-primary"
                                                 wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i
-                                                    class="ti ti-plus"></i> Comentário</button><br>
+                                                    class="ti ti-plus"></i> Comentário</button>
                                             @php
                                                 $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
                                                     ->where('tipo', 'propostas')
