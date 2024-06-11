@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('visitas_agendadas')) {
         Schema::create('visitas_agendadas', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('id_visita')->nullable();
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
+        }
     }
 
     /**
