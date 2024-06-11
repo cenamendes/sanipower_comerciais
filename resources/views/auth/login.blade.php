@@ -36,9 +36,8 @@
                             </div>
 
                             <x-text-input id="email" class="form-control" type="email" name="email" placeholder="email" :value="old('email')" required autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-
                         </div>
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="ti-lock"></i></span>
