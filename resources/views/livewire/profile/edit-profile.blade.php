@@ -17,7 +17,7 @@
                     <i class="fa fa-camera"></i>
                 </div>
             </div>
-            <button class="btn btn-primary mt-2" type="button" style="display:{{$styleButton}};" wire:click="salvarImagem"><span role="status">Guardar</span></button>
+            
         </div>
         <div class="row">
             <div class="col-12">
