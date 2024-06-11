@@ -42,7 +42,6 @@
         <!-- BOF TAB-PANE #1 -->
         <div id="tab-1" class="tab-pane show active">
             <div class="pane-header">
-                <i class="ti-user" style="font-size: 1.2rem;"></i><br>
                 <i class="fa fa-circle text-success"></i> <span class="profile-user">{{ Auth::user()->name }}</span>
                 <span class="float-right"><a href="javascript:void(0)" id="logout"
                         class="text-carolina">Logout</a></span>
