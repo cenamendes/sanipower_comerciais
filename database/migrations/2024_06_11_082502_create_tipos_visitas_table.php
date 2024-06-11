@@ -13,6 +13,8 @@ class CreateTiposVisitasTable extends Migration
      */
     public function up()
     {
+        if (!Schema::hasTable('tipos_visitas')) {
+
         Schema::create('tipos_visitas', function (Blueprint $table) {
             $table->id();
             $table->string('tipo', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
@@ -20,6 +22,7 @@ class CreateTiposVisitasTable extends Migration
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
+        }
     }
 
     /**
