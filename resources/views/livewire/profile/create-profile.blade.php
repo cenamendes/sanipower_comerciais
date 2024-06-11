@@ -36,8 +36,8 @@
                         <label class="mt-2">Status</label>
                         <select class="form-control selectpicker" wire:model.lazy="Status">
                             <option value="">Status</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
                         </select>
                         @error('Status')  <span class="text-danger">O campo status é obrigatório.</span> @enderror
                     </div>
@@ -70,7 +70,7 @@
                         <div class="input-group">
                             <input type="password" class="form-control" placeholder="Confirme a Palavra-Passe" wire:model.lazy="ConfirmeSenha">
                         </div>
-                        @if($ErroPasswordNotRepet == "Activo")
+                        @if($ErroPasswordNotRepet == "Ativo")
                             <span class="text-danger">As senhas não correspondem.</span>
                         @else
                             @error('ConfirmeSenha')  <span class="text-danger">O campo confirme a palavra-passe é obrigatório.</span> @enderror

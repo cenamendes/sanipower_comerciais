@@ -238,7 +238,7 @@ class Visitas extends Component
         $this->dispatchBrowserEvent('modalAgendar',["clienteid" => $clientID, "nome" => $nome]);
     }
 
-    public function newVisita($idClienteVisitaTemp)
+    public function newVisita($ClienteVisitaTemp)
     {
         $this->initProperties();
 
@@ -254,7 +254,7 @@ class Visitas extends Component
             return false;
         }
 
-        $response = $this->visitasRepository->addVisitaDatabase($idClienteVisitaTemp, $this->dataInicial, $this->horaInicial, $this->horaFinal, $this->tipoVisitaEscolhido);
+        $response = $this->visitasRepository->addVisitaDatabase($ClienteVisitaTemp, $this->dataInicial, $this->horaInicial, $this->horaFinal, $this->tipoVisitaEscolhido);
 
         $responseArray = $response->getData(true);
 

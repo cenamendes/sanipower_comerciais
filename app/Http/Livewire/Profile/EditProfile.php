@@ -68,7 +68,7 @@ class EditProfile extends Component
             if($this->Senha == $this->ConfirmeSenha){
                 $updateData['password'] = Hash::make($this->Senha);
             }else{
-                $this->ErroPasswordNotRepet = "Activo";
+                $this->ErroPasswordNotRepet = "Ativo";
             }
         }
         User::where('id', $this->userId)->update($updateData);
