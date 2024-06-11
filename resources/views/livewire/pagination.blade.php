@@ -21,7 +21,7 @@
             <p>Mostrar de {{ $primeiro_numero }} até {{ $ultimo_numero }} de {{ $this->totalRecords }} registos</p>
         @endif
     </div>
-  
+
     <div class="dataTables_paginate paging_simple_numbers" id="dataTables_page_numbers">
         @if($this->pageChosen != 1)
             <a wire:click="previousPage" dusk="previousPage.before" class="paginate_button previous btn btn-primary text-white">Anterior</a>

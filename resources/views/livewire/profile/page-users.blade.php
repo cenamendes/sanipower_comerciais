@@ -1,3 +1,4 @@
+<div>
 <div class="col-12">
     <div class="card mb-3">
         <div class="card-header uppercase">
@@ -5,7 +6,7 @@
                 <i class="ti-filter"></i> Filtros
             </div>
         </div>
-        <div class="card-body" >
+        <div class="card-body">
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-4">
@@ -14,7 +15,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="ti-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Nome do Utilizador" wire:model="filterNome">
+                            <input type="text" class="form-control" placeholder="Nome do Utilizador" wire:model.debounce.300ms="filterNome">
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -23,7 +24,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="ti-ticket"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Email do Utilizador" wire:model="filterEmail">
+                            <input type="text" class="form-control" placeholder="Email do Utilizador" wire:model.debounce.300ms="filterEmail">
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -32,60 +33,10 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="ti-microphone-alt"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Telemóvel" wire:model="filterTelemovel">
+                            <input type="text" class="form-control" placeholder="Telemóvel" wire:model.debounce.300ms="filterTelemovel">
                         </div>
                     </div>
                 </div>
-                <!-- PARTE DO ACCORDEON -->
-                {{-- <div class="row ml-0 mr-0 mt-4 d-block">
-                    <div class="row ml-0 mr-0 mt-4 d-block">
-                        <div class="accordion" id="accordionExample">
-                            <div class="card">
-                                <div class="card-header" id="headingOne">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left pl-0 text-decoration-none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <i class="ti-plus"></i> MAIS FILTROS
-                                        </button>
-                                    </h2>
-                                </div>
-                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <label class="mt-2">NIF</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="ti-receipt"></i></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" placeholder="NIF" wire:model.lazy="nifCliente">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <label class="mt-2">Telemóvel</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="ti-microphone-alt"></i></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" placeholder="Telemóvel" wire:model.lazy="telemovelCliente">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <label class="mt-2">Email</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="ti-email"></i></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" placeholder="Email" wire:model.lazy="emailCliente">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-                <!-- FIM DO ACCORDEON -->
             </div>
         </div>
     </div>
@@ -169,7 +120,7 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            @livewire('profile.edit-profile', ['userId' => $user->id])
+                                            @livewire('profile.edit-profile', ['userId' => $user->id], key($user->id))
                                         </div>
                                     </div>
                                 </div>
@@ -196,4 +147,5 @@
             @livewire('profile.create-profile')
         </div>
     </div>
+</div>
 </div>

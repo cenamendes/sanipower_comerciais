@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Livewire\Profile;
 
 use Livewire\Component;
@@ -8,7 +9,7 @@ use Livewire\WithPagination;
 class PageUsers extends Component
 {
     use WithPagination;
-
+    protected $listeners = ['refreshTable' => '$refresh'];
     public $filterNome;
     public $filterEmail;
     public $filterTelemovel;
@@ -16,6 +17,7 @@ class PageUsers extends Component
     public $pageChosen;
     public $perPage;
     public $numberMaxPages;
+
     private function initProperties(): void
     {
         if (isset($this->perPage)) {
@@ -26,6 +28,7 @@ class PageUsers extends Component
             $this->perPage = 10;
         }
     }
+
     public function getPageRange()
     {
         $currentPage = $this->pageChosen;
@@ -36,75 +39,34 @@ class PageUsers extends Component
 
         return range($start, $end);
     }
+
     public function mount()
     {
         $this->initProperties();
-        
     }
+
     public function updatingFilterNome()
     {
         $this->resetPage();
+        $this->emit('filtersUpdated');
     }
-    public function paginationView()
-    {
-        return 'livewire.pagination';
-    }
+
     public function updatingFilterEmail()
     {
         $this->resetPage();
+        $this->emit('filtersUpdated');
     }
 
     public function updatingFilterTelemovel()
     {
         $this->resetPage();
+        $this->emit('filtersUpdated');
     }
 
-    // public function gotoPage($page)
-    // {
-    //     $this->pageChosen = $page;
-
-    //     if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != ""){
-    //         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
-    //     } else {
-    //         $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-    //     }
-        
-    // }
-
-   
-    // public function previousPage()
-    // {
-    //     if ($this->pageChosen > 1) {
-    //         $this->pageChosen--;
-
-    //         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != ""){
-    //             $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
-    //         } else {
-    //             $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-    //         }
-    //     }
-    //     else if($this->pageChosen == 1){
-    //         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != ""){
-    //             $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
-    //         } else {
-    //             $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-    //         }
-    //     }
-    // }
-
-    // public function nextPage()
-    // {
-    //     if ($this->pageChosen < $this->numberMaxPages) {
-    //         $this->pageChosen++;
-
-    //         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != ""){
-    //             $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
-    //         } else {
-    //             $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-    //         }
-    //     }
-    // }
-
+    public function paginationView()
+    {
+        return 'livewire.pagination';
+    }
 
     public function isCurrentPage($page)
     {
@@ -124,10 +86,9 @@ class PageUsers extends Component
                 $query->where('telefone', 'like', '%' . $this->filterTelemovel . '%');
             })
             ->paginate($this->perPage);
-
-            $this->totalRecords = $users->total();
-            $this->pageChosen = $users->currentPage();
-            $this->numberMaxPages = $users->lastPage();
+        $this->totalRecords = $users->total();
+        $this->pageChosen = $users->currentPage();
+        $this->numberMaxPages = $users->lastPage();
 
         return view('livewire.profile.page-users', [
             'users' => $users,
