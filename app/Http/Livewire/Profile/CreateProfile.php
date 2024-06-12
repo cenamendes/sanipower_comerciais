@@ -23,6 +23,7 @@ class CreateProfile extends Component
     public $nomeUser;
     public $Senha;
     public $ConfirmeSenha;
+    public $vendedor_phc;
 
     public function mount()
     {
@@ -39,6 +40,7 @@ class CreateProfile extends Component
             'TelemovelUser' => 'required',
             'Senha' => 'required',
             'ConfirmeSenha' => 'required',
+            'vendedor_phc' => 'required'
         ]);
         if($this->Senha == $this->ConfirmeSenha){
             if ($this->imagemPerfil) {
@@ -56,6 +58,7 @@ class CreateProfile extends Component
                 'imagem' => $fileName,
                 'telefone' => $this->TelemovelUser,
                 'password' => $this->Senha,
+                'id_phc' => $this->vendedor_phc
             ]);
             return redirect()->route('profile.create')->with('message', 'Usuario criado com sucesso!')->with('status', 'success');
         }else

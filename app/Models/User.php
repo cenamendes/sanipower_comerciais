@@ -26,6 +26,7 @@ class User extends Authenticatable
         'nivel',
         'status',
         'password',
+        'id_phc'
     ];
 
     /**

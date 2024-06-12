@@ -78,6 +78,7 @@
                                     <th>Telefone</th>
                                     <th>Email</th>
                                     <th>Nível de Acesso</th>
+                                    <th>ID Vendedor PHC</th>
                                     <th>Status</th>
                                     <th>Ações</th>
                                 </tr>
@@ -98,6 +99,7 @@
                                     <td>{{ $user->telefone }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->nivel }}</td>
+                                    <td>{{ $user->id_phc }}</td>
                                     <td>
                                         @if($user->status == "Inativo")
                                             <button class="btn btn-sm btn-chili btn-round" disabled>{{ $user->status }}</button>
@@ -115,7 +117,7 @@
                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="modalEditarUserLabel">Editar Usuario</h5>
+                                                <h5 class="modal-title" id="modalEditarUserLabel">Editar Utilizador</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>

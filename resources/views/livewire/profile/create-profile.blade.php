@@ -76,6 +76,13 @@
                             @error('ConfirmeSenha')  <span class="text-danger">O campo confirme a palavra-passe é obrigatório.</span> @enderror
                         @endif
                     </div>
+                    <div class="col-lg-12">
+                        <label class="mt-2">ID Vendedor PHC</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="ID Vendedor PHC" wire:model.lazy="vendedor_phc">
+                        </div>
+                        @error('vendedor_phc')  <span class="text-danger">O campo id vendedor phc é obrigatório.</span> @enderror
+                    </div>
                 </div>
             </div>
         </div>

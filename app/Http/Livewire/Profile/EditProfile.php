@@ -24,6 +24,7 @@ class EditProfile extends Component
     public $nomeUser;
     public $Senha;
     public $ConfirmeSenha;
+    public $vendedor_phc;
 
     public function mount($userId)
     {
@@ -36,6 +37,7 @@ class EditProfile extends Component
         $this->Email = $this->user->email;
         $this->TelemovelUser = $this->user->telefone;
         $this->Nivel = $this->user->nivel;
+        $this->vendedor_phc = $this->user->id_phc;
         $this->Status = $this->user->status;
     }
 
@@ -47,6 +49,7 @@ class EditProfile extends Component
             'Status' => 'required',
             'Email' => 'required|email',
             'TelemovelUser' => 'required',
+            'vendedor_phc' => 'required'
         ]);
 
         if ($this->imagemPerfil) {
@@ -64,6 +67,7 @@ class EditProfile extends Component
             'email' => $this->Email,
             'imagem' => $fileName,
             'telefone' => $this->TelemovelUser,
+            'id_phc' => $this->vendedor_phc
         ];
 
         if ($this->Senha) {
