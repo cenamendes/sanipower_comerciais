@@ -25,22 +25,21 @@ class UpdateProfile extends Component
         $this->styleButton = "block";
     } 
 
-    // public function salvarImagem()
-    // {
-    //     if ($this->imagemPerfil != null) {
-    //         $this->imagemPerfil->storeAs('public/profile', $this->imagemPerfil->getClientOriginalName());
+    public function salvarImagem()
+    {
+        if ($this->imagemPerfil != null) {
+            $this->imagemPerfil->storeAs('public/profile', $this->imagemPerfil->getClientOriginalName());
 
 
-    //         User::where('id', )->update([
-    //             'imagem' => $this->imagemPerfil->getClientOriginalName(),
-    //         ]);
+            User::where('id', )->update([
+                'imagem' => $this->imagemPerfil->getClientOriginalName(),
+            ]);
 
-    //         session()->flash('success', "Imagem alterada com sucesso");
-    //         // Atualize o componente Livewire
-         
-    //         return redirect()->route('profile.edit');
-    //     }
-    // }
+            session()->flash('success', "Imagem alterada com sucesso");
+            // Atualize o componente Livewire
+            return redirect()->route('profile.edit');
+        }
+    }
 
     public function render()
     {
