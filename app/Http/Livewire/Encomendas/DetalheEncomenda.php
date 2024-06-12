@@ -376,6 +376,7 @@ class DetalheEncomenda extends Component
 
     public function addProductQuickBuy($prodID, $nameProduct, $no, $ref, $codEncomenda)
     {
+
         $quickBuyProducts = session('quickBuyProducts');
 
         $flag = 0;
@@ -385,7 +386,7 @@ class DetalheEncomenda extends Component
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
             return false;
         }
-
+        
         $productChosen = [];
 
         foreach ($quickBuyProducts->product as $i => $prod) {
