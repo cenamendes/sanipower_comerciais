@@ -31,7 +31,7 @@ class UpdateProfile extends Component
             $this->imagemPerfil->storeAs('public/profile', $this->imagemPerfil->getClientOriginalName());
 
 
-            User::where('id', )->update([
+            User::where('id', Auth::user()->id)->update([
                 'imagem' => $this->imagemPerfil->getClientOriginalName(),
             ]);
 
