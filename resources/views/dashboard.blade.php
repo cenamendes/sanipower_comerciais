@@ -2,6 +2,11 @@
 
 @section('body')
 
+<style>
+    #calendar{
+        padding:10px;
+    }
+</style>
 
             <!-- BOF Breadcrumb -->
             <div class="row navigationLinks">
@@ -85,7 +90,7 @@
             <div class="row">
                 <!-- Employees Sales -->
                 <div class="col-md-6">
-                    <div class="card mb-3">
+                    {{-- <div class="card mb-3">
                         <div class="card-header">
                             <div class="caption">
                                 <i class="ti-user"></i> Vendas Clientes
@@ -183,7 +188,12 @@
                                 </div>
                             </div>
                         </div>
+                    </div> --}}
+
+                    <div class="card mb-3">
+                        <div id="calendar"></div>
                     </div>
+
                 </div>
 
                 <!-- My Tasks -->
@@ -381,5 +391,21 @@
 
 @push('scripts_footer')
     <script src="{{asset('assets/scripts/pages/dashboard1.js')}}"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          locale: 'pt-br',
+          buttonText: {
+                today: 'Hoje'
+           },
+        });
+        calendar.render();
+      });
+
+    </script>
+    
 @endpush 
 
