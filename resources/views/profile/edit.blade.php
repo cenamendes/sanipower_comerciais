@@ -3,8 +3,8 @@
 @section('body')
     <div class="row">
         <div class="col">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href=""><i class="ti-user"></i> Utilizador</a></li>
+            <ol class="breadcrumb" style="padding-left: 25px;">
+                <li class="breadcrumb-item"><a href=""> <i class="ti-user"></i> Utilizador</a></li>
                 <li class="breadcrumb-item active">Editar</li>
             </ol>
         </div>
