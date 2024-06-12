@@ -74,7 +74,7 @@
             <li class="li-hover">
                 <a href="{{route('profile.create')}}" class="{{ Str::contains(request()->route()->getName(), 'profile.create') ? 'text-info' : '' }}">
                     <i class="ti-id-badge"></i>
-                    <span>Users</span>
+                    <span>Utilizadores</span>
                 </a>
             </li>
             @endif
