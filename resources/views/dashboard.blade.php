@@ -19,7 +19,7 @@
             <!-- EOF Breadcrumb -->
 
             <!-- BOF MAIN-BODY -->
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -76,16 +76,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Year Comparison Chart -->
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-12">
                     <div class="card mb-3">
                         <div class="card-body" id="year-comparison-chart"></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row">
                 <!-- Employees Sales -->
@@ -201,11 +201,11 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="caption">
-                                <i class="ti-pencil-alt"></i> Minhas Tarefas
+                                <i class="ti-pencil-alt"></i> Listas Tarefas
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Add New Task"><i class="ti-plus"></i></a>
-                                <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
+                                {{-- <a href="javascript:;" class="btn btn-sm btn-outline-secondary" data-toggle="dropdown" aria-expanded="false">
                                     <i class="ti-settings"></i> Definições <i class="ti-arrow-circle-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -213,26 +213,18 @@
                                     <a href="javascript:;" class="dropdown-item">Outras Ações</a>
                                     <div class="dropdown-divider"></div>
                                     <a href="javascript:;" class="dropdown-item">Mesma Definição</a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row py-3">
-                                <div class="col-md-3 col-6 d-flex flex-column align-items-center">
-                                    <h2 class="text-primary bold">10</h2>
+                                <div class="col-md-6 col-6 d-flex flex-column align-items-center">
+                                    <h2 class="text-warning bold">10</h2>
                                     Agendadas
                                 </div>
-                                <div class="col-md-3 col-6 d-flex flex-column align-items-center">
-                                    <h2 class="text-success bold">2</h2>
-                                    Em Curso
-                                </div>
-                                <div class="col-md-3 col-6 d-flex flex-column align-items-center">
-                                    <h2 class="text-warning bold">3</h2>
-                                    Pendente
-                                </div>
-                                <div class="col-md-3 col-6 d-flex flex-column align-items-center">
-                                    <h2 class="text-secondary bold">4</h2>
-                                    Concluídas
+                                <div class="col-md-6 col-6 d-flex flex-column align-items-center">
+                                    <h2 class="text-secondary bold">5</h2>
+                                    Realizadas
                                 </div>
                             </div>
 
@@ -241,12 +233,14 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <div class="d-flex align-items-baseline">
-                                                <div class="custom-checkbox custom-control">
+                                                {{-- <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input" id="checkbox1" name="checkbox1">
                                                     <label class="custom-control-label" for="checkbox1">&nbsp;</label>
-                                                </div>
+                                                </div> --}}
                                                 <div class="pl-4">
-                                                    <strong>Visita 1 <i class="ti-hand-open text-warning"></i></strong><br>Visita Cliente
+                                                    <h4 style="font-size: 1.1rem; font-weight:900;">Cliente</h4>
+                                                    <h4 style="font-size: 1rem; font-weight:400;">Assunto</h4>
+                                                    <p>Descrição</p>
                                                 </div>
                                                 <div class="ml-auto text-right">
                                                     <div class="btn-group btn-group-sm">
@@ -256,14 +250,14 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="list-group-item">
+                                        {{-- <li class="list-group-item">
                                             <div class="d-flex align-items-baseline">
                                                 <div class="custom-checkbox custom-control">
                                                     <input type="checkbox" class="custom-control-input" id="checkbox2" name="checkbox2">
                                                     <label class="custom-control-label" for="checkbox2">&nbsp;</label>
                                                 </div>
                                                 <div class="pl-4">
-                                                    <strong>Visita 2 <i class="ti-timer text-success"></i></strong><br>Visita Cliente
+                                                    <strong>Visita 2</i></strong><br>Visita Cliente
                                                 </div>
                                                 <div class="ml-auto text-right">
                                                     <div class="btn-group btn-group-sm">
@@ -272,92 +266,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex align-items-baseline">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="checkbox3" name="checkbox3">
-                                                    <label class="custom-control-label" for="checkbox3">&nbsp;</label>
-                                                </div>
-                                                <div class="pl-4">
-                                                    <strong>Visita 3 <i class="ti-notepad text-primary"></i></strong><br>Visita Cliente
-                                                </div>
-                                                <div class="ml-auto text-right">
-                                                    <div class="btn-group btn-group-sm">
-                                                        <a href="javascript:;" class="btn btn-sm btn-success"><i class="ti-check"></i></a>
-                                                        <a href="javascript:;" class="btn btn-sm btn-secondary"><i class="ti-trash"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex align-items-baseline">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="checkbox4" name="checkbox4">
-                                                    <label class="custom-control-label" for="checkbox4">&nbsp;</label>
-                                                </div>
-                                                <div class="pl-4">
-                                                    <strong>Visita 4 <i class="ti-notepad text-primary"></i></strong><br>Visita Cliente
-                                                </div>
-                                                <div class="ml-auto text-right">
-                                                    <div class="btn-group btn-group-sm">
-                                                        <a href="javascript:;" class="btn btn-sm btn-success"><i class="ti-check"></i></a>
-                                                        <a href="javascript:;" class="btn btn-sm btn-secondary"><i class="ti-trash"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex align-items-baseline">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="checkbox5" name="checkbox5">
-                                                    <label class="custom-control-label" for="checkbox5">&nbsp;</label>
-                                                </div>
-                                                <div class="pl-4">
-                                                    <strong>Visita 5 <i class="ti-timer text-success"></i></strong><br>Visita Cliente
-                                                </div>
-                                                <div class="ml-auto text-right">
-                                                    <div class="btn-group btn-group-sm">
-                                                        <a href="javascript:;" class="btn btn-sm btn-success"><i class="ti-check"></i></a>
-                                                        <a href="javascript:;" class="btn btn-sm btn-secondary"><i class="ti-trash"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex align-items-baseline">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="checkbox6" name="checkbox6">
-                                                    <label class="custom-control-label" for="checkbox6">&nbsp;</label>
-                                                </div>
-                                                <div class="pl-4">
-                                                    <strong>Visita 6 <i class="ti-hand-open text-warning"></i></strong><br>Visita Cliente
-                                                </div>
-                                                <div class="ml-auto text-right">
-                                                    <div class="btn-group btn-group-sm">
-                                                        <a href="javascript:;" class="btn btn-sm btn-success"><i class="ti-check"></i></a>
-                                                        <a href="javascript:;" class="btn btn-sm btn-secondary"><i class="ti-trash"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex align-items-baseline">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" class="custom-control-input" id="checkbox7" name="checkbox7">
-                                                    <label class="custom-control-label" for="checkbox7">&nbsp;</label>
-                                                </div>
-                                                <div class="pl-4">
-                                                    <strong>Visita 7 <i class="ti-hand-open text-warning"></i></strong><br>Visita Cliente
-                                                </div>
-                                                <div class="ml-auto text-right">
-                                                    <div class="btn-group btn-group-sm">
-                                                        <a href="javascript:;" class="btn btn-sm btn-success"><i class="ti-check"></i></a>
-                                                        <a href="javascript:;" class="btn btn-sm btn-secondary"><i class="ti-trash"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </div>
                             </div>
@@ -367,7 +276,7 @@
             </div>
 
             <!-- Articles -->
-            
+
 
             <div class="row">
                 <!-- Product Sales Chart -->
@@ -391,6 +300,7 @@
 
 @push('scripts_footer')
     <script src="{{asset('assets/scripts/pages/dashboard1.js')}}"></script>
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -408,4 +318,5 @@
     </script>
     
 @endpush 
+
 
