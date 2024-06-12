@@ -21034,6 +21034,7 @@ label.error {
   line-height: 1.4em;
   text-align: center;
   flex-shrink: 0;
+  padding-top: 7px;
 }
 
 .sidebar .sidebar-menu ul li a .menu-text {
