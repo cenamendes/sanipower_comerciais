@@ -129,6 +129,14 @@ class PropostasRepository implements PropostasInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
+
+        if (isset($response_decoded->product) && is_array($response_decoded->product)) {
+            $filtered_products = array_filter($response_decoded->product, function($prod) {
+                return $prod->quantity != "0";
+            });
+    
+            $response_decoded->product = array_values($filtered_products);
+        }
     
         return $response_decoded; 
     }
