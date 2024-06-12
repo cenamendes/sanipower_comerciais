@@ -238,6 +238,7 @@ class Visitas extends Component
         $this->dispatchBrowserEvent('modalAgendar',["clienteid" => $clientID, "nome" => $nome]);
     }
 
+
     public function newVisita($ClienteVisitaTemp)
     {
         $this->initProperties();
@@ -254,7 +255,7 @@ class Visitas extends Component
             return false;
         }
 
-        $response = $this->visitasRepository->addVisitaDatabase($ClienteVisitaTemp, $this->dataInicial, $this->horaInicial, $this->horaFinal, $this->tipoVisitaEscolhido);
+        $response = $this->visitasRepository->addVisitaDatabase($ClienteVisitaTemp, preg_replace('/[a-zA-Z]/', '', $this->dataInicial), preg_replace('/[a-zA-Z]/', '', $this->horaInicial), preg_replace('/[a-zA-Z]/', '', $this->horaFinal), $this->tipoVisitaEscolhido);
 
         $responseArray = $response->getData(true);
 
@@ -267,7 +268,6 @@ class Visitas extends Component
         }
 
         $this->emit('reloadNotification');
-      
         $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
         
     }
