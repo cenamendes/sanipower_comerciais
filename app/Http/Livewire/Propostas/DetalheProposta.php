@@ -374,7 +374,7 @@ class DetalheProposta extends Component
         $this->dispatchBrowserEvent('refreshComponent', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
 
-    public function addProductQuickBuy($prodID, $nameProduct, $no, $ref, $codEncomenda)
+    public function addProductQuickBuyEncomenda($prodID, $nameProduct, $no, $ref, $codEncomenda)
     {
         $quickBuyProducts = session('quickBuyProducts');
 
@@ -421,12 +421,17 @@ class DetalheProposta extends Component
             return false;
         }
 
-        $response = $this->PropostasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda);
+        $response = $this->PropostasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda, "encomenda");
 
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
-            $message = "Produto adicionado ao carrinho com sucesso!";
+            if($responseArray["encomenda"] != "") {
+                $message = "Produto adicionado á encomenda!";
+            } else {
+                $message = "Produto adicionado á proposta!";
+            }
+          
             $status = "success";
         } else {
             $message = "Não foi possivel adicionar o produto!";
@@ -435,6 +440,74 @@ class DetalheProposta extends Component
         $this->produtosRapida = [];
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
+
+    public function addProductQuickBuyProposta($prodID, $nameProduct, $no, $ref, $codProposta)
+    {
+        $quickBuyProducts = session('quickBuyProducts');
+
+        $flag = 0;
+        if(empty($this->produtosRapida[$prodID]))
+        {
+            $this->produtosRapida = [];
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+            return false;
+        }
+
+        $productChosen = [];
+
+        foreach ($quickBuyProducts->product as $i => $prod) {
+            if ($i == $prodID) {
+                foreach ($this->produtosRapida as $j => $prodRap) {
+
+                    if ($i == $j) {
+
+                        if ($prodRap == "0" || $prodRap == "") {
+                            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                            $flag = 1;
+                            break;
+                        } else {
+
+                            if ($prod->in_stock == false) {
+                                $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
+                                $flag = 1;
+                                break;
+                            }
+                            $productChosen = ["product" => $prod, "quantidade" => $prodRap];
+                        }
+                    }
+                }
+            }
+
+            if ($flag == 1) {
+                break;
+            }
+
+        }
+
+        if ($flag == 1) {
+            return false;
+        }
+
+        $response = $this->PropostasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta, "proposta");
+
+        $responseArray = $response->getData(true);
+
+        if ($responseArray["success"] == true) {
+            if($responseArray["encomenda"] != "") {
+                $message = "Produto adicionado á encomenda!";
+            } else {
+                $message = "Produto adicionado á proposta!";
+            }
+          
+            $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar o produto!";
+            $status = "error";
+        }
+        $this->produtosRapida = [];
+        $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+    }
+
     public function CleanAll()
     {
         $this->produtosRapida = [];
@@ -471,12 +544,12 @@ class DetalheProposta extends Component
 
         $response = [];
         foreach($productChosen as $prodId){
-            $response = $this->PropostasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda);
+            $response = $this->PropostasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "proposta");
         }
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
-            $message = "Produto adicionado ao carrinho com sucesso!";
+            $message = "Produto adicionado á proposta!";
             $status = "success";
         } else {
             $message = "Não foi possivel adicionar o produto!";

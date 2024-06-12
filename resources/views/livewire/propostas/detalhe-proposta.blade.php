@@ -56,8 +56,8 @@
                     <div class="tools">
                         <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
-                            Ver Encomenda</a>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar</a>
+                            Ver Proposta</a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Finalizar Proposta</a>
                         <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>
                 </div>
@@ -682,12 +682,12 @@
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-comment text-light"></i>
                                                                         </a>
-                                                                        <a href="javascript:;"
+                                                                        <a href="javascript:;" wire:click="addProductQuickBuyProposta({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-notepad text-light"></i>
                                                                         </a>
                                                                         {{-- vinicius --}}
-                                                                        <a href="javascript:;" wire:click="addProductQuickBuy({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
+                                                                        <a href="javascript:;" wire:click="addProductQuickBuyEncomenda({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
                                                                             class="btn btn-sm btn-outline-secondary">
                                                                             <i class="ti-shopping-cart text-light"></i>
                                                                         </a>
@@ -806,11 +806,11 @@
             <div class="row p-4">
                 <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
                     <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
+                    <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                 </div>
                 <div class="col-12 pb-3 p-0 d-md-none text-center">
                     <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Seguinte</a>
+                    <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                 </div>
             </div>
         </div>

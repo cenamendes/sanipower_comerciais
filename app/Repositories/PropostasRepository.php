@@ -186,11 +186,19 @@ class PropostasRepository implements PropostasInterface
 
     }
 
-    public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codEncomenda): JsonResponse
+    public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
     {
+        if($type == "encomenda") {
+            $idencomenda = $codType;
+            $idproposta = "";
+        } else {
+            $idencomenda = "";
+            $idproposta = $codType;
+        }
+
         $addProduct = Carrinho::create([
-            "id_encomenda" => "",
-            "id_proposta" => $codEncomenda,
+            "id_encomenda" => $idencomenda,
+            "id_proposta" => $idproposta,
             "id_cliente" => $no,
             "id_user" => Auth::user()->id,
             "referencia" => $qtd["product"]->referense,
@@ -208,7 +216,9 @@ class PropostasRepository implements PropostasInterface
             // Inserção bem-sucedida
             return response()->json([
                 'success' => true,
-                'data' => $addProduct
+                'data' => $addProduct,
+                'encomenda' => $idencomenda,
+                'proposta' => $idproposta
             ], 201);
         } else {
             // Falha na inserção

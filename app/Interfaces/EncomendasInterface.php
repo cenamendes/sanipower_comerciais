@@ -23,7 +23,7 @@ interface EncomendasInterface
     
     /*** PARTE DO CARRINHO ***/
 
-    public function addProductToDatabase($idCliente,$qtd, $nameProduct, $no, $ref, $codEncomenda): JsonResponse;
+    public function addProductToDatabase($idCliente,$qtd, $nameProduct, $no, $ref, $codType,$type): JsonResponse;
  
     /********** */
 
