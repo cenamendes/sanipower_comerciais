@@ -36,6 +36,7 @@ class EditProfile extends Component
 
         $this->nomeUser = $this->user->name;
         $this->Email = $this->user->email;
+        $this->Token = $this->user->token;
         $this->TelemovelUser = $this->user->telefone;
         $this->Nivel = $this->user->nivel;
         $this->vendedor_phc = $this->user->id_phc;
