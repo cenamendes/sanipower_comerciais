@@ -312,7 +312,7 @@ class VisitasRepository implements VisitasInterface
     public function addVisitaDatabase($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
     {
         $addVisita = VisitasAgendadas::create([
-            "id_visita" => $tipoVisitaEscolhido,
+            "id_tipo_visita" => $tipoVisitaEscolhido,
             "cliente" => $client,
             "data_inicial" => $dataInicial,
             "hora_inicial" => $horaInicial,
@@ -341,6 +341,13 @@ class VisitasRepository implements VisitasInterface
         }
 
         return $addVisita;
+    }
+
+    public function getListagemVisitasAgendadas($user): object
+    {
+        $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
+
+        return $visitasAgendadas;
     }
 
 

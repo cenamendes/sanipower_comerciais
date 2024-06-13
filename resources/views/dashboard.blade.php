@@ -125,109 +125,8 @@
             <div class="row">
                 <!-- Employees Sales -->
                 <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                    {{-- <div class="card mb-3">
-                               <div class="card-header">
-                                   <div class="caption">
-                                       <i class="ti-user"></i> Vendas Clientes
-                                   </div>
-                                   <div class="tools">
-                                       <a href="javascript:;" class="btn btn-round btn-sm btn-outline-secondary">Hoje</a>
-                                       <a href="javascript:;" class="btn btn-round btn-sm btn-outline-secondary">Semana</a>
-                                       <a href="javascript:;" class="btn btn-round btn-sm btn-outline-secondary">Mês</a>
-                                   </div>
-                               </div>
-                               <div class="card-body">
-                                   <div class="row">
-                                       <div class="col-md-6">
-                                           <div class="card border-0">
-                                               <div class="card-body">
-                                                   <div class="row">
-                                                       <div class="col-6 text-right">
-                                                           <h6 class="bold text-secondary">Diariamente</h6>
-                                                           <h5 class="card-title text-tuscany bold">7,524€</h3>
-                                                       </div>
-                                                       <div class="col-6">
-                                                           <div id="sparkline-chart1"></div>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-6">
-                                           <div class="card border-0">
-                                               <div class="card-body">
-                                                   <div class="row">
-                                                       <div class="col-6 text-right">
-                                                           <h6 class="bold text-secondary">Semanalmente</h6>
-                                                           <h5 class="card-title text-info bold">18,852€</h3>
-                                                       </div>
-                                                       <div class="col-6">
-                                                           <div id="sparkline-chart2"></div>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </div>
-
-                                   <div class="row">
-                                       <div class="col-md-12 scrollbox-md" data-simplebar>
-                                           <div class="table-responsive">
-                                               <table class="table table-bordered table-hover">
-                                                   <thead>
-                                                       <tr>
-                                                           <th>Comerciais</th>
-                                                           <th class="text-right">Diariamente</th>
-                                                           <th class="text-right">Totais</th>
-                                                       </tr>
-                                                   </thead>
-                                                   <tbody>
-                                                       <tr>
-                                                           <td scope="row"><img src="assets/img/profile/profile-07.jpg" class="rounded-circle mr-2" width="30" alt=""> <a href="javascript:;">siQuang Humbleman</a></td>
-                                                           <td class="text-right">2,546€</td>
-                                                           <td class="text-right">14,587€</td>
-                                                       </tr>
-                                                       <tr>
-                                                           <td scope="row"><img src="assets/img/profile/profile-02.jpg" class="rounded-circle mr-2" width="30" alt=""> <a href="javascript:;">Bob OfHope</a></td>
-                                                           <td class="text-right">2,338€</td>
-                                                           <td class="text-right">8,321€</td>
-                                                       </tr>
-                                                       <tr>
-                                                           <td scope="row"><img src="assets/img/profile/profile-03.jpg" class="rounded-circle mr-2" width="30" alt=""> <a href="javascript:;">Dana Squash</a></td>
-                                                           <td class="text-right">1,478€</td>
-                                                           <td class="text-right">6,720€</td>
-                                                       </tr>
-                                                       <tr>
-                                                           <td scope="row"><img src="assets/img/profile/profile-04.jpg" class="rounded-circle mr-2" width="30" alt=""> <a href="javascript:;">Pear Appleton</a></td>
-                                                           <td class="text-right">2,338€</td>
-                                                           <td class="text-right">8,321€</td>
-                                                       </tr>
-                                                       <tr>
-                                                           <td scope="row"><img src="assets/img/profile/profile-06.jpg" class="rounded-circle mr-2" width="30" alt=""> <a href="javascript:;">Lemony Tang</a></td>
-                                                           <td class="text-right">1,478€</td>
-                                                           <td class="text-right">6,720€</td>
-                                                       </tr>
-                                                       <tr>
-                                                           <td scope="row"><img src="assets/img/profile/profile-01.jpg" class="rounded-circle mr-2" width="30" alt=""> <a href="javascript:;">Duke Turnbull</a></td>
-                                                           <td class="text-right">1,338€</td>
-                                                           <td class="text-right">4,321€</td>
-                                                       </tr>
-                                                       <tr>
-                                                           <td scope="row"><img src="assets/img/profile/profile-05.jpg" class="rounded-circle mr-2" width="30" alt=""> <a href="javascript:;">Berry Cherry</a></td>
-                                                           <td class="text-right">978€</td>
-                                                           <td class="text-right">3,720€</td>
-                                                       </tr>
-                                                   </tbody>
-                                               </table>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                           </div> --}}
-
-                    <div class="card mb-3" style="height: 98%;">
-                        <div id="calendar"></div>
-                    </div>
+                    
+                    @livewire('dashboard.calendar-dashboard')
 
                 </div>
 
@@ -423,41 +322,19 @@
     <script src="{{asset('assets/scripts/pages/dashboard1.js')}}"></script>
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'pt-br',
-          headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          buttonText: {
-            today: 'Hoje',
-                month: 'Mês',
-                week: 'Semana',
-                day: 'Dia',
-                list: 'Lista'
-           }
+    <script>
+        document.getElementById('toggleFilters').addEventListener('click', function() {
+            var filterOptions = document.getElementById('filterOptions');
+            if (filterOptions.style.display === 'none' || filterOptions.style.display === '') {
+                filterOptions.style.display = 'block';
+            } else {
+                filterOptions.style.display = 'none';
+            }
         });
 
-        calendar.render();
-      });
-
-
-      document.getElementById('toggleFilters').addEventListener('click', function() {
-        var filterOptions = document.getElementById('filterOptions');
-        if (filterOptions.style.display === 'none' || filterOptions.style.display === '') {
-            filterOptions.style.display = 'block';
-        } else {
-            filterOptions.style.display = 'none';
-        }
-    });
-
     </script>
+    
 
 @endpush
 
