@@ -311,22 +311,20 @@ class VisitasRepository implements VisitasInterface
 
     public function addVisitaDatabase($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
     {
-        // $addVisita = VisitasAgendadas::create([
-        //     "id_visita" => $tipoVisitaEscolhido,
-        //     "cliente" => $client,
-        //     "data_inicial" => $dataInicial,
-        //     "hora_inicial" => $horaInicial,
-        //     "hora_final" => $horaFinal,
-        //     "data_final" => $dataInicial,
-        //     "assunto_text" => $assuntoText,
-        //     "user_id" => Auth::user()->id,
-        // ]);
+        $addVisita = VisitasAgendadas::create([
+            "id_visita" => $tipoVisitaEscolhido,
+            "cliente" => $client,
+            "data_inicial" => $dataInicial,
+            "hora_inicial" => $horaInicial,
+            "hora_final" => $horaFinal,
+            "data_final" => $dataInicial,
+            "assunto_text" => $assuntoText,
+            "user_id" => Auth::user()->id,
+        ]);
 
         $servicoOffice = new OfficeService();
 
-        $criarEvento = $servicoOffice->criarEventoOutlook();
-
-        dd($criarEvento);
+        $criarEvento = $servicoOffice->criarEventoOutlook($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText);
 
         if ($addVisita) {
             // Inserção bem-sucedida
