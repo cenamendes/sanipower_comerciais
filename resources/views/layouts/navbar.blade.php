@@ -44,10 +44,10 @@
         <div class="navbar-menu d-flex">
 
             <div class="menu-item">
-                <a href="#" class="btn" data-toggle="dropdown">
+                {{-- <a href="#" class="btn" data-toggle="dropdown">
                     <i class="ti-bell"></i>
                     <span class="badge badge-pill badge-danger">3</span>
-                </a>
+                </a> --}}
                 <ul class="dropdown-menu dropdown-menu-right dropdown-alert">
                     <li class="dropdown-header text-center"><a href="#"><i class="ti-comment-alt"></i> View
                             All Alerts <i class="ti-angle-right"></i></a></li>
