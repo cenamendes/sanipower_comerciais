@@ -12,7 +12,7 @@ use Livewire\WithPagination;
 class Clientes extends Component
 {
     use WithPagination;
-    
+
     public int $perPage = 10;
     public int $pageChosen = 1;
     public int $numberMaxPages;
@@ -26,7 +26,11 @@ class Clientes extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
-    
+    public ?string $criarnomeCliente = '';
+    public ?string $criarnumeroCliente = '';
+    public ?string $criarzonaCliente = '';
+    public ?string $criarnumContribuinte = '';
+
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -73,6 +77,50 @@ class Clientes extends Component
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
+    }
+
+    public function criarCliente()
+    {
+        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->totalRecords = $getInfoClientes["nr_registos"];
+
+
+        $this->dispatchBrowserEvent('openClienteModal');
+    }
+
+    public function salvarCliente()
+    {
+        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->totalRecords = $getInfoClientes["nr_registos"];
+
+
+        $camposPreenchidos = !empty($this->criarnomeCliente) && !empty($this->criarnumeroCliente) && !empty($this->criarzonaCliente) && !empty($this->criarnumContribuinte);
+
+        $numClienteNumerico = ctype_digit($this->criarnumeroCliente);
+        $numContribuinteNumerico = ctype_digit($this->criarnumContribuinte);
+
+        if ($camposPreenchidos && $numClienteNumerico && $numContribuinteNumerico) {
+            $this->dispatchBrowserEvent('checkToaster', ['status' => 'success', 'message' => 'Cliente criado com sucesso!']);
+
+            $this->limparCampos();
+        } else {
+            $this->dispatchBrowserEvent('checkToaster', ['status' => 'error', 'message' => 'Por favor, preencha todos os campos corretamente!']);
+        }
+    }
+
+    private function limparCampos()
+    {
+
+        $this->criarnomeCliente = '';
+        $this->criarnumeroCliente = '';
+        $this->criarzonaCliente = '';
+        $this->criarnumContribuinte = '';
     }
 
     public function updatedNumeroCliente()
@@ -134,10 +182,10 @@ class Clientes extends Component
         } else {
             $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         }
-        
+
     }
 
-   
+
     public function previousPage()
     {
         if ($this->pageChosen > 1) {
@@ -213,7 +261,7 @@ class Clientes extends Component
         return 'livewire.pagination';
     }
 
-        
+
     public function render()
     {
         return view('livewire.clientes.clientes',["clientes" => $this->clientes]);
