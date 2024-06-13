@@ -13,7 +13,7 @@ use Livewire\WithPagination;
 class Visitas extends Component
 {
     use WithPagination;
-    
+
     public int $perPage = 10;
     public int $pageChosen = 1;
     public int $numberMaxPages;
@@ -39,6 +39,8 @@ class Visitas extends Component
     public ?string $horaFinal = "";
     public ?string $tipoVisitaEscolhido = "";
 
+    public ?string $assuntoText = "";
+
 
     public function boot(ClientesInterface $clientesRepository, VisitasInterface $visitasRepository)
     {
@@ -62,7 +64,7 @@ class Visitas extends Component
         $this->telemovelCliente = '';
         $this->emailCliente = '';
         $this->nifCliente = '';
-        
+
         $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
@@ -146,10 +148,10 @@ class Visitas extends Component
         } else {
             $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         }
-        
+
     }
 
-   
+
     public function previousPage()
     {
         if ($this->pageChosen > 1) {
@@ -243,7 +245,7 @@ class Visitas extends Component
     {
         $this->initProperties();
 
-        if($this->dataInicial == "" ||$this->horaInicial == "" || $this->horaFinal == "" || $this->tipoVisitaEscolhido == "" )
+        if($this->dataInicial == "" ||$this->horaInicial == "" || $this->horaFinal == "" || $this->tipoVisitaEscolhido == "" || $this->assuntoText == "" )
         {
             $this->dispatchBrowserEvent('openToastMessage', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
             return false;
@@ -255,7 +257,7 @@ class Visitas extends Component
             return false;
         }
 
-        $response = $this->visitasRepository->addVisitaDatabase($ClienteVisitaTemp, preg_replace('/[a-zA-Z]/', '', $this->dataInicial), preg_replace('/[a-zA-Z]/', '', $this->horaInicial), preg_replace('/[a-zA-Z]/', '', $this->horaFinal), $this->tipoVisitaEscolhido);
+        $response = $this->visitasRepository->addVisitaDatabase($ClienteVisitaTemp, preg_replace('/[a-zA-Z]/', '', $this->dataInicial), preg_replace('/[a-zA-Z]/', '', $this->horaInicial), preg_replace('/[a-zA-Z]/', '', $this->horaFinal), $this->tipoVisitaEscolhido, $this->assuntoText);
 
         $responseArray = $response->getData(true);
 
@@ -269,10 +271,11 @@ class Visitas extends Component
 
         $this->emit('reloadNotification');
         $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
-        
+
     }
 
-        
+
+
     public function render()
     {
         return view('livewire.visitas.visitas',["clientes" => $this->clientes]);

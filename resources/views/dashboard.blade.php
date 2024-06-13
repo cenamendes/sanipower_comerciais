@@ -25,9 +25,19 @@
 
 
 .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+    background-color: #0c7294!important;
+    border-color: #0c7294!important;
+    color: white!important;
+    border: none;
+}
+
+.fc .fc-button-primary {
     background-color: #1791ba!important;
     border-color: #1791ba!important;
     color: white!important;
+}
+.fc .fc-button-primary:not(:disabled):active:focus {
+    box-shadow: none;
 }
     </style>
 
