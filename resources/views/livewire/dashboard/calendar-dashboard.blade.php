@@ -1,8 +1,5 @@
 <div>
-    <style>
-
-    </style>
-
+    
     <div class="card mb-3" style="height: 98%;">
         <div id="calendar"></div>
     </div>
@@ -72,6 +69,26 @@
                         eventElement.style.color = "white";
                         eventElement.style.marginBottom = "5px";
                     }
+
+                if (info.event.end - info.event.start <= 3600000) { // Se a duração for menor ou igual a 1 hora
+                    info.el.classList.add('fc-short-event'); // Adiciona a classe para eventos curtos
+                }
+            },
+            eventContent: function(arg) {
+                let customDiv = document.createElement('div');
+                customDiv.className = 'custom-event-content';
+                    
+                    let timeString = new Date(arg.event.start).toLocaleTimeString('pt-BR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) + ' - ' + new Date(arg.event.end).toLocaleTimeString('pt-BR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    customDiv.innerHTML = '<div>' + arg.event.title + '</div><div>' + timeString + '</div>';
+
+                return { domNodes: [customDiv] };
             }
 
             });
