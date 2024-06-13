@@ -12,10 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('telefone')->nullable();
-            $table->string('status')->default('ativo');
-            $table->integer('nivel')->nullable();
-            $table->string('data_nascimento')->nullable();
+            if (!Schema::hasColumn('users', 'telefone')) {
+                $table->string('telefone')->nullable();
+            }
+            if (!Schema::hasColumn('users', 'status')) {
+                $table->string('status')->default('ativo');
+            }
+            if (!Schema::hasColumn('users', 'nivel')) {
+                $table->integer('nivel')->nullable();
+            }
+            if (!Schema::hasColumn('users', 'data_nascimento')) {
+                $table->string('data_nascimento')->nullable();
+            }
         });
     }
 
@@ -25,11 +33,18 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('telefone');
-            $table->dropColumn('status');
-            $table->dropColumn('nivel');
-            $table->dropColumn('data_nascimento');
+            if (Schema::hasColumn('users', 'telefone')) {
+                $table->dropColumn('telefone');
+            }
+            if (Schema::hasColumn('users', 'status')) {
+                $table->dropColumn('status');
+            }
+            if (Schema::hasColumn('users', 'nivel')) {
+                $table->dropColumn('nivel');
+            }
+            if (Schema::hasColumn('users', 'data_nascimento')) {
+                $table->dropColumn('data_nascimento');
+            }
         });
     }
 };
-
