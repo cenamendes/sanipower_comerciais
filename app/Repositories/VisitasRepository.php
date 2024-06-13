@@ -343,6 +343,13 @@ class VisitasRepository implements VisitasInterface
         return $addVisita;
     }
 
+    public function getListagemVisitasAgendadas($user): object
+    {
+        $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
+
+        return $visitasAgendadas;
+    }
+
 
 
 }
