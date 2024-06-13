@@ -713,6 +713,19 @@ div#input.input-group.d-flex.input-group-config.justify-content-between:focus{
 }
 
 
+textarea::-webkit-scrollbar {
+    height: 0.6rem;
+    width: 0.6rem;
+}
+textarea::-webkit-scrollbar-thumb {
+    background-color: rgb(121, 121, 121);
+    border-radius: 0.1rem;
+}
+textarea::-webkit-scrollbar-track {
+    width: 0.6rem;
+}
+
+
 span.input-group-text.search{
     background-color: #1791ba!important;
 }
