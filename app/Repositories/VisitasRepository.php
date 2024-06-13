@@ -51,8 +51,8 @@ class VisitasRepository implements VisitasInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+
+        return $itemsPaginate;
 
     }
 
@@ -99,15 +99,15 @@ class VisitasRepository implements VisitasInterface
 
         if($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
-        } 
+        }
 
         if($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
-        } 
+        }
 
         if($zonaVisitas != "") {
             $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
-        } 
+        }
 
         $curl = curl_init();
 
@@ -147,8 +147,8 @@ class VisitasRepository implements VisitasInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+
+        return $itemsPaginate;
     }
 
     public function getNumberOfPagesVisitasFiltro($perPage,$nomeVisitas,$numeroVisitas,$zonaVisitas): array
@@ -156,15 +156,15 @@ class VisitasRepository implements VisitasInterface
 
         if($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
-        } 
+        }
 
         if($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
-        } 
+        }
 
         if($zonaVisitas != "") {
             $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
-        } 
+        }
 
         $curl = curl_init();
 
@@ -227,7 +227,7 @@ class VisitasRepository implements VisitasInterface
         return $response_decoded;
     }
 
-   
+
 
 
     /***  DETALHES DO Visitas *****/
@@ -272,8 +272,8 @@ class VisitasRepository implements VisitasInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+
+        return $itemsPaginate;
     }
 
     public function getNumberOfPagesAnalisesVisitas($perPage,$idVisitas): array
@@ -308,7 +308,7 @@ class VisitasRepository implements VisitasInterface
     }
 
 
-    public function addVisitaDatabase($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido): JsonResponse
+    public function addVisitaDatabase($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
     {
         $addVisita = VisitasAgendadas::create([
             "id_visita" => $tipoVisitaEscolhido,
@@ -317,6 +317,7 @@ class VisitasRepository implements VisitasInterface
             "hora_inicial" => $horaInicial,
             "hora_final" => $horaFinal,
             "data_final" => $dataInicial,
+            "assunto_text" => $assuntoText,
             "user_id" => Auth::user()->id,
         ]);
 

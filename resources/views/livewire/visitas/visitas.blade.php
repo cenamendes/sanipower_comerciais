@@ -341,6 +341,13 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row ml-0">
+                                <label>Assunto</label>
+                                <div class="input-group">
+                                    <textarea id="assunto_text" class="form-control" wire:model.defer="assuntoText" style="min-height: 80px; max-height: 200px;"></textarea>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -361,7 +368,7 @@
 
 <script>
 
-   
+
     window.addEventListener('modalAgendar', function() {
 
         jQuery("#agendarVisita").modal();
@@ -389,9 +396,9 @@
         }).on('changeDate', function (e) {
 
             var formattedDate = moment(e.date).format('YYYY-MM-DD');
-            
+
             @this.set('dataInicial', formattedDate ,true);
-            
+
         });
 
         @this.set('horaInicial', '09:00' ,true);
@@ -431,7 +438,7 @@
 
         });
 
-    
+
 
 
         });

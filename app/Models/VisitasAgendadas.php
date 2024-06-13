@@ -19,6 +19,7 @@ class VisitasAgendadas extends Model
         'hora_inicial',
         'data_final',
         'hora_final',
+        'assunto_text',
         'user_id',
     ];
 
