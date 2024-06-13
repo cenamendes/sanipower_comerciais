@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\VisitasController;
-
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EncomendasController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropostasController;
+use App\Http\Controllers\VisitasController;
 use App\Http\Controllers\VisitasNewController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ use App\Http\Controllers\VisitasNewController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'verified']);
 
@@ -32,7 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['auth', 'check.level:3'])->group(function () {
         Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
     });
-    
 
     Route::get('/clientes', [ClientesController::class, 'index'])->name('clientes');
     Route::get('/clientes/detalhes/{id}', [ClientesController::class, 'showDetail'])->name('clientes.detail');
@@ -46,6 +45,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/propostas', [PropostasController::class, 'index'])->name('propostas');
     Route::get('/propostas/detalhes/{id}', [PropostasController::class, 'showDetail'])->name('propostas.detail');
+
+    Route::get('/executar-comando', function () {
+
+        $exitCode = Artisan::call('migrate');
+         if ($exitCode === 0) {
+            return 'Comando "migrate" executado com sucesso';
+         } else {
+            return 'Erro ao executar o comando "migrate"';
+         }
+        });
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
