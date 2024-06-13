@@ -23,6 +23,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'verified']);
 
+Route::get('/migrate', function () {
+
+    $exitCode = Artisan::call('migrate');
+     if ($exitCode === 0) {
+        return 'Comando "migrate" executado com sucesso';
+     } else {
+        return 'Erro ao executar o comando "migrate"';
+     }
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -46,15 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/propostas', [PropostasController::class, 'index'])->name('propostas');
     Route::get('/propostas/detalhes/{id}', [PropostasController::class, 'showDetail'])->name('propostas.detail');
 
-    Route::get('/executar-comando', function () {
-
-        $exitCode = Artisan::call('migrate');
-         if ($exitCode === 0) {
-            return 'Comando "migrate" executado com sucesso';
-         } else {
-            return 'Erro ao executar o comando "migrate"';
-         }
-        });
 
 });
 
