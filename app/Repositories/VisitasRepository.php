@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\VisitasAgendadas;
 use Illuminate\Http\JsonResponse;
 use App\Interfaces\VisitasInterface;
+use App\Models\Tarefas;
 use App\Services\OfficeService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -345,9 +346,36 @@ class VisitasRepository implements VisitasInterface
 
     public function getListagemVisitasAgendadas($user): object
     {
-        $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
+        if(Auth::user()->nivel == "3")
+        {
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')->get();
+        } else {
+            $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
+        }
+        
 
         return $visitasAgendadas;
+    }
+
+    public function getListagemVisitasAndTarefas($user): array
+    {
+
+        $allTasks = [];
+
+        if(Auth::user()->nivel == "3"){
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')->get();
+            $tarefas = Tarefas::all();
+        } else {
+            $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
+            $tarefas = Tarefas::where('user_id',Auth::user()->id)->get();
+        }
+
+        $allTasks["visitas"] = $visitasAgendadas;
+
+        $allTasks["tarefas"] = $tarefas;
+        
+
+        return $allTasks;
     }
 
 

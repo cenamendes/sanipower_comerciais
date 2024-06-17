@@ -36,7 +36,10 @@ interface VisitasInterface
 
     
     public function addVisitaDatabase($client,$dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse;
+
     public function getListagemVisitasAgendadas($user): object;
+
+    public function getListagemVisitasAndTarefas($user): array;
     
     /*** */
 
