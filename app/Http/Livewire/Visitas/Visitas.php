@@ -41,6 +41,8 @@ class Visitas extends Component
 
     public ?string $assuntoText = "";
 
+    public ?object $listagemVisitas = NULL;
+
 
     public function boot(ClientesInterface $clientesRepository, VisitasInterface $visitasRepository)
     {
@@ -238,6 +240,15 @@ class Visitas extends Component
         $this->tipoVisita = TiposVisitas::all();
 
         $this->dispatchBrowserEvent('modalAgendar',["clienteid" => $clientID, "nome" => $nome]);
+    }
+
+    public function finalizarVisita($clientID)
+    {
+        $this->initProperties();
+
+        $this->listagemVisitas = $this->visitasRepository->getVisitasAgendadas($clientID);
+
+        $this->dispatchBrowserEvent('listagemVisitasModal');
     }
 
 

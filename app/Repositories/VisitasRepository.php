@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Interfaces\VisitasInterface;
 use App\Models\Tarefas;
 use App\Services\OfficeService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -376,6 +377,13 @@ class VisitasRepository implements VisitasInterface
         
 
         return $allTasks;
+    }
+
+    public function getVisitasAgendadas($clientID): LengthAwarePaginator
+    {
+        $visitasAgendadas = VisitasAgendadas::where('finalizado','0')->where('cliente',$clientID)->paginate('10');
+
+        return $visitasAgendadas;
     }
 
 

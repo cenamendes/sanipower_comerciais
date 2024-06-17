@@ -255,9 +255,9 @@
                                                 <i class="ti-settings text-light"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="{{ route('visitas.detail', $clt->id) }}"
-                                                    class="dropdown-item">Adicionar Visita</a>
+                                                <a href="{{ route('visitas.detail', $clt->id) }}" class="dropdown-item">Adicionar Visita</a>
                                                 <a wire:click="agendarVisita({{json_encode($clt->id)}}, {{json_encode($clt->name)}})" class="dropdown-item">Agendar Visita</a>
+                                                <a wire:click="finalizarVisita({{json_encode($clt->name)}})" class="dropdown-item">Finalizar Visita</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -362,12 +362,80 @@
 
 
     <!-- FIM MODAL -->
+
+    <!-- MODAL -->
+
+    <div class="modal fade" id="listagemVisitas" tabindex="-1" role="dialog" aria-labelledby="listagemVisitas"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="modalComentario">Finalizar Visita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            @isset($listagemVisitas)
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Cliente</th>
+                                                <th>Data Inicial</th>
+                                                <th>Data Final</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($listagemVisitas as $visita)
+                                                <tr data-href="#">
+                                                    <td>{{ $visita->cliente }}</td>
+                                                    <td>{{ $visita->data_inicial }} / {{ $visita->hora_inicial }}</td>
+                                                    <td>{{ $visita->data_final }} / {{ $visita->hora_final }}</td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-chili btn-round" disabled>Agendada</button>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-primary">
+                                                            <i class="fas fa-user-cog"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    {{ $listagemVisitas->links() }}
+                                </div>
+                            @endisset
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-outline-primary"
+                        wire:click="newVisita({{json_encode($nomeClienteVisitaTemp)}})">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FIM MODAL -->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
 
 <script>
 
+
+
+    window.addEventListener('listagemVisitasModal', function() {
+        
+        jQuery("#listagemVisitas").modal();
+    });
 
     window.addEventListener('modalAgendar', function() {
 
