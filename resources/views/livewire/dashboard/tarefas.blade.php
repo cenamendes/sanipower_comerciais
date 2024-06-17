@@ -31,6 +31,11 @@
             z-index: 9999 !important; /* ou um valor maior que o z-index do modal */
         }
 
+        .fc-list-sticky .fc-list-day > * {
+            position: static !important;
+        }
+
+        
 
         /** FIM DATEPICKER **/
     </style>
@@ -209,6 +214,8 @@
                                 horaFinal: valoresVisita.hora_final,
                                 corVisita: valoresVisita.tipovisita.cor,
                                 nomeVisita: valoresVisita.tipovisita.tipo,
+                                idAgendada: valoresVisita.id,
+                                finalizado: valoresVisita.finalizado,
                                 tarefa: "no"
                             });
 
@@ -309,11 +316,25 @@
                             hour: '2-digit',
                             minute: '2-digit'
                         });
+                        
+                        var estado = "";
+                        var cor = "";
+
+                        if(arg.event.extendedProps.finalizado == 1) {
+                            estado = "finalizada";
+                            cor="green";
+                        } else {
+                            estado = "agendada";
+                            cor="blue";
+                        }
+
+                        console.log(arg);
 
                         customDiv.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>` + arg.event.title + `</div>
-                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.idTarefa + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a></div>
+                            <div>` + arg.event.title + `<br><small style="color:`+cor+`; font-weight:bolder;">`+ estado +`</small></div>
+                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.idTarefa + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
+                            </div>
                         `;
                     } else {
                         
@@ -377,7 +398,7 @@
 
                     var target = $(info.jsEvent.target);
 
-                    if (target.is('i.ti-pencil') || target.is('a') ){
+                    if (target.is('i.ti-pencil') || target.is('a.edit-task') ){
                         Livewire.emit('getTarefaInfo',info.event.extendedProps.idTarefa);
                     }
 

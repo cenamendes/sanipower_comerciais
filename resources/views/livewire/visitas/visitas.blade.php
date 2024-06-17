@@ -354,7 +354,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-outline-primary"
-                        wire:click="newVisita({{json_encode($nomeClienteVisitaTemp)}})">Adicionar</button>
+                        wire:click="newVisita({{json_encode($idClienteVisitaTemp)}},{{json_encode($nomeClienteVisitaTemp)}})">Adicionar</button>
                 </div>
             </div>
         </div>
@@ -365,8 +365,8 @@
 
     <!-- MODAL -->
 
-    <div class="modal fade" id="listagemVisitas" tabindex="-1" role="dialog" aria-labelledby="listagemVisitas"
-        aria-hidden="true">
+
+    <div class="modal fade" id="listagemVisitas" tabindex="-1" role="dialog" aria-labelledby="listagemVisitas" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -375,41 +375,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
+                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;" >
                     <div class="card mb-3">
                         <div class="card-body">
-                            @isset($listagemVisitas)
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>Cliente</th>
-                                                <th>Data Inicial</th>
-                                                <th>Data Final</th>
-                                                <th>Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($listagemVisitas as $visita)
-                                                <tr data-href="#">
-                                                    <td>{{ $visita->cliente }}</td>
-                                                    <td>{{ $visita->data_inicial }} / {{ $visita->hora_inicial }}</td>
-                                                    <td>{{ $visita->data_final }} / {{ $visita->hora_final }}</td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-chili btn-round" disabled>Agendada</button>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-primary">
-                                                            <i class="fas fa-user-cog"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    {{ $listagemVisitas->links() }}
-                                </div>
-                            @endisset
+            
+                            @livewire('visitas.listagem-visitas-agendadas',["clientID" => json_encode($clientID)], key(json_encode($clientID)))
+
                         </div>
                     </div>
                 </div>
@@ -511,7 +482,10 @@
 
         });
 
+    });
 
+    $('#listagemVisitas').on('hidden.bs.modal', function () {
+        @this.set('clientID', "");
     });
 
 </script>

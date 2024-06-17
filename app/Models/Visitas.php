@@ -21,6 +21,7 @@ class Visitas extends Model
         'comentario_financeiro',
         'comentario_occorencias',
         'data',
-        'user_id'
+        'user_id',
+        'id_visita_agendada'
     ];
 }

@@ -148,6 +148,8 @@
                 return { domNodes: [customDiv] };
             },
             eventClick: function(info) {
+
+              
                 $("#modalInformacao").modal();
 
                 $('#clienteName').val(info.event.title);
@@ -155,6 +157,7 @@
                 $('#assuntoMarcado').val(info.event.extendedProps.assunto);
                 $('#visitaName').text(info.event.extendedProps.nomeVisita);
                 $('#visitaName').css("color", info.event.extendedProps.corVisita);
+                
                 
 
             }

@@ -14,6 +14,7 @@ class VisitasAgendadas extends Model
     protected $fillable = [
         'tipo_visita',
         'id_tipo_visita',
+        'client_id',
         'cliente',
         'data_inicial',
         'hora_inicial',
