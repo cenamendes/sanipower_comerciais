@@ -328,8 +328,6 @@
                             cor="blue";
                         }
 
-                        console.log(arg);
-
                         customDiv.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>` + arg.event.title + `<br><small style="color:`+cor+`; font-weight:bolder;">`+ estado +`</small></div>
