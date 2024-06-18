@@ -22,6 +22,7 @@ class VisitasAgendadas extends Model
         'hora_final',
         'assunto_text',
         'user_id',
+        'finalizado'
     ];
 
     public function tipovisita(){
