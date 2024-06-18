@@ -8,25 +8,28 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users','imagem')) {
-                $table->string('imagem',255)->nullable()->after('remember_token');
+            if (!Schema::hasColumn('users', 'token')) {
+                $table->longText('token')->nullable();
             }
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            if (Schema::hasColumn('users', 'imagem')) {
-                $table->dropColumn('imagem');
+            if (Schema::hasColumn('users', 'token')) {
+                $table->dropColumn('token');
             }
         });
     }

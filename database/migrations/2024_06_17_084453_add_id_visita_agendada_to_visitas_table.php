@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-        Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users','imagem')) {
-                $table->string('imagem',255)->nullable()->after('remember_token');
+        Schema::table('visitas', function (Blueprint $table) {
+            if (!Schema::hasColumn('visitas', 'id_visita_agendada')) {
+                $table->unsignedInteger('id_visita_agendada')->nullable();
             }
         });
     }
@@ -24,9 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (Schema::hasColumn('users', 'imagem')) {
-                $table->dropColumn('imagem');
+        Schema::table('visitas', function (Blueprint $table) {
+            if (Schema::hasColumn('visitas', 'id_visita_agendada')) {
+                $table->dropColumn('id_visita_agendada');
             }
         });
     }

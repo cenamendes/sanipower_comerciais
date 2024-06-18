@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Models\VisitasAgendadas;
 use Illuminate\Http\JsonResponse;
 use App\Interfaces\VisitasInterface;
+use App\Models\Tarefas;
+use App\Services\OfficeService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -51,8 +54,8 @@ class VisitasRepository implements VisitasInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+
+        return $itemsPaginate;
 
     }
 
@@ -99,15 +102,15 @@ class VisitasRepository implements VisitasInterface
 
         if($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
-        } 
+        }
 
         if($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
-        } 
+        }
 
         if($zonaVisitas != "") {
             $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
-        } 
+        }
 
         $curl = curl_init();
 
@@ -147,8 +150,8 @@ class VisitasRepository implements VisitasInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+
+        return $itemsPaginate;
     }
 
     public function getNumberOfPagesVisitasFiltro($perPage,$nomeVisitas,$numeroVisitas,$zonaVisitas): array
@@ -156,15 +159,15 @@ class VisitasRepository implements VisitasInterface
 
         if($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
-        } 
+        }
 
         if($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
-        } 
+        }
 
         if($zonaVisitas != "") {
             $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
-        } 
+        }
 
         $curl = curl_init();
 
@@ -227,7 +230,7 @@ class VisitasRepository implements VisitasInterface
         return $response_decoded;
     }
 
-   
+
 
 
     /***  DETALHES DO Visitas *****/
@@ -272,8 +275,8 @@ class VisitasRepository implements VisitasInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+
+        return $itemsPaginate;
     }
 
     public function getNumberOfPagesAnalisesVisitas($perPage,$idVisitas): array
@@ -308,17 +311,24 @@ class VisitasRepository implements VisitasInterface
     }
 
 
-    public function addVisitaDatabase($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido): JsonResponse
+    public function addVisitaDatabase($clientID,$client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
     {
         $addVisita = VisitasAgendadas::create([
-            "id_visita" => $tipoVisitaEscolhido,
+            "id_tipo_visita" => $tipoVisitaEscolhido,
+            "client_id" => $clientID,
             "cliente" => $client,
             "data_inicial" => $dataInicial,
             "hora_inicial" => $horaInicial,
             "hora_final" => $horaFinal,
             "data_final" => $dataInicial,
+            "assunto_text" => $assuntoText,
             "user_id" => Auth::user()->id,
+            "finalizado" => 0
         ]);
+
+        $servicoOffice = new OfficeService();
+
+        $criarEvento = $servicoOffice->criarEventoOutlook($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText);
 
         if ($addVisita) {
             // Inserção bem-sucedida
@@ -335,6 +345,47 @@ class VisitasRepository implements VisitasInterface
         }
 
         return $addVisita;
+    }
+
+    public function getListagemVisitasAgendadas($user): object
+    {
+        if(Auth::user()->nivel == "3")
+        {
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')->get();
+        } else {
+            $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
+        }
+        
+
+        return $visitasAgendadas;
+    }
+
+    public function getListagemVisitasAndTarefas($user): array
+    {
+
+        $allTasks = [];
+
+        if(Auth::user()->nivel == "3"){
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')->get();
+            $tarefas = Tarefas::all();
+        } else {
+            $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
+            $tarefas = Tarefas::where('user_id',Auth::user()->id)->get();
+        }
+
+        $allTasks["visitas"] = $visitasAgendadas;
+
+        $allTasks["tarefas"] = $tarefas;
+        
+
+        return $allTasks;
+    }
+
+    public function getVisitasAgendadas($clientID): LengthAwarePaginator
+    {
+        $visitasAgendadas = VisitasAgendadas::where('finalizado','0')->where('cliente',json_decode($clientID))->paginate(10);
+
+        return $visitasAgendadas;
     }
 
 

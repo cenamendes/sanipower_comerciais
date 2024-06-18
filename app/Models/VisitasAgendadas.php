@@ -13,17 +13,19 @@ class VisitasAgendadas extends Model
 
     protected $fillable = [
         'tipo_visita',
-        'id_visita',
+        'id_tipo_visita',
+        'client_id',
         'cliente',
         'data_inicial',
         'hora_inicial',
         'data_final',
         'hora_final',
+        'assunto_text',
         'user_id',
     ];
 
     public function tipovisita(){
 
-        return $this->belongsTo(TiposVisitas::class,'id_visita','id');
+        return $this->belongsTo(TiposVisitas::class,'id_tipo_visita','id');
     }
 }

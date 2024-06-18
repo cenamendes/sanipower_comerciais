@@ -255,9 +255,9 @@
                                                 <i class="ti-settings text-light"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="{{ route('visitas.detail', $clt->id) }}"
-                                                    class="dropdown-item">Adicionar Visita</a>
+                                                <a href="{{ route('visitas.detail', $clt->id) }}" class="dropdown-item">Adicionar Visita</a>
                                                 <a wire:click="agendarVisita({{json_encode($clt->id)}}, {{json_encode($clt->name)}})" class="dropdown-item">Agendar Visita</a>
+                                                <a wire:click="finalizarVisita({{json_encode($clt->name)}})" class="dropdown-item">Finalizar Visita</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -341,13 +341,51 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row ml-0">
+                                <label>Assunto</label>
+                                <div class="input-group">
+                                    <textarea id="assunto_text" class="form-control" wire:model.defer="assuntoText" style="min-height: 80px; max-height: 200px;"></textarea>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-outline-primary"
-                        wire:click="newVisita({{json_encode($nomeClienteVisitaTemp)}})">Adicionar</button>
+                        wire:click="newVisita({{json_encode($idClienteVisitaTemp)}},{{json_encode($nomeClienteVisitaTemp)}})">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FIM MODAL -->
+
+    <!-- MODAL -->
+
+
+    <div class="modal fade" id="listagemVisitas" tabindex="-1" role="dialog" aria-labelledby="listagemVisitas" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="modalComentario">Finalizar Visita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;" >
+                    <div class="card mb-3">
+                        <div class="card-body">
+            
+                            @livewire('visitas.listagem-visitas-agendadas',["clientID" => json_encode($clientID)], key(json_encode($clientID)))
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -361,7 +399,13 @@
 
 <script>
 
-   
+
+
+    window.addEventListener('listagemVisitasModal', function() {
+        
+        jQuery("#listagemVisitas").modal();
+    });
+
     window.addEventListener('modalAgendar', function() {
 
         jQuery("#agendarVisita").modal();
@@ -389,9 +433,9 @@
         }).on('changeDate', function (e) {
 
             var formattedDate = moment(e.date).format('YYYY-MM-DD');
-            
+
             @this.set('dataInicial', formattedDate ,true);
-            
+
         });
 
         @this.set('horaInicial', '09:00' ,true);
@@ -431,12 +475,15 @@
 
         });
 
-    
+
 
 
         });
 
+    });
 
+    $('#listagemVisitas').on('hidden.bs.modal', function () {
+        @this.set('clientID', "");
     });
 
 </script>

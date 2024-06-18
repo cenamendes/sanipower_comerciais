@@ -9,7 +9,7 @@
                         <div class="img-temporary-navbar" >{{ ucfirst(substr($user->name, 0, 1)) }}</div>
                     @else
                         <img class="img-navbar" style="width: 93%;height: 93%;" src="{{ asset('storage/profile/' . $user->imagem) }}" alt=""/>
-                        
+
                     @endif
                 @endif
                 <div class="container-buttons-img">
@@ -17,7 +17,7 @@
                     <i class="fa fa-camera"></i>
                 </div>
             </div>
-            
+
         </div>
         <div class="row">
             <div class="col-12">
@@ -35,6 +35,13 @@
                             <input type="text" class="form-control" placeholder="Email" wire:model.lazy="Email">
                         </div>
                         @error('Email')  <span class="text-danger">O campo email é obrigatório.</span> @enderror
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="mt-2">Token</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Token" wire:model.lazy="Token">
+                        </div>
+                        @error('Token')  <span class="text-danger">O campo token é obrigatório.</span> @enderror
                     </div>
                     <div class="col-lg-3">
                         <label class="mt-2">Status</label>

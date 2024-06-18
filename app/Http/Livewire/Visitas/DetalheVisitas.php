@@ -46,6 +46,8 @@ class DetalheVisitas extends Component
 
     private ?object $encomendasDetail = NULL;
 
+    public ?int $idVisita;
+
     public function boot(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -63,11 +65,15 @@ class DetalheVisitas extends Component
 
     }
 
-    public function mount($cliente)
+    public function mount($cliente, $idVisita = null)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
 
+        if($idVisita != 0){
+            $this->idVisita = $idVisita;
+        }
+        
         $this->restartDetails();
 
     }
@@ -191,14 +197,20 @@ class DetalheVisitas extends Component
     {
         $this->restartDetails();
 
-        $response = $this->clientesRepository->storeVisita($this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
+        $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
 
         $responseArray = $response->getData(true);
 
         if($responseArray["success"] == true){
-            session()->flash('success', "Visita criada com sucesso");
+            session()->flash('success', "Visita registada com sucesso");
          } else {
-             session()->flash('error', "Não foi possivel adicionar a visita");
+            if($responseArray["type"] == "1")
+            {
+                session()->flash('error', $responseArray["data"]);
+            } else {
+                session()->flash('error', "Não foi possivel adicionar a visita");
+            }
+             
          }
 
         $this->skipRender();

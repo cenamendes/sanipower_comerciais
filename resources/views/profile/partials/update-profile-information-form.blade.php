@@ -13,7 +13,7 @@
         </div>
     </div> -->
     <header>
-        
+
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Profile Information') }}
         </h2>
@@ -59,6 +59,12 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div>
+            <x-input-label for="token" :value="__('Token')" />
+            <x-text-input id="token" name="token" type="text" class="form-control" :value="old('token', $user->token)" required autofocus autocomplete="token" />
+            <x-input-error class="mt-2" :messages="$errors->get('token')" />
         </div>
 
         <div class="flex items-center gap-4">

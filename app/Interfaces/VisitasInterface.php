@@ -2,6 +2,8 @@
 
 namespace App\Interfaces;
 
+use App\Models\VisitasAgendadas;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -33,9 +35,20 @@ interface VisitasInterface
 
 
     /** ADD VISITA */
-    
-    public function addVisitaDatabase($client,$dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido): JsonResponse;
 
+    
+    public function addVisitaDatabase($clientID,$client,$dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse;
+
+    public function getListagemVisitasAgendadas($user): object;
+
+    public function getListagemVisitasAndTarefas($user): array;
+    
     /*** */
+
+    /*** GET VISITAS AGENDADAS ***/
+
+    public function getVisitasAgendadas($clientID): LengthAwarePaginator; 
+
+    /******** */
 
 }

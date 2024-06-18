@@ -20,12 +20,20 @@ class Detalheagendadas extends Component
         $currentDate = Carbon::today()->toDateString();
         $userId = Auth::id();
 
-
-        $this->visitas = VisitasAgendadas::with('tipovisita')
+        if(Auth::user()->nivel == "3")
+        {
+            $this->visitas = VisitasAgendadas::with('tipovisita')
+                ->where('data_inicial', '>=', $currentDate)
+                ->orderBy('data_inicial', 'asc')
+                ->get();
+        }
+        else {
+            $this->visitas = VisitasAgendadas::with('tipovisita')
             ->where('user_id', $userId)
             ->where('data_inicial', '>=', $currentDate)
             ->orderBy('data_inicial', 'asc')
             ->get();
+        }
 
         $this->tiposvisitas = TiposVisitas::all();
     }
@@ -35,12 +43,20 @@ class Detalheagendadas extends Component
         $currentDate = Carbon::today()->toDateString();
         $userId = Auth::id();
 
-
-        $this->visitas = VisitasAgendadas::with('tipovisita')
+        if(Auth::user()->nivel == "3")
+        {
+            $this->visitas = VisitasAgendadas::with('tipovisita')
+                ->where('data_inicial', '>=', $currentDate)
+                ->orderBy('data_inicial', 'asc')
+                ->get();
+        }
+        else {
+            $this->visitas = VisitasAgendadas::with('tipovisita')
             ->where('user_id', $userId)
             ->where('data_inicial', '>=', $currentDate)
             ->orderBy('data_inicial', 'asc')
             ->get();
+        }
 
             
         $this->tiposvisitas = TiposVisitas::all();

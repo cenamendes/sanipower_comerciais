@@ -51,10 +51,8 @@ class ProfileController extends Controller
 
         } catch (ValidationException $e) {
             $errors = $e->errors();
-            // Aqui você pode enviar os erros para o "toaster"
-            // Por exemplo, usando o método session()->flash() para enviar mensagens de erro para a próxima requisição
             foreach ($errors as $error) {
-        
+
                 session()->flash('error', $error[0]);
             }
             return Redirect::route('profile.edit')->with('status', 'profile-updated');
