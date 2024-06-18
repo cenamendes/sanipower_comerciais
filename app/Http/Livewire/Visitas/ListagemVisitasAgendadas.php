@@ -58,9 +58,9 @@ class ListagemVisitasAgendadas extends Component
     {
         return 'livewire.pagination';
     }
-
     public function endVisita($visitaId)
     {
+        $this->emit('eventoChamarSaveVisita');
         return redirect()->route('visitas.end-visita',["id" => $visitaId]);
     }
 

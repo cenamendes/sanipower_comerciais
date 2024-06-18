@@ -9,7 +9,7 @@ use Livewire\WithPagination;
 use App\Models\VisitasAgendadas;
 use App\Interfaces\VisitasInterface;
 use App\Interfaces\ClientesInterface;
-
+use Illuminate\Support\Facades\Session;
 
 class Visitas extends Component
 {
@@ -179,12 +179,10 @@ class Visitas extends Component
             }
             
         }
-       
     }
 
     public function nextPage()
     {
-      
         if ($this->pageChosen < $this->numberMaxPages) {
 
             $this->pageChosen++;
@@ -242,6 +240,8 @@ class Visitas extends Component
 
     public function agendarVisita($clientID,$nome)
     {
+        Session::put('activeModalFinalizado', '');
+
         $this->initProperties();
 
         $this->nomeClienteVisitaTemp = $nome;
@@ -259,7 +259,15 @@ class Visitas extends Component
 
         $this->clientID = $clientID;
 
+        Session::put('activeModalFinalizado', 'active');
+
         $this->dispatchBrowserEvent('listagemVisitasModal');
+    }
+    public function removerSession()
+    {
+        $this->initProperties();
+
+        Session::put('activeModalFinalizado', '');
     }
 
 
@@ -299,6 +307,7 @@ class Visitas extends Component
 
     public function render()
     {        
+        Session::put('activeModalFinalizado', '');
         return view('livewire.visitas.visitas',["clientes" => $this->clientes]);
     }
 }

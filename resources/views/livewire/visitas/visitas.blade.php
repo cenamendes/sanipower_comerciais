@@ -205,8 +205,6 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
-
-
                         </div>
                     </div>
 
@@ -255,8 +253,8 @@
                                                 <i class="ti-settings text-light"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="{{ route('visitas.detail', $clt->id) }}" class="dropdown-item">Adicionar Visita</a>
-                                                <a wire:click="agendarVisita({{json_encode($clt->id)}}, {{json_encode($clt->name)}})" class="dropdown-item">Agendar Visita</a>
+                                                <a wire:click="removerSession" href="{{ route('visitas.detail', $clt->id) }}"  class="dropdown-item">Adicionar Visita</a>
+                                                <a wire:click="agendarVisita({{json_encode($clt->id)}}, {{json_encode($clt->name)}})"  class="dropdown-item">Agendar Visita</a>
                                                 <a wire:click="finalizarVisita({{json_encode($clt->name)}})" class="dropdown-item">Finalizar Visita</a>
                                             </div>
                                         </td>
