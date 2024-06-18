@@ -64,12 +64,12 @@
                 <i class="ti-pencil-alt"></i> Listas Tarefas
             </div>
             <div class="tools">
-            <a href="javascript:;" class="btn btn-sm btn-primary" id="addTarefaBtn" wire:click="addTarefaButton" data-toggle="tooltip" title="Adicionar tarefa">
-                <i class="ti-plus"></i> Adicionar Tarefa
-            </a>
+                <a href="javascript:;" class="btn btn-sm btn-primary" id="addTarefaBtn" wire:click="addTarefaButton" data-toggle="tooltip" title="Adicionar tarefa">
+                    <i class="ti-plus"></i> Adicionar Tarefa
+                </a>
                 <a href="javascript:;" class="btn btn-sm btn-success" id="addVisitaBtn" wire:click="addVisita" data-toggle="tooltip" title="Adicionar visita">
-                <i class="ti-plus"></i> Adicionar Visita
-            </a>
+                    <i class="ti-plus"></i> Adicionar Visita
+                </a>
             </div>
         </div>
 
@@ -140,8 +140,13 @@
                     <div class="form-group row ml-0">
                         <label>Nome do Cliente</label>
                         <div class="input-group">
-
-                            <input type="text" class="form-control" placeholder="Nome do Cliente" id="clienteNameTarefa" wire:model.defer="clienteNameTarefa">
+                            <select class="form-control" id="clienteNameTarefa" wire:model.defer="clienteNameTarefa">
+                                @isset($clientes)
+                                @foreach ($clientes as $clt)
+                                <option value="{{ json_encode($clt["name"]) }}">{{ $clt["name"] }}</option>
+                                @endforeach
+                                @endisset
+                            </select>
                         </div>
                     </div>
 
@@ -312,29 +317,29 @@
 
 
     <script>
-       document.addEventListener('livewire:load', function() {
-        const loader = document.getElementById('loader');
-        
-        document.getElementById('addVisitaBtn').addEventListener('click', function() {
-            loader.style.display = 'block';
-        });
+        document.addEventListener('livewire:load', function() {
+            const loader = document.getElementById('loader');
 
-        document.getElementById('addVisitaModalBtn').addEventListener('click', function() {
-            loader.style.display = 'block';
-        });
+            document.getElementById('addVisitaBtn').addEventListener('click', function() {
+                loader.style.display = 'block';
+            });
 
-        document.getElementById('addTarefaBtn').addEventListener('click', function() {
-            loader.style.display = 'block';
-        });
+            document.getElementById('addVisitaModalBtn').addEventListener('click', function() {
+                loader.style.display = 'block';
+            });
 
-        document.getElementById('saveTarefaBtn').addEventListener('click', function() {
-            loader.style.display = 'block';
-        });
+            document.getElementById('addTarefaBtn').addEventListener('click', function() {
+                loader.style.display = 'block';
+            });
 
-        Livewire.hook('message.processed', (message, component) => {
-            loader.style.display = 'none';
+            document.getElementById('saveTarefaBtn').addEventListener('click', function() {
+                loader.style.display = 'block';
+            });
+
+            Livewire.hook('message.processed', (message, component) => {
+                loader.style.display = 'none';
+            });
         });
-    });
 
 
 
@@ -683,7 +688,11 @@
 
         window.addEventListener('openModalAddTarefa', function(e) {
 
-            $("#modalAddTarefa").modal();
+              $("#modalAddTarefa").modal();
+
+            $('#clienteNameTarefa').select2({}).on('change', function(e) {
+                @this.set('clienteNameTarefa', e.target.value, true);
+            });
 
 
             $.fn.datepicker.dates['pt-BR'] = {
