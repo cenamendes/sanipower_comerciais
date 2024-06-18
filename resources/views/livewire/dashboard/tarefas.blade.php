@@ -209,7 +209,7 @@
                             <div class="form-group row ml-0">
                                 <label>Cliente</label>
                                 <div class="input-group">
-                                    <input type="text" id="clienteVisita" class="form-control" wire:model.defer="clienteVisita">
+                                    <input type="text" id="clienteVisita" class="form-control" wire:model.defer="clienteVisitaName">
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="ti-user"></i>

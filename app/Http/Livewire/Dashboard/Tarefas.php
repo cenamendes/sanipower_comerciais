@@ -31,7 +31,8 @@ class Tarefas extends Component
     public $iteration;
 
     public ?object $tipoVisita = NULL;
-    public ?string $clienteVisita = "";
+    public ?string $clienteVisitaID = "";
+    public ?string $clienteVisitaName = "";
     public ?string $dataInicialVisita = "";
     public ?string $horaInicialVisita = "";
     public ?string $horaFinalVisita = "";
