@@ -4,12 +4,14 @@ namespace App\Http\Livewire\Encomendas;
 
 use Livewire\Component;
 use App\Models\Carrinho;
+use App\Models\ComentariosProdutos;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\EncomendasInterface;
 use App\Interfaces\PropostasInterface;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\RedirectResponse;
 
 class DetalheEncomenda extends Component
 {
@@ -216,6 +218,13 @@ class DetalheEncomenda extends Component
 
         // Disparar evento para o navegador
         $this->dispatchBrowserEvent('encomendaAtual');
+    }
+    public function cancelarEncomenda()
+    {
+        Carrinho::where('id_encomenda', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+        ComentariosProdutos::where('id_encomenda', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+
+        return redirect()->route('encomendas');
     }
 
     public function delete($itemId)
