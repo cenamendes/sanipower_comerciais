@@ -42,6 +42,12 @@
 
         /** FIM DATEPICKER **/
     </style>
+
+    <div id="loader" style="display: none;">
+        <div class="loader" role="status">
+
+        </div>
+    </div>
     
     <div class="card mb-3" style="min-height: 98%;">
             <div class="card-header">
@@ -212,12 +218,13 @@
                             <div class="form-group row ml-0">
                                 <label>Cliente</label>
                                 <div class="input-group">
-                                    <input type="text" id="clienteVisita" class="form-control" wire:model.defer="clienteVisitaName">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i class="ti-user"></i>
-                                        </span>
-                                    </div>
+                                    <select class="form-control" id="clienteVisitaID" wire:model.defer="clienteVisitaID">
+                                        @isset($clientes)
+                                            @foreach ($clientes as $clt)
+                                            <option value="{{ json_encode($clt["id"]) }}">{{ $clt["name"] }}</option>
+                                            @endforeach
+                                        @endisset
+                                    </select>
                                 </div>
                             </div>
 
@@ -298,6 +305,20 @@
 
 
      <script>
+
+        document.addEventListener('livewire:load', function() {
+            Livewire.hook('message.sent', () => {
+                document.getElementById('loader').style.display = 'block';
+            });
+
+            // Oculta o loader quando o Livewire terminar de carregar
+            Livewire.hook('message.processed', () => {
+                document.getElementById('loader').style.display = 'none';
+            });
+
+        });
+
+
 
         function startCalendar()
         {
@@ -570,6 +591,11 @@
         window.addEventListener('openVisitaModal', function(e) {
        
             $("#agendarVisita").modal();
+
+            $('#clienteVisitaID').select2({
+                }).on('change', function(e) {
+                    @this.set('clienteVisitaID', e.target.value, true);
+            });
 
                 $.fn.datepicker.dates['pt-BR'] = {
                 days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],

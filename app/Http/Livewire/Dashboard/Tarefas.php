@@ -39,6 +39,8 @@ class Tarefas extends Component
     public ?string $tipoVisitaEscolhidoVisita = "";
     public ?string $assuntoTextVisita = "";
 
+    public ?array $clientes = NULL;
+
     protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo"];
 
     public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository)
@@ -160,13 +162,33 @@ class Tarefas extends Component
     public function addVisita()
     {
         $this->tipoVisita = TiposVisitas::all();
+
+        $this->dataInicialVisita == ""; 
+        $this->horaInicialVisita == ""; 
+        $this->horaFinalVisita == ""; 
+        $this->tipoVisitaEscolhidoVisita == "";  
+        $this->assuntoTextVisita == "";
+
+        $collectionClientes = $this->tarefasRepository->getListagemCliente(10000);
+
+        if (isset($collectionClientes->customers)) {
+            $this->clientes = array_map(function ($cliente) {
+                return [
+                    'id' => $cliente->id,
+                    'name' => $cliente->name,
+                ];
+            }, $collectionClientes->customers);
+        }
+         
+        $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
+
         $this->dispatchBrowserEvent('openVisitaModal');
     }
 
     public function agendaVisita()
     {
 
-        if($this->clienteVisita == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
+        if($this->clienteVisitaID == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
         {
             $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
             return false;
@@ -178,7 +200,12 @@ class Tarefas extends Component
             return false;
         }
 
-        $response = $this->visitasRepository->addVisitaDatabase($this->clienteVisita,$this->clienteVisita, preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), $this->tipoVisitaEscolhidoVisita, $this->assuntoTextVisita);
+
+        $nameClient = $this->tarefasRepository->getDetalhesCliente(json_decode($this->clienteVisitaID));
+
+        $this->clienteVisitaName = $nameClient->customers[0]->name;
+
+        $response = $this->visitasRepository->addVisitaDatabase(json_decode($this->clienteVisitaID),$this->clienteVisitaName, preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), $this->tipoVisitaEscolhidoVisita, $this->assuntoTextVisita);
 
         $responseArray = $response->getData(true);
 

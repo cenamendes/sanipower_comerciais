@@ -95,6 +95,7 @@
     <script src="{{asset('assets/scripts/pages/fm_control.js')}}"></script>
     <script src="{{asset('assets/scripts/pages/cp_datetime.js')}}"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script>
         document.getElementById('toggleFilters').addEventListener('click', function() {

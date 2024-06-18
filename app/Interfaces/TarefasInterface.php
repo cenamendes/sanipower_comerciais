@@ -15,5 +15,8 @@ interface TarefasInterface
 
     public function addNewTarefa($cliente,$dataInicialTarefa,$horaInicialTarefa, $horaFinalTarefa, $assuntoTarefa, $descricaoTarefa): JsonResponse;
     
+    public function getListagemCliente($perPage): object;
+
+    public function getDetalhesCliente($id): object;
 
 }
