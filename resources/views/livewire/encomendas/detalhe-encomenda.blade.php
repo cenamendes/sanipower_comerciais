@@ -1,7 +1,6 @@
-
- <div>
- <style>
-     @media (max-width: 540px) {
+<div>
+<style>
+    @media (max-width: 540px) {
         .container-buttons{
             padding-left: 0.9rem;
             padding-right: 0.9rem;
@@ -58,7 +57,7 @@
                                 class="ti-eye"></i>
                             Ver Encomenda</a>
                         <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Finalizar Encomenda</a>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
+                        <a href="javascript:void(0);" wire:click="cancelarEncomenda" class="btn btn-sm btn-secondary" > Cancelar</a>
                     </div>
                 </div>
             </div>

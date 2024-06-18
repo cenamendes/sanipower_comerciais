@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Propostas;
 
 use Livewire\Component;
 use App\Models\Carrinho;
+use App\Models\ComentariosProdutos;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
@@ -217,7 +218,13 @@ class DetalheProposta extends Component
         // Disparar evento para o navegador
         $this->dispatchBrowserEvent('encomendaAtual');
     }
+    public function cancelarProposta()
+    {
+        Carrinho::where('id_proposta', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+        ComentariosProdutos::where('id_proposta', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
 
+        return redirect()->route('propostas');
+    }
     public function delete($itemId)
     {
         Carrinho::where('id', $itemId)->delete();
