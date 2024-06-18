@@ -7,6 +7,7 @@ use App\Models\Carrinho;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
+use App\Interfaces\EncomendasInterface;
 use App\Interfaces\PropostasInterface;
 use Illuminate\Support\Facades\Session;
 
@@ -16,6 +17,7 @@ class DetalheProposta extends Component
 
     public $carrinhoCompras = [];
     private ?object $clientesRepository = null;
+    private ?object $encomendasRepository = null;
     private ?object $PropostasRepository = null;
 
     protected ?object $clientes = null;
@@ -62,15 +64,18 @@ class DetalheProposta extends Component
     /** PARTE DA COMPRA */
 
     public ?array $produtosRapida = [];
+    public $produtosComment = [];
+    
 
     /***** */
 
     public int $perPage = 10;
     protected $listeners = ["rechargeFamily" => "rechargeFamily", "cleanModal" => "cleanModal"];
 
-    public function boot(ClientesInterface $clientesRepository, PropostasInterface $PropostasRepository)
+    public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $PropostasRepository)
     {
         $this->clientesRepository = $clientesRepository;
+        $this->encomendasRepository = $encomendasRepository;
         $this->PropostasRepository = $PropostasRepository;
     }
 
@@ -387,6 +392,7 @@ class DetalheProposta extends Component
         }
 
         $productChosen = [];
+        $productChosenComment = [];
 
         foreach ($quickBuyProducts->product as $i => $prod) {
             if ($i == $prodID) {
@@ -409,6 +415,13 @@ class DetalheProposta extends Component
                         }
                     }
                 }
+                if($this->produtosComment){
+                    foreach ($this->produtosComment as $j => $prodComm) {
+                        if ($i == $j) {
+                            $productChosenComment = ["comentario" => $prodComm];
+                        }
+                    }
+                }
             }
 
             if ($flag == 1) {
@@ -421,23 +434,28 @@ class DetalheProposta extends Component
             return false;
         }
 
-        $response = $this->PropostasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda, "encomenda");
-
+        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda");
+        
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
+            if($this->produtosComment){
+                $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $productChosenComment["comentario"]);
+                $this->produtosComment = [];
+            }
             if($responseArray["encomenda"] != "") {
                 $message = "Produto adicionado á encomenda!";
             } else {
                 $message = "Produto adicionado á proposta!";
             }
-          
             $status = "success";
         } else {
             $message = "Não foi possivel adicionar o produto!";
             $status = "error";
         }
         $this->produtosRapida = [];
+        $this->produtosComment = [];
+
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
 
@@ -454,6 +472,8 @@ class DetalheProposta extends Component
         }
 
         $productChosen = [];
+        $productChosenComment = [];
+
 
         foreach ($quickBuyProducts->product as $i => $prod) {
             if ($i == $prodID) {
@@ -473,6 +493,13 @@ class DetalheProposta extends Component
                                 break;
                             }
                             $productChosen = ["product" => $prod, "quantidade" => $prodRap];
+                        }
+                    }
+                }
+                if($this->produtosComment){
+                    foreach ($this->produtosComment as $j => $prodComm) {
+                        if ($i == $j) {
+                            $productChosenComment = ["comentario" => $prodComm];
                         }
                     }
                 }
@@ -493,30 +520,37 @@ class DetalheProposta extends Component
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
+            if($this->produtosComment){
+                $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta,"proposta", $productChosenComment["comentario"]);
+                $this->produtosComment = [];
+            }
             if($responseArray["encomenda"] != "") {
                 $message = "Produto adicionado á encomenda!";
             } else {
                 $message = "Produto adicionado á proposta!";
             }
-          
             $status = "success";
         } else {
             $message = "Não foi possivel adicionar o produto!";
             $status = "error";
         }
         $this->produtosRapida = [];
+        $this->produtosComment = [];
+
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
 
     public function CleanAll()
     {
         $this->produtosRapida = [];
+        $this->produtosComment = [];
     }
     public function addAll($nameProduct,$no, $ref ,$codEncomenda)
     {
         $quickBuyProducts = session('quickBuyProducts');
 
         $productChosen = [];
+        $productChosenComment = [];
         $count = 0;
 
         if (empty($this->produtosRapida)) {
@@ -540,12 +574,30 @@ class DetalheProposta extends Component
                     }
                 }
             }
+            foreach ($this->produtosComment as $j => $prodComm) {
+                if ($i == $j) {
+                    if ($prodComm != "0" && $prodComm != "") {
+                        if ($prod->in_stock == true) {
+                            $productChosenComment[$count] = [
+                                "product" => $prod,
+                                "comentario" => $prodComm,
+                            ];
+                            $count++;
+                        }
+                    }
+                }
+            }
         }
 
         $response = [];
         foreach($productChosen as $prodId){
             $response = $this->PropostasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "proposta");
         }
+
+        foreach($productChosenComment as $prodId){
+            $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $prodId["comentario"]);
+        }
+
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
@@ -556,6 +608,8 @@ class DetalheProposta extends Component
             $status = "error";
         }
         $this->produtosRapida = [];
+        $this->produtosComment = [];
+
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
 
     }
