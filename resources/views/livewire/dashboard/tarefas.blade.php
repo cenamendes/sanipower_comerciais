@@ -30,6 +30,9 @@
         .bootstrap-timepicker-widget {
             z-index: 9999 !important; /* ou um valor maior que o z-index do modal */
         }
+        .fc-list-sticky .fc-list-day > * {
+            position: static !important;
+        }
 
         .fc-list-sticky .fc-list-day > * {
             position: static !important;
