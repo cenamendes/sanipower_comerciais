@@ -304,6 +304,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaVisita">Adicionar</button>
+                    {{-- <a href="https://login.microsoftonline.com/{{env('MICROSOFT_TENANT')}}/oauth2/v2.0/authorize?client_id={{env('MICROSOFT_CLIENT_ID')}}&response_type=code&redirect_uri={{env('MICROSOFT_REDIRECT')}}&response_mode=query&scope=Calendars.ReadWrite" target="_blank">Login com Microsoft</a> --}}
                 </div>
             </div>
         </div>
@@ -340,7 +341,6 @@
                 loader.style.display = 'none';
             });
         });
-
 
 
         function startCalendar() {
@@ -683,6 +683,12 @@
             });
 
 
+            window.addEventListener('sendToTeams', function(e) {
+    
+                window.location.replace("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite");
+            }); 
+
+
 
         });
 
@@ -758,9 +764,6 @@
                 @this.set('horaFinalTarefa', formattedDate, true);
 
             });
-
-
-
 
 
         });

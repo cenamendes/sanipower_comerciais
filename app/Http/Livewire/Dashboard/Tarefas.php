@@ -229,7 +229,17 @@ class Tarefas extends Component
 
         $this->clienteVisitaName = $nameClient->customers[0]->name;
 
-        $response = $this->visitasRepository->addVisitaDatabase(json_decode($this->clienteVisitaID),$this->clienteVisitaName, preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), $this->tipoVisitaEscolhidoVisita, $this->assuntoTextVisita);
+        //$response = $this->visitasRepository->addVisitaDatabase(json_decode($this->clienteVisitaID),$this->clienteVisitaName, preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), $this->tipoVisitaEscolhidoVisita, $this->assuntoTextVisita);
+
+        $tenant = env('MICROSOFT_TENANT');
+        $clientId = env('MICROSOFT_CLIENT_ID');
+        $clientSecret = env('MICROSOFT_CLIENT_SECRET');
+        $redirectUri = env('MICROSOFT_REDIRECT');
+
+        $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($this->clienteVisitaID),"visitaName" =>$this->clienteVisitaName,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), "tipoVisita" => $this->tipoVisitaEscolhidoVisita, "assunto" => $this->assuntoTextVisita ]);
+
+        //ENQUANTO TESTO O ENVIO PARA O CALENDAR
+        return false;
 
         $responseArray = $response->getData(true);
 

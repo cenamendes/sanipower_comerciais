@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EncomendasController;
+use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropostasController;
 use App\Http\Controllers\VisitasController;
@@ -56,6 +57,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/propostas', [PropostasController::class, 'index'])->name('propostas');
     Route::get('/propostas/detalhes/{id}', [PropostasController::class, 'showDetail'])->name('propostas.detail');
+
+    Route::get('/getCode', [OfficeController::class, 'getCode']);
 
 
 });
