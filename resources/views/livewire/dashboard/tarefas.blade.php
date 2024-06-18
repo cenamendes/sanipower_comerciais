@@ -1,20 +1,27 @@
 <div>
 
     <style>
-          /*  DATEPICKER */
+        /*  DATEPICKER */
 
-          .datepicker {
-            z-index: 1051 !important; /* ou qualquer valor maior que o z-index do modal */
+        .datepicker {
+            z-index: 1051 !important;
+            /* ou qualquer valor maior que o z-index do modal */
         }
 
-        .datepicker .day, .datepicker .dow {
-            padding: 5px 10px !important; /* Ajuste o padding conforme necessário */
+        .datepicker .day,
+        .datepicker .dow {
+            padding: 5px 10px !important;
+            /* Ajuste o padding conforme necessário */
         }
+
         .datepicker table tr td {
-            width: 30px !important; /* Ajuste a largura das células conforme necessário */
+            width: 30px !important;
+            /* Ajuste a largura das células conforme necessário */
         }
 
-        .datepicker .prev, .datepicker .datepicker-switch, .datepicker .next {
+        .datepicker .prev,
+        .datepicker .datepicker-switch,
+        .datepicker .next {
             text-align: center !important;
         }
 
@@ -23,55 +30,57 @@
         }
 
         .datepicker table tr td.day:hover {
-            background-color: #1791ba; /* Ajuste a cor de fundo conforme necessário */
+            background-color: #1791ba;
+            /* Ajuste a cor de fundo conforme necessário */
         }
 
 
         .bootstrap-timepicker-widget {
-            z-index: 9999 !important; /* ou um valor maior que o z-index do modal */
+            z-index: 9999 !important;
+            /* ou um valor maior que o z-index do modal */
         }
-        .fc-list-sticky .fc-list-day > * {
+
+        .fc-list-sticky .fc-list-day>* {
             position: static !important;
         }
 
-        .fc-list-sticky .fc-list-day > * {
+        .fc-list-sticky .fc-list-day>* {
             position: static !important;
         }
 
-        
+
 
         /** FIM DATEPICKER **/
     </style>
 
     <div id="loader" style="display: none;">
         <div class="loader" role="status">
-
         </div>
     </div>
-    
+
     <div class="card mb-3" style="min-height: 98%;">
-            <div class="card-header">
-                <div class="caption">
-                    <i class="ti-pencil-alt"></i> Listas Tarefas
-                </div>
-                <div class="tools">
-                    <a href="javascript:;" class="btn btn-sm btn-primary" wire:click="addTarefaButton" data-toggle="tooltip" title="Adicionar tarefa"><i
-                            class="ti-plus"></i> Adicionar Tarefa
-                    </a>
-                    <a href="javascript:;" class="btn btn-sm btn-success" wire:click="addVisita" data-toggle="tooltip" title="Adicionar visita"><i
-                        class="ti-plus"></i> Adicionar Visita
-                    </a>
-                </div>
+        <div class="card-header">
+            <div class="caption">
+                <i class="ti-pencil-alt"></i> Listas Tarefas
             </div>
-            
-            <div class="card-body">
-                <div class="row" style="display:math;" wire:key="teste-{{$iteration}}">
-                    <div id="calendarTarefas" wire:ignore></div>
-                </div>
+            <div class="tools">
+            <a href="javascript:;" class="btn btn-sm btn-primary" id="addTarefaBtn" wire:click="addTarefaButton" data-toggle="tooltip" title="Adicionar tarefa">
+                <i class="ti-plus"></i> Adicionar Tarefa
+            </a>
+                <a href="javascript:;" class="btn btn-sm btn-success" id="addVisitaBtn" wire:click="addVisita" data-toggle="tooltip" title="Adicionar visita">
+                <i class="ti-plus"></i> Adicionar Visita
+            </a>
             </div>
         </div>
 
-        <span class="d-none" id="valuesTarefas">{{json_encode($listagemTarefas)}}</span>
+        <div class="card-body">
+            <div class="row" style="display:math;" wire:key="teste-{{$iteration}}">
+                <div id="calendarTarefas" wire:ignore></div>
+            </div>
+        </div>
+    </div>
+
+    <span class="d-none" id="valuesTarefas">{{json_encode($listagemTarefas)}}</span>
 
     <!--  MODAL EDITAR TAREFA  -->
 
@@ -85,16 +94,16 @@
                     </button>
                 </div>
                 <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
-                
+
                     <label class="mt-4">Nome do Cliente</label>
                     <div class="input-group">
-                    
+
                         <input type="text" class="form-control" placeholder="Nome do Cliente" id="clienteName" readonly wire:model.defer="clienteTemp">
                     </div>
 
                     <label class="mt-4">Assunto</label>
                     <div class="input-group">
-                        
+
                         <input type="text" class="form-control" placeholder="Hora Marcada" id="horaMarcada" wire:model.defer="assuntoTemp">
                     </div>
 
@@ -102,7 +111,7 @@
                     <div class="input-group">
                         <textarea type="text" id="assuntoMarcado" class="form-control" cols="4" rows="6" wire:model.defer="descricaoTemp"></textarea>
                     </div>
- 
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
@@ -127,11 +136,11 @@
                 </div>
                 <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
 
-                    
+
                     <div class="form-group row ml-0">
                         <label>Nome do Cliente</label>
                         <div class="input-group">
-                            
+
                             <input type="text" class="form-control" placeholder="Nome do Cliente" id="clienteNameTarefa" wire:model.defer="clienteNameTarefa">
                         </div>
                     </div>
@@ -185,11 +194,11 @@
                             <textarea type="text" id="descricaoTarefa" placeholder="Descrição" class="form-control" cols="4" rows="6" wire:model.defer="descricaoTarefa"></textarea>
                         </div>
                     </div>
- 
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary" wire:click="saveTarefa">Guardar tarefa</button>
+                    <button type="button" class="btn btn-outline-primary" id="saveTarefaBtn" wire:click="saveTarefa">Guardar tarefa</button>
                 </div>
             </div>
         </div>
@@ -201,8 +210,7 @@
 
     <!-- MODAL ADICIONAR VISITA -->
 
-    <div class="modal fade" id="agendarVisita" tabindex="-1" role="dialog" aria-labelledby="agendarVisita"
-        aria-hidden="true">
+    <div class="modal fade" id="agendarVisita" tabindex="-1" role="dialog" aria-labelledby="agendarVisita" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -220,9 +228,9 @@
                                 <div class="input-group">
                                     <select class="form-control" id="clienteVisitaID" wire:model.defer="clienteVisitaID">
                                         @isset($clientes)
-                                            @foreach ($clientes as $clt)
-                                            <option value="{{ json_encode($clt["id"]) }}">{{ $clt["name"] }}</option>
-                                            @endforeach
+                                        @foreach ($clientes as $clt)
+                                        <option value="{{ json_encode($clt["id"]) }}">{{ $clt["name"] }}</option>
+                                        @endforeach
                                         @endisset
                                     </select>
                                 </div>
@@ -270,9 +278,9 @@
                                     <select class="form-control" id="tipo_visita_select" wire:model.defer="tipoVisitaEscolhidoVisita">
                                         <option value="" selected>Selecione um tipo de visita</option>
                                         @isset($tipoVisita)
-                                            @foreach ( $tipoVisita as $tipo)
-                                                <option value="{{$tipo->id}}">{{ $tipo->tipo }}</option>
-                                            @endforeach
+                                        @foreach ( $tipoVisita as $tipo)
+                                        <option value="{{$tipo->id}}">{{ $tipo->tipo }}</option>
+                                        @endforeach
                                         @endisset
                                     </select>
                                 </div>
@@ -290,8 +298,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary"
-                        wire:click="agendaVisita">Adicionar</button>
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaVisita">Adicionar</button>
                 </div>
             </div>
         </div>
@@ -299,42 +306,52 @@
 
 
     <!-- FIM MODAL -->
- 
 
 
 
 
-     <script>
 
-        document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
-                document.getElementById('loader').style.display = 'block';
-            });
-
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
-                document.getElementById('loader').style.display = 'none';
-            });
-
+    <script>
+       document.addEventListener('livewire:load', function() {
+        const loader = document.getElementById('loader');
+        
+        document.getElementById('addVisitaBtn').addEventListener('click', function() {
+            loader.style.display = 'block';
         });
 
+        document.getElementById('addVisitaModalBtn').addEventListener('click', function() {
+            loader.style.display = 'block';
+        });
+
+        document.getElementById('addTarefaBtn').addEventListener('click', function() {
+            loader.style.display = 'block';
+        });
+
+        document.getElementById('saveTarefaBtn').addEventListener('click', function() {
+            loader.style.display = 'block';
+        });
+
+        Livewire.hook('message.processed', (message, component) => {
+            loader.style.display = 'none';
+        });
+    });
 
 
-        function startCalendar()
-        {
+
+        function startCalendar() {
             var calendarValuesTarefa = JSON.parse($('#valuesTarefas').text());
-            
+
             var eventTarefa = [];
 
             $.each(calendarValuesTarefa, function(index, valores) {
                 {
-                    if(index == "visitas") {
+                    if (index == "visitas") {
                         $.each(valores, function(indexVisita, valoresVisita) {
-                            
+
                             eventTarefa.push({
                                 title: valoresVisita.cliente,
-                                start: valoresVisita.data_inicial+"T"+valoresVisita.hora_inicial,
-                                end: valoresVisita.data_inicial+"T"+valoresVisita.hora_final,
+                                start: valoresVisita.data_inicial + "T" + valoresVisita.hora_inicial,
+                                end: valoresVisita.data_inicial + "T" + valoresVisita.hora_final,
                                 backgroundColor: valoresVisita.tipovisita.cor,
                                 assunto: valoresVisita.assunto_text,
                                 dataInicial: valoresVisita.data_inicial,
@@ -352,8 +369,8 @@
                         $.each(valores, function(indexTarefa, valoresTarefa) {
                             eventTarefa.push({
                                 title: valoresTarefa.cliente,
-                                start: valoresTarefa.data_inicial+"T"+valoresTarefa.hora_inicial,
-                                end: valoresTarefa.data_inicial+"T"+valoresTarefa.hora_final,
+                                start: valoresTarefa.data_inicial + "T" + valoresTarefa.hora_inicial,
+                                end: valoresTarefa.data_inicial + "T" + valoresTarefa.hora_final,
                                 backgroundColor: "#FFFFFF00",
                                 assunto: valoresTarefa.assunto_text,
                                 descricao: valoresTarefa.descricao,
@@ -366,48 +383,48 @@
                             });
                         });
                     }
-                    
+
                 }
             });
 
             var calendarEl = document.getElementById('calendarTarefas');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'listMonth',
-            events:eventTarefa,
-            locale: 'pt-br',
-            headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'listMonth,listWeek,listDay'
-            },
-            buttonText: {
-                today: 'Hoje',
-                day: 'Dia',
-                week: 'Semana',
-                month: 'Mês',
-                listDay: 'Dia',
-                listWeek: 'Semana',
-                listMonth: 'Mês'
-            },
-            views: {
-                timeGridWeek: {
-                    allDayText: 'Dia'
+                initialView: 'listMonth',
+                events: eventTarefa,
+                locale: 'pt-br',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'listMonth,listWeek,listDay'
                 },
-                timeGridDay: {
-                    allDayText: 'Dia'
-                }
-            },
-            //FAZER O ABRIR POP PARA VER A INFORMAÇÃO
-            eventDidMount: function (info,element) {
-                var scroller = info.el.closest(".fc-scroller");
+                buttonText: {
+                    today: 'Hoje',
+                    day: 'Dia',
+                    week: 'Semana',
+                    month: 'Mês',
+                    listDay: 'Dia',
+                    listWeek: 'Semana',
+                    listMonth: 'Mês'
+                },
+                views: {
+                    timeGridWeek: {
+                        allDayText: 'Dia'
+                    },
+                    timeGridDay: {
+                        allDayText: 'Dia'
+                    }
+                },
+                //FAZER O ABRIR POP PARA VER A INFORMAÇÃO
+                eventDidMount: function(info, element) {
+                    var scroller = info.el.closest(".fc-scroller");
 
-                if (scroller) {
-                    scroller.id = "scrollModal";
-                }
+                    if (scroller) {
+                        scroller.id = "scrollModal";
+                    }
 
 
-                var eventElement = info.el.closest('.fc-daygrid-event-harness');
+                    var eventElement = info.el.closest('.fc-daygrid-event-harness');
 
                     if (eventElement) {
                         eventElement.style.backgroundColor = info.backgroundColor; // Defina a cor desejada aqui
@@ -416,26 +433,26 @@
 
                     }
 
-                if (info.event.end - info.event.start <= 3600000) { // Se a duração for menor ou igual a 1 hora
-                    info.el.classList.add('fc-short-event'); // Adiciona a classe para eventos curtos
-                }
+                    if (info.event.end - info.event.start <= 3600000) { // Se a duração for menor ou igual a 1 hora
+                        info.el.classList.add('fc-short-event'); // Adiciona a classe para eventos curtos
+                    }
 
-                       
-             
 
-            },
-            eventContent: function(arg) {
-                let customDiv = document.createElement('div');
-                customDiv.className = 'custom-event-content';
-                    
-               
+
+
+                },
+                eventContent: function(arg) {
+                    let customDiv = document.createElement('div');
+                    customDiv.className = 'custom-event-content';
+
+
                     var custom = customDiv.closest('.custom-event-content');
-            
+
                     if (custom) {
                         custom.style.whiteSpace = 'normal'; // Defina a cor desejada aqui
                     }
 
-                    if(arg.event.extendedProps.tarefa == "no") {
+                    if (arg.event.extendedProps.tarefa == "no") {
 
                         let timeString = new Date(arg.event.start).toLocaleTimeString('pt-BR', {
                             hour: '2-digit',
@@ -444,32 +461,31 @@
                             hour: '2-digit',
                             minute: '2-digit'
                         });
-                        
+
                         var estado = "";
                         var cor = "";
 
-                        if(arg.event.extendedProps.finalizado == 1) {
+                        if (arg.event.extendedProps.finalizado == 1) {
                             estado = "finalizada";
-                            cor="green";
+                            cor = "green";
                         } else {
                             estado = "agendada";
-                            cor="blue";
+                            cor = "blue";
                         }
 
                         customDiv.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>` + arg.event.title + `<br><small style="color:`+cor+`; font-weight:bolder;">`+ estado +`</small></div>
+                            <div>` + arg.event.title + `<br><small style="color:` + cor + `; font-weight:bolder;">` + estado + `</small></div>
                             <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.idTarefa + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
                             </div>
                         `;
                     } else {
-                        
+
                         var checkFinalizado = "";
 
-                        if(arg.event.extendedProps.finalizado == 1)
-                        {
+                        if (arg.event.extendedProps.finalizado == 1) {
                             checkFinalizado = "checked";
-                        } 
+                        }
 
 
                         customDiv.innerHTML = `
@@ -478,7 +494,7 @@
                                  <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <div class="form-checkbox">
                                         <label>
-                                            <input type="checkbox" data-tarefa="`+ arg.event.extendedProps.idTarefa + `" name="checkbox1"`+ checkFinalizado +`>
+                                            <input type="checkbox" data-tarefa="` + arg.event.extendedProps.idTarefa + `" name="checkbox1"` + checkFinalizado + `>
                                             <span class="checkmark"><i class="fa fa-check pick"></i></span>
                                         </label>
                                     </div>
@@ -500,51 +516,52 @@
                            
                            `;
                     }
-                    
 
-                return { domNodes: [customDiv] };
-            },
-            eventClick: function(info) {
-        
-                if (info.event.extendedProps.tarefa == "no") {
-                    $("#modalInformacao").modal();
 
-                    $('#clienteName').val(info.event.title);
-                    $('#horaMarcada').val(info.event.extendedProps.dataInicial+" ("+ info.event.extendedProps.horaInicial + " / "+ info.event.extendedProps.horaFinal +") ");
-                    $('#assuntoMarcado').val(info.event.extendedProps.assunto);
-                    $('#visitaName').text(info.event.extendedProps.nomeVisita);
-                    $('#visitaName').css("color", info.event.extendedProps.corVisita);
+                    return {
+                        domNodes: [customDiv]
+                    };
+                },
+                eventClick: function(info) {
 
-                    $('.edit-task').click(function() {
+                    if (info.event.extendedProps.tarefa == "no") {
+                        $("#modalInformacao").modal();
+
+                        $('#clienteName').val(info.event.title);
+                        $('#horaMarcada').val(info.event.extendedProps.dataInicial + " (" + info.event.extendedProps.horaInicial + " / " + info.event.extendedProps.horaFinal + ") ");
+                        $('#assuntoMarcado').val(info.event.extendedProps.assunto);
+                        $('#visitaName').text(info.event.extendedProps.nomeVisita);
+                        $('#visitaName').css("color", info.event.extendedProps.corVisita);
+
+                        $('.edit-task').click(function() {
                             var taskId = $(this).data('task-id');
                             // Lógica para editar a tarefa com o id taskId
-                    });
-                }
-                else {
+                        });
+                    } else {
 
-                    var target = $(info.jsEvent.target);
+                        var target = $(info.jsEvent.target);
 
-                    if (target.is('i.ti-pencil') || target.is('a.edit-task') ){
-                        Livewire.emit('getTarefaInfo',info.event.extendedProps.idTarefa);
-                    }
-
-                    // Verifica se o clique foi na checkbox
-                    if (target.is('input[type="checkbox"]')) {
-                       
-                        if (target.prop('checked')) {
-
-                            Livewire.emit('changeStatusTarefa',info.event.extendedProps.idTarefa,1);
-                          
-                        } else {
-                            
-                            Livewire.emit('changeStatusTarefa',info.event.extendedProps.idTarefa,0);
-                            
+                        if (target.is('i.ti-pencil') || target.is('a.edit-task')) {
+                            Livewire.emit('getTarefaInfo', info.event.extendedProps.idTarefa);
                         }
+
+                        // Verifica se o clique foi na checkbox
+                        if (target.is('input[type="checkbox"]')) {
+
+                            if (target.prop('checked')) {
+
+                                Livewire.emit('changeStatusTarefa', info.event.extendedProps.idTarefa, 1);
+
+                            } else {
+
+                                Livewire.emit('changeStatusTarefa', info.event.extendedProps.idTarefa, 0);
+
+                            }
+                        }
+
                     }
 
                 }
-
-            }
 
             });
 
@@ -557,16 +574,16 @@
         });
 
         window.addEventListener('sendToaster', function(e) {
-                
+
             if (e.detail.status == "success") {
                 toastr.success(e.detail.message);
             }
 
-            if(e.detail.status == "error"){
+            if (e.detail.status == "error") {
                 toastr.warning(e.detail.message);
             }
 
-            
+
             $("#modalTarefas").modal('hide');
             $("#modalAddTarefa").modal('hide');
             $("#agendarVisita").modal('hide');
@@ -579,25 +596,24 @@
             $("#modalAddTarefa").modal('hide');
             $("#agendarVisita").modal('hide');
             startCalendar();
-            
+
         });
 
         window.addEventListener('openModalTarefa', function(e) {
-       
+
             $("#modalTarefas").modal();
 
         });
 
         window.addEventListener('openVisitaModal', function(e) {
-       
+
             $("#agendarVisita").modal();
 
-            $('#clienteVisitaID').select2({
-                }).on('change', function(e) {
-                    @this.set('clienteVisitaID', e.target.value, true);
+            $('#clienteVisitaID').select2({}).on('change', function(e) {
+                @this.set('clienteVisitaID', e.target.value, true);
             });
 
-                $.fn.datepicker.dates['pt-BR'] = {
+            $.fn.datepicker.dates['pt-BR'] = {
                 days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
                 daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
                 daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
@@ -606,7 +622,8 @@
                 today: "Hoje",
                 clear: "Limpar",
                 format: "dd/mm/yyyy",
-                titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+                titleFormat: "MM yyyy",
+                /* Leverages same syntax as 'format' */
                 weekStart: 0
             };
 
@@ -615,15 +632,15 @@
                 format: 'dd/mm/yyyy',
                 language: 'pt-BR',
                 autoclose: true
-            }).on('changeDate', function (e) {
+            }).on('changeDate', function(e) {
 
                 var formattedDate = moment(e.date).format('YYYY-MM-DD');
 
-                @this.set('dataInicialVisita', formattedDate ,true);
+                @this.set('dataInicialVisita', formattedDate, true);
 
             });
 
-            @this.set('horaInicialVisita', '09:00' ,true);
+            @this.set('horaInicialVisita', '09:00', true);
             $('.horaInicialVisita').timepicker({
                 minuteStep: 5,
                 showSeconds: false,
@@ -633,16 +650,16 @@
                     up: 'ti-angle-up',
                     down: 'ti-angle-down'
                 }
-            }).on('changeDate', function (e) {
+            }).on('changeDate', function(e) {
 
                 var formattedDate = moment(e.date).format('HH:ii');
 
-                @this.set('horaInicialVisita', formattedDate ,true);
+                @this.set('horaInicialVisita', formattedDate, true);
 
             });
 
 
-            @this.set('horaFinalVisita', '10:00' ,true);
+            @this.set('horaFinalVisita', '10:00', true);
             $('.horaFinalVisita').timepicker({
                 minuteStep: 5,
                 showSeconds: false,
@@ -652,11 +669,11 @@
                     up: 'ti-angle-up',
                     down: 'ti-angle-down'
                 }
-            }).on('changeDate', function (e) {
+            }).on('changeDate', function(e) {
 
                 var formattedDate = moment(e.date).format('HH:ii');
 
-                @this.set('horaFinalVisita', formattedDate ,true);
+                @this.set('horaFinalVisita', formattedDate, true);
 
             });
 
@@ -665,81 +682,79 @@
         });
 
         window.addEventListener('openModalAddTarefa', function(e) {
-       
+
             $("#modalAddTarefa").modal();
 
 
             $.fn.datepicker.dates['pt-BR'] = {
-            days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
-            daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-            daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
-            months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-            monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-            today: "Hoje",
-            clear: "Limpar",
-            format: "dd/mm/yyyy",
-            titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-            weekStart: 0
-        };
+                days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+                daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
+                months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                today: "Hoje",
+                clear: "Limpar",
+                format: "dd/mm/yyyy",
+                titleFormat: "MM yyyy",
+                /* Leverages same syntax as 'format' */
+                weekStart: 0
+            };
 
 
-        $('#dataInicialTarefa').datepicker({
-            format: 'dd/mm/yyyy',
-            language: 'pt-BR',
-            autoclose: true
-        }).on('changeDate', function (e) {
+            $('#dataInicialTarefa').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR',
+                autoclose: true
+            }).on('changeDate', function(e) {
 
-            var formattedDate = moment(e.date).format('YYYY-MM-DD');
+                var formattedDate = moment(e.date).format('YYYY-MM-DD');
 
-            @this.set('dataInicialTarefa', formattedDate ,true);
+                @this.set('dataInicialTarefa', formattedDate, true);
+
+            });
+
+            @this.set('horaInicialTarefa', '09:00', true);
+            $('.horaInicialTarefa').timepicker({
+                minuteStep: 5,
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: '09:00',
+                icons: {
+                    up: 'ti-angle-up',
+                    down: 'ti-angle-down'
+                }
+            }).on('changeDate', function(e) {
+
+                var formattedDate = moment(e.date).format('HH:ii');
+
+                @this.set('horaInicialTarefa', formattedDate, true);
+
+            });
+
+
+            @this.set('horaFinalTarefa', '10:00', true);
+            $('.horaFinalTarefa').timepicker({
+                minuteStep: 5,
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: '10:00',
+                icons: {
+                    up: 'ti-angle-up',
+                    down: 'ti-angle-down'
+                }
+            }).on('changeDate', function(e) {
+
+                var formattedDate = moment(e.date).format('HH:ii');
+
+                @this.set('horaFinalTarefa', formattedDate, true);
+
+            });
+
+
+
+
 
         });
-
-        @this.set('horaInicialTarefa', '09:00' ,true);
-        $('.horaInicialTarefa').timepicker({
-            minuteStep: 5,
-            showSeconds: false,
-            showMeridian: false,
-            defaultTime: '09:00',
-            icons: {
-                up: 'ti-angle-up',
-                down: 'ti-angle-down'
-            }
-        }).on('changeDate', function (e) {
-
-            var formattedDate = moment(e.date).format('HH:ii');
-
-            @this.set('horaInicialTarefa', formattedDate ,true);
-
-        });
-
-
-        @this.set('horaFinalTarefa', '10:00' ,true);
-        $('.horaFinalTarefa').timepicker({
-            minuteStep: 5,
-            showSeconds: false,
-            showMeridian: false,
-            defaultTime: '10:00',
-            icons: {
-                up: 'ti-angle-up',
-                down: 'ti-angle-down'
-            }
-        }).on('changeDate', function (e) {
-
-            var formattedDate = moment(e.date).format('HH:ii');
-
-            @this.set('horaFinalTarefa', formattedDate ,true);
-
-        });
-
-
-
-
-
-        });
-
-       
-
     </script>
-  
+
 </div>
