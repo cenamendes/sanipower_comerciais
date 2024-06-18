@@ -1098,6 +1098,26 @@
                 toggleDropdown(dropdownBtn);
             }
         });
+
+        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
+
+        textareas.forEach(textarea => {
+            const id = textarea.id.replace('addTextosEncomenda', '');
+            const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+            textarea.addEventListener('input', function() {
+                if (textarea.value.trim() !== "") {
+                    commentButton.removeAttribute('disabled');
+                } else {
+                    commentButton.setAttribute('disabled', 'disabled');
+                }
+            });
+
+            commentButton.addEventListener('click', function() {
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            });
+        });
     });
 
     
@@ -1152,29 +1172,6 @@
             }
         });
     });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
-
-        textareas.forEach(textarea => {
-            const id = textarea.id.replace('addTextosEncomenda', '');
-            const commentButton = document.getElementById('addCommentEncomenda' + id);
-
-            textarea.addEventListener('input', function() {
-                if (textarea.value.trim() !== "") {
-                    commentButton.removeAttribute('disabled');
-                } else {
-                    commentButton.setAttribute('disabled', 'disabled');
-                }
-            });
-
-            commentButton.addEventListener('click', function() {
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
-            });
-        });
-    });
-
 
 
     window.addEventListener('refreshAllComponent', function() {
