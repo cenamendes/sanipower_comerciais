@@ -307,24 +307,24 @@
         var calendarEl = document.getElementById('calendar');
         
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'pt-br',
-          headerToolbar: {
+            initialView: 'dayGridMonth',
+            locale: 'pt-br',
+            headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          buttonText: {
+            },
+            buttonText: {
             today: 'Hoje',
                 month: 'Mês',
                 week: 'Semana',
                 day: 'Dia',
                 list: 'Lista'
-           }
+            }
         });
 
         calendar.render();
-      });
+    });
 
     </script>
     
