@@ -119,6 +119,27 @@ class Tarefas extends Component
 
     public function addTarefaButton()
     {
+        $this->tipoVisita = TiposVisitas::all();
+
+        $this->dataInicialTarefa = ""; 
+        $this->horaInicialTarefa = ""; 
+        $this->horaFinalTarefa = "";  
+        $this->assuntoTarefa = "";
+        $this->descricaoTarefa = "";
+
+        $collectionClientes = $this->tarefasRepository->getListagemCliente(10000);
+
+        if (isset($collectionClientes->customers)) {
+            $this->clientes = array_map(function ($cliente) {
+                return [
+                    'id' => $cliente->id,
+                    'name' => $cliente->name,
+                ];
+            }, $collectionClientes->customers);
+        }
+         
+        $this->clienteNameTarefa = json_encode($this->clientes[0]["name"]);
+
         $this->dispatchBrowserEvent('openModalAddTarefa');
     }
 
@@ -137,7 +158,7 @@ class Tarefas extends Component
             return false;
         }
 
-        $addTarefa = $this->tarefasRepository->addNewTarefa($this->clienteNameTarefa,$this->dataInicialTarefa, $this->horaInicialTarefa, $this->horaFinalTarefa, $this->assuntoTarefa, $this->descricaoTarefa);
+        $addTarefa = $this->tarefasRepository->addNewTarefa(json_decode($this->clienteNameTarefa),$this->dataInicialTarefa, $this->horaInicialTarefa, $this->horaFinalTarefa, $this->assuntoTarefa, $this->descricaoTarefa);
 
         $responseArray = $addTarefa->getData(true);
 
@@ -183,7 +204,10 @@ class Tarefas extends Component
         $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
 
         $this->dispatchBrowserEvent('openVisitaModal');
+        
     }
+
+    
 
     public function agendaVisita()
     {
