@@ -163,11 +163,11 @@ class Tarefas extends Component
     {
         $this->tipoVisita = TiposVisitas::all();
 
-        $this->dataInicialVisita == ""; 
-        $this->horaInicialVisita == ""; 
-        $this->horaFinalVisita == ""; 
-        $this->tipoVisitaEscolhidoVisita == "";  
-        $this->assuntoTextVisita == "";
+        $this->dataInicialVisita = ""; 
+        $this->horaInicialVisita = ""; 
+        $this->horaFinalVisita = ""; 
+        $this->tipoVisitaEscolhidoVisita = "";  
+        $this->assuntoTextVisita = "";
 
         $collectionClientes = $this->tarefasRepository->getListagemCliente(10000);
 
