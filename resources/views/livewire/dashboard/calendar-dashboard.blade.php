@@ -54,8 +54,8 @@
 
      <script>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            
+        function startCalendarLeft()
+        {
             var calendarValues = JSON.parse($('#values').text());
             
             var event = [];
@@ -165,6 +165,15 @@
             });
 
             calendar.render();
+        }
+        
+
+        document.addEventListener('DOMContentLoaded', function() {
+           startCalendarLeft();
+        });
+
+        document.addEventListener('restartCalendar', function() {
+            startCalendarLeft();
         });
 
 

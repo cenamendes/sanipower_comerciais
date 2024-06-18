@@ -297,10 +297,8 @@ class Visitas extends Component
     }
 
 
-
     public function render()
     {        
-
         return view('livewire.visitas.visitas',["clientes" => $this->clientes]);
     }
 }

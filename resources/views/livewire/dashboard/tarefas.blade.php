@@ -118,6 +118,7 @@
                 </div>
                 <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
 
+                    
                     <div class="form-group row ml-0">
                         <label>Nome do Cliente</label>
                         <div class="input-group">
@@ -188,6 +189,106 @@
 
 
     <!-- FIM DO ADD -->
+
+    <!-- MODAL ADICIONAR VISITA -->
+
+    <div class="modal fade" id="agendarVisita" tabindex="-1" role="dialog" aria-labelledby="agendarVisita"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="modalComentario">Agendar Visita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <div class="form-group row ml-0">
+                                <label>Cliente</label>
+                                <div class="input-group">
+                                    <input type="text" id="clienteVisita" class="form-control" wire:model.defer="clienteVisita">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="ti-user"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row ml-0">
+                                <label>Data</label>
+                                <div class="input-group date">
+                                    <input type="text" id="dataInicialVisita" class="form-control" wire:model.defer="dataInicialVisita">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="ti-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row ml-0">
+                                <label>Hora Inícial</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control horaInicialVisita" id="horaInicialVisita" wire:model.defer="horaInicialVisita">
+                                    <div class="input-group-append timepicker-btn">
+                                        <span class="input-group-text">
+                                            <i class="ti-time"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row ml-0">
+                                <label>Hora Final</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control horaFinalVisita" id="horaFinalVisita" wire:model.defer="horaFinalVisita">
+                                    <div class="input-group-append timepicker-btn">
+                                        <span class="input-group-text">
+                                            <i class="ti-time"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row ml-0">
+                                <label>Tipo de Visita</label>
+                                <div class="input-group">
+                                    <select class="form-control" id="tipo_visita_select" wire:model.defer="tipoVisitaEscolhidoVisita">
+                                        <option value="" selected>Selecione um tipo de visita</option>
+                                        @isset($tipoVisita)
+                                            @foreach ( $tipoVisita as $tipo)
+                                                <option value="{{$tipo->id}}">{{ $tipo->tipo }}</option>
+                                            @endforeach
+                                        @endisset
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row ml-0">
+                                <label>Assunto</label>
+                                <div class="input-group">
+                                    <textarea id="assunto_text" class="form-control" wire:model.defer="assuntoTextVisita" style="min-height: 80px; max-height: 200px;"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-outline-primary"
+                        wire:click="agendaVisita">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FIM MODAL -->
  
 
 
@@ -198,7 +299,6 @@
         function startCalendar()
         {
             var calendarValuesTarefa = JSON.parse($('#valuesTarefas').text());
-
             
             var eventTarefa = [];
 
@@ -445,6 +545,7 @@
             
             $("#modalTarefas").modal('hide');
             $("#modalAddTarefa").modal('hide');
+            $("#agendarVisita").modal('hide');
 
         });
 
@@ -452,6 +553,7 @@
 
             $("#modalTarefas").modal('hide');
             $("#modalAddTarefa").modal('hide');
+            $("#agendarVisita").modal('hide');
             startCalendar();
             
         });
@@ -459,6 +561,77 @@
         window.addEventListener('openModalTarefa', function(e) {
        
             $("#modalTarefas").modal();
+
+        });
+
+        window.addEventListener('openVisitaModal', function(e) {
+       
+            $("#agendarVisita").modal();
+
+                $.fn.datepicker.dates['pt-BR'] = {
+                days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+                daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
+                months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                today: "Hoje",
+                clear: "Limpar",
+                format: "dd/mm/yyyy",
+                titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+                weekStart: 0
+            };
+
+
+            $('#dataInicialVisita').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR',
+                autoclose: true
+            }).on('changeDate', function (e) {
+
+                var formattedDate = moment(e.date).format('YYYY-MM-DD');
+
+                @this.set('dataInicialVisita', formattedDate ,true);
+
+            });
+
+            @this.set('horaInicialVisita', '09:00' ,true);
+            $('.horaInicialVisita').timepicker({
+                minuteStep: 5,
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: '09:00',
+                icons: {
+                    up: 'ti-angle-up',
+                    down: 'ti-angle-down'
+                }
+            }).on('changeDate', function (e) {
+
+                var formattedDate = moment(e.date).format('HH:ii');
+
+                @this.set('horaInicialVisita', formattedDate ,true);
+
+            });
+
+
+            @this.set('horaFinalVisita', '10:00' ,true);
+            $('.horaFinalVisita').timepicker({
+                minuteStep: 5,
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: '10:00',
+                icons: {
+                    up: 'ti-angle-up',
+                    down: 'ti-angle-down'
+                }
+            }).on('changeDate', function (e) {
+
+                var formattedDate = moment(e.date).format('HH:ii');
+
+                @this.set('horaFinalVisita', formattedDate ,true);
+
+            });
+
+
 
         });
 
