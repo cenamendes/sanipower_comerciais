@@ -34307,7 +34307,7 @@ var Dashboard1 = function() {
             },
             yaxis: {
                 title: {
-                    text: 'Vendas',
+                    text: 'Objetivos',
                 },
                 min: 0
             },
@@ -34337,7 +34337,7 @@ var Dashboard1 = function() {
     var productSalesChart = function() {
         var options = {
             title: {
-                text: 'Vendas',
+                text: 'Objetivos',
                 align: 'left'
             },
             series: [{
@@ -34404,7 +34404,7 @@ var Dashboard1 = function() {
     var expensesChart = function() {
         var options = {
             title: {
-                text: 'Despesas Mensais',
+                text: 'Objetivos',
                 align: 'left'
             },
             series: [2897, 1570, 560, 4678, 3500],
