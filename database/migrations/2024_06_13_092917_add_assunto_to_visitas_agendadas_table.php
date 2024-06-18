@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('visitas_agendadas', function (Blueprint $table) {
             if (!Schema::hasColumn('visitas_agendadas', 'assunto_text')) {
-                $table->string('assunto_text', 500)->nullable();
+                $table->longText('assunto_text')->nullable();
             }
         });
     }

@@ -16,32 +16,31 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
 
-                        <div class="row d-block text-center font-weight-bold">
-                            <label class="text-center"><span id="visitaName"></span></label>
-                        </div>
-                       
-                        
-                        <label class="mt-4">Nome do Cliente</label>
-                        <div class="input-group">
-                           
-                            <input type="text" class="form-control" placeholder="Nome do Cliente" id="clienteName" disabled>
-                        </div>
+            <div class="modal-body">
 
-                        <label class="mt-4">Data (Hora Inicial / Hora Final)</label>
-                        <div class="input-group">
-                            
-                            <input type="text" class="form-control" placeholder="Hora Marcada" id="horaMarcada" disabled>
-                        </div>
-
-                        <label class="mt-4">Assunto</label>
-                        <div class="input-group">
-                            <textarea type="text" id="assuntoMarcado" class="form-control" cols="4" rows="6" disabled></textarea>
-                        </div>
-
-
+                <div class="row d-block text-center font-weight-bold">
+                    <label class="text-center"><span id="visitaName"></span></label>
+                </div>
+                
+                
+                <label class="mt-4">Nome do Cliente</label>
+                <div class="input-group">
                     
+                    <input type="text" class="form-control" placeholder="Nome do Cliente" id="clienteName" disabled>
+                </div>
+
+                <label class="mt-4">Data (Hora Inicial / Hora Final)</label>
+                <div class="input-group">
+                    
+                    <input type="text" class="form-control" placeholder="Hora Marcada" id="horaMarcada" disabled>
+                </div>
+
+                <label class="mt-4">Assunto</label>
+                <div class="input-group">
+                    <textarea type="text" id="assuntoMarcado" class="form-control" cols="4" rows="6" disabled></textarea>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
@@ -149,8 +148,7 @@
             },
             eventClick: function(info) {
 
-              
-                $("#modalInformacao").modal();
+                $("#modalInformacao").modal('show');
 
                 $('#clienteName').val(info.event.title);
                 $('#horaMarcada').val(info.event.extendedProps.dataInicial+" ("+ info.event.extendedProps.horaInicial + " / "+ info.event.extendedProps.horaFinal +") ");
