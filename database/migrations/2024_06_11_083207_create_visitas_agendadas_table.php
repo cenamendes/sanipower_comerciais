@@ -15,11 +15,11 @@ return new class extends Migration
         Schema::create('visitas_agendadas', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('id_tipo_visita')->nullable();
-            $table->string('cliente', 150)->nullable()->collation('utf8mb4_0900_ai_ci');
-            $table->string('data_inicial', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
-            $table->string('hora_inicial', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
-            $table->string('data_final', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
-            $table->string('hora_final', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
+            $table->string('cliente', 150)->nullable();
+            $table->string('data_inicial', 50)->nullable();
+            $table->string('hora_inicial', 50)->nullable();
+            $table->string('data_final', 50)->nullable();
+            $table->string('hora_final', 50)->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
