@@ -659,7 +659,7 @@
                                                                                 </button>
                                                                                 <div class="dropdown-menu" aria-labelledby="commentProductEncomenda{{$i}}" style="min-width: 200px; left: -235px; top: -13px;">
                                                                                     
-                                                                                    <li style="border-bottom: 1px solid;">
+                                                                                    <li>
                                                                                         <h6 class="modal-title" style="color:#212529; display: flex; justify-content: space-around; margin: 5px 0;">
                                                                                             <span>Comentário</span>
                                                                                             <button class="btn btn-sm btn-success" id="addCommentEncomenda{{$i}}" disabled>
@@ -975,7 +975,7 @@
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="commentProductEncomenda{{$i}}" style="min-width: 200px; left: -235px; top: -13px;">
                                                             
-                                                            <li style="border-bottom: 1px solid;">
+                                                            <li>
                                                                 <h6 class="modal-title" style="color:#212529; display: flex; justify-content: space-around; margin: 5px 0;">
                                                                     <span>Comentário</span>
                                                                     <button class="btn btn-sm btn-success" id="addCommentEncomenda{{$i}}" disabled>
