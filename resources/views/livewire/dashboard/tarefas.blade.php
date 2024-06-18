@@ -48,6 +48,75 @@
             position: static !important;
         }
 
+        @media only screen and (max-width: 665px) {
+            .fc .fc-toolbar-title {
+                font-size: 1.25rem;
+            }
+
+            .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+                font-size: 0.8rem;
+            }
+
+            .fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
+                font-size: 0.8rem;
+            }
+
+            .fc-direction-ltr .fc-toolbar>*> :not(:first-child) {
+                font-size: 0.85rem;
+            }
+
+
+            .fc * {
+                font-size: 0.65rem;
+            }
+        }
+
+        @media only screen and (max-width: 520px) {
+            .fc .fc-toolbar-title {
+                font-size: 0.7rem;
+            }
+
+            .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+                font-size: 0.66rem;
+            }
+
+            .fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
+                font-size: 0.66rem;
+            }
+
+            .fc-direction-ltr .fc-toolbar>*> :not(:first-child) {
+                font-size: 0.65rem;
+            }
+
+            .card .card-header .caption {
+                font-size: 0.8rem;
+            }
+
+            #addTarefaBtn,
+            #addVisitaBtn {
+                font-size: 0.6rem;
+            }
+
+            .card-header {
+                padding: 0.7rem;
+            }
+
+            .card-body {
+                padding: 0.4rem 0.6rem;
+            }
+
+            .fc * {
+                font-size: 0.6rem;
+            }
+
+            .fc .fc-list-table td {
+                padding: 4px 10px;
+            }
+
+            .fc .fc-button .fc-icon {
+                font-size: 0.88rem;
+            }
+        }
 
 
         /** FIM DATEPICKER **/
@@ -694,7 +763,7 @@
 
         window.addEventListener('openModalAddTarefa', function(e) {
 
-              $("#modalAddTarefa").modal();
+            $("#modalAddTarefa").modal();
 
             $('#clienteNameTarefa').select2({}).on('change', function(e) {
                 @this.set('clienteNameTarefa', e.target.value, true);
