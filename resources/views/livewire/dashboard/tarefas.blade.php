@@ -47,7 +47,11 @@
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="btn btn-sm btn-primary" wire:click="addTarefaButton" data-toggle="tooltip" title="Adicionar tarefa"><i
-                            class="ti-plus"></i> Adicionar Tarefa</a>
+                            class="ti-plus"></i> Adicionar Tarefa
+                    </a>
+                    <a href="javascript:;" class="btn btn-sm btn-success" wire:click="addVisita" data-toggle="tooltip" title="Adicionar visita"><i
+                        class="ti-plus"></i> Adicionar Visita
+                    </a>
                 </div>
             </div>
             
