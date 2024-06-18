@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Interfaces\TarefasInterface;
 use Livewire\Component;
+use App\Models\TiposVisitas;
+use App\Interfaces\TarefasInterface;
 use App\Interfaces\VisitasInterface;
-use App\Models\Tarefas as TarefasModels;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Tarefas as TarefasModels;
 
 class Tarefas extends Component
 {
@@ -28,6 +29,15 @@ class Tarefas extends Component
     public ?string $descricaoTarefa = "";
 
     public $iteration;
+
+    public ?object $tipoVisita = NULL;
+    public ?string $clienteVisitaID = "";
+    public ?string $clienteVisitaName = "";
+    public ?string $dataInicialVisita = "";
+    public ?string $horaInicialVisita = "";
+    public ?string $horaFinalVisita = "";
+    public ?string $tipoVisitaEscolhidoVisita = "";
+    public ?string $assuntoTextVisita = "";
 
     protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo"];
 
@@ -145,6 +155,48 @@ class Tarefas extends Component
         $this->dispatchBrowserEvent('updateList', ["message" => $message, "status" => $status]);
 
         //continuar o insert
+    }
+
+    public function addVisita()
+    {
+        $this->tipoVisita = TiposVisitas::all();
+        $this->dispatchBrowserEvent('openVisitaModal');
+    }
+
+    public function agendaVisita()
+    {
+
+        if($this->clienteVisita == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
+            return false;
+        }
+
+        if(strtotime($this->horaInicialVisita) > strtotime($this->horaFinalVisita))
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Hora final tem de ser superior á hora inicial", "status" => "error"]);
+            return false;
+        }
+
+        $response = $this->visitasRepository->addVisitaDatabase($this->clienteVisita,$this->clienteVisita, preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), $this->tipoVisitaEscolhidoVisita, $this->assuntoTextVisita);
+
+        $responseArray = $response->getData(true);
+
+        if ($responseArray["success"] == true) {
+            $message = "Visita agendada com sucesso";
+            $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar a visita!";
+            $status = "error";
+        }
+
+        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+
+        $this->emit('reloadNotification');
+        $this->emit('visitaAdded');
+
+        $this->dispatchBrowserEvent('updateList');
+        $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
     }
 
     public function render()

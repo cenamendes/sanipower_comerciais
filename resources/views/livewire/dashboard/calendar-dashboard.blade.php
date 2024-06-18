@@ -54,8 +54,8 @@
 
      <script>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            
+        function startCalendarLeft()
+        {
             var calendarValues = JSON.parse($('#values').text());
             
             var event = [];
@@ -148,6 +148,8 @@
                 return { domNodes: [customDiv] };
             },
             eventClick: function(info) {
+
+              
                 $("#modalInformacao").modal();
 
                 $('#clienteName').val(info.event.title);
@@ -156,12 +158,22 @@
                 $('#visitaName').text(info.event.extendedProps.nomeVisita);
                 $('#visitaName').css("color", info.event.extendedProps.corVisita);
                 
+                
 
             }
 
             });
 
             calendar.render();
+        }
+        
+
+        document.addEventListener('DOMContentLoaded', function() {
+           startCalendarLeft();
+        });
+
+        document.addEventListener('restartCalendar', function() {
+            startCalendarLeft();
         });
 
 

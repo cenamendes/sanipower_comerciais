@@ -6,6 +6,7 @@ namespace App\Repositories;
 use stdClass;
 use App\Models\User;
 use App\Models\Carrinho;
+use App\Models\ComentariosProdutos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
@@ -192,6 +193,43 @@ class EncomendasRepository implements EncomendasInterface
         return $arrayFiltrado; 
 
     }
+    public function addCommentToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type,$comment): JsonResponse
+    {
+        if($type == "encomenda") {
+            $idencomenda = $codType;
+            $idproposta = "";
+        } else {
+            $idencomenda = "";
+            $idproposta = $codType;
+        }
+
+        $addComment = ComentariosProdutos::create([
+            "id_user" => Auth::user()->id,
+            "reference" => $qtd["product"]->referense,
+            "no" => $no,
+            "id_encomenda" => $idencomenda,
+            "id_proposta" => $idproposta,
+            "tipo" => $type,
+            "comentario" => $comment
+        ]);
+
+        if ($addComment) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $addComment,
+                'encomenda' => $idencomenda,
+                'proposta' => $idproposta
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir na base de dados.'
+            ], 500);
+        }
+    }
+
 
     public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
     {

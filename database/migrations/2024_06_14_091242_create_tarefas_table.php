@@ -15,11 +15,11 @@ return new class extends Migration
                 Schema::create('tarefas', function (Blueprint $table) {
                     $table->id();
                     $table->string('cliente', 255)->nullable();
-                    $table->string('assunto_text', 255)->nullable()->collation('utf8mb4_0900_ai_ci');
-                    $table->longText('descricao')->nullable()->collation('utf8mb4_0900_ai_ci');
-                    $table->string('data_inicial', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
-                    $table->string('hora_inicial', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
-                    $table->string('hora_final', 50)->nullable()->collation('utf8mb4_0900_ai_ci');
+                    $table->string('assunto_text', 255)->nullable();
+                    $table->longText('descricao')->nullable();
+                    $table->string('data_inicial', 50)->nullable();
+                    $table->string('hora_inicial', 50)->nullable();
+                    $table->string('hora_final', 50)->nullable();
                     $table->unsignedInteger('user_id')->nullable();
                     $table->unsignedInteger('finalizado')->nullable();
                     $table->timestamp('created_at')->nullable();

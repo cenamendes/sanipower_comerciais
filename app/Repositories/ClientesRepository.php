@@ -10,6 +10,7 @@ use App\Models\ComentariosPropostas;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
 use App\Models\ComentariosEncomendas;
+use App\Models\VisitasAgendadas;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientesRepository implements ClientesInterface
@@ -482,9 +483,22 @@ class ClientesRepository implements ClientesInterface
     }
 
 
-    public function storeVisita($numero_cliente,$assunto,$relatorio,$pendentes,$comentario_encomendas,$comentario_propostas,$comentario_financeiro,$comentario_occorencias): JsonResponse
+    public function storeVisita($idVisita,$numero_cliente,$assunto,$relatorio,$pendentes,$comentario_encomendas,$comentario_propostas,$comentario_financeiro,$comentario_occorencias): JsonResponse
     {
+    
+        $checkVisitaAgendada = Visitas::where('id_visita_agendada',$idVisita)->first();
+
+        if(!empty($checkVisitaAgendada)){
+
+            return response()->json([
+                'success' => false,
+                "type" => 1,
+                'data' => "Essa Visita já foi registada"
+            ], 201);
+        }
+
         $visitaCreate = Visitas::create([
+            "id_visita_agendada" => $idVisita,
             "numero_cliente" => $numero_cliente,
             "assunto" => $assunto,
             "relatorio" => $relatorio,
@@ -497,6 +511,10 @@ class ClientesRepository implements ClientesInterface
             "user_id" => Auth::user()->id
         ]);
 
+        VisitasAgendadas::where('id',$idVisita)->update([
+            "finalizado" => 1
+        ]);
+
         if ($visitaCreate) {
             // Inserção bem-sucedida
             return response()->json([
@@ -507,6 +525,7 @@ class ClientesRepository implements ClientesInterface
             // Falha na inserção
             return response()->json([
                 'success' => false,
+                'type' => 0,
                 'message' => 'Falha ao inserir visita na base de dados.'
             ], 500);
         }

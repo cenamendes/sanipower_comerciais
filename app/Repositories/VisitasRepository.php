@@ -311,10 +311,11 @@ class VisitasRepository implements VisitasInterface
     }
 
 
-    public function addVisitaDatabase($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
+    public function addVisitaDatabase($clientID,$client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
     {
         $addVisita = VisitasAgendadas::create([
             "id_tipo_visita" => $tipoVisitaEscolhido,
+            "client_id" => $clientID,
             "cliente" => $client,
             "data_inicial" => $dataInicial,
             "hora_inicial" => $horaInicial,
@@ -322,6 +323,7 @@ class VisitasRepository implements VisitasInterface
             "data_final" => $dataInicial,
             "assunto_text" => $assuntoText,
             "user_id" => Auth::user()->id,
+            "finalizado" => 0
         ]);
 
         $servicoOffice = new OfficeService();
@@ -381,7 +383,7 @@ class VisitasRepository implements VisitasInterface
 
     public function getVisitasAgendadas($clientID): LengthAwarePaginator
     {
-        $visitasAgendadas = VisitasAgendadas::where('finalizado','0')->where('cliente',$clientID)->paginate('10');
+        $visitasAgendadas = VisitasAgendadas::where('finalizado','0')->where('cliente',json_decode($clientID))->paginate(10);
 
         return $visitasAgendadas;
     }

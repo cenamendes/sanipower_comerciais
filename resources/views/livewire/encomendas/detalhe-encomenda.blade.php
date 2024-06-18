@@ -645,26 +645,43 @@
                                                                             </a>
                                                                         @endif
                                                                     </td>
-                                                                    <td><input type="number" class="form-control"
-                                                                            id="valueEncomendar" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
-                                                                    <td class="text-center">
-                                                                        <a href="javascript:;"
-                                                                            class="btn btn-sm btn-outline-secondary">
-                                                                            <i class="ti-package text-light"></i>
-                                                                        </a>
-                                                                        <a href="javascript:;"
-                                                                            class="btn btn-sm btn-outline-secondary">
-                                                                            <i class="ti-comment text-light"></i>
-                                                                        </a>
-                                                                        <a href="javascript:;" wire:click="addProductQuickBuyProposta({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
-                                                                            class="btn btn-sm btn-outline-secondary">
-                                                                            <i class="ti-notepad text-light"></i>
-                                                                        </a>
-                                                                        {{-- vinicius --}}
-                                                                        <a href="javascript:;" wire:click="addProductQuickBuyEncomenda({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
-                                                                            class="btn btn-sm btn-outline-secondary">
-                                                                            <i class="ti-shopping-cart text-light"></i>
-                                                                        </a>
+                                                                    <td><input type="number" class="form-control produto-quantidade"
+                                                                            id="{{$i}}" data-qtd="{{ $prod->quantity }}" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
+                                                                    <td class="text-center ">
+                                                                        <div class="d-flex justify-content-around">
+                                                                            <button
+                                                                                class="btn btn-sm btn-outline-secondary">
+                                                                                <i class="ti-package text-light"></i>
+                                                                            </button>
+                                                                            <div class="dropdown">
+                                                                                <button class="btn btn-sm btn-outline-secondary" id="commentProductEncomenda{{$i}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="ti-comment"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu" aria-labelledby="commentProductEncomenda{{$i}}" style="min-width: 200px; left: -235px; top: -13px;">
+                                                                                    
+                                                                                    <li>
+                                                                                        <h6 class="modal-title" style="color:#212529; display: flex; justify-content: space-around; margin: 5px 0;">
+                                                                                            <span>Comentário</span>
+                                                                                            <button class="btn btn-sm btn-success" id="addCommentEncomenda{{$i}}" disabled>
+                                                                                                <i class="ti-check"></i>
+                                                                                            </button>
+                                                                                        </h6>
+                                                                                        <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
+                                                                                            wire:model.defer="produtosComment.{{$i}}">
+                                                                                        </textarea>
+                                                                                    </li>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button wire:click="addProductQuickBuyProposta({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
+                                                                                class="btn btn-sm btn-outline-secondary" id="addProductProposta{{$i}}" disabled>
+                                                                                <i class="ti-notepad text-light"></i>
+                                                                            </button>
+                                                                            {{-- vinicius --}}
+                                                                            <button wire:click="addProductQuickBuyEncomenda({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
+                                                                                class="btn btn-sm btn-outline-secondary" id="addProductEncomenda{{$i}}" disabled>
+                                                                                <i class="ti-shopping-cart text-light"></i>
+                                                                            </button>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -860,7 +877,7 @@
 
 
 <!-- Modal adicionar compra rapida -->
-    <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
+<div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -946,15 +963,31 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <input type="number" class="form-control" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}">
+                                                    <input type="number" class="form-control produto-quantidade" data-i="{{$i}}" data-qtd="{{ $prod->quantity }}" id="{{$i}}" wire:model.defer="produtosRapida.{{$i}}">
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-sm btn-success" wire:click="addProductQuickBuy({{$i}}, '{{ $nameProduct }}', {{$detalhesCliente->customers[0]->no}}, '{{ $ref }}', '{{ $codEncomenda }}')">
+                                                    <button class="btn btn-sm btn-success" id="addProductEncomenda{{$i}}" wire:click="addProductQuickBuyEncomenda({{$i}}, '{{ $nameProduct }}', {{$detalhesCliente->customers[0]->no}}, '{{ $ref }}', '{{ $codEncomenda }}')" disabled>
                                                         <i class="ti-shopping-cart"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-warning">
-                                                        <i class="ti-comment"></i>
-                                                    </button>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-sm btn-warning" id="commentProductEncomenda{{$i}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="ti-comment"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="commentProductEncomenda{{$i}}" style="min-width: 200px; left: -235px; top: -13px;">
+                                                            
+                                                            <li>
+                                                                <h6 class="modal-title" style="color:#212529; display: flex; justify-content: space-around; margin: 5px 0;">
+                                                                    <span>Comentário</span>
+                                                                    <button class="btn btn-sm btn-success" id="addCommentEncomenda{{$i}}" disabled>
+                                                                        <i class="ti-check"></i>
+                                                                    </button>
+                                                                </h6>
+                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
+                                                                    wire:model.defer="produtosComment.{{$i}}">
+                                                                </textarea>
+                                                            </li>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -1036,14 +1069,11 @@
 
 <!-- FIM TABS  -->
 
-
-</div>
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
-@livewireScripts
     {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 <script>
+    
     document.addEventListener("DOMContentLoaded", function() {
-        // Função para fechar todos os dropdowns
         function closeAllDropdowns() {
             var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
             dropdownMenus.forEach(function(dropdownMenu) {
@@ -1051,30 +1081,26 @@
             });
         }
 
-        // Função para mostrar ou esconder o dropdown
         function toggleDropdown(dropdownBtn) {
             var dropdownMenu = dropdownBtn.nextElementSibling;
             if (dropdownMenu.style.display === "block") {
                 dropdownMenu.style.display = "none";
             } else {
-                closeAllDropdowns(); // Fecha todos os dropdowns antes de abrir o novo
+                closeAllDropdowns();
                 dropdownMenu.style.display = "block";
             }
         }
 
         // Adiciona evento de clique no documento inteiro
         document.addEventListener("click", function(event) {
-            // Verifica se o elemento clicado é um botão de dropdown
             if (event.target.classList.contains('dropdownIcon-toggle')) {
                 var dropdownBtn = event.target;
                 toggleDropdown(dropdownBtn);
-            } else {
-                // Fecha todos os dropdowns se clicar fora deles
-                closeAllDropdowns();
             }
         });
     });
 
+    
 
     // vinicius
     const checkbox = document.getElementById('checkbox');
@@ -1095,6 +1121,62 @@
         }
     });
 
+    $(document).ready(function(){
+        $('.produto-quantidade').on('input', function() {
+            var id = $(this).attr('id');
+            var valor = $(this).val();
+            var qtdMin = $(this).attr('data-qtd');
+            if(parseInt(valor) >= parseInt(qtdMin)){
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+
+                $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+
+            }else if(parseInt(valor) < parseInt(qtdMin)){
+                if(parseInt(valor) <= 0){
+                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+
+                    $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                }else{
+                    $('#commentProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+
+                }
+            }else{
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+
+
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
+
+        textareas.forEach(textarea => {
+            const id = textarea.id.replace('addTextosEncomenda', '');
+            const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+            textarea.addEventListener('input', function() {
+                if (textarea.value.trim() !== "") {
+                    commentButton.removeAttribute('disabled');
+                } else {
+                    commentButton.setAttribute('disabled', 'disabled');
+                }
+            });
+
+            commentButton.addEventListener('click', function() {
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            });
+        });
+    });
+
+
+
     window.addEventListener('refreshAllComponent', function() {
         const sidebar = document.getElementById('sidebarProd');
         const subbars = document.querySelectorAll('.subsidebarProd');
@@ -1109,24 +1191,23 @@
 
         var accordions2 = document.getElementsByClassName("accordion2");
 
-    // Add click event listener to each accordion button
-    for (var i = 0; i < accordions2.length; i++) {
-        accordions2[i].addEventListener("click", function() {
-            // Toggle active class to button
-            this.classList.toggle("active");
+        // Add click event listener to each accordion button
+        for (var i = 0; i < accordions2.length; i++) {
+            accordions2[i].addEventListener("click", function() {
+                // Toggle active class to button
+                this.classList.toggle("active");
 
-            // Toggle the panel visibility
-            var panel2 = this.nextElementSibling;
-            if (panel2.style.maxHeight) {
-                panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
-            } else {
-                panel2.style.maxHeight = panel2.scrollHeight + "%";
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
-            }
-        });
-    }
-
+                // Toggle the panel visibility
+                var panel2 = this.nextElementSibling;
+                if (panel2.style.maxHeight) {
+                    panel2.style.maxHeight = null;
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+                } else {
+                    panel2.style.maxHeight = panel2.scrollHeight + "%";
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                }
+            });
+        }
     });
 
     window.addEventListener('refreshComponent', function(e) {
@@ -1375,3 +1456,4 @@
         jQuery('#modalProdutos').modal();
     });
 </script>
+</div>

@@ -13,7 +13,6 @@
 
 
     @livewire('encomendas.encomendas')
- 
     
 
 @endsection
@@ -21,7 +20,8 @@
 @push('scripts_footer')
 
 <script>
-     document.addEventListener('livewire:load', function() {
+    document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener('livewire:load', function() {
             Livewire.hook('message.sent', (message,component) => {
                 document.getElementById('loader').style.display = 'block';
             });
@@ -37,6 +37,8 @@
             // Show the loader when the user navigates away or the page is being unloaded
             document.getElementById('loader').style.display = 'block';
         });
+    });
+
 </script>
 
 @endpush

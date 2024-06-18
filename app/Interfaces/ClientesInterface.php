@@ -49,7 +49,7 @@ interface ClientesInterface
 
     //DETALHES CLIENTE -> SALVAR VISITA
 
-    public function storeVisita($numero_cliente,$assunto,$relatorio,$pendentes,$comentario_encomendas,$comentario_propostas,$comentario_financeiro,$comentario_occorencias): JsonResponse;  
+    public function storeVisita($idVisita,$numero_cliente,$assunto,$relatorio,$pendentes,$comentario_encomendas,$comentario_propostas,$comentario_financeiro,$comentario_occorencias): JsonResponse;  
 
 
     /********** */

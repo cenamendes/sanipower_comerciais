@@ -12,6 +12,8 @@ class CalendarDashboard extends Component
 
     public ?object $listagemCalendario = null;
 
+    protected $listeners = ['visitaAdded' => 'visitaArrived'];
+
     public function boot(VisitasInterface $visitasRepository)
     {
         $this->visitasRepository = $visitasRepository;
@@ -20,7 +22,13 @@ class CalendarDashboard extends Component
     public function mount()
     {
         $this->listagemCalendario = $this->visitasRepository->getListagemVisitasAgendadas(Auth::user()->id);
+    }
 
+    public function visitaArrived()
+    {
+        $this->listagemCalendario = $this->visitasRepository->getListagemVisitasAgendadas(Auth::user()->id);
+
+        $this->dispatchBrowserEvent('restartCalendar');
     }
 
     public function render()
