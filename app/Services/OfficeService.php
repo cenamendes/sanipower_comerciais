@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use DateTime;
+use DateInterval;
+use App\Traits\Helps;
 use App\Models\TiposVisitas;
 use Illuminate\Support\Facades\Auth;
-use App\Traits\Helps;
 
 class OfficeService
 {
@@ -17,14 +19,20 @@ class OfficeService
         
         $curl = curl_init();
 
+        $horaInicialFormat= new DateTime($horaInicial);
+        $horaInicialFormat->sub(new DateInterval('PT1H'));
+
+        $horaFinalFormat= new DateTime($horaFinal);
+        $horaFinalFormat->sub(new DateInterval('PT1H'));
+
         $data = json_encode(array(
             'subject' => $assuntoText . ' - ' . $client,
             'start' => array(
-                'dateTime' => $dataInicial . 'T' . $this->formatarHoraComMilissegundos($horaInicial) . 'Z',
+                'dateTime' => $dataInicial . 'T' . $horaInicialFormat->format('H:i') . 'Z',
                 'timeZone' => 'UTC'
             ),
             'end' => array(
-                'dateTime' => $dataInicial . 'T' . $this->formatarHoraComMilissegundos($horaFinal) . 'Z',
+                'dateTime' => $dataInicial . 'T' . $horaFinalFormat->format('H:i') . 'Z',
                 'timeZone' => 'UTC'
             ),
             'location' => array(
@@ -37,6 +45,7 @@ class OfficeService
                 )
             )
         ));
+
      
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://graph.microsoft.com/v1.0/me/events',
