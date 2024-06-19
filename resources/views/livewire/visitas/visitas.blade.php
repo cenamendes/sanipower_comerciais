@@ -205,8 +205,6 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
-
-
                         </div>
                     </div>
 
@@ -255,8 +253,8 @@
                                                 <i class="ti-settings text-light"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="{{ route('visitas.detail', $clt->id) }}" class="dropdown-item">Adicionar Visita</a>
-                                                <a wire:click="agendarVisita({{json_encode($clt->id)}}, {{json_encode($clt->name)}})" class="dropdown-item">Agendar Visita</a>
+                                                <a href="{{ route('visitas.detail', $clt->id) }}"  class="dropdown-item">Adicionar Visita</a>
+                                                <a wire:click="agendarVisita({{json_encode($clt->id)}}, {{json_encode($clt->name)}})"  class="dropdown-item">Agendar Visita</a>
                                                 <a wire:click="finalizarVisita({{json_encode($clt->name)}})" class="dropdown-item">Finalizar Visita</a>
                                             </div>
                                         </td>
@@ -379,7 +377,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
             
-                            @livewire('visitas.listagem-visitas-agendadas',["clientID" => json_encode($clientID)], key(json_encode($clientID)))
+                            @livewire('visitas.listagem-visitas-agendadas',["clientID" => json_encode($clientID), 'activeFinalizado' => "2"], key(json_encode($clientID)))
 
                         </div>
                     </div>

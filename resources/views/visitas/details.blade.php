@@ -11,14 +11,14 @@
         </div>
     </div>
     
-    @livewire('visitas.detalhe-visitas',["cliente" => $idCliente, "idVisita" => $idVisita])
+    @livewire('visitas.detalhe-visitas',["cliente" => $idCliente, "idVisita" => $idVisita,"tst" => $tst])
 
 @endsection
 
 @push('scripts_footer')
 
 <script>
-     document.addEventListener('livewire:load', function() {
+    document.addEventListener('livewire:load', function() {
             Livewire.hook('message.sent', () => {
                 document.getElementById('loader').style.display = 'block';
             });
@@ -28,10 +28,6 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
-
-
-
-
         document.addEventListener('openComentarioModal', function() {
             jQuery("#modalComentario").modal();
         });

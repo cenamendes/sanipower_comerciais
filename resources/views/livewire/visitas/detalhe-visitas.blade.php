@@ -1,7 +1,7 @@
 <div>
-      <!--  LOADING -->
+    <!--  LOADING -->
 
-      <div id="loader" style="display: none;">
+    <div id="loader" style="display: none;">
         <div class="loader" role="status">
 
         </div>
@@ -13,7 +13,7 @@
 
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
         <div class="tools">
-            <a href="javascript:void(0);" wire:click="saveVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
+            <a href="javascript:void(0);" wire:click="openModalSaveVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
@@ -426,7 +426,7 @@
 
                     <p class="card-text">
 
-                       @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id])
 
                     </p>
                 </div>
@@ -435,21 +435,41 @@
 
                     <p class="card-text">
 
-                       @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id])
 
                     </p>
                 </div>
-
-
-
-
             </div>
         </div>
+        <div class="modal fade" id="listagemDetalherVisitas" tabindex="-1" role="dialog" aria-labelledby="listagemDetalherVisitas" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-primary" id="modalComentario">Finalizar Visita</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;" >
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                @livewire('visitas.listagem-visitas-agendadas',["clientID" => json_encode($detalhesCliente->customers[0]->name), 'activeFinalizado' => "1" ], key(json_encode($detalhesCliente->customers[0]->name)))
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
     <!-- FIM TABS  -->
-   <script>
-    document.addEventListener('livewire:load', function() {
+    <script>
+        document.addEventListener('livewire:load', function() {
             Livewire.hook('message.sent', () => {
                 document.getElementById('loader').style.display = 'block';
             });
@@ -458,7 +478,14 @@
             Livewire.hook('message.processed', () => {
                 document.getElementById('loader').style.display = 'none';
             });
+
+        });
+        window.addEventListener('listagemDetalherVisitasModal', function() {
+            jQuery("#listagemDetalherVisitas").modal();
+        });
+        $('#listagemDetalherVisitas').on('hidden.bs.modal', function () {
+            @this.set('clientID', "");
         });
 
-   </script>
+    </script>
 </div>

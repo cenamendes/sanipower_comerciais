@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Visitas;
 use Livewire\Component;
 use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
+use App\Models\VisitasAgendadas;
+use Illuminate\Support\Facades\Session;
 
 class DetalheVisitas extends Component
 {
@@ -34,7 +36,6 @@ class DetalheVisitas extends Component
     public string $tabVisitas = "";
     public string $tabAssistencias = "";
 
-
     //FORM
     public string $assunto = "";
     public string $relatorio = "";
@@ -46,8 +47,11 @@ class DetalheVisitas extends Component
 
     private ?object $encomendasDetail = NULL;
 
-    public ?int $idVisita;
+    public ?string $activeFinalizado = "";
 
+    public ?int $idVisita;
+    public ?string $clientID = "";
+    protected $listeners = ['eventoChamarSaveVisita' => 'saveVisita'];
     public function boot(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -65,7 +69,7 @@ class DetalheVisitas extends Component
 
     }
 
-    public function mount($cliente, $idVisita = null)
+    public function mount($cliente, $idVisita = null, $tst)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
@@ -73,7 +77,8 @@ class DetalheVisitas extends Component
         if($idVisita != 0){
             $this->idVisita = $idVisita;
         }
-        
+
+        $this->activeFinalizado = $tst;
         $this->restartDetails();
 
     }
@@ -192,30 +197,63 @@ class DetalheVisitas extends Component
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
-
-    public function saveVisita()
+    public function openModalSaveVisita()
     {
         $this->restartDetails();
+        if($this->activeFinalizado == "1"){ //finalizar
 
+        
+            $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
+            
+            $responseArray = $response->getData(true);
+            VisitasAgendadas::where('id', $this->idVisita)->update(['finalizado' => 1]);
+            if($responseArray["success"] == true){
+                session()->flash('success', "Visita registada com sucesso");
+            } else {
+                if($responseArray["type"] == "1")
+                {
+                    session()->flash('error', $responseArray["data"]);
+                } else {
+                    session()->flash('error', "Não foi possivel adicionar a visita");
+                }
+            }
+
+            $this->skipRender();
+            
+            return redirect()->route('visitas');
+        }else if($this->activeFinalizado == "2"){ // adicionar
+            $this->dispatchBrowserEvent('listagemDetalherVisitasModal');
+        }
+        
+    }
+    public function saveVisita($id = null)
+    {
+        $this->restartDetails();
+        
         $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
-
         $responseArray = $response->getData(true);
+
+        if($id != null) {
+            VisitasAgendadas::where('id', $id)->update(['finalizado' => 1]);
+        }
+        
+        
 
         if($responseArray["success"] == true){
             session()->flash('success', "Visita registada com sucesso");
-         } else {
+        } else {
             if($responseArray["type"] == "1")
             {
                 session()->flash('error', $responseArray["data"]);
             } else {
                 session()->flash('error', "Não foi possivel adicionar a visita");
             }
-             
-         }
+        }
 
         $this->skipRender();
-
+        
         return redirect()->route('visitas');
+        
 
     }
 
