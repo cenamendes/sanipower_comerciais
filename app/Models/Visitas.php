@@ -19,7 +19,7 @@ class Visitas extends Model
         'comentario_encomendas',
         'comentario_propostas',
         'comentario_financeiro',
-        'comentario_occorencias',
+        'comentario_ocorrencias',
         'data',
         'user_id',
         'id_visita_agendada'

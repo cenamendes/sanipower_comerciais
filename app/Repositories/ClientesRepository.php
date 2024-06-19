@@ -506,7 +506,7 @@ class ClientesRepository implements ClientesInterface
             "comentario_encomendas" => $comentario_encomendas,
             "comentario_propostas" => $comentario_propostas,
             "comentario_financeiro" => $comentario_financeiro,
-            "comentario_occorrencias" => $comentario_occorencias,
+            "comentario_ocorrencias" => $comentario_occorencias,
             "data" => date('Y-m-d'),
             "user_id" => Auth::user()->id
         ]);
