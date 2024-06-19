@@ -61,12 +61,6 @@
             @endif
         </div>
 
-        <div>
-            <x-input-label for="token" :value="__('Token')" />
-            <x-text-input id="token" name="token" type="text" class="form-control" :value="old('token', $user->token)" required autofocus autocomplete="token" />
-            <x-input-error class="mt-2" :messages="$errors->get('token')" />
-        </div>
-
         <div class="flex items-center gap-4">
             <br>
             <x-primary-button>{{ __('Save') }}</x-primary-button>
