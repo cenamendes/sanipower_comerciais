@@ -229,14 +229,18 @@ class DetalheVisitas extends Component
     public function saveVisita($id = null)
     {
         $this->restartDetails();
-        
-        $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
-        $responseArray = $response->getData(true);
-
-        if($id != null) {
-            VisitasAgendadas::where('id', $id)->update(['finalizado' => 1]);
+        if($this->idVisita != 0) {
+            $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
+            
         }
         
+
+        if($id != null) {
+            $this->idVisita = $id['visitaId'];
+            $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
+            VisitasAgendadas::where('id', $id)->update(['finalizado' => 1]);
+        }
+        $responseArray = $response->getData(true);
         
 
         if($responseArray["success"] == true){
