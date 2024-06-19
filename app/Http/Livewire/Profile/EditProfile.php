@@ -20,7 +20,6 @@ class EditProfile extends Component
     public $Nivel;
     public $Status;
     public $Email;
-    public $Token;
     public $TelemovelUser;
     public $nomeUser;
     public $Senha;
@@ -36,7 +35,6 @@ class EditProfile extends Component
 
         $this->nomeUser = $this->user->name;
         $this->Email = $this->user->email;
-        $this->Token = $this->user->token;
         $this->TelemovelUser = $this->user->telefone;
         $this->Nivel = $this->user->nivel;
         $this->vendedor_phc = $this->user->id_phc;
@@ -50,7 +48,6 @@ class EditProfile extends Component
             'Nivel' => 'required',
             'Status' => 'required',
             'Email' => 'required|email',
-            'Token' => 'required',
             'TelemovelUser' => 'required',
             'vendedor_phc' => 'required'
         ]);
@@ -68,7 +65,6 @@ class EditProfile extends Component
             'nivel' => $this->Nivel,
             'status' => $this->Status,
             'email' => $this->Email,
-            'token' => $this->Token,
             'imagem' => $fileName,
             'telefone' => $this->TelemovelUser,
             'id_phc' => $this->vendedor_phc

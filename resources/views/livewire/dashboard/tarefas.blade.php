@@ -753,9 +753,26 @@
 
 
             window.addEventListener('sendToTeams', function(e) {
-    
-                window.location.replace("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite");
-            }); 
+
+                var state = encodeURIComponent(JSON.stringify({ 
+                    tenant:e.detail.tenant, 
+                    clientid: e.detail.clientId, 
+                    clientesecret: e.detail.clientSecret,
+                    redirect: e.detail.redirect,
+                    visitaid: e.detail.visitaID,
+                    visitaname: e.detail.visitaName,
+                    data: e.detail.data,
+                    horainicial: e.detail.horaInicial,
+                    horafinal: e.detail.horaFinal,
+                    tipovisita: e.detail.tipoVisita, 
+                    assunto: e.detail.assunto,
+                    email: e.detail.email,
+                    organizer: e.detail.organizer 
+                }));
+
+                var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
+                novaJanela.focus();
+            });
 
 
 

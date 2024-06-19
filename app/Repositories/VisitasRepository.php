@@ -326,9 +326,6 @@ class VisitasRepository implements VisitasInterface
             "finalizado" => 0
         ]);
 
-        //$servicoOffice = new OfficeService();
-
-        //$criarEvento = $servicoOffice->criarEventoOutlook($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText);
 
         if ($addVisita) {
             // Inserção bem-sucedida

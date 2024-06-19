@@ -19,7 +19,6 @@ class CreateProfile extends Component
     public $Nivel;
     public $Status;
     public $Email;
-    public $Token;
     public $TelemovelUser;
     public $nomeUser;
     public $Senha;
@@ -38,7 +37,6 @@ class CreateProfile extends Component
             'Nivel' => 'required',
             'Status' => 'required',
             'Email' => 'required',
-            'Token' => 'required',
             'TelemovelUser' => 'required',
             'Senha' => 'required',
             'ConfirmeSenha' => 'required',
@@ -57,7 +55,6 @@ class CreateProfile extends Component
                 'nivel' => $this->Nivel,
                 'status' => $this->Status,
                 'email' => $this->Email,
-                'token' => $this->Token,
                 'imagem' => $fileName,
                 'telefone' => $this->TelemovelUser,
                 'password' => $this->Senha,
