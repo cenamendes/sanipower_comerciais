@@ -260,17 +260,9 @@ class Visitas extends Component
 
         $this->clientID = $clientID;
 
-        Session::put('activeModalFinalizado', 'active');
-
         $this->dispatchBrowserEvent('listagemVisitasModal');
     }
-    public function removerSession()
-    {
-        $this->initProperties();
-
-        Session::put('activeModalFinalizado', '');
-    }
-
+   
 
     public function newVisita($clienteID,$ClienteVisitaTemp)
     {

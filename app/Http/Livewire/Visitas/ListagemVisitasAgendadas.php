@@ -21,6 +21,8 @@ class ListagemVisitasAgendadas extends Component
     public int $totalRecords = 0;
     private ?object $clientesRepository = NULL;
     private ?object $visitasRepository = NULL;
+    public ?string $activeFinalizado = "";
+
 
     protected $listagemVisitas;
     public ?string $clientID = "";
@@ -32,9 +34,10 @@ class ListagemVisitasAgendadas extends Component
         $this->visitasRepository = $visitasRepository;
     }
 
-    public function mount($clientID)
+    public function mount($clientID, $activeFinalizado)
     {
         $this->clientID = $clientID;
+        $this->activeFinalizado = $activeFinalizado;
     }
 
     public function getPageRange()
@@ -60,8 +63,19 @@ class ListagemVisitasAgendadas extends Component
     }
     public function endVisita($visitaId)
     {
-        $this->emit('eventoChamarSaveVisita');
-        return redirect()->route('visitas.end-visita',["id" => $visitaId]);
+
+        if($this->activeFinalizado == "2"){
+            
+            return redirect()->route('visitas.end-visita',["id" => $visitaId]);
+        }else if($this->activeFinalizado == "1"){
+
+            $this->emit('eventoChamarSaveVisita',["visitaId" => $visitaId]);
+
+            //é so alterar no visitas agendadas
+            //criar no visitas o novo registo
+               //ver se tem os valores dos relatorios
+            
+        }
     }
 
 

@@ -453,7 +453,7 @@
                     <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;" >
                         <div class="card mb-3">
                             <div class="card-body">
-                                @livewire('visitas.listagem-visitas-agendadas',["clientID" => json_encode($detalhesCliente->customers[0]->name)], key(json_encode($detalhesCliente->customers[0]->name)))
+                                @livewire('visitas.listagem-visitas-agendadas',["clientID" => json_encode($detalhesCliente->customers[0]->name), 'activeFinalizado' => "1" ], key(json_encode($detalhesCliente->customers[0]->name)))
                             </div>
                         </div>
                     </div>

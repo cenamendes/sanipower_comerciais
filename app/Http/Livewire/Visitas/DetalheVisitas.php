@@ -47,7 +47,7 @@ class DetalheVisitas extends Component
 
     private ?object $encomendasDetail = NULL;
 
-    public ?string $activeModalFinalizado = "";
+    public ?string $activeFinalizado = "";
 
     public ?int $idVisita;
     public ?string $clientID = "";
@@ -69,7 +69,7 @@ class DetalheVisitas extends Component
 
     }
 
-    public function mount($cliente, $idVisita = null)
+    public function mount($cliente, $idVisita = null, $tst)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
@@ -78,7 +78,7 @@ class DetalheVisitas extends Component
             $this->idVisita = $idVisita;
         }
 
-        $this->activeModalFinalizado = Session::get('activeModalFinalizado');
+        $this->activeFinalizado = $tst;
         $this->restartDetails();
 
     }
@@ -200,7 +200,7 @@ class DetalheVisitas extends Component
     public function openModalSaveVisita()
     {
         $this->restartDetails();
-        if($this->activeModalFinalizado){
+        if($this->activeFinalizado == "1"){ //finalizar
 
         
             $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
@@ -221,20 +221,24 @@ class DetalheVisitas extends Component
             $this->skipRender();
             
             return redirect()->route('visitas');
-        }else{
+        }else if($this->activeFinalizado == "2"){ // adicionar
             $this->dispatchBrowserEvent('listagemDetalherVisitasModal');
         }
         
     }
-    public function saveVisita()
+    public function saveVisita($id = null)
     {
         $this->restartDetails();
         
         $response = $this->clientesRepository->storeVisita($this->idVisita, $this->detailsClientes->customers[0]->no,$this->assunto,$this->relatorio,$this->pendentes,$this->comentario_encomendas,$this->comentario_propostas,$this->comentario_financeiro,$this->comentario_occorencias);
         $responseArray = $response->getData(true);
-        if($this->activeModalFinalizado){
-            VisitasAgendadas::where('id', $this->idVisita)->update(['finalizado' => 1]);
+
+        if($id != null) {
+            VisitasAgendadas::where('id', $id)->update(['finalizado' => 1]);
         }
+        
+        
+
         if($responseArray["success"] == true){
             session()->flash('success', "Visita registada com sucesso");
         } else {
