@@ -32,13 +32,6 @@
                         </div>
                         @error('Email')  <span class="text-danger">O campo email é obrigatório.</span> @enderror
                     </div>
-                    <div class="col-lg-12">
-                        <label class="mt-2">Token</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Token" wire:model.lazy="Token">
-                        </div>
-                        @error('Token')  <span class="text-danger">O campo token é obrigatório.</span> @enderror
-                    </div>
                     <div class="col-lg-3">
                         <label class="mt-2">Status</label>
                         <select class="form-control selectpicker" wire:model.lazy="Status">
