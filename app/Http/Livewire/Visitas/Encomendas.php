@@ -51,7 +51,7 @@ class Encomendas extends Component
         $this->initProperties();
         $this->idCliente = $cliente;
 
-        $this->idCliente = "AJ19073058355,4450000-1";
+        //$this->idCliente = "AJ19073058355,4450000-1";
 
         $this->restartDetails();
 
