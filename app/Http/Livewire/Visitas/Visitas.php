@@ -8,6 +8,7 @@ use App\Models\TiposVisitas;
 use Livewire\WithPagination;
 use App\Models\VisitasAgendadas;
 use App\Interfaces\VisitasInterface;
+use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
 
 
@@ -281,6 +282,11 @@ class Visitas extends Component
 
         $response = $this->visitasRepository->addVisitaDatabase($clienteID,$ClienteVisitaTemp, preg_replace('/[a-zA-Z]/', '', $this->dataInicial), preg_replace('/[a-zA-Z]/', '', $this->horaInicial), preg_replace('/[a-zA-Z]/', '', $this->horaFinal), $this->tipoVisitaEscolhido, $this->assuntoText);
 
+        $tenant = env('MICROSOFT_TENANT');
+        $clientId = env('MICROSOFT_CLIENT_ID');
+        $clientSecret = env('MICROSOFT_CLIENT_SECRET');
+        $redirectUri = env('MICROSOFT_REDIRECT');
+        
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
@@ -292,6 +298,8 @@ class Visitas extends Component
         }
 
         $this->emit('reloadNotification');
+
+        $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($clienteID),"visitaName" =>$ClienteVisitaTemp,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicial), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicial), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinal), "tipoVisita" => $this->tipoVisitaEscolhido, "assunto" => $this->assuntoText, "email" => Auth::user()->email, "organizer" => Auth::user()->name ]);
         $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
 
     }
