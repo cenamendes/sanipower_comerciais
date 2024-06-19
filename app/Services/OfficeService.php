@@ -10,36 +10,33 @@ class OfficeService
 {
     use Helps;
 
-    public function criarEventoOutlook($client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText)
+    public function criarEventoOutlook($client, $email,$nameOrganizer,$dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText,$tokenAccess)
     {
 
         $tiposVisita = TiposVisitas::where('id',$tipoVisitaEscolhido)->first();
-
-        $accessToken = Auth::user()->token;
         
         $curl = curl_init();
 
-        $data = '{
-            "subject": "'.$assuntoText.' - '.$client.'",
-            "start": {
-                "dateTime": "'.$dataInicial.'T'.$this->formatarHoraComMilissegundos($horaInicial).'Z",
-                "timeZone": "UTC"
-            },
-            "end": {
-                "dateTime": "'.$dataInicial.'T'.$this->formatarHoraComMilissegundos($horaFinal).'Z",
-                "timeZone": "UTC"
-            },
-            "location" : {
-                "displayName": "'.$tiposVisita->tipo.'"
-            },
-            "organizer" : {
-                "emailAddress": {
-                     "address": "'.Auth::user()->email.'",
-                     "name": "'.Auth::user()->name.'",
-                },
-            },
-        }';
-
+        $data = json_encode(array(
+            'subject' => $assuntoText . ' - ' . $client,
+            'start' => array(
+                'dateTime' => $dataInicial . 'T' . $this->formatarHoraComMilissegundos($horaInicial) . 'Z',
+                'timeZone' => 'UTC'
+            ),
+            'end' => array(
+                'dateTime' => $dataInicial . 'T' . $this->formatarHoraComMilissegundos($horaFinal) . 'Z',
+                'timeZone' => 'UTC'
+            ),
+            'location' => array(
+                'displayName' => $tiposVisita->tipo
+            ),
+            'organizer' => array(
+                'emailAddress' => array(
+                    'address' => $email,
+                    'name' => $nameOrganizer
+                )
+            )
+        ));
      
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://graph.microsoft.com/v1.0/me/events',
@@ -48,7 +45,7 @@ class OfficeService
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . $accessToken,
+                'Authorization: Bearer ' . $tokenAccess,
                 'Content-Type: application/json'
             ),
         ));
