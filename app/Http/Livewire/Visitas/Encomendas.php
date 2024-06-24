@@ -183,10 +183,10 @@ public function verComentario($idEncomenda)
 }
 
 
-public function detalheEncomendaModal()
+public function detalheEncomendaModal($id)
 {
 
-    $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+    $this->encomendaID = $id;
 
     $this->restartDetails();
 

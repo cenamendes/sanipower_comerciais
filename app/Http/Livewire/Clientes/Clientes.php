@@ -108,7 +108,7 @@ class Clientes extends Component
         $numContribuinteNumerico = ctype_digit($this->criarnumContribuinte);
     
         if ($camposPreenchidos && $numClienteNumerico && $numContribuinteNumerico) {
-            $this->dispatchBrowserEvent('checkToaster', ['status' => 'success', 'message' => 'Cliente criado com sucesso!']);
+            $this->dispatchBrowserEvent('checkToaster', ['status' => 'success', 'message' => 'Email enviado com sucesso!']);
     
             // Obtenha o usuário logado
             $user = Auth::user();

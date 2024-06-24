@@ -107,10 +107,10 @@
                                 @foreach ($detalhesPropostas as $detalhe)
                                 <tr>
                                     <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                    <td>{{ $detalhe->order }}</td>
+                                    <td>{{ $detalhe->budget }}</td>
                                     <td>{{ $detalhe->total }}</td>
                                     <td>{{ $detalhe->status }}</td>
-                                    <td><button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i class="ti ti-plus"></i> Comentário</button>
+                                    <td><button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button>
                                         @php
                                         $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
                                         ->where('tipo', 'propostas')
@@ -221,16 +221,20 @@
                     </thead>
                     <tbody>
                         @isset($detalhesPropostas[0]->lines)
-                        @foreach ($detalhesPropostas[0]->lines as $line)
-                        <tr>
-                            <td>{{ $line->reference }}</td>
-                            <td>{{ $line->description }}</td>
-                            <td style="text-align:center">{{ $line->quantity }}</td>
-                            <td style="text-align:center">{{ $line->price }}</td>
-                            <td style="text-align:center">{{ $line->discount }}</td>
-                            <td style="text-align:center">{{ $line->discount2 }}</td>
-                            <td style="text-align:center">{{ $line->total }}</td>
-                        </tr>
+                        @foreach ($detalhesPropostas as $prop)
+                            @if($prop->id == $propostaID)
+                                @foreach ($prop->lines as $line)
+                                    <tr>
+                                        <td>{{ $line->reference }}</td>
+                                        <td>{{ $line->description }}</td>
+                                        <td style="text-align:center">{{ $line->quantity }}</td>
+                                        <td style="text-align:center">{{ $line->price }} €</td>
+                                        <td style="text-align:center">{{ $line->discount }}</td>
+                                        <td style="text-align:center">{{ $line->discount2 }}</td>
+                                        <td style="text-align:center">{{ $line->total }} €</td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         @endforeach
                         @endisset
                     </tbody>

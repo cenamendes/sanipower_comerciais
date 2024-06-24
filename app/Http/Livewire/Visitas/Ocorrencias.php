@@ -180,10 +180,10 @@ class Ocorrencias extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioOcorrencias');
     }
 
-    public function detalheOcorrenciasModal()
+    public function detalheOcorrenciasModal($id)
     {
 
-        $detalhe = $this->clientesRepository->getOcorrenciasCliente($this->perPage, $this->pageChosen, $this->idCliente);
+        $this->ocorrenciaID = $id;
 
         $this->restartDetails();
 

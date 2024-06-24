@@ -29,6 +29,7 @@ class Propostas extends Component
     private ?object $detailsPropostas = NULL;
     public ?object $comentario = NULL;
 
+
     public function boot(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -180,15 +181,15 @@ class Propostas extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
     }
 
-    public function detalhePropostaModal()
-{
+    public function detalhePropostaModal($id)
+    {
 
-    $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->propostaID = $id;
 
-    $this->restartDetails();
+        $this->restartDetails();
 
-    $this->dispatchBrowserEvent('openDetalhePropostaModal');
-}
+        $this->dispatchBrowserEvent('openDetalhePropostaModal');
+    }
 
     public function render()
     {

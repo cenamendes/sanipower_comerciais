@@ -386,7 +386,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -409,7 +409,7 @@ class ClientesRepository implements ClientesInterface
 
         if($response_decoded != null)
         {
-            $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
+            $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
 
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
 
@@ -430,7 +430,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
