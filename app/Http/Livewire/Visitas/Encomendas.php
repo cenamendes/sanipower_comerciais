@@ -142,56 +142,56 @@ class Encomendas extends Component
     }
 
     public function sendComentario($idEncomenda)
-{
-    if (empty($this->comentarioEncomenda)) {
-        $message = "O campo de comentário está vazio!";
-        $status = "error";
-    } else {
-        $response = $this->clientesRepository->sendComentarios($idEncomenda, $this->comentarioEncomenda, "encomendas");
-
-        $responseArray = $response->getData(true);
-
-        if ($responseArray["success"] == true) {
-            $message = "Comentário adicionado com sucesso!";
-            $status = "success";
-        } else {
-            $message = "Não foi possível adicionar o comentário!";
+    {
+        if (empty($this->comentarioEncomenda)) {
+            $message = "O campo de comentário está vazio!";
             $status = "error";
+        } else {
+            $response = $this->clientesRepository->sendComentarios($idEncomenda, $this->comentarioEncomenda, "encomendas");
+
+            $responseArray = $response->getData(true);
+
+            if ($responseArray["success"] == true) {
+                $message = "Comentário adicionado com sucesso!";
+                $status = "success";
+            } else {
+                $message = "Não foi possível adicionar o comentário!";
+                $status = "error";
+            }
         }
+
+        // Reinicia os detalhes da encomenda
+        $this->restartDetails();
+
+        // Exibe a mensagem usando o evento do navegador
+        $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
 
-    // Reinicia os detalhes da encomenda
-    $this->restartDetails();
-
-    // Exibe a mensagem usando o evento do navegador
-    $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
-}
 
 
+    public function verComentario($idEncomenda)
+    {
+        // Carrega o comentário correspondente
+        $comentario = Comentarios::with('user')->where('stamp', $idEncomenda)->where('tipo', 'encomendas')->get();
 
-public function verComentario($idEncomenda)
-{
-    // Carrega o comentário correspondente
-    $comentario = Comentarios::with('user')->where('stamp', $idEncomenda)->where('tipo', 'encomendas')->get();
+        // Define o comentário para exibir no modal
+        $this->comentario = $comentario;
 
-    // Define o comentário para exibir no modal
-    $this->comentario = $comentario;
-
-    $this->restartDetails();
-    // Dispara o evento para abrir o modal
-    $this->dispatchBrowserEvent('abrirModalVerComentario');
-}
+        $this->restartDetails();
+        // Dispara o evento para abrir o modal
+        $this->dispatchBrowserEvent('abrirModalVerComentario');
+    }
 
 
-public function detalheEncomendaModal($id)
-{
+    public function detalheEncomendaModal($id)
+    {
 
-    $this->encomendaID = $id;
+        $this->encomendaID = $id;
 
-    $this->restartDetails();
+        $this->restartDetails();
 
-    $this->dispatchBrowserEvent('openDetalheEncomendaModal');
-}
+        $this->dispatchBrowserEvent('openDetalheEncomendaModal');
+    }
 
 
 
