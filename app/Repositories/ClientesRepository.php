@@ -482,6 +482,81 @@ class ClientesRepository implements ClientesInterface
         return $comentarioCreated;
     }
 
+    public function getOcorrenciasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/occurrences?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->occurrences, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+    
+        return $itemsPaginate; 
+    }
+
+    public function getNumberOfPagesOcorrenciasCliente($perPage,$idCliente): array
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/occurrences?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
 
     public function storeVisita($idVisita,$numero_cliente,$assunto,$relatorio,$pendentes,$comentario_encomendas,$comentario_propostas,$comentario_financeiro,$comentario_occorencias): JsonResponse
     {
