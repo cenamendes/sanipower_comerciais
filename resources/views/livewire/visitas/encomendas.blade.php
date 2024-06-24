@@ -223,6 +223,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @isset($detalhesEncomenda[0]->lines)
                             @foreach ($detalhesEncomenda[0]->lines as $line)
                             <tr>
                                 <td>{{ $line->reference }}</td>
@@ -234,6 +235,7 @@
                                 <td style="text-align:center">{{ $line->total }}</td>
                             </tr>
                             @endforeach
+                            @endisset
                         </tbody>
                     </table>
 
