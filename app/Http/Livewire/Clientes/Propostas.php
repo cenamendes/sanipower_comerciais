@@ -180,6 +180,16 @@ class Propostas extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
     }
 
+    public function detalhePropostaModal()
+{
+
+    $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+    $this->restartDetails();
+
+    $this->dispatchBrowserEvent('openDetalhePropostaModal');
+}
+
     public function render()
     {
         return view('livewire.clientes.propostas',["detalhesPropostas" => $this->detailsPropostas]);
