@@ -65,7 +65,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
  
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
