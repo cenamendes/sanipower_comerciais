@@ -182,6 +182,15 @@ public function verComentario($idEncomenda)
     $this->dispatchBrowserEvent('abrirModalVerComentario');
 }
 
+public function detalheEncomendaModal()
+{
+
+    $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+    $this->restartDetails();
+
+    $this->dispatchBrowserEvent('openDetalheEncomendaModal');
+}
 
     public function render()
     {
