@@ -333,6 +333,44 @@
                     </p>
                 </div>
 
+
+                <div class="tab-pane fade {{$tabEncomendas}}" id="tab6">
+
+                    <p class="card-text">
+
+                        @livewire('clientes.encomendas',["cliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
+
+                
+                <div class="tab-pane fade {{$tabPropostas}}" id="tab7">
+
+                    <p class="card-text">
+
+                        @livewire('clientes.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
+
+                
+                <div class="tab-pane fade {{$tabFinanceiro}}" id="tab8">
+
+                    {{-- <p class="card-text">
+
+                        @livewire('clientes.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+
+                    </p> --}}
+                </div>
+
+                <div class="tab-pane fade {{$tabOcorrencias}}" id="tab9">
+
+                    <p class="card-text">
+
+                        @livewire('clientes.ocorrencias',["cliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
                 <div class="tab-pane fade {{$tabCampanhas}}" id="tab12">
 
                     <p class="card-text">
