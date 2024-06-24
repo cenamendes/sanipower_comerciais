@@ -266,7 +266,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                         <button type="button" class="btn btn-outline-primary"
-                            wire:click="salvarCliente">Criar</button>
+                            wire:click="salvarCliente">Enviar</button>
                     </div>
                 </div>
             </div>
