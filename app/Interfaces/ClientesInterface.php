@@ -47,6 +47,14 @@ interface ClientesInterface
 
     /****** */
 
+    //DETALHES CLIENTE -> ABA OCORRENCIAS
+
+    public function getOcorrenciasCliente($perPage,$page,$nomeCliente): LengthAwarePaginator;
+
+    public function getNumberOfPagesOcorrenciasCliente($perPage,$idCliente): array;
+
+    /******** */
+
     //DETALHES CLIENTE -> SALVAR VISITA
 
     public function storeVisita($idVisita,$numero_cliente,$assunto,$relatorio,$pendentes,$comentario_encomendas,$comentario_propostas,$comentario_financeiro,$comentario_occorencias): JsonResponse;  

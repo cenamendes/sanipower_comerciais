@@ -36,6 +36,10 @@
             jQuery("#modalComentarioProp").modal();
         });
 
+        document.addEventListener('openComentarioModalOcorrencias', function() {
+            jQuery("#modalComentarioOcor").modal();
+        });
+
 
 
         window.addEventListener('DOMContentLoaded', (event) => {
