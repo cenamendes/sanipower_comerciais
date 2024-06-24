@@ -220,7 +220,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @isset($detalhesPropostas[0]->lines)
+                        @isset($detalhesPropostas)
                         @foreach ($detalhesPropostas as $prop)
                             @if($prop->id == $propostaID)
                                 @foreach ($prop->lines as $line)

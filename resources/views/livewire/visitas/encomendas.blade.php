@@ -223,7 +223,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @isset($detalhesEncomenda[0]->lines)
+                            @isset($detalhesEncomenda)
                             @foreach ($detalhesEncomenda as $enc)
                                 @if($enc->id == $encomendaID)
                                     @foreach ($enc->lines as $line)

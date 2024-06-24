@@ -228,7 +228,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @isset($detalhesOcorrencias[0]->lines)
+                        @isset($detalhesOcorrencias)
                         @foreach ($detalhesOcorrencias as $oco)
                             @if($oco->id == $ocorrenciasID)
                                 @foreach ($oco->lines as $line)
