@@ -14,6 +14,7 @@ class Encomendas extends Component
     private ?object $clientesRepository = NULL;
     protected ?object $clientes = NULL;
     public string $idCliente = "";
+    public $SpecifEncomenda;
 
     private ?object $encomendasDetail = NULL;
     public ?string $encomendaID = "";
@@ -181,6 +182,42 @@ public function verComentario($idEncomenda)
     // Dispara o evento para abrir o modal
     $this->dispatchBrowserEvent('abrirModalVerComentario');
 }
+
+
+public function detalheEncomendaModal()
+{
+
+    $detalhe = $this->clientesRepository->getEncomendasCliente($this->perPage, $this->pageChosen, $this->idCliente);
+
+    $this->restartDetails();
+
+    $this->dispatchBrowserEvent('openDetalheEncomendaModal');
+    // if ($detalhe && $detalhe->isNotEmpty()) {
+
+    //     $this->SpecifEncomenda = $detalhe->first();
+
+    //     if (isset($this->SpecifEncomenda->lines) && !empty($this->SpecifEncomenda->lines)) {
+    //         // Acessa o array 'lines'
+    //         $lines = [$this->SpecifEncomenda->lines];
+            
+    //         // Dispara um evento para abrir o modal e passar o array 'lines'
+    //         $this->dispatchBrowserEvent('openDetalheEncomendaModal', [
+    //             'lines' => $lines,
+    //         ]);
+    //     } else {
+    //         // Dispara um evento para abrir o modal com 'lines' como null
+    //         $this->dispatchBrowserEvent('openDetalheEncomendaModal', [
+    //             'lines' => null,
+    //         ]);
+    //     }
+    // } else {
+    //     // Dispara um evento para abrir o modal com 'lines' como null
+    //     $this->dispatchBrowserEvent('openDetalheEncomendaModal', [
+    //         'lines' => null,
+    //     ]);
+    // }
+}
+
 
 
     public function render()
