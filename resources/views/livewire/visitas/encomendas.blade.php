@@ -224,17 +224,19 @@
                         </thead>
                         <tbody>
                             @isset($detalhesEncomenda[0]->lines)
-                            @foreach ($detalhesEncomenda[0]->lines as $line)
-                            <tr>
-                                <td>{{ $line->reference }}</td>
-                                <td>{{ $line->description }}</td>
-                                <td style="text-align:center">{{ $line->quantity }}</td>
-                                <td style="text-align:center">{{ $line->price }}</td>
-                                <td style="text-align:center">{{ $line->discount }}</td>
-                                <td style="text-align:center">{{ $line->discount2 }}</td>
-                                <td style="text-align:center">{{ $line->total }}</td>
-                            </tr>
-                            @endforeach
+
+                                @foreach ($detalhesEncomenda[0]->lines as $line)
+                                <tr>
+                                    <td>{{ $line->reference }}</td>
+                                    <td>{{ $line->description }}</td>
+                                    <td style="text-align:center">{{ $line->quantity }}</td>
+                                    <td style="text-align:center">{{ $line->price }}</td>
+                                    <td style="text-align:center">{{ $line->discount }}</td>
+                                    <td style="text-align:center">{{ $line->discount2 }}</td>
+                                    <td style="text-align:center">{{ $line->total }}</td>
+                                </tr>
+                                @endforeach
+
                             @endisset
                         </tbody>
                     </table>

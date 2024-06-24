@@ -100,6 +100,7 @@
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
+                                    <th>Detalhe Encomenda</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -123,6 +124,11 @@
                                                     Ver Comentário
                                                 </button>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" wire:click="detalheOcorrenciasModal({{ json_encode($detalhe->id) }})">
+                                                <i class="ti ti-plus"></i> Ver Ocorrências
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -200,6 +206,51 @@
         </div>
     </div>
 
+    <div class="modal fade" id="detalheOcorrenciasModal" tabindex="-1" role="dialog" aria-labelledby="detalheOcorrenciasModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalheOcorrenciasModalLabel">Detalhes da Encomenda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Referencia</th>
+                            <th>Descrição</th>
+                            <th>Quantidade</th>
+                            <th>Preço</th>
+                            <th>Desconto</th>
+                            <th>Desconto 2</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @isset($detalhesOcorrencias[0]->lines)
+                            @foreach ($detalhesOcorrencias[0]->lines as $line)
+                            <tr>
+                                <td>{{ $line->reference }}</td>
+                                <td>{{ $line->description }}</td>
+                                <td style="text-align:center">{{ $line->quantity }}</td>
+                                <td style="text-align:center">{{ $line->price }}</td>
+                                <td style="text-align:center">{{ $line->discount }}</td>
+                                <td style="text-align:center">{{ $line->discount2 }}</td>
+                                <td style="text-align:center">{{ $line->total }}</td>
+                            </tr>
+                            @endforeach
+                        @endisset
+                    </tbody>
+                </table>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!----->
 
     <script>
@@ -217,6 +268,10 @@
 
         document.addEventListener('abrirModalVerComentarioOcorrencias', function() {
             $('#modalVerComentarioOccorencia').modal('show');
+        });
+
+        document.addEventListener('openDetalheOcorrenciasModal', function() {
+         $('#detalheOcorrenciasModal').modal('show');
         });
     </script>
 

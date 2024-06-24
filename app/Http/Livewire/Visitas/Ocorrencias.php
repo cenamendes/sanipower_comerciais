@@ -180,6 +180,18 @@ class Ocorrencias extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioOcorrencias');
     }
 
+    public function detalheOcorrenciasModal()
+    {
+
+        $detalhe = $this->clientesRepository->getOcorrenciasCliente($this->perPage, $this->pageChosen, $this->idCliente);
+
+        $this->restartDetails();
+
+        $this->dispatchBrowserEvent('openDetalheOcorrenciasModal');
+        
+    }
+
+
     public function render()
     {
         return view('livewire.visitas.ocorrencias',["detalhesOcorrencias" => $this->detailsOcorrencias]);
