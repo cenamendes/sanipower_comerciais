@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Clientes;
 
+use App\Mail\CriarCliente;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Livewire\Component;
 use App\Interfaces\ClientesInterface;
@@ -95,24 +98,30 @@ class Clientes extends Component
     {
         $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
-
+    
         $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
-
-
+    
         $camposPreenchidos = !empty($this->criarnomeCliente) && !empty($this->criarnumeroCliente) && !empty($this->criarzonaCliente) && !empty($this->criarnumContribuinte);
-
+    
         $numClienteNumerico = ctype_digit($this->criarnumeroCliente);
         $numContribuinteNumerico = ctype_digit($this->criarnumContribuinte);
-
+    
         if ($camposPreenchidos && $numClienteNumerico && $numContribuinteNumerico) {
             $this->dispatchBrowserEvent('checkToaster', ['status' => 'success', 'message' => 'Cliente criado com sucesso!']);
-
+    
+            // Obtenha o usuário logado
+            $user = Auth::user();
+    
+            // Envie o email
+            Mail::to($user->email)->send(new CriarCliente($this->criarnomeCliente, $this->criarnumeroCliente, $this->criarzonaCliente, $this->criarnumContribuinte));
+    
             $this->limparCampos();
         } else {
             $this->dispatchBrowserEvent('checkToaster', ['status' => 'error', 'message' => 'Por favor, preencha todos os campos corretamente!']);
         }
     }
+    
 
     private function limparCampos()
     {
