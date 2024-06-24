@@ -168,17 +168,17 @@ class Propostas extends Component
 
 
     public function verComentario($idProposta)
-{
-    // Carrega o comentário correspondente
-    $comentario = Comentarios::with('user')->where('stamp', $idProposta)->where('tipo', 'propostas')->get();
+    {
+        // Carrega o comentário correspondente
+        $comentario = Comentarios::with('user')->where('stamp', $idProposta)->where('tipo', 'propostas')->get();
 
-    // Define o comentário para exibir no modal
-    $this->comentario = $comentario;
+        // Define o comentário para exibir no modal
+        $this->comentario = $comentario;
 
-    $this->restartDetails();
-    // Dispara o evento para abrir o modal
-    $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
-}
+        $this->restartDetails();
+        // Dispara o evento para abrir o modal
+        $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
+    }
 
     public function render()
     {

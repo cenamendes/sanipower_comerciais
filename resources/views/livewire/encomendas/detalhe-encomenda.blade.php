@@ -594,7 +594,7 @@
                                                     <tbody>
                                                         @if (!empty($detailProduto))
                                                             @foreach ($detailProduto->product as $i => $prod)
-                                                                <tr>
+                                                                <tr style="background-color:{{ $prod->color }}">
                                                                     <td>{{ $prod->referense }}</td>
                                                                     <td>{{ $prod->model }}</td>
                                                                     <td>{{ $prod->pvp }}</td>
@@ -925,7 +925,7 @@
                                 <tbody>
                                     @if (!empty($quickBuyProducts))
                                         @foreach ($quickBuyProducts->product as $i => $prod)
-                                            <tr wire:key="product-{{ $i }}">
+                                            <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
                                                 <td>{{ $prod->referense }}</td>
                                                 <td>{{ $prod->model }}</td>
                                                 <td>{{ $prod->pvp }}</td>
