@@ -51,7 +51,7 @@ class NewVisita extends Component
         
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
@@ -126,7 +126,7 @@ class NewVisita extends Component
 
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 

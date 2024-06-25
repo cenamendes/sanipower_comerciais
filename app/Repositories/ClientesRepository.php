@@ -451,6 +451,7 @@ class ClientesRepository implements ClientesInterface
 
         $arrayInfo = [];
 
+
         $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
 
         return $arrayInfo;

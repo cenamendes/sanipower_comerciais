@@ -55,7 +55,7 @@ class Propostas extends Component
         $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
 
@@ -67,7 +67,7 @@ class Propostas extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
@@ -77,7 +77,7 @@ class Propostas extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
@@ -87,7 +87,7 @@ class Propostas extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
@@ -97,7 +97,7 @@ class Propostas extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
@@ -107,7 +107,7 @@ class Propostas extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
@@ -117,7 +117,7 @@ class Propostas extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
@@ -192,13 +192,13 @@ class Propostas extends Component
             $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente);
             $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
             $this->totalRecords = $getInfoClientes["nr_registos"];
         } else {
             $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
             $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
             $this->totalRecords = $getInfoClientes["nr_registos"];
         }
 

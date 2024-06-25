@@ -194,7 +194,7 @@ class DetalheVisitas extends Component
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPageRelatorio,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
     public function openModalSaveVisita()

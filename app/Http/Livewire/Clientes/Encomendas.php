@@ -118,7 +118,7 @@ class Encomendas extends Component
         $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
     }
