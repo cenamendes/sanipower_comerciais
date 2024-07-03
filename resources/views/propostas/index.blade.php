@@ -11,7 +11,8 @@
         </div>
     </div>
 
-
+    <h4>Propostas</h4>
+    
     @livewire('propostas.propostas')
  
     

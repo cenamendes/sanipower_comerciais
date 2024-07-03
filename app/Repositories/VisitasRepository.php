@@ -16,10 +16,21 @@ class VisitasRepository implements VisitasInterface
 {
     public function getListagemVisitas($perPage,$page): LengthAwarePaginator
     {
+
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.$string.'&Salesman_number='.Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -61,10 +72,19 @@ class VisitasRepository implements VisitasInterface
 
     public function getNumberOfPages($perPage): array
     {
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page=1',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.$string.'&Page=1&Salesman_number='.Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -97,25 +117,52 @@ class VisitasRepository implements VisitasInterface
     }
     /*** FILTROS ***/
 
-    public function getListagemVisitasFiltro($perPage,$page,$nomeVisitas,$numeroVisitas,$zonaVisitas): LengthAwarePaginator
+    public function getListagemVisitasFiltro($perPage,$page,$nomeVisitas,$numeroVisitas,$zonaVisitas,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator
     {
 
-        if($nomeVisitas != "") {
+        if ($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
+        } else {
+            $nomeVisitas = '&Name=';
         }
-
-        if($numeroVisitas != "") {
+        
+        if ($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
+        } else {
+            $numeroVisitas = '&Customer_number=0';
+        }
+        
+        if ($zonaVisitas != "") {
+            $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
+        } else {
+            $zonaVisitas = '&Zone=';
+        }
+        
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
         }
 
-        if($zonaVisitas != "") {
-            $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
         }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+
+        $string = $nomeVisitas.$numeroVisitas.$zonaVisitas.$telemovelCliente.$emailCliente.$nifCliente;
+
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.$nomeVisitas.$numeroVisitas.$zonaVisitas,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -154,25 +201,52 @@ class VisitasRepository implements VisitasInterface
         return $itemsPaginate;
     }
 
-    public function getNumberOfPagesVisitasFiltro($perPage,$nomeVisitas,$numeroVisitas,$zonaVisitas): array
+    public function getNumberOfPagesVisitasFiltro($perPage,$nomeVisitas,$numeroVisitas,$zonaVisitas,$telemovelCliente,$emailCliente,$nifCliente): array
     {
 
-        if($nomeVisitas != "") {
+        if ($nomeVisitas != "") {
             $nomeVisitas = '&Name='.urlencode($nomeVisitas);
+        } else {
+            $nomeVisitas = '&Name=';
         }
-
-        if($numeroVisitas != "") {
+        
+        if ($numeroVisitas != "") {
             $numeroVisitas = '&Customer_number='.urlencode($numeroVisitas);
+        } else {
+            $numeroVisitas = '&Customer_number=0';
+        }
+        
+        if ($zonaVisitas != "") {
+            $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
+        } else {
+            $zonaVisitas = '&Zone=';
+        }
+        
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
         }
 
-        if($zonaVisitas != "") {
-            $zonaVisitas = '&Zone='.urlencode($zonaVisitas);
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
         }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+
+        $string = $nomeVisitas.$numeroVisitas.$zonaVisitas.$telemovelCliente.$emailCliente.$nifCliente;
+
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page=1'.$nomeVisitas.$numeroVisitas.$zonaVisitas,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page=1&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -208,7 +282,7 @@ class VisitasRepository implements VisitasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?id='.$id,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?id='.$id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -240,7 +314,7 @@ class VisitasRepository implements VisitasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idVisitas,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/analytics/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idVisitas,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -284,7 +358,7 @@ class VisitasRepository implements VisitasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/analytics/orders?perPage='.$perPage.'&Page=1&customer_id='.$idVisitas,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/analytics/orders?perPage='.$perPage.'&Page=1&customer_id='.$idVisitas,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

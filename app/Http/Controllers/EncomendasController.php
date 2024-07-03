@@ -30,7 +30,7 @@ class EncomendasController extends Controller
 
         if(empty($checkCarrinho)){
             $codEncomenda = $detailsClientes->customers[0]->no;
-            $randomChar = Str::random(1);
+            $randomChar = mt_rand(1000000, 9999999);
             $codEncomenda .= $randomChar;
         }else{
             $codEncomenda = $checkCarrinho->id_encomenda;

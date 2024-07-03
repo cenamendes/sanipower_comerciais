@@ -39,6 +39,7 @@ class DetalheEncomenda extends Component
     public string $tabDetail = "";
     public string $tabProdutos = "show active";
     public string $tabDetalhesEncomendas = "";
+    public string $tabFinalizar = "";
     public string $tabDetalhesCampanhas = "";
 
     public int $specificProduct = 0;
@@ -62,6 +63,24 @@ class DetalheEncomenda extends Component
     public $modalShow = false;
 
     public $iterationDelete = 0;
+
+
+    /** PARTE DO FINALIZAR **/
+
+    public $transportadora;
+    public $viaturaSanipower;
+    public $levantamentoLoja;
+    public $observacaoFinalizar;
+    public $referenciaFinalizar;
+
+    public $lojaFinalizar;
+
+    public $condicoesFinalizar;
+    public $chequeFinalizar;
+    public $pagamentoFinalizar;
+    public $transferenciaFinalizar;
+
+    /******** */
 
 
     /** PARTE DA COMPRA */
@@ -123,13 +142,13 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
 
         $this->idCategoryRecuar = $idCategory;
         $this->idFamilyRecuar = $idFamily;
         $this->idSubFamilyRecuar = $idSubFamily;
 
         $this->detailProduto = $this->encomendasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
-
 
         session(['quickBuyProducts' => $this->detailProduto]);
 
@@ -155,6 +174,7 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
 
         if ($this->searchProduct != "") {
             $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar, $this->searchProduct);
@@ -185,6 +205,7 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
 
         $this->specificProduct = 0;
 
@@ -211,6 +232,7 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
 
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->getCategories = $this->encomendasRepository->getCategorias();
@@ -263,6 +285,7 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
 
         $this->searchProduct = "";
         //unset($_SESSION['searchProduct']);
@@ -319,6 +342,7 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
 
         $this->idCategoryRecuar = $idCategory;
         $this->idFamilyRecuar = $idFamily;
@@ -380,6 +404,7 @@ class DetalheEncomenda extends Component
         $this->tabProdutos = "show active";
         $this->tabDetalhesEncomendas = "";
         $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
 
         $this->specificProduct = 0;
 
@@ -449,8 +474,9 @@ class DetalheEncomenda extends Component
         
 
         if ($responseArray["success"] == true) {
+    
             if($this->produtosComment){
-                $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $productChosenComment["comentario"]);
+                $response = $this->encomendasRepository->addCommentToDatabase($responseArray["data"]["id"],$this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $productChosenComment["comentario"]);
                 $this->produtosComment = [];
             }
 
@@ -630,13 +656,89 @@ class DetalheEncomenda extends Component
         $this->skipRender();
     }
 
+    public function finalizarencomenda()
+    {
+        // public $transportadora;
+        // public $viaturaSanipower;
+        // public $levantamentoLoja;
+        // public $observacaoFinalizar;
+        // public $referenciaFinalizar;
+    
+        // public $lojaFinalizar;
+    
+        // public $condicoesFinalizar;
+        // public $chequeFinalizar;
+        // public $pagamentoFinalizar;
+        // public $transferenciaFinalizar;
+
+        //FAZER VALIDAÇÃO PARA ESTES AQUI DE CIMA
+
+        dd("finaliza");
+        $arrayProdutos = [];
+
+        $valorTotal = 0;
+        $valorTotalComIva = 0;
+        $count = 0;
+    
+        foreach($this->carrinhoCompras as $prod)
+        {
+            $count++;
+
+            $totalItem = $prod->price * $prod->qtd;
+            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+            $valorTotal += $totalItem;
+            $valorTotalComIva += $totalItemComIva;
+
+
+
+
+            $arrayProdutos[$count] = [
+                "linha_id" => $count,
+                "ref" => $prod->referencia,
+                "design" => $prod->designacao,
+                "qtt" => $prod->qtd,
+                "iva" => $prod->iva,
+                "ivaincl" => "",
+                "edebito" => "",
+                "desconto" => $prod->discount,
+                "desc2" => "",
+                "desc3" => "",
+                "ettdeb" => "",
+                "notas" => "sample string 12"
+            ];
+        }
+
+        
+
+        $array = [
+                    "data" => date('Y-m-d'), 
+                    "no" => $this->carrinhoCompras[0]->id_encomenda,
+                    "etotal_siva" => number_format($valorTotal, 2, ',', '.'),
+                    "etotal" => number_format($valorTotalComIva, 2, ',', '.'),
+                    "referencia" => $this->referenciaFinalizar,
+                    "observacoes" => $this->observacaoFinalizar,
+                    "entrega" => "sample string 9",
+                    "loja" => "sample string 10",
+                    "pagamento" => "sample string 11",
+                    "vendedor_id" =>  Auth::user()->id_phc, 
+                    "produtos" => $arrayProdutos
+        ];
+              
+        
+        $encoded_finalizar = json_encode($array);
+
+        dd($encoded_finalizar);
+
+
+    }
+
     public function render()
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-
+   
         if (session('searchSubFamily') !== null) {
             $sessao = session('searchSubFamily');
 

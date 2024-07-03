@@ -17,10 +17,20 @@ class ClientesRepository implements ClientesInterface
 {
     public function getListagemClientes($perPage,$page): LengthAwarePaginator
     {
+        
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.$string.'&Salesman_number='.Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -32,9 +42,9 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
-
+      
         $response = curl_exec($curl);
-
+       
         curl_close($curl);
 
         $response_decoded = json_decode($response);
@@ -65,7 +75,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
  
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -106,10 +116,20 @@ class ClientesRepository implements ClientesInterface
 
     public function getNumberOfPages($perPage): array
     {
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+        
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page=1',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.$string.'&Page=1&Salesman_number='.Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -121,11 +141,11 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
-
+       
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+      
         $response_decoded = json_decode($response);
 
         $arrayInfo = [];
@@ -137,24 +157,52 @@ class ClientesRepository implements ClientesInterface
 
     /*** FILTROS ***/
 
-    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente): LengthAwarePaginator
+    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator
     {
-        if($nomeCliente != "") {
+        
+        if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
-        } 
-
-        if($numeroCliente != "") {
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
             $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
         }
 
-        if($zonaCliente != "") {
-            $zonaCliente = '&Zone='.urlencode($zonaCliente);
-        } 
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
+
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.$nomeCliente.$numeroCliente.$zonaCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -167,12 +215,13 @@ class ClientesRepository implements ClientesInterface
             ),
         ));
 
+
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+     
         $response_decoded = json_decode($response);
-
+       
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         if($response_decoded != null)
@@ -192,25 +241,51 @@ class ClientesRepository implements ClientesInterface
         return $itemsPaginate; 
     }
 
-    public function getNumberOfPagesClienteFiltro($perPage,$nomeCliente,$numeroCliente,$zonaCliente): array
+    public function getNumberOfPagesClienteFiltro($perPage,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array
     {
 
-        if($nomeCliente != "") {
+        if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
-        } 
-
-        if($numeroCliente != "") {
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
             $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
-        } 
-
-        if($zonaCliente != "") {
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
             $zonaCliente = '&Zone='.urlencode($zonaCliente);
-        } 
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?perPage='.$perPage.'&Page=1'.$nomeCliente.$numeroCliente.$zonaCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page=1&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -223,12 +298,13 @@ class ClientesRepository implements ClientesInterface
             ),
         ));
 
+
         $response = curl_exec($curl);
 
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-
+      
 
         $arrayInfo = [];
 
@@ -246,7 +322,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/customers/GetCustomers?id='.$id,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?id='.$id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -278,7 +354,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -322,7 +398,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -353,7 +429,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -386,7 +462,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -430,7 +506,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -488,7 +564,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/occurrences?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -532,7 +608,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/documents/occurrences?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

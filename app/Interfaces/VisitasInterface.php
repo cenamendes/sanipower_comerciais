@@ -17,9 +17,9 @@ interface VisitasInterface
 
     /** FILTRO POR Visitas */
 
-    public function getListagemVisitasFiltro($perPage,$page,$nomeVisitas,$numeroVisitas,$zonaVisitas): LengthAwarePaginator;
+    public function getListagemVisitasFiltro($perPage,$page,$nomeVisitas,$numeroVisitas,$zonaVisitas,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator;
 
-    public function getNumberOfPagesVisitasFiltro($perPage,$nomeVisitas,$numeroVisitas,$zonaVisitas): array;
+    public function getNumberOfPagesVisitasFiltro($perPage,$nomeVisitas,$numeroVisitas,$zonaVisitas,$telemovelCliente,$emailCliente,$nifCliente): array;
 
     /*********** */
 

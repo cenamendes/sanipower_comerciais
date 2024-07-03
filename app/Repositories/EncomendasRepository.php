@@ -20,7 +20,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/categories',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/categories',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -48,7 +48,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -76,7 +76,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -112,7 +112,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&product_number='.$productNumber.'&customer_number='.$idCustomer.'&img=false',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&product_number='.$productNumber.'&customer_number='.$idCustomer.'&img=false',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -147,7 +147,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://sanipower.fortiddns.com:58884/api/products/categories',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/categories',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -193,7 +193,7 @@ class EncomendasRepository implements EncomendasInterface
         return $arrayFiltrado; 
 
     }
-    public function addCommentToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type,$comment): JsonResponse
+    public function addCommentToDatabase($idCarrinho,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type,$comment): JsonResponse
     {
         if($type == "encomenda") {
             $idencomenda = $codType;
@@ -210,7 +210,8 @@ class EncomendasRepository implements EncomendasInterface
             "id_encomenda" => $idencomenda,
             "id_proposta" => $idproposta,
             "tipo" => $type,
-            "comentario" => $comment
+            "comentario" => $comment,
+            "id_carrinho_compras" => $idCarrinho
         ]);
 
         if ($addComment) {

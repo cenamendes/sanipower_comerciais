@@ -11,6 +11,7 @@
         </div>
     </div>
 
+    <h4>Encomendas</h4>
 
     @livewire('encomendas.encomendas')
     

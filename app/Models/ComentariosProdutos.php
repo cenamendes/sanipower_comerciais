@@ -21,5 +21,6 @@ class ComentariosProdutos extends Model
         'id_proposta',
         'tipo',
         'comentario',
+        'id_carrinho_compras'
     ];
 }

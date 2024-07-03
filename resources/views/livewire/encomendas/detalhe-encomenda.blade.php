@@ -27,15 +27,7 @@
 
     <!-- TABS  -->
 
-    {{-- <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
-        <div class="tools">
-            <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i class="ti-eye"></i>
-                Ver Encomenda</a>
-            <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar</a>
-            <a href="javascript:void(0);" class="btn btn-sm btn-secondary"> Cancelar</a>
-        </div>
-    </div> --}}
-
+    
     <div class="card card-tabs-pills mb-3">
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
@@ -48,6 +40,9 @@
                 <li class="nav-item">
                     <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#tab7" data-toggle="tab" class="nav-link {{ $tabFinalizar }}">Finalizar</a>
+                </li>
             </ul>
 
             <div class="teste" style="padding-right:35px;">
@@ -56,7 +51,7 @@
                         <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
                             Ver Encomenda</a>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Finalizar Encomenda</a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary" wire:click="finalizarencomenda"><i class="ti-save"></i> Finalizar Encomenda</a>
                         <a href="javascript:void(0);" wire:click="cancelarEncomenda" class="btn btn-sm btn-secondary" > Cancelar</a>
                     </div>
                 </div>
@@ -792,87 +787,174 @@
                     </table>
                 </div>
             </div>
-            <div class="row p-4">
-                <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                    <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
-                </div>
-                <div class="col-12 pb-3 p-0 d-md-none text-center">
-                    <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
-                </div>
-            </div>
+           
         </div>
 
-            {{-- <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
+            <div class="tab-pane fade {{ $tabFinalizar }}" id="tab7">
 
                 <p class="card-text">
 
 
                 <div class="row form-group">
-                    <div class="col-xl-4 col-xs-12">
+
+                   <div class="col-xl-12 col-xs-12">
+                        <h5 style="border-bottom:1px solid;padding-bottom:10px;">Os seus dados</h5>
+                   </div>
+                       
+                    <div class="col-xl-12 col-xs-12">
 
                         <div class="form-group">
-                            <label>Referência</label>
+                            <label>Vossa referência</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-carolina"><i
                                             class="ti-light-bulb text-light"></i></span>
                                 </div>
-                                <input type="text" class="form-control"
-                                    value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                <input type="text" class="form-control" wire:model.defer="referenciaFinalizar">
                             </div>
                         </div>
 
                     </div>
 
-                    <div class="col-xl-4 col-xs-12">
+                    <div class="col-xl-12 col-xs-12">
 
                         <div class="form-group">
-                            <label>Entrega</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-carolina"><i
-                                            class="ti-bag text-light"></i></span>
-                                </div>
-                                <input type="text" class="form-control"
-                                    value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
+                            <div class="form-group">
+                                <label>Observação</label>
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="observacaoFinalizar"></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-xl-4 col-xs-12">
-
-                        <div class="form-group">
-                            <label>Condições de Pagamento</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-carolina"><i
-                                            class="ti-money text-light"></i></span>
-                                </div>
-                                <input type="text" class="form-control"
-                                    value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
-                            </div>
-                        </div>
-                    </div>
+                 
                 </div>
 
                 <div class="row form-group">
                     <div class="col-xl-12 col-xs-12">
+                        <h5 style="border-bottom:1px solid;padding-bottom:10px;">Dados logísticos</h5>
+                    </div>
 
-                        <div class="form-group">
-                            <label>Observação</label>
-                            <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
+                    <div class="col-xl-6 col-xs-6 mt-2">
+
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="levantamento_loja" class="checkFinalizar" wire:model.defer="levantamentoLoja">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Levantamento em loja
+                                </label>
+                            </div>
+                           
+                        </div>
+        
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="viatura_sanipower" class="checkFinalizar" wire:model.defer="viaturaSanipower">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Entrega por viatura SANIPOWER
+                                </label>
+                            </div>
+                        </div>
+    
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="transportadora" class="checkFinalizar" wire:model.defer="transportadora">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Entrega por transportadora
+                                </label>
+                            </div>
                         </div>
 
                     </div>
+
+                    <div class="col-xl-6 col-xs-6 mt-2">
+
+                        <div class="col-xl-12 col-xs-12">
+                            <label id="selectLabel">Selecione loja</label>
+                            <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar">
+                                <option value="option1">Opção 1</option>
+                                <option value="option2">Opção 2</option>
+                                <option value="option3">Opção 3</option>
+                            </select>
+                        </div>
+                  
+
+                    </div>
+                  
+                   
+
                 </div>
 
+                <div class="row form-group mt-4">
+                    <div class="col-xl-12 col-xs-12">
+                        <h5 style="border-bottom:1px solid;padding-bottom:10px;">Tipo de pagamento</h5>
+                    </div>
 
+                    <div class="col-xl-12 col-xs-12 mt-2">
+                        
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="transferencia_bancaria" class="checkPagamento" wire:model.defer="transferenciaFinalizar">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Transferência Bancária
+                                </label>
+                            </div>
+                           
+                        </div>
+        
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="pronto_pagamento" class="checkPagamento" wire:model.defer="pagamentoFinalizar">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Pronto Pagamento
+                                </label>
+                            </div>
+                        </div>
+    
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="cheque_entrega" class="checkPagamento" wire:model.defer="chequeFinalizar">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Cheque a 30 dias contra entrega
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="condicoes_pagamento" class="checkPagamento" wire:model.defer="condicoesFinalizar">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Condições de pagamento acordadas
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                                      
+
+                </div>
+
+                <div class="row p-4">
+                    <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
+                        <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
+                    </div>
+                    <div class="col-12 pb-3 p-0 d-md-none text-center">
+                        <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                        <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
+                    </div>
+                </div>
 
                     </p>
 
-                </div> --}}
+                </div>
 
 
 <!-- Modal adicionar compra rapida -->
@@ -1056,7 +1138,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary">Finalizar Encomenda</a>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary" wire:click="finalizarencomenda">Finalizar Encomenda</a>
             </div>
         </div>
     </div>
@@ -1170,6 +1252,26 @@
 
             }
         });
+
+        $('#selectBox').hide();
+        $('#selectLabel').css("display","none");
+
+        $('.checkFinalizar').on('change', function() {
+            $('.checkFinalizar').not(this).prop('checked', false);
+
+            if($('#levantamento_loja').is(':checked')) {
+                $('#selectBox').show();
+                $('#selectLabel').css("display","block");
+            } else {
+                $('#selectBox').hide();
+                $('#selectLabel').css("display","none");
+            }
+        });
+
+        $('.checkPagamento').on('change', function() {
+            $('.checkPagamento').not(this).prop('checked', false);
+        });
+        
     });
 
 

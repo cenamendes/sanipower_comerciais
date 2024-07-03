@@ -135,7 +135,7 @@
                     <div class="row">
                         <div class="col-xl-8 col-xs-12">
                             <div class="caption uppercase">
-                                <i class="ti-user"></i> Clientes
+                                <i class="ti-user"></i> Propostas (Clientes)
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
