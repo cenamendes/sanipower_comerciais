@@ -611,7 +611,7 @@
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
-                                                                            {{ $stock->warehouse }}
+                                                                            {{ $stock->warehouse_description }}
                                                                             @if ($stock->stock == true)
                                                                                 <i class="ti-check text-lg text-forest"></i>
                                                                             @else

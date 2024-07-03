@@ -112,7 +112,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&product_number='.$productNumber.'&customer_number='.$idCustomer.'&img=false',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&product_number='.$productNumber.'&customer_number='.$idCustomer.'&img=false',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
