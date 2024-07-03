@@ -49,6 +49,9 @@
                 <li class="nav-item">
                     <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">Artigos</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#tab7" data-toggle="tab" class="nav-link {{ $tabFinalizar }}">Finalizar</a>
+                </li>
             </ul>
 
             <div class="teste" style="padding-right:35px;">
@@ -370,7 +373,7 @@
                                         </div>
                                     @endforeach
                                     <div class="sidebarProd" id="sidebarProd" wire:ignore>
-                                        <label for="checkbox" style="width: 100%;">
+                                        <label for="checkbox" style="width: 180%;">
                                             <div class="input-group input-group-config-Goback input-config-produtos"
                                                 id="checkboxSidbar" style="padding: 0;">
                                                 <label><i class="ti-menu"></i>
@@ -515,7 +518,7 @@
                                             @endphp
                                             @if ($searchSubFamily)
                                                 @foreach ($searchSubFamily->product as $prodt)
-                                                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
+                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                         <div
                                                             class="card card-decoration card-outline-primary border border-2">
                                                             <a href="javascript:void(0)"
@@ -558,162 +561,136 @@
                                     $subFamily = session('subFamily');
                                     $productNumber = session('productNumber');
                                 @endphp
-                                <div class="row container-detalhes-produto">
-                                    <div class="col-4 col-md-3" style="padding-left: 0;padding-bottom: 20px;">
-                                        <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg"
-                                            width=100%>
-                                    </div>
-                                    @php
-                                        $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
-                                    @endphp
-                                    <div class="col-12 col-lg-9">
-                                        <div class="row">
-                                            <div class="col-xl-12 mb-2">
+                                <div class="container-fluid container-detalhes-produto">
+                                    <div class="row">
+                                        <div class="col-12 d-flex flex-wrap">
+                                            <div class="col-12 col-md-3 p-0 mb-3">
+                                                <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg" width="100%">
+                                            </div>
+                                            @php
+                                                $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
+                                            @endphp
+                                            <div class="col-12 col-md-9">
                                                 <div class="row">
-                                                    <div class="col-xs-9 d-flex align-middle pl-2"
-                                                        style="align-items:center;">
-                                                        <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
+                                                    <div class="col-12 mb-2">
+                                                        <div class="row">
+                                                            <div class="col-12 d-flex align-items-center pl-2">
+                                                                <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="table-responsive" style="overflow-x:inherit !important;">
-                                                <table class="table table-bordered table-hover"
-                                                    style="min-width: 995px;">
-                                                    <thead class="thead-light">
-                                                        <tr>
-                                                            <th>Referência</th>
-                                                            <th>Modelo</th>
-                                                            <th>PVP unitário</th>
-                                                            <th>Desconto</th>
-                                                            <th>Preço unitário</th>
-                                                            <th>Qtd mínima</th>
-                                                            <th>Stock</th>
-                                                            <th style=" width: 150px;">Qtd a encomendar</th>
-                                                            <th class="text-center">Ações</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (!empty($detailProduto))
-                                                            @foreach ($detailProduto->product as $i => $prod)
-                                                                <tr style="background-color:{{ $prod->color }}" >
-                                                                    <td>{{ $prod->referense }}</td>
-                                                                    <td>{{ $prod->model }}</td>
-                                                                    <td>{{ $prod->pvp }}</td>
-                                                                    <td>{{ $prod->discount }}</td>
-                                                                    <td>{{ $prod->price }}</td>
-                                                                    <td>{{ $prod->quantity }}</td>
-                                                                    <td style="text-align:center;font-size:large;">
-                                                                        @if ($prod->in_stock == true)
-                                                                            <a class="popover-test"
-                                                                                data-toggle="tooltip"
-                                                                                data-placement="top"
-                                                                                title="Clique para ver os valores">
-                                                                                <!-- <i class="ti-check text-lg text-forest"></i>  -->
-                                                                                <div class="dropdownIcon">
-                                                                                    <i
-                                                                                        class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
-                                                                                    <ul class="dropdownIcon-menu">
-                                                                                        <li><i
-                                                                                                class="fa fa-play icon-play"></i>
-                                                                                        </li>
-                                                                                        <li
-                                                                                            style="border-bottom: 1px solid;">
-                                                                                            <h5>Stocks em loja</h5>
-                                                                                        </li>
-                                                                                        @foreach ($prod->stocks as $stock)
-                                                                                            <li>
-                                                                                                {{ $stock->warehouse }}
-                                                                                                @if ($stock->stock == true)
-                                                                                                    <i
-                                                                                                        class="ti-check text-lg text-forest"></i>
-                                                                                                @else
-                                                                                                    <i
-                                                                                                        class="ti-close text-lg text-chili"></i>
-                                                                                                @endif
-                                                                                            </li>
-                                                                                        @endforeach
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </a>
-                                                                        @else
-                                                                            <a href="javascript:;" role="button"
-                                                                                class="popover-test"
-                                                                                data-toggle="popover"
-                                                                                aria-describedby="popover817393">
-                                                                                <i
-                                                                                    class="ti-close text-lg text-chili"></i>
-                                                                            </a>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td><input type="number" class="form-control produto-quantidade"
-                                                                            id="{{$i}}" data-qtd="{{ $prod->quantity }}" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
-                                                                    <td class="text-center ">
-                                                                        <div class="d-flex justify-content-around">
-                                                                            <button
-                                                                                class="btn btn-sm btn-outline-secondary">
-                                                                                <i class="ti-package text-light"></i>
-                                                                            </button>
-                                                                            <div class="dropdown">
-                                                                                <button class="btn btn-sm btn-outline-secondary" id="commentProductEncomenda{{$i}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                                    <i class="ti-comment"></i>
-                                                                                </button>
-                                                                                <div class="dropdown-menu" aria-labelledby="commentProductEncomenda{{$i}}" style="min-width: 200px; left: -235px; top: -13px;">
-                                                                                    
-                                                                                    <li>
-                                                                                        <h6 class="modal-title" style="color:#212529; display: flex; justify-content: space-around; margin: 5px 0;">
-                                                                                            <span>Comentário</span>
-                                                                                            <button class="btn btn-sm btn-success" id="addCommentEncomenda{{$i}}" disabled>
-                                                                                                <i class="ti-check"></i>
-                                                                                            </button>
-                                                                                        </h6>
-                                                                                        <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
-                                                                                            wire:model.defer="produtosComment.{{$i}}">
-                                                                                        </textarea>
-                                                                                    </li>
-                                                                                </div>
-                                                                            </div>
-                                                                            <button wire:click="addProductQuickBuyProposta({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
-                                                                                class="btn btn-sm btn-outline-secondary" id="addProductProposta{{$i}}" disabled>
-                                                                                <i class="ti-notepad text-light"></i>
-                                                                            </button>
-                                                                            {{-- vinicius --}}
-                                                                            <button wire:click="addProductQuickBuyEncomenda({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')"
-                                                                                class="btn btn-sm btn-outline-secondary" id="addProductEncomenda{{$i}}" disabled>
-                                                                                <i class="ti-shopping-cart text-light"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </td>
+                                                    <div class="table-responsive" style="overflow-x:auto;">
+                                                        <table class="table table-bordered table-hover" style="min-width: 995px;">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th>Referência</th>
+                                                                    <th>Modelo</th>
+                                                                    <th>PVP unitário</th>
+                                                                    <th>Desconto</th>
+                                                                    <th>Preço unitário</th>
+                                                                    <th>Qtd mínima</th>
+                                                                    <th>Stock</th>
+                                                                    <th style="width: 150px;">Qtd a encomendar</th>
+                                                                    <th class="text-center">Ações</th>
                                                                 </tr>
-                                                            @endforeach
-                                                        @endif
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="container-buttons-produtos">
-                                                <div>
-                                                    <button class="btn btn-md btn-primary"><i class="ti-file"></i>
-                                                        Ficha do Produto</button>
-                                                </div>
-                                                <div>
-                                                    <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i>
-                                                        Limpar Seleção</button>
-                                                </div>
-                                                <div>
-                                                    <button class="btn btn-md btn-primary" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i
-                                                            class="ti-shopping-cart" ></i> Adicionar Todos </button>
-                                                </div>
-                                                <div>
-                                                    <button class="btn btn-md btn-primary"><i class="ti-info"></i>
-                                                        Descrição Produto</button>
-                                                </div>
-                                                <div>
-                                                    <button class="btn btn-md btn-primary"><i class="ti-file"></i>
-                                                        Manuais Certificados</button>
+                                                            </thead>
+                                                            <tbody>
+                                                                @if (!empty($detailProduto))
+                                                                    @foreach ($detailProduto->product as $i => $prod)
+                                                                        <tr style="background-color:{{ $prod->color }}">
+                                                                            <td>{{ $prod->referense }}</td>
+                                                                            <td>{{ $prod->model }}</td>
+                                                                            <td>{{ $prod->pvp }}</td>
+                                                                            <td>{{ $prod->discount }}</td>
+                                                                            <td>{{ $prod->price }}</td>
+                                                                            <td>{{ $prod->quantity }}</td>
+                                                                            <td style="text-align:center;font-size:large;">
+                                                                                @if ($prod->in_stock == true)
+                                                                                    <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
+                                                                                        <div class="dropdownIcon">
+                                                                                            <i class="ti-check text-lg text-forest dropdownIcon-toggle"></i>
+                                                                                            <ul class="dropdownIcon-menu">
+                                                                                                <li><i class="fa fa-play icon-play"></i></li>
+                                                                                                <li style="border-bottom: 1px solid;">
+                                                                                                    <h5>Stocks em loja</h5>
+                                                                                                </li>
+                                                                                                @foreach ($prod->stocks as $stock)
+                                                                                                    <li>
+                                                                                                        {{ $stock->warehouse_description }}
+                                                                                                        @if ($stock->stock == true)
+                                                                                                            <i class="ti-check text-lg text-forest"></i>
+                                                                                                        @else
+                                                                                                            <i class="ti-close text-lg text-chili"></i>
+                                                                                                        @endif
+                                                                                                    </li>
+                                                                                                @endforeach
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </a>
+                                                                                @else
+                                                                                    <a href="javascript:;" role="button" class="popover-test" data-toggle="popover" aria-describedby="popover817393">
+                                                                                        <i class="ti-close text-lg text-chili"></i>
+                                                                                    </a>
+                                                                                @endif
+                                                                            </td>
+                                                                            <td><input type="number" class="form-control produto-quantidade" id="{{$i}}" data-qtd="{{ $prod->quantity }}" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
+                                                                            <td class="text-center">
+                                                                                <div class="d-flex justify-content-around">
+                                                                                    <button class="btn btn-sm btn-outline-secondary">
+                                                                                        <i class="ti-package text-light"></i>
+                                                                                    </button>
+                                                                                    <div class="dropdown">
+                                                                                        <button class="btn btn-sm btn-outline-secondary" id="commentProductEncomenda{{$i}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                            <i class="ti-comment"></i>
+                                                                                        </button>
+                                                                                        <div class="dropdown-menu" aria-labelledby="commentProductEncomenda{{$i}}" style="min-width: 200px; left: -235px; top: -13px;">
+                                                                                            <li>
+                                                                                                <h6 class="modal-title" style="color:#212529; display: flex; justify-content: space-around; margin: 5px 0;">
+                                                                                                    <span>Comentário</span>
+                                                                                                    <button class="btn btn-sm btn-success" id="addCommentEncomenda{{$i}}" disabled>
+                                                                                                        <i class="ti-check"></i>
+                                                                                                    </button>
+                                                                                                </h6>
+                                                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
+                                                                                            </li>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <button wire:click="addProductQuickBuyProposta({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')" class="btn btn-sm btn-outline-secondary" id="addProductProposta{{$i}}" disabled>
+                                                                                        <i class="ti-notepad text-light"></i>
+                                                                                    </button>
+                                                                                    <button wire:click="addProductQuickBuyEncomenda({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')" class="btn btn-sm btn-outline-secondary" id="addProductEncomenda{{$i}}" disabled>
+                                                                                        <i class="ti-shopping-cart text-light"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="container-buttons-produtos">
+                                                        <div>
+                                                            <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
+                                                        </div>
+                                                        <div>
+                                                            <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
+                                                        </div>
+                                                        <div>
+                                                            <button class="btn btn-md btn-primary" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
+                                                        </div>
+                                                        <div>
+                                                            <button class="btn btn-md btn-primary"><i class="ti-info"></i> Descrição Produto</button>
+                                                        </div>
+                                                        <div>
+                                                            <button class="btn btn-md btn-primary"><i class="ti-file"></i> Manuais Certificados</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                            </div>
+                                </div>
                     @endif
                 </div>
             </div>
@@ -793,87 +770,177 @@
                     </table>
                 </div>
             </div>
-            <div class="row p-4">
-                <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                    <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Finalizar Proposta</a>
-                </div>
-                <div class="col-12 pb-3 p-0 d-md-none text-center">
-                    <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Finalizar Proposta</a>
-                </div>
-            </div>
+          
         </div>
 
-            {{-- <div class="tab-pane fade {{ $tabDetalhesPropostas }}" id="tab6">
+            <div class="tab-pane fade {{ $tabFinalizar }}" id="tab7">
 
                 <p class="card-text">
 
-
+                    
                 <div class="row form-group">
-                    <div class="col-xl-4 col-xs-12">
 
-                        <div class="form-group">
-                            <label>Referência</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-carolina"><i
-                                            class="ti-light-bulb text-light"></i></span>
-                                </div>
-                                <input type="text" class="form-control"
-                                    value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="col-xl-4 col-xs-12">
-
-                        <div class="form-group">
-                            <label>Entrega</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-carolina"><i
-                                            class="ti-bag text-light"></i></span>
-                                </div>
-                                <input type="text" class="form-control"
-                                    value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-xs-12">
-
-                        <div class="form-group">
-                            <label>Condições de Pagamento</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-carolina"><i
-                                            class="ti-money text-light"></i></span>
-                                </div>
-                                <input type="text" class="form-control"
-                                    value="{{ $detalhesCliente->customers[0]->balance_checks }}" readonly>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row form-group">
                     <div class="col-xl-12 col-xs-12">
-
-                        <div class="form-group">
-                            <label>Observação</label>
-                            <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;"></textarea>
-                        </div>
-
+                         <h5 style="border-bottom:1px solid;padding-bottom:10px;">Os seus dados</h5>
                     </div>
-                </div>
+                        
+                     <div class="col-xl-12 col-xs-12">
+ 
+                         <div class="form-group">
+                             <label>Vossa referência</label>
+                             <div class="input-group">
+                                 <div class="input-group-prepend">
+                                     <span class="input-group-text bg-carolina"><i
+                                             class="ti-light-bulb text-light"></i></span>
+                                 </div>
+                                 <input type="text" class="form-control" wire:model.defer="referenciaFinalizar">
+                             </div>
+                         </div>
+ 
+                     </div>
+ 
+                     <div class="col-xl-12 col-xs-12">
+ 
+                         <div class="form-group">
+                             <div class="form-group">
+                                 <label>Observação</label>
+                                 <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="observacaoFinalizar"></textarea>
+                             </div>
+                         </div>
+                     </div>
+ 
+                  
+                 </div>
+ 
+                 <div class="row form-group">
+                     <div class="col-xl-12 col-xs-12">
+                         <h5 style="border-bottom:1px solid;padding-bottom:10px;">Dados logísticos</h5>
+                     </div>
+ 
+                     <div class="col-xl-6 col-xs-6 mt-2">
+ 
+                         <div class="col-xl-12 col-xs-12">
+                             <div class="form-checkbox">
+                                 <label>
+                                     <input type="checkbox" id="levantamento_loja" class="checkFinalizar" wire:model.defer="levantamentoLoja">
+                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                     Levantamento em loja
+                                 </label>
+                             </div>
+                            
+                         </div>
+         
+                         <div class="col-xl-12 col-xs-12">
+                             <div class="form-checkbox">
+                                 <label>
+                                     <input type="checkbox" id="viatura_sanipower" class="checkFinalizar" wire:model.defer="viaturaSanipower">
+                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                     Entrega por viatura SANIPOWER
+                                 </label>
+                             </div>
+                         </div>
+     
+                         <div class="col-xl-12 col-xs-12">
+                             <div class="form-checkbox">
+                                 <label>
+                                     <input type="checkbox" id="transportadora" class="checkFinalizar" wire:model.defer="transportadora">
+                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                     Entrega por transportadora
+                                 </label>
+                             </div>
+                         </div>
+ 
+                     </div>
+ 
+                     <div class="col-xl-6 col-xs-6 mt-2">
+ 
+                         <div class="col-xl-12 col-xs-12">
+                             <label id="selectLabel">Selecione loja</label>
+                             <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar">
+                                 <option value="option1">Opção 1</option>
+                                 <option value="option2">Opção 2</option>
+                                 <option value="option3">Opção 3</option>
+                             </select>
+                         </div>
+                   
+ 
+                     </div>
+                   
+                    
+ 
+                 </div>
+ 
+                 <div class="row form-group mt-4">
+                     <div class="col-xl-12 col-xs-12">
+                         <h5 style="border-bottom:1px solid;padding-bottom:10px;">Tipo de pagamento</h5>
+                     </div>
+ 
+                     <div class="col-xl-12 col-xs-12 mt-2">
+                         
+                         <div class="col-xl-12 col-xs-12">
+                             <div class="form-checkbox">
+                                 <label>
+                                     <input type="checkbox" id="transferencia_bancaria" class="checkPagamento" wire:model.defer="transferenciaFinalizar">
+                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                     Transferência Bancária
+                                 </label>
+                             </div>
+                            
+                         </div>
+         
+                         <div class="col-xl-12 col-xs-12">
+                             <div class="form-checkbox">
+                                 <label>
+                                     <input type="checkbox" id="pronto_pagamento" class="checkPagamento" wire:model.defer="pagamentoFinalizar">
+                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                     Pronto Pagamento
+                                 </label>
+                             </div>
+                         </div>
+     
+                         <div class="col-xl-12 col-xs-12">
+                             <div class="form-checkbox">
+                                 <label>
+                                     <input type="checkbox" id="cheque_entrega" class="checkPagamento" wire:model.defer="chequeFinalizar">
+                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                     Cheque a 30 dias contra entrega
+                                 </label>
+                             </div>
+                         </div>
+ 
+                         <div class="col-xl-12 col-xs-12">
+                             <div class="form-checkbox">
+                                 <label>
+                                     <input type="checkbox" id="condicoes_pagamento" class="checkPagamento" wire:model.defer="condicoesFinalizar">
+                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                     Condições de pagamento acordadas
+                                 </label>
+                             </div>
+                         </div>
+ 
+                     </div>
+ 
+                                       
+ 
+                 </div>
+ 
+                 <div class="row p-4">
+                     <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
+                         <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                         <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Proposta</a>
+                     </div>
+                     <div class="col-12 pb-3 p-0 d-md-none text-center">
+                         <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                         <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Proposta</a>
+                     </div>
+                 </div>
+                    
 
 
 
-                    </p>
+                </p>
 
-                </div> --}}
+            </div>
 
 
 <!-- Modal adicionar compra rapida -->
@@ -945,7 +1012,7 @@
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
-                                                                            {{ $stock->warehouse }}
+                                                                            {{ $stock->warehouse_description }}
                                                                             @if ($stock->stock == true)
                                                                                 <i class="ti-check text-lg text-forest"></i>
                                                                             @else
@@ -1170,6 +1237,25 @@
 
 
             }
+        });
+
+        $('#selectBox').hide();
+        $('#selectLabel').css("display","none");
+
+        $('.checkFinalizar').on('change', function() {
+            $('.checkFinalizar').not(this).prop('checked', false);
+
+            if($('#levantamento_loja').is(':checked')) {
+                $('#selectBox').show();
+                $('#selectLabel').css("display","block");
+            } else {
+                $('#selectBox').hide();
+                $('#selectLabel').css("display","none");
+            }
+        });
+
+        $('.checkPagamento').on('change', function() {
+            $('.checkPagamento').not(this).prop('checked', false);
         });
     });
 

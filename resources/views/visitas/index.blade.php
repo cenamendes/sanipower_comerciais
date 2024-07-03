@@ -13,7 +13,7 @@
 
     <h4>Visitas</h4>
 
-    @livewire('visitas.visitas')
+    @livewire('visitas.visitas', ["idAgendar" => $idAgendar])
  
     
 

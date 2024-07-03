@@ -46,6 +46,8 @@ class Visitas extends Component
     protected $listagemVisitas;
     public ?string $clientID = "";
 
+    public $idAgendar;
+   
 
     public function boot(ClientesInterface $clientesRepository, VisitasInterface $visitasRepository)
     {
@@ -79,9 +81,19 @@ class Visitas extends Component
     }
 
 
-    public function mount()
+    public function mount($idAgendar)
     {
         $this->initProperties();
+       
+
+        if($idAgendar != "") {
+            $infoCliente = $this->clientesRepository->getDetalhesCliente($this->idAgendar);
+ 
+            $this->clientID = $idAgendar;
+
+            $this->agendarVisita($idAgendar,$infoCliente->customers[0]->name);
+        }
+
     }
 
     public function updatedNomeCliente()
@@ -251,7 +263,7 @@ class Visitas extends Component
 
         $this->tipoVisita = TiposVisitas::all();
 
-        $this->dispatchBrowserEvent('modalAgendar',["clienteid" => $clientID, "nome" => $nome]);
+        $this->dispatchBrowserEvent('modalAgendar',["clienteid" => $clientID, "nome" => json_encode($nome)]);
     }
 
     public function finalizarVisita($clientID)
@@ -307,7 +319,9 @@ class Visitas extends Component
 
     public function render()
     {        
+        
         Session::put('activeModalFinalizado', '');
         return view('livewire.visitas.visitas',["clientes" => $this->clientes]);
     }
+
 }

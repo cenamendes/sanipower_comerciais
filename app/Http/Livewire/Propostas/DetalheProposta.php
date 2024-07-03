@@ -38,6 +38,7 @@ class DetalheProposta extends Component
     public string $tabDetail = "";
     public string $tabProdutos = "show active";
     public string $tabDetalhesPropostas = "";
+    public string $tabFinalizar = "";
     public string $tabDetalhesCampanhas = "";
 
     public int $specificProduct = 0;
@@ -121,6 +122,7 @@ class DetalheProposta extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesPropostas = "";
+        $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->idCategoryRecuar = $idCategory;
@@ -153,6 +155,7 @@ class DetalheProposta extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesPropostas = "";
+        $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
         if ($this->searchProduct != "") {
@@ -183,6 +186,7 @@ class DetalheProposta extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesPropostas = "";
+        $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->specificProduct = 0;
@@ -209,6 +213,7 @@ class DetalheProposta extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesPropostas = "";
+        $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
@@ -260,6 +265,7 @@ class DetalheProposta extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesPropostas = "";
+        $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->searchProduct = "";
@@ -316,6 +322,7 @@ class DetalheProposta extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesPropostas = "";
+        $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->idCategoryRecuar = $idCategory;
@@ -377,6 +384,7 @@ class DetalheProposta extends Component
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
         $this->tabDetalhesPropostas = "";
+        $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
         $this->specificProduct = 0;
@@ -628,6 +636,82 @@ class DetalheProposta extends Component
         $this->dispatchBrowserEvent('compraRapida');
 
         $this->skipRender();
+    }
+
+    public function finalizarencomenda()
+    {
+        // public $transportadora;
+        // public $viaturaSanipower;
+        // public $levantamentoLoja;
+        // public $observacaoFinalizar;
+        // public $referenciaFinalizar;
+    
+        // public $lojaFinalizar;
+    
+        // public $condicoesFinalizar;
+        // public $chequeFinalizar;
+        // public $pagamentoFinalizar;
+        // public $transferenciaFinalizar;
+
+        //FAZER VALIDAÇÃO PARA ESTES AQUI DE CIMA
+
+        dd("finaliza");
+        $arrayProdutos = [];
+
+        $valorTotal = 0;
+        $valorTotalComIva = 0;
+        $count = 0;
+    
+        foreach($this->carrinhoCompras as $prod)
+        {
+            $count++;
+
+            $totalItem = $prod->price * $prod->qtd;
+            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+            $valorTotal += $totalItem;
+            $valorTotalComIva += $totalItemComIva;
+
+
+
+
+            $arrayProdutos[$count] = [
+                "linha_id" => $count,
+                "ref" => $prod->referencia,
+                "design" => $prod->designacao,
+                "qtt" => $prod->qtd,
+                "iva" => $prod->iva,
+                "ivaincl" => "",
+                "edebito" => "",
+                "desconto" => $prod->discount,
+                "desc2" => "",
+                "desc3" => "",
+                "ettdeb" => "",
+                "notas" => "sample string 12"
+            ];
+        }
+
+        
+
+        $array = [
+                    "data" => date('Y-m-d'), 
+                    "no" => $this->carrinhoCompras[0]->id_encomenda,
+                    "etotal_siva" => number_format($valorTotal, 2, ',', '.'),
+                    "etotal" => number_format($valorTotalComIva, 2, ',', '.'),
+                    "referencia" => $this->referenciaFinalizar,
+                    "observacoes" => $this->observacaoFinalizar,
+                    "entrega" => "sample string 9",
+                    "loja" => "sample string 10",
+                    "pagamento" => "sample string 11",
+                    "vendedor_id" =>  Auth::user()->id_phc, 
+                    "produtos" => $arrayProdutos
+        ];
+              
+        
+        $encoded_finalizar = json_encode($array);
+
+        dd($encoded_finalizar);
+
+
     }
 
     public function render()

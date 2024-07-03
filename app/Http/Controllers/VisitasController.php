@@ -15,7 +15,12 @@ class VisitasController extends Controller
     }
     public function index()
     {
-        return view('visitas.index');
+        return view('visitas.index',["idAgendar" => ""]);
+    }
+
+    public function agendarVisita($id)
+    {
+        return view('visitas.index', ["idAgendar" => $id]);
     }
 
     public function showDetail($id)

@@ -397,7 +397,105 @@
 
 <script>
 
+    $( document ).ready(function() {
+       var clienteCheck = @this.get('clientID');
 
+       if(clienteCheck != "")
+       {
+        jQuery("#agendarVisita").modal();
+
+        $('#agendarVisita').on('shown.bs.modal', function () {
+
+            $.fn.datepicker.dates['pt-BR'] = {
+            days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+            daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+            daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
+            months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+            monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+            today: "Hoje",
+            clear: "Limpar",
+            format: "dd/mm/yyyy",
+            titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+            weekStart: 0
+        };
+
+
+        $('#dataInicial').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'pt-BR',
+            autoclose: true
+        }).on('changeDate', function (e) {
+
+            var formattedDate = moment(e.date).format('YYYY-MM-DD');
+
+            @this.set('dataInicial', formattedDate ,true);
+
+        });
+
+        @this.set('horaInicial', '09:00' ,true);
+        $('.horainicial').timepicker({
+            minuteStep: 5,
+            showSeconds: false,
+            showMeridian: false,
+            defaultTime: '09:00',
+            icons: {
+                up: 'ti-angle-up',
+                down: 'ti-angle-down'
+            }
+        }).on('changeDate', function (e) {
+
+            var formattedDate = moment(e.date).format('HH:ii');
+
+            @this.set('horaInicial', formattedDate ,true);
+
+        });
+
+
+        @this.set('horaFinal', '10:00' ,true);
+        $('.horafinal').timepicker({
+            minuteStep: 5,
+            showSeconds: false,
+            showMeridian: false,
+            defaultTime: '10:00',
+            icons: {
+                up: 'ti-angle-up',
+                down: 'ti-angle-down'
+            }
+        }).on('changeDate', function (e) {
+
+            var formattedDate = moment(e.date).format('HH:ii');
+
+            @this.set('horaFinal', formattedDate ,true);
+
+        });
+
+
+        window.addEventListener('sendToTeams', function(e) {
+
+            var state = encodeURIComponent(JSON.stringify({ 
+                tenant:e.detail.tenant, 
+                clientid: e.detail.clientId, 
+                clientesecret: e.detail.clientSecret,
+                redirect: e.detail.redirect,
+                visitaid: e.detail.visitaID,
+                visitaname: e.detail.visitaName,
+                data: e.detail.data,
+                horainicial: e.detail.horaInicial,
+                horafinal: e.detail.horaFinal,
+                tipovisita: e.detail.tipoVisita, 
+                assunto: e.detail.assunto,
+                email: e.detail.email,
+                organizer: e.detail.organizer 
+            }));
+
+            var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
+            novaJanela.focus();
+        });
+
+
+        });
+       }
+    });
 
     window.addEventListener('listagemVisitasModal', function() {
         
