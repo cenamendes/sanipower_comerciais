@@ -1301,7 +1301,13 @@
     });
 
     window.addEventListener('refreshComponent', function(e) {
+        
+        document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+            item.style.display = 'none';
+        });
+
         jQuery("#subItemInput" + e.detail.id).css("display", "block");
+        e.detail.id = null;
     });
 
     const inputProdutos = document.querySelectorAll('.input-config-produtos');
