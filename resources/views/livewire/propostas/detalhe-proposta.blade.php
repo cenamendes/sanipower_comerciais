@@ -1461,7 +1461,7 @@
         }
     });
 
-    $(document).ready(function(){
+    // $(document).ready(function(){
         $('.produto-quantidade').on('input', function() {
             var id = $(this).attr('id');
             var valor = $(this).val();
@@ -1510,7 +1510,7 @@
         $('.checkPagamento').on('change', function() {
             $('.checkPagamento').not(this).prop('checked', false);
         });
-    });
+    // });
 
 
     window.addEventListener('refreshAllComponent', function() {

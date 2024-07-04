@@ -1226,15 +1226,15 @@
         }
     });
 
-    $(document).ready(function(){
+    // $(document).ready(function(){
         $('.produto-quantidade').on('input', function() {
             var id = $(this).attr('id');
             var valor = $(this).val();
             var qtdMin = $(this).attr('data-qtd');
+         
             if(parseInt(valor) >= parseInt(qtdMin)){
                 $('#addProductEncomenda'+id).removeAttr('disabled');
                 $('#addProductProposta'+id).removeAttr('disabled');
-
                 $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
 
             }else if(parseInt(valor) < parseInt(qtdMin)){
@@ -1275,7 +1275,7 @@
         $('.checkPagamento').on('change', function() {
             $('.checkPagamento').not(this).prop('checked', false);
         });
-    });
+    // });
 
 
 
