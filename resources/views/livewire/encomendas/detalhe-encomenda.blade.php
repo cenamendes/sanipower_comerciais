@@ -767,7 +767,7 @@
                     </table>
                 </div>
             </div>
-            <div class="row p-4">
+            {{-- <div class="row p-4">
                 <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
                     <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
                     <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
@@ -776,7 +776,7 @@
                     <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
                     <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="tab-pane fade {{ $tabFinalizar }}" id="tab7">
