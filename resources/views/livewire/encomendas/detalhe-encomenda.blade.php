@@ -13,6 +13,8 @@
         }
     }
 
+   
+
 </style>
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
@@ -1157,7 +1159,20 @@
     {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 <script>
     
+   
+        // jQuery(document).on("click",".toggle",function() {
+        
+        //         jQuery(".card-header").css("display","none");
+        //         // jQuery(".tab-content").css("z-index","-20");
+        //         jQuery(".sidebarProd").css("z-index","+100");
+        
+                
+        // });
+
+
     document.addEventListener("DOMContentLoaded", function() {
+
+        
         
         function closeAllDropdowns() {
             var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
@@ -1352,6 +1367,9 @@
         inputProduto.addEventListener('click', function() {
             if (inputProduto.classList.contains('open')) {} else {
                 sidebar.classList.remove('open');
+                // console.log("1");
+                // jQuery(".card-header").css("display","block");
+
                 document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                     item.style.display = 'none';
                 });
@@ -1370,6 +1388,7 @@
 
     inputGroups.forEach(function(inputGroup) {
         inputGroup.addEventListener('click', function() {
+            
 
             const id = this.id;
             const subItemId = 'subItemInput' + id.slice(-1);
@@ -1392,9 +1411,12 @@
                 if (currentDisplayStyle === 'block') {
                     subItem.style.display = 'none';
 
+                    
+
                 } else {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
+                       
                     });
 
                                        
@@ -1422,11 +1444,11 @@
         const targetElement = event.target;
         if (sidebar) {
             if (!sidebar.contains(targetElement)) {
-
+                
                 let clickedOutsideSubbars = true;
                 subbars.forEach(function(subbar) {
                     if (subbar.contains(targetElement)) {
-
+                      
                         clickedOutsideSubbars = false;
                     }
                 });
@@ -1434,23 +1456,24 @@
                 if (clickedOutsideSubbars) {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
+                
                     });
 
                     checkbox.checked = true;
                     sidebar.classList.remove('open');
-
+                   
 
                 } else {
                     checkbox.checked = false;
                 }
-
+              
 
             }
         } else {}
     });
 
     jQuery('body').on('click', '.checkboxSidbar', function() {
-
+        
         const inputProdutos = document.querySelectorAll('.input-config-produtos');
         inputProdutos.forEach(function(inputinputProduto) {});
 
