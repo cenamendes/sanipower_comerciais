@@ -262,6 +262,7 @@
             });
         });
 
+       
 
         document.addEventListener('abrirModalVerComentarioProposta', function() {
             $('#modalVerComentarioProposta').modal('show');
