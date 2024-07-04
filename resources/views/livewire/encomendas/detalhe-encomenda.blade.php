@@ -313,6 +313,7 @@
                                     @php
                                         $contaCat = 0;
                                     @endphp
+                                  
                                     @foreach ($getCategories->category as $i => $cat)
                                         @php
                                             $contaCat++;
@@ -357,13 +358,19 @@
                                                             @endforeach
                                                         </div>
                                                     </div>
+                                                    @else
+                                                    <div class="col-4">
+                                                        <a href="javascript:void(0);" class="familyHREF{{ $contaCat }}" data-id={{$contaCat}} wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
+                                                            <h5 class="family_title">{{ $family->name }}</h5>
+                                                        </a>
+                                                    </div>
                                                 @endif
                                             @else
                                                 <div class="col-4">
                                                     <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
                                                         <h5 class="family_title">{{ $family->name }}</h5>
                                                     </a>
-                                                </div>
+                                                </div> 
                                             @endif
                                         @endforeach
 
@@ -387,7 +394,7 @@
                                                 $conta++;
                                             @endphp
                                             @if (!empty($category->family))
-                                                <!-- <div class="input-group d-flex input-group-config justify-content-between" wire:click="rechargeFamilys({{ $conta }})" id="input{{ $conta }}" > -->
+                                                
                                                 <div class="input-group d-flex input-group-config justify-content-between"
                                                     id="input{{ $conta }}"
                                                     @if ($category->name == 'Sistemas') style="background-color: #42c69f;"
@@ -467,6 +474,7 @@
                                             @php
                                                 $contaCat = 0;
                                             @endphp
+                                           
                                             @foreach ($getCategoriesAll->category as $i => $category)
                                                 @php
                                                     $contaCat++;
@@ -1300,9 +1308,24 @@
         }
     });
 
+    window.addEventListener('refreshPage', function(e) {
+        window.location.reload();
+    });
+    
+
     window.addEventListener('refreshComponent', function(e) {
         
+         var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
+
+        // console.log(check);
+
+        document.querySelectorAll('.familyHREF'+check).forEach(function(item) {
+       
+            item.style.display = 'none';
+        });
+        
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+
             item.style.display = 'none';
         });
 
@@ -1353,6 +1376,8 @@
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
                     });
+
+                                       
 
                     // var familyInfo = @this.get('familyInfo');
 

@@ -315,6 +315,7 @@ class DetalheEncomenda extends Component
         $this->actualFamily = $idFamily;
         $this->actualSubFamily = $idSubFamily;
 
+
         session(['searchSubFamily' => $this->searchSubFamily]);
         // dd($this->getCategories->category[]);
         foreach ($this->getCategories->category as $index => $idCtgry) {
@@ -359,7 +360,9 @@ class DetalheEncomenda extends Component
 
         $this->iteration++;
 
-        $this->dispatchBrowserEvent('refreshAllComponent');
+        
+        $this->dispatchBrowserEvent('refreshPage');
+        // $this->dispatchBrowserEvent('refreshAllComponent');
 
     }
 
@@ -732,6 +735,8 @@ class DetalheEncomenda extends Component
 
     }
 
+    
+    
     public function render()
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
