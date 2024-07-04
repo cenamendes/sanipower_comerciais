@@ -80,7 +80,7 @@ class DetalheEncomenda extends Component
     public $pagamentoFinalizar;
     public $transferenciaFinalizar;
 
-    public ?object $lojas = NULL;
+    public ?array $lojas = NULL;
 
     /******** */
 
@@ -112,7 +112,7 @@ class DetalheEncomenda extends Component
             $this->perPage = 10;
         }
 
-        $this->getLojas();
+        $this->lojas = $this->encomendasRepository->getLojas();
     }
 
     public function mount($cliente, $codEncomenda)
@@ -663,10 +663,6 @@ class DetalheEncomenda extends Component
         $this->skipRender();
     }
 
-    public function getLojas()
-    {
-        $this->lojas = $this->encomendasRepository->getLojas();
-    }
 
     public function finalizarencomenda()
     {
@@ -814,6 +810,8 @@ class DetalheEncomenda extends Component
                 }
             }
         }
+
+        
 
         return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 

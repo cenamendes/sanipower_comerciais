@@ -1104,14 +1104,17 @@
  
                      <div class="col-xl-6 col-xs-6 mt-2">
  
-                         <div class="col-xl-12 col-xs-12">
-                             <label id="selectLabel">Selecione loja</label>
-                             <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar">
-                                 <option value="option1">Opção 1</option>
-                                 <option value="option2">Opção 2</option>
-                                 <option value="option3">Opção 3</option>
-                             </select>
-                         </div>
+                        <div class="col-xl-12 col-xs-12">
+                            <label id="selectLabel">Selecione loja</label>
+     
+                            <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar">
+                               @foreach ($lojas as $loja )
+                                 @foreach ($loja->stores as $store )
+                                   <option value="{{$store->id}}">{{$store->name}}</option>
+                                 @endforeach
+                               @endforeach
+                            </select>
+                        </div>
                    
  
                      </div>

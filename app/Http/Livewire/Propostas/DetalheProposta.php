@@ -78,6 +78,8 @@ class DetalheProposta extends Component
     public $pagamentoFinalizar;
     public $transferenciaFinalizar;
 
+    public ?array $lojas = NULL;
+
     /******** */
     
 
@@ -108,6 +110,8 @@ class DetalheProposta extends Component
         } else {
             $this->perPage = 10;
         }
+
+        $this->lojas = $this->encomendasRepository->getLojas();
     }
 
     public function mount($cliente, $codEncomenda)

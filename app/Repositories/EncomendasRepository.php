@@ -278,7 +278,7 @@ class EncomendasRepository implements EncomendasInterface
         return $addProduct;
     }
 
-    public function getLojas(): object
+    public function getLojas(): array
     {
         $curl = curl_init();
 
@@ -302,7 +302,9 @@ class EncomendasRepository implements EncomendasInterface
 
         $response_decoded = json_decode($response);
 
-        return $response_decoded;
+        $array = [$response_decoded];
+
+        return $array;
     }
 
 
