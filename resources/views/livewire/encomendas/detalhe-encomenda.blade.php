@@ -1313,8 +1313,18 @@
     });
     
 
+    window.addEventListener('refreshComponent2', function(e) {
+
+        // console.log(check);
+        document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+
+            item.style.display = 'none';
+        });
+
+        jQuery("#subItemInput" + e.detail.id).css("display", "block");
+    });
+
     window.addEventListener('refreshComponent', function(e) {
-        
          var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
 
         // console.log(check);
@@ -1330,7 +1340,7 @@
         });
 
         jQuery("#subItemInput" + e.detail.id).css("display", "block");
-        e.detail.id = null;
+   
     });
 
     const inputProdutos = document.querySelectorAll('.input-config-produtos');
