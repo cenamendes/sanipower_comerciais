@@ -12,7 +12,11 @@
     <!-- TABS  -->
     
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
-        <div class="tools">
+        <div class="col-md-6 col-xs-12">
+            <h4>Adicionar Visita</h4>
+        </div>
+        
+        <div class="tools col-md-6 col-xs-12 text-right">
             <a href="javascript:void(0);" wire:click="openModalSaveVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
 
             <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
