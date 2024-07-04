@@ -1158,6 +1158,7 @@
 <script>
     
     document.addEventListener("DOMContentLoaded", function() {
+        
         function closeAllDropdowns() {
             var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
             dropdownMenus.forEach(function(dropdownMenu) {
