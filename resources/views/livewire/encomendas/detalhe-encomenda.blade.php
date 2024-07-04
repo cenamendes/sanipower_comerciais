@@ -1359,6 +1359,11 @@
         });
     });
 
+
+ 
+    
+
+
     const inputGroups = document.querySelectorAll('.input-group-config');
     let currentSubItem = null;
 
@@ -1373,7 +1378,8 @@
             const subItem = document.getElementById(subItemId);
             const Input = document.getElementById(InputId);
 
-
+         
+          
 
 
             const subbars = document.querySelectorAll('.subsidebarProd');
