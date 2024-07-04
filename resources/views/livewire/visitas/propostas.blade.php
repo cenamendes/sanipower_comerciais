@@ -265,6 +265,7 @@
        
 
         document.addEventListener('abrirModalVerComentarioProposta', function() {
+            // $('#modalVerComentarioProposta').modal('show');
             $('#modalVerComentarioProposta').modal('show');
         });
 
