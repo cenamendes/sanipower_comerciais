@@ -39,7 +39,7 @@
         }
 
         .dropdownIcon-menu {
-            left: -186px;
+            left: -217px;
             top: -7px;
             display: none;
             position: absolute;
