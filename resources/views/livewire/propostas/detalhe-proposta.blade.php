@@ -60,7 +60,7 @@
                         <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
                             Ver Proposta</a>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Finalizar Proposta</a>
+                        <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Finalizar Proposta</a>
                         <a href="javascript:void(0);" wire:click="cancelarProposta" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>
                 </div>
@@ -338,6 +338,243 @@
                                                     class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                             <h2>{{ $cat->name }}</h2>
                                             <div class="row">
+                                            @foreach ($cat->family as $family)
+                                            @if ($familyInfo == true)
+                                                @if ($idFamilyInfo == $family->id)
+                                                    <div class="col-12">
+                                                        <div class="row mb-2">
+                                                            <a href="javascript:void(0)" wire:click="resetFilter({{ $contaCat }})" class="mb-3 ml-4">
+                                                                <i class="ti-angle-left"></i> Atrás
+                                                            </a>
+                                                        </div>
+                                                        <div class="row">
+                                                            @foreach ($family->subfamily as $subfamily)
+                                                                <div class="col-4">
+                                                                    <h5 class="title-description-family"
+                                                                        wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})">
+                                                                        {{ $subfamily->name }}
+                                                                    </h5>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="col-4">
+                                                    <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
+                                                        <h5 class="family_title">{{ $family->name }}</h5>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endforeach
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="sidebarProd" id="sidebarProd" wire:ignore>
+                                        <label for="checkbox" style="width: 180%;">
+                                            <div class="input-group input-group-config-Goback input-config-produtos"
+                                                id="checkboxSidbar" style="padding: 0;">
+                                                <label><i class="ti-menu"></i>
+                                                    <p>PRODUTOS</p>
+                                                </label>
+                                            </div>
+                                        </label>
+                                        @php
+                                            $conta = 0;
+                                        @endphp
+                                        @foreach ($getCategoriesAll->category as $i => $category)
+                                            @php
+                                                $conta++;
+                                            @endphp
+                                            @if (!empty($category->family))
+                                                <!-- <div class="input-group d-flex input-group-config justify-content-between" wire:click="rechargeFamilys({{ $conta }})" id="input{{ $conta }}" > -->
+                                                <div class="input-group d-flex input-group-config justify-content-between"
+                                                    id="input{{ $conta }}"
+                                                    @if ($category->name == 'Sistemas') style="background-color: #42c69f;"
+                                            @elseif($category->name == 'Água') style="background-color: #0179b5;"
+                                            @elseif($category->name == 'Conforto') style="background-color: #cd3d3c;"
+                                            @elseif($category->name == 'Solar') style="background-color: #cc7d3b;"
+                                            @elseif($category->name == 'Ar Condicionado') style="background-color: #9fa2a2;"
+                                            @elseif($category->name == 'Ventilação') style="background-color: #141b62;"
+                                            @elseif($category->name == 'Marcas') style="background-color: #5c2a5d;"
+                                            @elseif($category->name == 'Piscinas') style="background-color: #01cbdf;"
+                                            @elseif($category->name == 'Marcas') style="background-color: #5c2a5d;" @endif>
+                                                    <p>{{ $category->name }}</p>
+                                                    <label></label>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                    <div class="row justify-content-between">
+                                        <div class="col-3">
+                                            <div class="input-group" id="checkboxSidbar">
+                                                <input id="checkbox" type="checkbox">
+                                                <label class="toggle" for="checkbox">
+                                                    <div id="bar1" class="bars"></div>
+                                                    <div id="bar2" class="bars"></div>
+                                                    <div id="bar3" class="bars"></div>
+                                                </label> &nbsp;<h4>Categorias</h4>
+                                            </div>
+                                            <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2"
+                                                style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
+                                                <div class="dataTables_length left" id="dataTables_length">
+                                                    <label>Mostrar
+                                                        <select name="perPage" wire:model="perPage">
+                                                            <option value="10"
+                                                                @if ($perPage == 10) selected @endif>10
+                                                            </option>
+                                                            <option value="25"
+                                                                @if ($perPage == 25) selected @endif>25
+                                                            </option>
+                                                            <option value="50"
+                                                                @if ($perPage == 50) selected @endif>50
+                                                            </option>
+                                                            <option value="100"
+                                                                @if ($perPage == 100) selected @endif>100
+                                                            </option>
+                                                        </select>
+                                                        registos</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md col-12">
+                                            @php
+                                                $searchNameCategory = session('searchNameCategory');
+                                                $searchNameFamily = session('searchNameFamily');
+                                                $searchNameSubFamily = session('searchNameSubFamily');
+                                            @endphp
+                                            <ol class="breadcrumb d-flex" style="border-bottom:none;">
+                                                @if($searchNameCategory)<li class="breadcrumb-item"><a href="">{{$searchNameCategory}}</a></li>@endif
+                                                @if($searchNameFamily)<li class="breadcrumb-item"> {{$searchNameFamily}}</li>@endif
+                                                @if($searchNameSubFamily)<li class="breadcrumb-item active">{{$searchNameSubFamily}}</li>@endif
+                                            </ol>
+                                        </div>
+                                        <div class="col-6 col-md">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text search"><i
+                                                            class="ti-search text-light"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Pesquise Produto" wire:model.debounce.800ms="searchProduct"
+                                                    @if (session('searchProduct') !== null) value="{{ session('searchProduct') }}" @endif>
+                                            </div>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="justify-content: flex-end;">
+                                    <div class="navbar2 col-3 d-none d-md-block">
+                                            @php
+                                                $contaCat = 0;
+                                            @endphp
+                                            @foreach ($getCategoriesAll->category as $i => $category)
+                                                @php
+                                                    $contaCat++;
+                                                @endphp
+                                                @if (!empty($category->family))
+                                                    <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
+                                                        {{ $category->name }}<span
+                                                            class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                    <div class="panel2">
+                                                        @foreach ($category->family as $family)
+                                                            <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
+                                                                {{ $family->name }}<span
+                                                                    class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                            <div class="panel2">
+                                                                @foreach ($family->subfamily as $subfamily)
+                                                                    <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
+                                                                        href="#">{{ $subfamily->id }} -
+                                                                        {{ $subfamily->name }}</a>
+                                                                @endforeach
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                        <div class="row col-md-9">
+                                            <div wire:loading wire:target="searchProduct">
+                                                <div id="filtroLoader" style="display: block;">
+                                                    <div class="filtroLoader" role="status">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div wire:loading wire:target="adicionarProduto">
+                                                <div id="filtroLoader" style="display: block;">
+                                                    <div class="filtroLoader" role="status">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div wire:loading wire:target="openDetailProduto">
+                                                <div id="filtroLoader" style="display: block;">
+                                                    <div class="filtroLoader" role="status">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @php
+                                                $searchSubFamily = session('searchSubFamily');
+                                            @endphp
+                                            @if ($searchSubFamily)
+                                                @foreach ($searchSubFamily->product as $prodt)
+    <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+        <div class="card card-decoration card-outline-primary border border-2">
+            <a href="javascript:void(0)"
+               wire:click="openDetailProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"
+               style="pointer-events: auto">
+                <div class="mb-1">
+                    <img src="https://storage.sanipower.pt/storage/produtos/{{ $prodt->family_number }}/{{ $prodt->family_number }}-{{ $prodt->subfamily_number }}-{{ $prodt->product_number }}.jpg"
+                         class="card-img-top" alt="...">
+                    <div class="body-decoration">
+                        <h5 class="title-description">{{ $prodt->product_name }}</h5>
+                    </div>
+                </div>
+            </a>
+            <div class="card-body container-buttons" style="z-index:10;">
+                <button class="btn btn-sm btn-primary"
+                        wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})">
+                    <i class="ti-shopping-cart"></i><span> Compra rápida</span>
+                </button>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+                                            @else
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div>
+
+                                    @php
+                                        $contaCat = 0;
+                                    @endphp
+                                    @foreach ($getCategories->category as $i => $cat)
+                                        @php
+                                            $contaCat++;
+                                        @endphp
+                                        <div class="subsidebarProd overflow-y-auto"
+                                            id="subItemInput{{ $contaCat }}">
+                                            <div wire:loading wire:target="searchCategory">
+                                                <div id="filtroLoader" style="display: block;">
+                                                    <div class="filtroLoader" role="status">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div wire:loading wire:target="resetFilter">
+                                                <div id="filtroLoader" style="display: block;">
+                                                    <div class="filtroLoader" role="status">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <a href="javascript:void(0)" class="buttonGoback"><i
+                                                    class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                            <h2>{{ $cat->name }}</h2>
+                                            <div class="row">
                                                 @foreach ($cat->family as $family)
                                                     <div class="col-4">
                                                         <a href="javascript:void(0);"
@@ -348,25 +585,32 @@
                                                     @if ($familyInfo == true)
                                                         @if ($idFamilyInfo == $family->id)
                                                             <div class="col-12">
-                                                                <!-- <div class="row d-flex justify-content-end mr-0"> -->
+                                                             
                                                                 <div class="row mb-2">
                                                                     <a href="javascript:void(0)"
                                                                         wire:click="resetFilter({{ $contaCat }})"
                                                                         class="mb-3 ml-4"><i
                                                                         class="ti-angle-left"></i> Atrás</a>
                                                                 </div>
-                                                                <!-- </div> -->
+                                                            
                                                                 <div class="row">
                                                                     @foreach ($family->subfamily as $subfamily)
                                                                         <div class="col-4">
                                                                             <h5 class="title-description-family"
                                                                                 wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})">
-                                                                                {{ $subfamily->name }}</h5>
+                                                                                {{ $subfamily->name }}
+                                                                            </h5>
                                                                         </div>
                                                                     @endforeach
                                                                 </div>
                                                             </div>
                                                         @endif
+                                                    @else
+                                                        <div class="col-4">
+                                                            <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
+                                                                <h5 class="family_title">{{ $family->name }}</h5>
+                                                            </a>
+                                                        </div>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -546,7 +790,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         @else
                             <div class="tab-encomenda-produto">
@@ -927,11 +1171,11 @@
                  <div class="row p-4">
                      <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
                          <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                         <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Proposta</a>
+                         <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarproposta"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                      </div>
                      <div class="col-12 pb-3 p-0 d-md-none text-center">
                          <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                         <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Proposta</a>
+                         <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarproposta"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                      </div>
                  </div>
                     

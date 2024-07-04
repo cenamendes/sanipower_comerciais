@@ -63,6 +63,24 @@ class DetalheProposta extends Component
 
     public $iterationDelete = 0;
 
+    /** PARTE DO FINALIZAR **/
+
+    public $transportadora;
+    public $viaturaSanipower;
+    public $levantamentoLoja;
+    public $observacaoFinalizar;
+    public $referenciaFinalizar;
+
+    public $lojaFinalizar;
+
+    public $condicoesFinalizar;
+    public $chequeFinalizar;
+    public $pagamentoFinalizar;
+    public $transferenciaFinalizar;
+
+    /******** */
+    
+
     /** PARTE DA COMPRA */
 
     public ?array $produtosRapida = [];
