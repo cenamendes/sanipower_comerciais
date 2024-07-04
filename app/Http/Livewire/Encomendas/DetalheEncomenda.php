@@ -112,7 +112,7 @@ class DetalheEncomenda extends Component
             $this->perPage = 10;
         }
 
-        $this->lojas = $this->encomendasRepository->getLojas();
+        
     }
 
     public function mount($cliente, $codEncomenda)
@@ -811,7 +811,7 @@ class DetalheEncomenda extends Component
             }
         }
 
-        
+        $this->lojas = $this->encomendasRepository->getLojas();
 
         return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
