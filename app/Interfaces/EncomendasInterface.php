@@ -27,6 +27,7 @@ interface EncomendasInterface
     
     public function addCommentToDatabase($idCarrinho,$idCliente,$qtd, $nameProduct, $no, $ref, $codType,$type,$comment): JsonResponse;
 
+    public function getLojas(): object;
 
     /********** */
 

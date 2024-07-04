@@ -80,6 +80,8 @@ class DetalheEncomenda extends Component
     public $pagamentoFinalizar;
     public $transferenciaFinalizar;
 
+    public ?object $lojas = NULL;
+
     /******** */
 
 
@@ -109,6 +111,8 @@ class DetalheEncomenda extends Component
         } else {
             $this->perPage = 10;
         }
+
+        $this->getLojas();
     }
 
     public function mount($cliente, $codEncomenda)
@@ -657,6 +661,11 @@ class DetalheEncomenda extends Component
         $this->dispatchBrowserEvent('compraRapida');
 
         $this->skipRender();
+    }
+
+    public function getLojas()
+    {
+        $this->lojas = $this->encomendasRepository->getLojas();
     }
 
     public function finalizarencomenda()

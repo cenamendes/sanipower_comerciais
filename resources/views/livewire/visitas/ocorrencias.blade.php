@@ -215,39 +215,40 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Referencia</th>
-                            <th>Descrição</th>
-                            <th>Quantidade</th>
-                            <th>Preço</th>
-                            <th>Desconto</th>
-                            <th>Desconto 2</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @isset($detalhesOcorrencias)
-                        @foreach ($detalhesOcorrencias as $oco)
-                            @if($oco->id == $ocorrenciasID)
-                                @foreach ($oco->lines as $line)
-                                    <tr>
-                                        <td>{{ $line->reference }}</td>
-                                        <td>{{ $line->description }}</td>
-                                        <td style="text-align:center">{{ $line->quantity }}</td>
-                                        <td style="text-align:center">{{ $line->price }} €</td>
-                                        <td style="text-align:center">{{ $line->discount }}</td>
-                                        <td style="text-align:center">{{ $line->discount2 }}</td>
-                                        <td style="text-align:center">{{ $line->total }} €</td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        @endforeach
-                        @endisset
-                    </tbody>
-                </table>
-
+                <div style="overflow-x:auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Referencia</th>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                                <th>Preço</th>
+                                <th>Desconto</th>
+                                <th>Desconto 2</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @isset($detalhesOcorrencias)
+                            @foreach ($detalhesOcorrencias as $oco)
+                                @if($oco->id == $ocorrenciasID)
+                                    @foreach ($oco->lines as $line)
+                                        <tr>
+                                            <td>{{ $line->reference }}</td>
+                                            <td>{{ $line->description }}</td>
+                                            <td style="text-align:center">{{ $line->quantity }}</td>
+                                            <td style="text-align:center">{{ $line->price }} €</td>
+                                            <td style="text-align:center">{{ $line->discount }}</td>
+                                            <td style="text-align:center">{{ $line->discount2 }}</td>
+                                            <td style="text-align:center">{{ $line->total }} €</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            @endforeach
+                            @endisset
+                        </tbody>
+                    </table>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                 </div>
