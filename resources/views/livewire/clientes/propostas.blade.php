@@ -280,6 +280,25 @@
         document.addEventListener('openDetalhePropostaModal', function() {
             $('#detalhePropostaModal').modal('show');
         });
+
+        document.addEventListener('openComentarioModalPropostas', function() {
+           
+            jQuery("#modalComentarioProp").modal();
+        });
+
+        window.addEventListener('checkToaster', function(e) {
+
+            jQuery("#modalComentario").modal('hide');
+            jQuery("#modalComentarioProp").modal('hide');
+
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+
+            if(e.detail.status == "error"){
+                toastr.warning(e.detail.message);
+            }
+        });
     </script>
 
 </div>

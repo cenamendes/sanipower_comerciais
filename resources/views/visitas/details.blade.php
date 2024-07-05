@@ -32,9 +32,10 @@
             jQuery("#modalComentario").modal();
         });
 
-        document.addEventListener('openComentarioModalPropostas', function() {
-            jQuery("#modalComentarioProp").modal();
-        });
+        // document.addEventListener('openComentarioModalPropostas', function() {
+    
+        //     jQuery("#modalComentarioProp").modal();
+        // });
 
         document.addEventListener('openComentarioModalOcorrencias', function() {
             jQuery("#modalComentarioOcor").modal();
@@ -51,7 +52,6 @@
             // Show the loader when the user navigates away or the page is being unloaded
             document.getElementById('loader').style.display = 'block';
         });
-
 
 
 

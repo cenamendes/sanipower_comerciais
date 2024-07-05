@@ -131,7 +131,7 @@ class Encomendas extends Component
     public function comentarioModal($id,$name)
     {
         $this->restartDetails();
-
+      
         $this->encomendaID = $id;
         $this->encomendaName = $name;
 

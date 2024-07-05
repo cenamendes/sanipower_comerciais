@@ -131,7 +131,7 @@ class Propostas extends Component
     public function comentarioModal($id,$name)
     {
         $this->restartDetails();
-
+       
         $this->propostaID = $id;
         $this->propostaName = $name;
 
