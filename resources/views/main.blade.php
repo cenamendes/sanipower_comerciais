@@ -38,9 +38,6 @@
             display: inline-block;
         }
 
-        /* .modal-backdrop {
-            z-index: -1;
-        } */
 
 
         .dropdownIcon-menu {

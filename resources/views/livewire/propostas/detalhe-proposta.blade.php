@@ -887,7 +887,40 @@
                                                                             <td class="text-center">
                                                                                 <div class="d-flex justify-content-around">
                                                                                     <button class="btn btn-sm btn-outline-secondary">
-                                                                                        <i class="ti-package text-light"></i>
+                                                        
+                                                                                        <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
+                                                                                            <div class="dropdownIcon">
+                                                                                                <i class="ti-package text-light dropdownIcon-toggle" style="margin:0;padding:0;"></i>
+                                                                
+                                                                                               
+                                                                                                <ul class="dropdownIcon-menu" style="color:black;left:-191px!important;">
+                                                                                                    <li><i class="fa fa-play icon-play"></i></li>
+                                                                                                    <li style="border-bottom: 1px solid;">
+                                                                                                        <h6>Quantidade p/Caixa</h6>
+                                                                                                    </li>
+                                                                                                  
+                                                                                                     <li>
+                                                                                                        <div class="row">
+                                                                                                         
+                                                                                                            <div class="col-4">
+                                                                                                                <img src="https://www.sanipower.pt/img/cx-pequena.svg" alt="Caixa Pequena" data-pagespeed-url-hash="2664735804" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                                                {{$prod->quantity_box->small}}
+                                                                                                            </div>
+                                                                                                            <div class="col-4">
+                                                                                                                <img src="https://www.sanipower.pt/img/cx-grande.svg" alt="Caixa Grande" data-pagespeed-url-hash="2489183380" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                                                {{$prod->quantity_box->big}}
+                                                                                                            </div>
+                                                                                                            <div class="col-4">
+                                                                                                                <img src="https://www.sanipower.pt/img/palete.svg" alt="Palete" data-pagespeed-url-hash="608911280" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                                                {{$prod->quantity_box->pallet}}
+                                                                                                            </div>
+                                                                                                         
+                                                                                                        </div>
+                                                                                                    </li>  
+                                                                                                   
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </a>
                                                                                     </button>
                                                                                     <div class="dropdown">
                                                                                         <button class="btn btn-sm btn-outline-secondary" id="commentProductEncomenda{{$i}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1105,9 +1138,9 @@
                      <div class="col-xl-6 col-xs-6 mt-2">
  
                         <div class="col-xl-12 col-xs-12">
-                            <label id="selectLabel">Selecione loja</label>
+                            <label id="selectLabel" style="display:none;">Selecione loja</label>
      
-                            <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar">
+                            <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar" style="display:none;">
                                @foreach ($lojas as $loja )
                                  @foreach ($loja->stores as $store )
                                    <option value="{{$store->id}}">{{$store->name}}</option>
