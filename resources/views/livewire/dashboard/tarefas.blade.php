@@ -143,7 +143,7 @@
         </div>
 
         <div class="card-body">
-            <div class="row" style="display:math;" wire:key="teste-{{$iteration}}">
+            <div class="row" style="display:contents;" wire:key="teste-{{$iteration}}">
                 <div id="calendarTarefas" wire:ignore></div>
             </div>
         </div>
