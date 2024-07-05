@@ -11621,6 +11621,7 @@ button.bg-charcoal:focus {
   .d-xl-inline-flex {
     display: inline-flex !important;
   }
+  
 }
 
 @media print {
@@ -18450,7 +18451,7 @@ a.text-charcoal:focus {
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  *margin-right: 0.3em;
+  margin-right: 0.3em;
 }
 
 [class^=ti-]:before,
@@ -18606,12 +18607,12 @@ a [class*=" ti-"] {
   height: 100%;
   font-size: 1em;
   line-height: inherit;
-  *line-height: 2em;
+  line-height: 2em;
 }
 
 .ti-stack .ti-stack-base {
   font-size: 2em;
-  *line-height: 1em;
+  line-height: 1em;
 }
 
 /* Animated rotating icon */
@@ -23862,7 +23863,9 @@ body.theme-blue .card.card-tabs .card-body {
   } */
   .grid-wrapper {
     grid-template-columns: min-content;
+    grid-template-areas: "header header" "main main" "footer footer" !important;
   }
+
   /* .sidebar{
     display: none;
   } */
