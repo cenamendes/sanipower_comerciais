@@ -306,9 +306,9 @@ body::-webkit-scrollbar {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    position: absolute;
-    top: 0;
-    left: 0;
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
     width: 100.5%;
     height: 100.5%;
     padding: 3px 10px 10px 10px;
