@@ -683,9 +683,10 @@
 
             $("#agendarVisita").modal();
 
-            $('#clienteVisitaID').select2({}).on('change', function(e) {
+            $('#clienteVisitaID').select2().on('change', function(e) {
                 @this.set('clienteVisitaID', e.target.value, true);
             });
+
 
             $.fn.datepicker.dates['pt-BR'] = {
                 days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
