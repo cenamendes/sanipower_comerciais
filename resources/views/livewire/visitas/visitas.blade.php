@@ -490,6 +490,10 @@
 
             var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
             novaJanela.focus();
+
+            setTimeout(function() {
+                    window.location.reload();
+            }, 2500);
         });
 
 
@@ -592,6 +596,10 @@
 
             var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
             novaJanela.focus();
+
+            setTimeout(function() {
+                    window.location.reload();
+            }, 2500);
         });
 
 

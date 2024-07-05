@@ -56,8 +56,9 @@ class OfficeController extends Controller
         $accessToken = $responseToken['access_token'];
 
         $responseOut = $servicoOffice->criarEventoOutlook($visitaname,$email,$nameOrganizer, $data,$horainicial, $horafinal, $tipovisita, $assunto,$accessToken);
-
+       
         echo '<script>window.close();</script>';
+       
         //return redirect()->route('dashboard')->with('message', 'Visita adicionada com sucesso!')->with('status', 'success');
         
     }
