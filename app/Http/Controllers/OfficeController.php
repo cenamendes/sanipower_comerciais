@@ -46,6 +46,7 @@ class OfficeController extends Controller
         $assunto = $stateArray['assunto'];
         $email = $stateArray['email'];
         $nameOrganizer = $stateArray['organizer'];
+        $stateEncoded = $params['state'];
 
 
         $servicoOffice = new OfficeService();

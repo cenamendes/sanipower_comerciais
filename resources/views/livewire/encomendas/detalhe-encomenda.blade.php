@@ -424,7 +424,7 @@
                                                     <div id="bar3" class="bars"></div>
                                                 </label> &nbsp;<h4>Categorias</h4>
                                             </div>
-                                            <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2"
+                                            {{-- <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2"
                                                 style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                                                 <div class="dataTables_length left" id="dataTables_length">
                                                     <label>Mostrar
@@ -444,7 +444,7 @@
                                                         </select>
                                                         registos</label>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="col-md col-12">
                                             @php
