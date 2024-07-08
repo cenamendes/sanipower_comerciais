@@ -699,7 +699,6 @@ class DetalheEncomenda extends Component
 
 
 
-
             $arrayProdutos[$count] = [
                 "linha_id" => $count,
                 "ref" => $prod->referencia,

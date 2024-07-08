@@ -104,14 +104,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @isset($detalhesOcorrencias)
+                            
                                 @foreach ($detalhesOcorrencias as $detalhe)
                                     <tr>
                                         <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                        <td>{{ $detalhe->order }}</td>
+                                        <td>{{ $detalhe->occurrence }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
                                         <td><button type="button" class="btn btn-primary"
-                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i
+                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->occurrence) }})"><i
                                                     class="ti ti-plus"></i> Comentário</button>
                                             @php
                                                 $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
@@ -132,6 +134,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                @endisset
                             </tbody>
                         </table>
                     </div>
@@ -216,7 +219,7 @@
                     </button>
                 </div>
                 <div style="overflow-x:auto;">
-                    <table class="table">
+                    {{-- <table class="table">
                         <thead>
                             <tr>
                                 <th>Referencia</th>
@@ -247,7 +250,7 @@
                             @endforeach
                             @endisset
                         </tbody>
-                    </table>
+                    </table> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
