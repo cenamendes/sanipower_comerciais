@@ -70,6 +70,45 @@ class ClientesRepository implements ClientesInterface
 
     }
 
+    public function getAllListagemClientesObject(): object
+    {
+        
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage=99999999&Page=1'.$string.'&Salesman_number='.Auth::user()->id_phc,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+      
+        $response = curl_exec($curl);
+       
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+     
+     
+        return $response_decoded; 
+
+    }
+
     public function getListagemAnalisesCliente($perPage,$page,$idCliente): LengthAwarePaginator
     {
         $curl = curl_init();

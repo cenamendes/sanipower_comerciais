@@ -11,6 +11,8 @@ interface ClientesInterface
 {
     public function getListagemClientes($perPage,$page): LengthAwarePaginator;
 
+    public function getAllListagemClientesObject(): object;
+
     public function getNumberOfPages($perPage): array;
 
 
