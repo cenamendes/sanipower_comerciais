@@ -157,7 +157,8 @@ class Tarefas extends Component
             }, $collectionClientes->customers);
         }
          
-        $this->clienteNameTarefa = json_encode($this->clientes[0]["name"]);
+        // $this->clienteNameTarefa = json_encode($this->clientes[0]["name"]);
+        $this->clienteNameTarefa = json_encode("Sem cliente");
 
         $this->dispatchBrowserEvent('openModalAddTarefa');
     }
@@ -182,6 +183,11 @@ class Tarefas extends Component
             return false;
         }
 
+       if(json_decode($this->clienteNameTarefa) == null)
+       {
+            $this->clienteNameTarefa = "Sem cliente";
+       }
+
         $addTarefa = $this->tarefasRepository->addNewTarefa(json_decode($this->clienteNameTarefa),$this->dataInicialTarefa, $this->horaInicialTarefa, $this->horaFinalTarefa, $this->assuntoTarefa, $this->descricaoTarefa);
 
         $responseArray = $addTarefa->getData(true);
@@ -197,6 +203,7 @@ class Tarefas extends Component
         }
 
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+
      
         $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
         $this->dispatchBrowserEvent('updateList', ["message" => $message, "status" => $status]);
