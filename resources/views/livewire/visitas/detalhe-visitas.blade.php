@@ -17,8 +17,14 @@
         </div>
         
         <div class="tools col-md-6 col-xs-12 text-right">
-            <a href="javascript:void(0);" wire:click="openModalSaveVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
+            @if(isset($checkStatus))
+                @if($checkStatus != "1")
+                    <a href="javascript:void(0);" wire:click="guardarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
 
+                    <a href="javascript:void(0);" wire:click="finalizarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita e Finalizar</a>
+                @endif
+            @endif
+            
             <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
             <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
 
@@ -290,21 +296,34 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text bg-carolina"><i class="ti-clip text-light"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" value="" wire:model.defer="assunto">
+                                                <input type="text" class="form-control" value="" wire:model.defer="assunto"  @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Relatório</label>
                                             <div class="input-group">
-                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="relatorio"></textarea>
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="relatorio" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Tipo de Visita</label>
+                                            <div class="input-group">
+                                                <select class="form-control" id="tipoVisitaSelect" wire:model.defer="tipoVisitaSelect" @if(isset($checkStatus)) @if($checkStatus == "1") readonly disabled @endif @endif>
+                                                    @isset($tiposVisitaCollection)
+                                                        @foreach ($tiposVisitaCollection as $tipo)
+                                                            <option value="{{ $tipo->id }}">{{ $tipo->tipo }}</option>
+                                                        @endforeach
+                                                    @endisset
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Pendentes para a próxima visita</label>
                                             <div class="input-group">
-                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="pendentes"></textarea>
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="pendentes" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                             </div>
                                         </div>
 
@@ -313,28 +332,28 @@
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre encomendas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_encomendas"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_encomendas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre propostas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_propostas"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_propostas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre financeiro</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_financeiro"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_financeiro" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre ocorrências</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_occorencias"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_occorencias" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 

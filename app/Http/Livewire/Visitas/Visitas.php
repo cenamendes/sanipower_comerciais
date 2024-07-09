@@ -30,6 +30,7 @@ class Visitas extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
+    public $estadoVisita;
 
     public ?object $tipoVisita = NULL;
     public ?string $nomeClienteVisitaTemp = "";
@@ -46,8 +47,16 @@ class Visitas extends Component
     protected $listagemVisitas;
     public ?string $clientID = "";
 
+    public ?string $clienteVisitaID = "";
+
     public $idAgendar;
-   
+
+
+    //PARTE GERAL
+    protected ?object $visitas = NULL;
+
+    public $clientesListagem;
+  
 
     public function boot(ClientesInterface $clientesRepository, VisitasInterface $visitasRepository)
     {
@@ -72,11 +81,12 @@ class Visitas extends Component
         $this->emailCliente = '';
         $this->nifCliente = '';
 
-        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+        // $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        // $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+        // $this->totalRecords = $getInfoClientes["nr_registos"];
+        //$this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
 
     }
 
@@ -84,8 +94,7 @@ class Visitas extends Component
     public function mount($idAgendar)
     {
         $this->initProperties();
-       
-
+      
         if($idAgendar != "") {
             $infoCliente = $this->clientesRepository->getDetalhesCliente($this->idAgendar);
  
@@ -96,118 +105,38 @@ class Visitas extends Component
 
     }
 
+
     public function updatedNomeCliente()
     {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
     }
 
     public function updatedNumeroCliente()
     {
-        $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
     }
 
     public function updatedZonaCliente()
     {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
     }
 
     public function updatedNifCliente()
     {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
     }
 
     public function updatedTelemovelCliente()
     {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
     }
 
     public function updatedEmailCliente()
     {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
     }
 
-    public function gotoPage($page)
-    {
-        $this->pageChosen = $page;
-        
-        if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-            $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        } else {
-            $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-        }
-      
-    }
-
-
-    public function previousPage()
-    {
-      
-        if ($this->pageChosen > 1) {
-
-            $this->pageChosen--;
-
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-            } else {
-                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-            }
-            
-        }
-        else if($this->pageChosen == 1){
-
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-            } else {
-                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-            }
-            
-        }
-    }
-
-    public function nextPage()
-    {
-        if ($this->pageChosen < $this->numberMaxPages) {
-
-            $this->pageChosen++;
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-            } else {
-                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-            }
-            
-        }
-    }
-
+   
     public function getPageRange()
     {
         $currentPage = $this->pageChosen;
@@ -225,24 +154,12 @@ class Visitas extends Component
         return $page == $this->pageChosen;
     }
 
+   
+
     public function updatedPerPage(): void
     {
         $this->resetPage();
         session()->put('perPage', $this->perPage);
-
-        if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-            $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-            $this->totalRecords = $getInfoClientes["nr_registos"];
-        } else {
-            $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
-
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-            $this->totalRecords = $getInfoClientes["nr_registos"];
-        }
 
     }
 
@@ -251,24 +168,24 @@ class Visitas extends Component
         return 'livewire.pagination';
     }
 
-    public function agendarVisita($clientID,$nome)
+    public function agendarVisita()
     {
         Session::put('activeModalFinalizado', '');
 
         $this->initProperties();
 
-        $this->nomeClienteVisitaTemp = $nome;
-
-        $this->idClienteVisitaTemp = $clientID;
-
         $this->tipoVisita = TiposVisitas::all();
 
-        $this->dispatchBrowserEvent('modalAgendar',["clienteid" => $clientID, "nome" => json_encode($nome)]);
+        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+
+        $this->dispatchBrowserEvent('modalAgendar');
     }
 
     public function finalizarVisita($clientID)
     {
         $this->initProperties();
+
+        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
 
         $this->clientID = $clientID;
 
@@ -276,11 +193,13 @@ class Visitas extends Component
     }
    
 
-    public function newVisita($clienteID,$ClienteVisitaTemp)
+    public function newVisita()
     {
         $this->initProperties();
 
-        if($this->dataInicial == "" ||$this->horaInicial == "" || $this->horaFinal == "" || $this->tipoVisitaEscolhido == "" || $this->assuntoText == "" )
+        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+    
+        if($this->clienteVisitaID == "" ||$this->dataInicial == "" ||$this->horaInicial == "" || $this->horaFinal == "" || $this->tipoVisitaEscolhido == "" || $this->assuntoText == "" )
         {
             $this->dispatchBrowserEvent('openToastMessage', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
             return false;
@@ -292,7 +211,12 @@ class Visitas extends Component
             return false;
         }
 
-        $response = $this->visitasRepository->addVisitaDatabase($clienteID,$ClienteVisitaTemp, preg_replace('/[a-zA-Z]/', '', $this->dataInicial), preg_replace('/[a-zA-Z]/', '', $this->horaInicial), preg_replace('/[a-zA-Z]/', '', $this->horaFinal), $this->tipoVisitaEscolhido, $this->assuntoText);
+        $cliente = $this->clientesRepository->getDetalhesCliente(json_decode($this->clienteVisitaID));
+
+      
+
+
+        $response = $this->visitasRepository->addVisitaDatabase($cliente->customers[0]->id, $cliente->customers[0]->name,preg_replace('/[a-zA-Z]/', '', $this->dataInicial), preg_replace('/[a-zA-Z]/', '', $this->horaInicial), preg_replace('/[a-zA-Z]/', '', $this->horaFinal), $this->tipoVisitaEscolhido, $this->assuntoText);
 
         $tenant = env('MICROSOFT_TENANT');
         $clientId = env('MICROSOFT_CLIENT_ID');
@@ -311,17 +235,129 @@ class Visitas extends Component
 
         $this->emit('reloadNotification');
 
-        $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($clienteID),"visitaName" =>$ClienteVisitaTemp,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicial), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicial), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinal), "tipoVisita" => $this->tipoVisitaEscolhido, "assunto" => $this->assuntoText, "email" => Auth::user()->email, "organizer" => Auth::user()->name ]);
+        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+        $this->initProperties();
+        $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($cliente->customers[0]->id),"visitaName" =>$cliente->customers[0]->name,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicial), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicial), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinal), "tipoVisita" => $this->tipoVisitaEscolhido, "assunto" => $this->assuntoText, "email" => Auth::user()->email, "organizer" => Auth::user()->name ]);
         $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
 
     }
 
 
     public function render()
-    {        
-        
+    {       
+       
+        $this->visitas = VisitasAgendadas::query()
+        ->when($this->nomeCliente, function($query) {
+
+           
+            $query->where('cliente', 'like', '%' . $this->nomeCliente . '%');
+                       
+           
+        }) ->when($this->estadoVisita, function($query) {
+
+            if($this->estadoVisita == 3)
+            {
+                $this->estadoVisita = 0;
+            }
+            
+            $query->where('finalizado', $this->estadoVisita);
+                   
+            if($this->estadoVisita == 0)
+            {
+                $this->estadoVisita = 3;
+            }
+           
+        })
+        ->when($this->numeroCliente, function($query) {
+
+           
+                if($this->numeroCliente != "") {
+                    $query->where('cliente', 'like', '%' . $this->clientes[0]->name . '%');
+                }
+            
+
+        })->when($this->zonaCliente, function($query) {
+
+           
+                if($this->zonaCliente != "") {
+                    $query->where(function($subQuery) {
+                        foreach($this->clientes as $index => $client)
+                        {
+                            if ($index == 0) {
+                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                            } else {
+                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            }
+                        }
+                    });
+                
+                }
+            
+        })->when($this->nifCliente, function($query) {
+
+            
+                if($this->nifCliente != "") {
+                
+                    $query->where(function($subQuery) {
+                        foreach($this->clientes as $index => $client)
+                        {
+                            if ($index == 0) {
+                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                            } else {
+                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            }
+                        }
+                    });
+                
+                }
+            
+        })->when($this->telemovelCliente, function($query) {
+
+            
+                if($this->telemovelCliente != "") {
+                    $query->where(function($subQuery) {
+                        foreach($this->clientes as $index => $client)
+                        {
+                            if ($index == 0) {
+                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                            } else {
+                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            }
+                        }
+                    });
+                
+                }
+            
+        })
+        ->when($this->emailCliente, function($query) {
+
+           
+                if($this->emailCliente != "") {
+                    $query->where(function($subQuery) {
+                        foreach($this->clientes as $index => $client)
+                        {
+                            if ($index == 0) {
+                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                            } else {
+                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            }
+                        }
+                    });
+                
+                }
+            
+        })
+       ->paginate($this->perPage);
+
+
+        $this->totalRecords = $this->visitas->total();
+        $this->pageChosen = $this->visitas->currentPage();
+        $this->numberMaxPages = $this->visitas->lastPage();
+
+        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+    
         Session::put('activeModalFinalizado', '');
-        return view('livewire.visitas.visitas',["clientes" => $this->clientes]);
+        return view('livewire.visitas.visitas',["visitas" => $this->visitas, "clientesListagem" => $this->clientesListagem]);
     }
 
 }

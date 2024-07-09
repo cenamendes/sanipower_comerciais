@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/visitas/detalhes/{id}', [VisitasController::class, 'showDetail'])->name('visitas.detail');
     Route::get('/visitas/nova-visita/{id}', [VisitasController::class, 'endVisita'])->name('visitas.end-visita');
     Route::get('/visitas/agendar-visita/{id}', [VisitasController::class, 'agendarVisita'])->name('visitas.agendar-visita');
+    Route::get('/visitas/clientes', [VisitasController::class, 'clienteList'])->name('visitas.clientes');
+    Route::get('/visitas/information/{id}', [VisitasController::class, 'visitasInfo'])->name('visitas.info');
 
     Route::get('/encomendas', [EncomendasController::class, 'index'])->name('encomendas');
     Route::get('/encomendas/detalhes/{id}', [EncomendasController::class, 'showDetail'])->name('encomendas.detail');

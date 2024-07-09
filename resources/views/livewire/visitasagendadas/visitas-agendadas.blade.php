@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($groupedVisitas as $visita)
+                    {{-- @foreach($groupedVisitas as $visita)
                     <tr class="visita-row" data-cor="{{ $visita->tipovisita->cor }}">
                         <td style="cursor: default;">
                             {{ $visita->tipovisita->nome }}
@@ -53,7 +53,7 @@
                         <td style="cursor: default;">{{ $visita->data_inicial }} {{ $visita->hora_inicial }}</td>
                         <td style="cursor: default;">{{ $visita->data_final }} {{ $visita->hora_final }}</td>
                     </tr>
-                    @endforeach
+                    @endforeach --}}
                 </tbody>
             </table>
         </div>

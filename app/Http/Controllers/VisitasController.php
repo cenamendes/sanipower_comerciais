@@ -36,4 +36,17 @@ class VisitasController extends Controller
         $detailsClientes = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
         return view('visitas.details',["idVisita" => $id, "idCliente" => $visitaAgendada->client_id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "1"]); //finalizar
     }
+
+    public function clienteList()
+    {
+        return view('visitas.clientes', ["idAgendar" => ""]);
+    }
+
+    public function visitasInfo($id)
+    {
+        $visitaAgendada = VisitasAgendadas::where('id',$id)->first();
+
+        $detailsClientes = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
+        return view('visitas.details',["idVisita" => $id, "idCliente" => $visitaAgendada->client_id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "1"]);
+    }
 }

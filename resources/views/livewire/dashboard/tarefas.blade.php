@@ -137,7 +137,7 @@
                     <i class="ti-plus"></i> Adicionar Tarefa
                 </a>
                 <a href="javascript:;" class="btn btn-sm btn-success" id="addVisitaBtn" wire:click="addVisita" data-toggle="tooltip" title="Adicionar visita">
-                    <i class="ti-plus"></i> Adicionar Visita
+                    <i class="ti-plus"></i> Agendar Visita
                 </a>
             </div>
         </div>
@@ -683,6 +683,8 @@
 
             $("#agendarVisita").modal();
 
+            @this.set('clienteVisitaID', $('#clienteVisitaID option:first').val() ,true);
+            
             $('#clienteVisitaID').select2().on('change', function(e) {
                 @this.set('clienteVisitaID', e.target.value, true);
             });

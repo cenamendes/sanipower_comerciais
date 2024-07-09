@@ -51,4 +51,10 @@ interface VisitasInterface
 
     /******** */
 
+    /*** APANHAR VISITAS TODAS ***/
+
+    public function getAllVisitas($perPage): LengthAwarePaginator;
+
+    /******** */
+
 }

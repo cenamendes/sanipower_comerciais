@@ -186,6 +186,8 @@ class Propostas extends Component
 
         $this->propostaID = $id;
 
+        $this->comentarioProposta = "";
+
         $this->restartDetails();
 
         $this->dispatchBrowserEvent('openDetalhePropostaModal');

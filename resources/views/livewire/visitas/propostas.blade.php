@@ -100,7 +100,6 @@
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
-                                    <th>Detalhe Proposta</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,7 +109,8 @@
                                     <td>{{ $detalhe->budget }}</td>
                                     <td>{{ $detalhe->total }}</td>
                                     <td>{{ $detalhe->status }}</td>
-                                    <td><button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button>
+                                    <td>
+                                        {{-- <button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button> --}}
                                         @php
                                         $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
                                         ->where('tipo', 'propostas')
@@ -121,8 +121,7 @@
                                             Ver Comentário
                                         </button>
                                         @endif
-                                    </td>
-                                    <td>
+                                    
                                         <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe->id) }})">
                                             <i class="ti ti-plus"></i> Ver Proposta
                                         </button>
@@ -202,7 +201,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detalhePropostaModalLabel">Detalhes da Encomenda</h5>
+                    <h5 class="modal-title" id="detalhePropostaModalLabel">Detalhes da Proposta</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -240,8 +239,21 @@
                             @endisset
                         </tbody>
                     </table>
+
+                    <div class="row">
+                        <div class="card-body" style="margin-left:15px;margin-right:15px;">
+                            <hr>
+                            <h5>Adicionar Comentário</h5>
+                            <label>Comentário</label>
+                            <div class="input-group">
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentarioProposta"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($propostaID) }})">Adicionar</button>
+                    <button type="button" class="btn btn-outline-primary" wire:click="sendComentario({{ json_encode($propostaID) }})">Gerar PDF</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                 </div>
             </div>

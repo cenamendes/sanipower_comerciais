@@ -459,6 +459,13 @@ class VisitasRepository implements VisitasInterface
         return $visitasAgendadas;
     }
 
+    public function getAllVisitas($perPage): LengthAwarePaginator
+    {
+        $allVisitas = VisitasAgendadas::paginate($perPage);
+
+        return $allVisitas;
+    }
+
 
 
 }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\Visitas;
 
+use App\Models\Visitas;
 use Livewire\Component;
-use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
 use App\Models\VisitasAgendadas;
+use Illuminate\Support\Facades\Auth;
+use App\Interfaces\ClientesInterface;
+use App\Models\TiposVisitas;
 use Illuminate\Support\Facades\Session;
 
 class DetalheVisitas extends Component
@@ -44,10 +47,14 @@ class DetalheVisitas extends Component
     public string $comentario_propostas = "";
     public string $comentario_financeiro = "";
     public string $comentario_occorencias = "";
+    public int $checkStatus;
 
     private ?object $encomendasDetail = NULL;
 
     public ?string $activeFinalizado = "";
+
+    public $tiposVisitaCollection;
+    public int $tipoVisitaSelect;
 
     public ?int $idVisita;
     public ?string $clientID = "";
@@ -76,7 +83,72 @@ class DetalheVisitas extends Component
 
         if($idVisita != 0){
             $this->idVisita = $idVisita;
+            
+            $visita = Visitas::where('id_visita_agendada',$idVisita)->first();
+            $visitaAgendada = VisitasAgendadas::where('id', $idVisita)->first();
+
+
+            if(isset($visita->assunto))
+            {
+                if($visita->assunto == "")
+                {
+                    $this->assunto = $visitaAgendada->assunto_text;
+                } else {
+                    $this->assunto = $visita->assunto;
+                }
+               
+            } else {
+                $this->assunto = $visitaAgendada->assunto_text;
+            }
+
+            if(isset($visita->relatorio))
+            {
+                $this->relatorio = $visita->relatorio;
+            }
+
+            if(isset($visita->pendentes_proxima_visita))
+            {
+                $this->pendentes = $visita->pendentes_proxima_visita;
+            }
+
+            if(isset($visita->comentario_encomendas))
+            {
+                $this->comentario_encomendas = $visita->comentario_encomendas;
+            }
+
+            if(isset($visita->comentario_propostas))
+            {
+                $this->comentario_propostas = $visita->comentario_propostas;
+            }
+         
+            if(isset($visita->comentario_financeiro))
+            {
+                $this->comentario_financeiro = $visita->comentario_financeiro;
+            }
+          
+            if(isset($visita->comentario_ocorrencias))
+            {
+                $this->comentario_occorencias = $visita->comentario_ocorrencias;
+            }
+
+            if(isset($visitaAgendada->finalizado))
+            {
+                $this->checkStatus = $visitaAgendada->finalizado;
+            }
+
+            if(isset($visitaAgendada->id_tipo_visita))
+            {
+                $this->tipoVisitaSelect = $visitaAgendada->id_tipo_visita;
+            }
+            
+         
+    
+        } else {
+            $this->checkStatus = 0;
+            $this->tipoVisitaSelect = 1;
         }
+
+       
 
         $this->activeFinalizado = $tst;
         $this->restartDetails();
@@ -197,6 +269,328 @@ class DetalheVisitas extends Component
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
     }
+
+    public function guardarVisita()
+    {
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+
+        $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
+
+        if($visitas != null)
+        {
+            if($visitas->count() > 0)
+            {
+                
+                $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                    "finalizado" => "2",
+                    "assunto_text" => $this->assunto,
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+
+                $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+
+            
+                $visitaCreate = Visitas::where('id_visita_agendada',$this->idVisita)->update([
+                    "id_visita_agendada" => $getId->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+
+                if(!empty($visitaCreate)) {
+                    session()->flash('success', "Visita atualizada com sucesso");
+                    return redirect()->route('visitas');
+        
+                } else {
+                    session()->flash('warning', "Não foi possivel alterar a visita!");
+                    return redirect()->route('visitas');
+                }
+
+            } 
+            else 
+            {
+
+                $agenda = VisitasAgendadas::create([
+                    "client_id" => $this->detailsClientes->customers[0]->id,
+                    "cliente" => $this->detailsClientes->customers[0]->name,
+                    "data_inicial" => date('Y-m-d'),
+                    "hora_inicial" => date('H:i:s'),
+                    "user_id" => Auth::user()->id,
+                    "assunto_text" => $this->assunto,
+                    "finalizado" => "2",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+
+
+
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $agenda->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+
+                if(!empty($visitaCreate)) {
+                    session()->flash('success', "Visita registada com sucesso");
+                    return redirect()->route('visitas');
+        
+                } else {
+                    session()->flash('warning', "Não foi possivel adicionar visita!");
+                    return redirect()->route('visitas');
+                }
+
+            }
+        }
+        else 
+        {
+       
+            if($this->idVisita == 0)
+            {
+                $agenda = VisitasAgendadas::create([
+                    "client_id" => $this->detailsClientes->customers[0]->id,
+                    "cliente" => $this->detailsClientes->customers[0]->name,
+                    "assunto_text" => $this->assunto,
+                    "data_inicial" => date('Y-m-d'),
+                    "hora_inicial" => date('H:i:s'),
+                    "user_id" => Auth::user()->id,
+                    "finalizado" => "2",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+    
+                    
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $agenda->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+            }
+            else 
+            {
+                $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                    "assunto_text" => $this->assunto,
+                    "finalizado" => "2",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+    
+                $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+    
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $getId->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+            }
+           
+
+            if(!empty($visitaCreate)) {
+                session()->flash('success', "Visita registada com sucesso");
+                return redirect()->route('visitas');
+    
+            } else {
+                session()->flash('warning', "Não foi possivel adicionar visita!");
+                return redirect()->route('visitas');
+            }
+
+        }
+       
+        
+
+    }
+
+    public function finalizarVisita()
+    {
+        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+
+        $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
+
+        if($visitas != null)
+        {
+
+            if($visitas->count() > 0)
+            {
+                $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                    "finalizado" => "1",
+                    "data_final" => date('Y-m-d'),
+                    "hora_final" => date('H:i:s'),
+                    "assunto_text" => $this->assunto,
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+
+                $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+
+                $visitaCreate = Visitas::where('id_visita_agendada',$this->idVisita)->update([
+                    "id_visita_agendada" => $getId->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+
+                if(!empty($visitaCreate)) {
+                    session()->flash('success', "Visita registada e finalizada com sucesso");
+                    return redirect()->route('visitas');
+        
+                } else {
+                    session()->flash('warning', "Não foi possivel adicionar visita!");
+                    return redirect()->route('visitas');
+                }
+            } 
+            else {
+
+                $agenda = VisitasAgendadas::create([
+                    "client_id" => $this->detailsClientes->customers[0]->id,
+                    "cliente" => $this->detailsClientes->customers[0]->name,
+                    "data_inicial" => date('Y-m-d'),
+                    "hora_inicial" => date('H:i:s'),
+                    "data_final" => date('Y-m-d'),
+                    "hora_final" => date('H:i:s'),
+                    "user_id" => Auth::user()->id,
+                    "assunto_text" => $this->assunto,
+                    "finalizado" => "1",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+
+
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $agenda->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+
+                if(!empty($visitaCreate)) {
+                    session()->flash('success', "Visita atualizada e finalizada com sucesso");
+                    return redirect()->route('visitas');
+        
+                } else {
+                    session()->flash('warning', "Não foi possivel atualizada visita!");
+                    return redirect()->route('visitas');
+                }
+            }
+        }
+        else {
+
+            if($this->idVisita == 0)
+            {
+
+                $agenda = VisitasAgendadas::create([
+                    "client_id" => $this->detailsClientes->customers[0]->id,
+                    "cliente" => $this->detailsClientes->customers[0]->name,
+                    "assunto_text" => $this->assunto,
+                    "data_inicial" => date('Y-m-d'),
+                    "hora_inicial" => date('H:i:s'),
+                    "data_final" => date('Y-m-d'),
+                    "hora_final" => date('H:i:s'),
+                    "user_id" => Auth::user()->id,
+                    "finalizado" => "1",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+    
+                    
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $agenda->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+
+            }
+            else {
+
+                $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                    "finalizado" => "1",
+                    "data_final" => date('Y-m-d'),
+                    "hora_final" => date('H:i:s'),
+                    "assunto_text" => $this->assunto,
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+    
+                $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+    
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $getId->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+
+            }
+
+          
+
+            if(!empty($visitaCreate)) {
+                session()->flash('success', "Visita registada e finalizada com sucesso");
+                return redirect()->route('visitas');
+    
+            } else {
+                session()->flash('warning', "Não foi possivel adicionar visita!");
+                return redirect()->route('visitas');
+            }
+        }
+
+        //FALTA MANDAR PARA O PHC
+
+      
+
+    }
+
     public function openModalSaveVisita()
     {
         $this->restartDetails();
@@ -268,6 +662,7 @@ class DetalheVisitas extends Component
 
     public function render()
     {
+        $this->tiposVisitaCollection = TiposVisitas::all();
         return view('livewire.visitas.detalhe-visitas',["detalhesCliente" => $this->detailsClientes, "analisesCliente" =>$this->analysisClientes]);
     }
 }

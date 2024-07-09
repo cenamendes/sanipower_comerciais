@@ -1,24 +1,28 @@
 @extends('main')
 @section('body')
 
+
     <div class="row navigationLinks">
         <div class="col">
             <ol class="breadcrumb" style="padding-left: 25px;">
                 <li class="breadcrumb-item"><a href=""><i class="ti-calendar"></i> Clientes</a></li>
-                <li class="breadcrumb-item">Informação</li>
-                <li class="breadcrumb-item active">{{$nameCliente}}</li>
+                <li class="breadcrumb-item active">Listagem</li>
             </ol>
         </div>
     </div>
+
+    <h4>Visitas</h4>
+
+    @livewire('visitas.visitas-adicionar', ["idAgendar" => $idAgendar])
+ 
     
-    @livewire('visitas.detalhe-visitas',["cliente" => $idCliente, "idVisita" => $idVisita,"tst" => $tst])
 
 @endsection
 
 @push('scripts_footer')
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
-    document.addEventListener('livewire:load', function() {
+     document.addEventListener('livewire:load', function() {
             Livewire.hook('message.sent', () => {
                 document.getElementById('loader').style.display = 'block';
             });
@@ -28,24 +32,15 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
-        document.addEventListener('openComentarioModal', function() {
-            jQuery("#modalComentario").modal();
-        });
-
-        document.addEventListener('openComentarioModalPropostas', function() {
-    
-            jQuery("#modalComentarioProp").modal();
-        });
-
-        document.addEventListener('openComentarioModalOcorrencias', function() {
-            jQuery("#modalComentarioOcor").modal();
-        });
-
-
 
         window.addEventListener('DOMContentLoaded', (event) => {
+            if ("{{ session('success') }}") {
+                toastr.success("{{ session('success') }}");
+            }
 
-            document.getElementById('loader').style.display = 'none';
+            if("{{ session('error') }}"){
+                toastr.warning("{{ session('error') }}");
+            }
         });
 
         window.addEventListener('beforeunload', function () {
@@ -54,12 +49,9 @@
         });
 
 
-
-        window.addEventListener('checkToaster', function(e) {
-
-            jQuery("#modalComentario").modal('hide');
-            jQuery("#modalComentarioProp").modal('hide');
-            jQuery("#detalhePropostaModal").modal('hide');
+        window.addEventListener('openToastMessage', function(e) {
+    
+            jQuery("#agendarVisita").modal('hide');
 
             if (e.detail.status == "success") {
                 toastr.success(e.detail.message);
@@ -69,7 +61,11 @@
                 toastr.warning(e.detail.message);
             }
         });
-        
+
+
 </script>
 
+<script src="{{asset('assets/scripts/pages/cp_datetime.js')}}"></script>
+
 @endpush
+
