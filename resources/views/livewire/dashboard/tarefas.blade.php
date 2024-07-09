@@ -214,7 +214,7 @@
                                     <option value="{{ json_encode("Sem cliente") }}">Sem Cliente</option>
                                     @foreach ($clientes as $clt)
                                         @foreach($clt->customers as $cst)
-                                            <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
+                                            <option value="{{ json_encode($cst->name) }}">{{ $cst->name }}</option>
                                         @endforeach
                                     @endforeach
                                 @endisset
@@ -303,7 +303,7 @@
                             <div class="form-group row ml-0">
                                 <label>Cliente</label>
                                 <div class="input-group">
-                                    <select class="form-control" id="clienteVisitaID" wire:model.defer="clienteVisitaID">
+                                    <select class="form-control" id="clienteVisitaIDD" wire:model.defer="clienteVisitaID">
                                         @isset($clientes)
                                             @foreach ($clientes as $clt)
                                                 @foreach($clt->customers as $cst)
@@ -318,7 +318,7 @@
                             <div class="form-group row ml-0">
                                 <label>Data</label>
                                 <div class="input-group date">
-                                    <input type="text" id="dataInicialVisita" class="form-control" wire:model.defer="dataInicialVisita">
+                                    <input type="text" id="dataInicialVisitar" class="form-control" wire:model.defer="dataInicialVisita">
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="ti-calendar"></i>
@@ -377,8 +377,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaVisita">Adicionar</button>
-                    {{-- <a href="https://login.microsoftonline.com/{{env('MICROSOFT_TENANT')}}/oauth2/v2.0/authorize?client_id={{env('MICROSOFT_CLIENT_ID')}}&response_type=code&redirect_uri={{env('MICROSOFT_REDIRECT')}}&response_mode=query&scope=Calendars.ReadWrite" target="_blank">Login com Microsoft</a> --}}
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaVisita">Agendar</button>
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaIniciarVisita">Agendar e Iniciar</button>
                 </div>
             </div>
         </div>
@@ -898,9 +898,11 @@
 
             $("#agendarVisita").modal();
 
-            @this.set('clienteVisitaID', $('#clienteVisitaID option:first').val() ,true);
+            $('#clienteVisitaIDD').select2();
+
+            @this.set('clienteVisitaID', $('#clienteVisitaIDD option:first').val() ,true);
             
-            $('#clienteVisitaID').select2().on('change', function(e) {
+            $('#clienteVisitaIDD').select2().on('change', function(e) {
                 @this.set('clienteVisitaID', e.target.value, true);
             });
 
@@ -920,14 +922,14 @@
             };
 
 
-            $('#dataInicialVisita').datepicker({
+            $('#dataInicialVisitar').datepicker({
                 format: 'dd/mm/yyyy',
                 language: 'pt-BR',
                 autoclose: true
             }).on('changeDate', function(e) {
 
                 var formattedDate = moment(e.date).format('YYYY-MM-DD');
-
+            
                 @this.set('dataInicialVisita', formattedDate, true);
 
             });
