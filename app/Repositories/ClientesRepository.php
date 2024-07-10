@@ -17,7 +17,6 @@ class ClientesRepository implements ClientesInterface
 {
     public function getListagemClientes($perPage,$page): LengthAwarePaginator
     {
-        
         $nomeCliente = '&Name=';
         $numeroCliente = '&Customer_number=0';
         $zonaCliente = '&Zone=';
@@ -50,6 +49,8 @@ class ClientesRepository implements ClientesInterface
         $response_decoded = json_decode($response);
      
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $currentPage = 1;
 
         if($response_decoded != null)
         {

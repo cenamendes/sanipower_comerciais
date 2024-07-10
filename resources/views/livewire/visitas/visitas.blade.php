@@ -324,9 +324,9 @@
             
                                     <select class="form-control" id="clienteVisitaID" wire:model.defer="clienteVisitaID">
                                         @isset($clientesListagem[0])
-                                        @foreach ($clientesListagem[0] as $clt)
-                                        <option value="{{ json_encode($clt->id) }}">{{ $clt->name }}</option>
-                                        @endforeach
+                                            @foreach ($clientesListagem[0] as $clt)
+                                                <option  value="{{ json_encode($clt->id) }}">{{ $clt->name }}</option>
+                                            @endforeach
                                         @endisset
                                     </select>
                                 </div>
