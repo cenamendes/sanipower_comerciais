@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use App\Models\VisitasAgendadas;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
+use App\Interfaces\VisitasInterface;
 use App\Models\TiposVisitas;
 use Illuminate\Support\Facades\Session;
 
@@ -16,6 +17,7 @@ class DetalheVisitas extends Component
     use WithPagination;
 
     private ?object $clientesRepository = NULL;
+    private ?object $visitasRepository = NULL;
     protected ?object $clientes = NULL;
     public string $idCliente = "";
 
@@ -59,9 +61,10 @@ class DetalheVisitas extends Component
     public ?int $idVisita;
     public ?string $clientID = "";
     protected $listeners = ['eventoChamarSaveVisita' => 'saveVisita'];
-    public function boot(ClientesInterface $clientesRepository)
+    public function boot(ClientesInterface $clientesRepository, VisitasInterface $visitasRepository)
     {
         $this->clientesRepository = $clientesRepository;
+        $this->visitasRepository = $visitasRepository;
     }
 
     private function initProperties(): void
@@ -321,7 +324,7 @@ class DetalheVisitas extends Component
                     "client_id" => $this->detailsClientes->customers[0]->id,
                     "cliente" => $this->detailsClientes->customers[0]->name,
                     "data_inicial" => date('Y-m-d'),
-                    "hora_inicial" => date('H:i:s'),
+                    "hora_inicial" => date('H:i'),
                     "user_id" => Auth::user()->id,
                     "assunto_text" => $this->assunto,
                     "finalizado" => "2",
@@ -365,7 +368,7 @@ class DetalheVisitas extends Component
                     "cliente" => $this->detailsClientes->customers[0]->name,
                     "assunto_text" => $this->assunto,
                     "data_inicial" => date('Y-m-d'),
-                    "hora_inicial" => date('H:i:s'),
+                    "hora_inicial" => date('H:i'),
                     "user_id" => Auth::user()->id,
                     "finalizado" => "2",
                     "id_tipo_visita" => $this->tipoVisitaSelect
@@ -441,7 +444,7 @@ class DetalheVisitas extends Component
                 $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
                     "finalizado" => "1",
                     "data_final" => date('Y-m-d'),
-                    "hora_final" => date('H:i:s'),
+                    "hora_final" => date('H:i'),
                     "assunto_text" => $this->assunto,
                     "id_tipo_visita" => $this->tipoVisitaSelect
                 ]);
@@ -477,9 +480,9 @@ class DetalheVisitas extends Component
                     "client_id" => $this->detailsClientes->customers[0]->id,
                     "cliente" => $this->detailsClientes->customers[0]->name,
                     "data_inicial" => date('Y-m-d'),
-                    "hora_inicial" => date('H:i:s'),
+                    "hora_inicial" => date('H:i'),
                     "data_final" => date('Y-m-d'),
-                    "hora_final" => date('H:i:s'),
+                    "hora_final" => date('H:i'),
                     "user_id" => Auth::user()->id,
                     "assunto_text" => $this->assunto,
                     "finalizado" => "1",
@@ -521,9 +524,9 @@ class DetalheVisitas extends Component
                     "cliente" => $this->detailsClientes->customers[0]->name,
                     "assunto_text" => $this->assunto,
                     "data_inicial" => date('Y-m-d'),
-                    "hora_inicial" => date('H:i:s'),
+                    "hora_inicial" => date('H:i'),
                     "data_final" => date('Y-m-d'),
-                    "hora_final" => date('H:i:s'),
+                    "hora_final" => date('H:i'),
                     "user_id" => Auth::user()->id,
                     "finalizado" => "1",
                     "id_tipo_visita" => $this->tipoVisitaSelect
@@ -550,7 +553,7 @@ class DetalheVisitas extends Component
                 $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
                     "finalizado" => "1",
                     "data_final" => date('Y-m-d'),
-                    "hora_final" => date('H:i:s'),
+                    "hora_final" => date('H:i'),
                     "assunto_text" => $this->assunto,
                     "id_tipo_visita" => $this->tipoVisitaSelect
                 ]);
@@ -585,7 +588,7 @@ class DetalheVisitas extends Component
             }
         }
 
-        //FALTA MANDAR PARA O PHC
+        
 
       
 

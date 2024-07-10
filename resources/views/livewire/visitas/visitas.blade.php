@@ -254,6 +254,7 @@
                             id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
+                                    <th>ID</th>
                                     <th>Nome do Cliente</th>
                                     <th>Data Inicial</th>
                                     <th>Data Final</th>
@@ -265,6 +266,7 @@
 
                                 @foreach ($visitas as $vst)
                                     <tr data-href="{{ route('visitas.info', $vst->client_id) }}">
+                                        <td>{{ $vst->id }}</td>
                                         <td>{{ $vst->cliente }}</td>
                                         <td>{{ $vst->data_inicial }} / {{ $vst->hora_inicial}}</td>
                                         <td>{{ $vst->data_final }} / {{ $vst->hora_final}}</td>

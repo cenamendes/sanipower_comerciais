@@ -59,4 +59,10 @@ interface VisitasInterface
 
     /******** */
 
+    /** ENVIAR PARA O PHC */
+
+  
+
+    /******** */
+
 }

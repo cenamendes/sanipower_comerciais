@@ -482,7 +482,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="editarVisitaDireito">Editar</button>
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtnEdita" wire:click="editarVisitaDireito">Editar</button>
                 </div>
             </div>
         </div>
@@ -656,7 +656,11 @@
                         if (arg.event.extendedProps.finalizado == 1) {
                             estado = "finalizada";
                             cor = "green";
-                        } else {
+                        } else if(arg.event.extendedProps.finalizado == 2) {
+                            estado = "iniciada";
+                            cor = "#e6e600";
+                        }
+                        else {
                             estado = "agendada";
                             cor = "blue";
                         }
@@ -806,7 +810,7 @@
                             $('#assunto_textDireito').attr('readonly', true);    
                             $('#tipovisitaselectDireito').attr('readonly', true);
 
-                            $("#addVisitaModalBtn").css("display","none");
+                            $("#addVisitaModalBtnEdita").css("display","none");
                         } 
                         else {
                             $('#clienteVisitaIDDireito').attr('readonly', false);
@@ -816,7 +820,7 @@
                             $('#assunto_textDireito').attr('readonly', false);    
                             $('#tipovisitaselectDireito').attr('readonly', false);
 
-                            $("#addVisitaModalBtn").css("display","block");
+                            $("#addVisitaModalBtnEdita").css("display","block");
                         }
 
 

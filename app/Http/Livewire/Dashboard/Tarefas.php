@@ -259,6 +259,7 @@ class Tarefas extends Component
                 "data_inicial" => $this->dataInicialVisitaDireito,
                 "hora_inicial" => $this->horaInicialVisitaDireito,
                 "hora_final" => $this->horaFinalVisitaDireito,
+                "data_final" => $this->dataInicialVisitaDireito,
                 "id_tipo_visita" => $this->tipoVisitaEscolhidoDireito,
                 "assunto_text" => $this->assuntoTextVisitaDireito,
             ]);

@@ -80,6 +80,7 @@ class CalendarDashboard extends Component
                 "data_inicial" => $this->dataInicialVisita,
                 "hora_inicial" => $this->horaInicialVisita,
                 "hora_final" => $this->horaFinalVisita,
+                "data_final" => $this->dataInicialVisita,
                 "id_tipo_visita" => $this->tipoVisitaEscolhido,
                 "assunto_text" => $this->assuntoTextVisita,
             ]);

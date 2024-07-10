@@ -29,6 +29,8 @@ class Propostas extends Component
     private ?object $detailsPropostas = NULL;
     public ?object $comentario = NULL;
 
+    public $estadoProposta = "";
+
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -112,6 +114,11 @@ class Propostas extends Component
 
         $this->restartDetails();
 
+    }
+
+    public function updatedEstadoProposta()
+    {
+        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
     }
 
     public function restartDetails()
