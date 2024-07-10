@@ -3,13 +3,14 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\Tarefas;
+use App\Models\Visitas;
+use App\Services\OfficeService;
 use App\Models\VisitasAgendadas;
 use Illuminate\Http\JsonResponse;
 use App\Interfaces\VisitasInterface;
-use App\Models\Tarefas;
-use App\Services\OfficeService;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class VisitasRepository implements VisitasInterface
@@ -398,6 +399,49 @@ class VisitasRepository implements VisitasInterface
             "assunto_text" => $assuntoText,
             "user_id" => Auth::user()->id,
             "finalizado" => 0
+        ]);
+
+
+        if ($addVisita) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'data' => $addVisita
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir na base de dados.'
+            ], 500);
+        }
+
+        return $addVisita;
+    }
+
+    public function addVisitaIniciarDatabase($noClient,$clientID,$client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
+    {
+        //Tenho de colocar logo iniciar
+
+        $addVisita = VisitasAgendadas::create([
+            "id_tipo_visita" => $tipoVisitaEscolhido,
+            "client_id" => $clientID,
+            "cliente" => $client,
+            "data_inicial" => $dataInicial,
+            "hora_inicial" => $horaInicial,
+            "hora_final" => $horaFinal,
+            "data_final" => $dataInicial,
+            "assunto_text" => $assuntoText,
+            "user_id" => Auth::user()->id,
+            "finalizado" => 2
+        ]);
+
+        $visitaCreate = Visitas::create([
+            "id_visita_agendada" => $addVisita->id,
+            "numero_cliente" => $noClient,
+            "assunto" => $assuntoText,
+            "data" => date('Y-m-d'),
+            "user_id" => Auth::user()->id
         ]);
 
 

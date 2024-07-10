@@ -344,6 +344,60 @@ class Tarefas extends Component
         return redirect()->route('dashboard');
     }
 
+    public function agendaIniciarVisita()
+    {
+        if($this->clienteVisitaID == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
+            return false;
+        }
+
+        if(strtotime($this->horaInicialVisita) > strtotime($this->horaFinalVisita))
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Hora final tem de ser superior á hora inicial", "status" => "error"]);
+            return false;
+        }
+
+
+        $nameClient = $this->tarefasRepository->getDetalhesCliente(json_decode($this->clienteVisitaID));
+
+        $this->clienteVisitaName = $nameClient->customers[0]->name;
+
+        $noClient = $nameClient->customers[0]->no;
+
+        $response = $this->visitasRepository->addVisitaIniciarDatabase($noClient,json_decode($this->clienteVisitaID),$this->clienteVisitaName, preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), $this->tipoVisitaEscolhidoVisita, $this->assuntoTextVisita);
+
+        $tenant = env('MICROSOFT_TENANT');
+        $clientId = env('MICROSOFT_CLIENT_ID');
+        $clientSecret = env('MICROSOFT_CLIENT_SECRET');
+        $redirectUri = env('MICROSOFT_REDIRECT');
+
+        $emailEvento = Auth::user()->email;
+
+        $responseArray = $response->getData(true);
+
+        if ($responseArray["success"] == true) {
+            $message = "Visita agendada com sucesso";
+            $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar a visita!";
+            $status = "error";
+        }
+
+        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+
+        //$this->emit('reloadNotification');
+        //$this->emit('visitaAdded');
+
+        $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($this->clienteVisitaID),"visitaName" =>$this->clienteVisitaName,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), "tipoVisita" => $this->tipoVisitaEscolhidoVisita, "assunto" => $this->assuntoTextVisita, "email" => $emailEvento, "organizer" => Auth::user()->name ]);
+
+        // $this->dispatchBrowserEvent('updateList');
+        // $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+
+        session()->flash($status, $message);
+        return redirect()->route('dashboard');
+    }
+
     public function render()
     {
         $this->clientes = [$this->clientesRepository->getAllListagemClientesObject()];
