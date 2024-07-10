@@ -422,7 +422,6 @@ class VisitasRepository implements VisitasInterface
     public function addVisitaIniciarDatabase($noClient,$clientID,$client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
     {
         
-
         $addVisita = VisitasAgendadas::create([
             "id_tipo_visita" => $tipoVisitaEscolhido,
             "client_id" => $clientID,
