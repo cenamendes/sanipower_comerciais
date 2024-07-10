@@ -564,7 +564,7 @@ class VisitasRepository implements VisitasInterface
             ], 500);
         }
 
-        return $addVisita;
+        return $response_decoded;
     }
 
 
