@@ -136,7 +136,7 @@
                 <a href="javascript:;" class="btn btn-sm btn-primary" id="addTarefaBtn" wire:click="addTarefaButton" data-toggle="tooltip" title="Adicionar tarefa">
                     <i class="ti-plus"></i> Adicionar Tarefa
                 </a>
-                <a href="javascript:;" class="btn btn-sm btn-success" id="addVisitaBtn" wire:click="addVisita" data-toggle="tooltip" title="Adicionar visita">
+                <a href="javascript:;" class="btn btn-sm btn-success" id="addVisitaBtn" wire:click="addVisita" data-toggle="tooltip" title="Agendar visita">
                     <i class="ti-plus"></i> Agendar Visita
                 </a>
             </div>
