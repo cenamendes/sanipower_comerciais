@@ -61,7 +61,7 @@ interface VisitasInterface
 
     /** ENVIAR PARA O PHC */
 
-  
+    public function sendVisitaToPhc($id,$customer_id,$subject,$report,$type_of_visit,$pending_next_visit,$comment_orders,$comment_budget,$comment_financial,$comments_occurrences,$end_date): JsonResponse;
 
     /******** */
 

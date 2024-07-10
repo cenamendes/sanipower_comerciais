@@ -509,6 +509,63 @@ class VisitasRepository implements VisitasInterface
         return $allVisitas;
     }
 
+    public function sendVisitaToPhc($id,$customer_id,$subject,$report,$type_of_visit,$pending_next_visit,$comment_orders,$comment_budget,$comment_financial,$comments_occurrences,$end_date): JsonResponse
+    {
+
+        $visitaArray = [
+            "id" => $id,
+            "customer_id" => $customer_id,
+            "subject" => $subject,
+            "report" => $report,
+            "type_of_visit" => $type_of_visit,
+            "pending_next_visit" => $pending_next_visit,
+            "comment_orders" => $comment_orders,
+            "comment_budget" => $comment_budget,
+            "comment_financial" => $comment_financial,
+            "comments_occurrences" => $comments_occurrences,
+            "end_date" => $end_date
+        ];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/comerciais/visit',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($visitaArray),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+
+        if ($response_decoded->success == true) {
+            // Inserção bem-sucedida
+            return response()->json([
+                'success' => true,
+                'message' => 'Visita adicionada'
+            ], 201);
+        } else {
+            // Falha na inserção
+            return response()->json([
+                'success' => false,
+                'message' => 'Falha ao inserir na base de dados.'
+            ], 500);
+        }
+
+        return $addVisita;
+    }
 
 
 }

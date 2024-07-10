@@ -465,14 +465,7 @@ class DetalheVisitas extends Component
                     "user_id" => Auth::user()->id
                 ]);
 
-                if(!empty($visitaCreate)) {
-                    session()->flash('success', "Visita registada e finalizada com sucesso");
-                    return redirect()->route('visitas');
-        
-                } else {
-                    session()->flash('warning', "Não foi possivel adicionar visita!");
-                    return redirect()->route('visitas');
-                }
+             
             } 
             else {
 
@@ -504,14 +497,6 @@ class DetalheVisitas extends Component
                     "user_id" => Auth::user()->id
                 ]);
 
-                if(!empty($visitaCreate)) {
-                    session()->flash('success', "Visita atualizada e finalizada com sucesso");
-                    return redirect()->route('visitas');
-        
-                } else {
-                    session()->flash('warning', "Não foi possivel atualizada visita!");
-                    return redirect()->route('visitas');
-                }
             }
         }
         else {
@@ -576,20 +561,31 @@ class DetalheVisitas extends Component
 
             }
 
-          
-
-            if(!empty($visitaCreate)) {
-                session()->flash('success', "Visita registada e finalizada com sucesso");
-                return redirect()->route('visitas');
-    
-            } else {
-                session()->flash('warning', "Não foi possivel adicionar visita!");
-                return redirect()->route('visitas');
-            }
         }
 
-        
+        $dataPHC = date('Y-m-d')."T".date('H:i:s');
 
+        $getVisitaID = VisitasAgendadas::where('id',$this->idVisita)->first();
+      
+        $tipoVisita = TiposVisitas::where('id',$this->tipoVisitaSelect)->first();
+
+        $sendPHC = $this->visitasRepository->sendVisitaToPhc($getVisitaID->id, $this->detailsClientes->customers[0]->id, $this->assunto, $this->relatorio, $tipoVisita->tipo,$this->pendentes, $this->comentario_encomendas, $this->comentario_propostas, $this->comentario_financeiro, $this->comentario_occorencias, $dataPHC);
+
+
+        $responseArray = $sendPHC->getData(true);
+        
+        if($responseArray["success"] == true){
+
+            session()->flash('success', "Visita registada e finalizada com sucesso");
+            return redirect()->route('visitas');
+        }
+        else {
+            
+            session()->flash('warning', "Não foi possivel adicionar visita!");
+            return redirect()->route('visitas');
+        }
+
+      
       
 
     }
