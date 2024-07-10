@@ -578,18 +578,22 @@
                                 <div class="container-fluid container-detalhes-produto">
     <div class="row">
         <div class="col-12 d-flex flex-wrap">
-            <div class="col-12 col-md-3 p-0 mb-3">
-                <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg" width="100%">
-            </div>
+           
             @php
                 $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
             @endphp
-            <div class="col-12 col-md-9">
+            <div class="col-12">
                 <div class="row">
                     <div class="col-12 mb-2">
                         <div class="row">
-                            <div class="col-12 d-flex align-items-center pl-2">
-                                <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
+                            <div class="col-12 d-flex align-items-center pl-2 row">
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                    <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg" width="100%">
+                                </div>
+                                <div class="col">
+                                    <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
+                                </div>
+
                             </div>
                         </div>
                     </div>
