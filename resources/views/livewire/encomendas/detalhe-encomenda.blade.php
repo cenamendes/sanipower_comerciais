@@ -415,7 +415,7 @@
                                         @endforeach
                                     </div>
                                     <div class="row justify-content-between">
-                                        <div class="col-3">
+                                        <div class="col-md-3 col-4">
                                             <div class="input-group" id="checkboxSidbar">
                                                 <input id="checkbox" type="checkbox">
                                                 <label class="toggle" for="checkbox">
@@ -1007,7 +1007,7 @@
 <!-- Modal adicionar compra rapida -->
 <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
         <div class="modal-content">
             @php
                 $quickBuyProducts = session('quickBuyProducts');

@@ -10245,10 +10245,19 @@ a.close.disabled {
   }
 }
 
+@media (max-width: 992px) {
+  .modal-xxl {
+    max-width: 1000px;
+  }
+}
+
 @media (min-width: 992px) {
   .modal-lg,
   .modal-xl {
     max-width: 800px;
+  }
+  .modal-xxl {
+    max-width: 1000px;
   }
 }
 
