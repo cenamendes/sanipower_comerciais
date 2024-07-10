@@ -29,7 +29,7 @@
 
     <hr style="width: 90%; margin:0.3rem 0; margin-left:0.8rem">
 
-    <div class="profile-calendar" style="height: 700px; overflow-y: auto;">
+    <div class="profile-calendar" style="max-height:66vh; overflow-y: auto;width:100%;">
         @foreach($visitas->groupBy(function($item) { return $item->data_inicial; }) as $data => $groupedVisitas)
         <div class="visita-group">
             <h6 style="padding-top: 0.8rem; font-size: 1.1rem;">Dia: {{ $data }}</h6>
