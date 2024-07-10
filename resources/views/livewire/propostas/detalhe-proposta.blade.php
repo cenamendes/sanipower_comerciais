@@ -1494,56 +1494,64 @@
         }
     });
 
-    // $(document).ready(function(){
-        $('.produto-quantidade').on('input', function() {
-            var id = $(this).attr('id');
-            var valor = $(this).val();
-            var qtdMin = $(this).attr('data-qtd');
-            if(parseInt(valor) >= parseInt(qtdMin)){
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
+    document.addEventListener('DOMContentLoaded', function () {
+        function attachHandlers() {
 
-                $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+            $('.produto-quantidade').off('input').on('input', function() {
 
-            }else if(parseInt(valor) < parseInt(qtdMin)){
-                if(parseInt(valor) <= 0){
-                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+                var id = $(this).attr('id');
+                var valor = $(this).val();
+                var qtdMin = $(this).attr('data-qtd');
 
+                if(parseInt(valor) >= parseInt(qtdMin)){
+                    $('#addProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductProposta'+id).removeAttr('disabled');
                     $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+
+                }else if(parseInt(valor) < parseInt(qtdMin)){
+
+                    if(parseInt(valor) <= 0){
+                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                        $('#addProductProposta'+id).attr('disabled', 'disabled');
+
+                        $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                    }else{
+                        $('#commentProductEncomenda'+id).removeAttr('disabled');
+                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                        $('#addProductProposta'+id).attr('disabled', 'disabled');
+                    }
                 }else{
-                    $('#commentProductEncomenda'+id).removeAttr('disabled');
                     $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                     $('#addProductProposta'+id).attr('disabled', 'disabled');
-
                 }
-            }else{
-                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            });
 
+            $('#selectBox').hide();
+            $('#selectLabel').css("display","none");
 
-            }
+            $('.checkFinalizar').off('change').on('change', function() {
+                $('.checkFinalizar').not(this).prop('checked', false);
+
+                if($('#levantamento_loja').is(':checked')) {
+                    $('#selectBox').show();
+                    $('#selectLabel').css("display","block");
+                } else {
+                    $('#selectBox').hide();
+                    $('#selectLabel').css("display","none");
+                }
+            });
+
+            $('.checkPagamento').off('change').on('change', function() {
+                $('.checkPagamento').not(this).prop('checked', false);
+            });
+        }
+
+        attachHandlers();
+
+        Livewire.hook('message.processed', (message, component) => {
+            attachHandlers();
         });
-
-        $('#selectBox').hide();
-        $('#selectLabel').css("display","none");
-
-        $('.checkFinalizar').on('change', function() {
-            $('.checkFinalizar').not(this).prop('checked', false);
-
-            if($('#levantamento_loja').is(':checked')) {
-                $('#selectBox').show();
-                $('#selectLabel').css("display","block");
-            } else {
-                $('#selectBox').hide();
-                $('#selectLabel').css("display","none");
-            }
-        });
-
-        $('.checkPagamento').on('change', function() {
-            $('.checkPagamento').not(this).prop('checked', false);
-        });
-    // });
+    });
 
 
     window.addEventListener('refreshAllComponent', function() {
