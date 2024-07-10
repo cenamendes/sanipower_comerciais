@@ -529,7 +529,7 @@ class VisitasRepository implements VisitasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/comerciais/visit',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/comerciais/visit',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
