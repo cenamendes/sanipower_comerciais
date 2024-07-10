@@ -291,10 +291,20 @@ body::-webkit-scrollbar {
         width: 260px;
     }
 }
+
 @media only screen and (max-width: 1200px) {
     .sidebar-responsive{
         position: absolute;
         width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+   
+
+    .profile-calendar {
+        max-height:52vh !important;
     }
 }
 /* Encomendas */
