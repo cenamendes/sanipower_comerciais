@@ -421,7 +421,7 @@ class VisitasRepository implements VisitasInterface
 
     public function addVisitaIniciarDatabase($noClient,$clientID,$client, $dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse
     {
-        //Tenho de colocar logo iniciar
+        
 
         $addVisita = VisitasAgendadas::create([
             "id_tipo_visita" => $tipoVisitaEscolhido,
