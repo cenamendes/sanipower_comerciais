@@ -54,7 +54,7 @@
             <!-- EOF Breadcrumb -->
 
  
-            <div class="row">
+            <div class="row" style="margin-left: 10px;">
                 <!-- Employees Sales -->
                 <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
                     @livewire('dashboard.calendar-dashboard')
@@ -70,16 +70,16 @@
 
             <!-- Articles -->
 
-            <div class="row">
+            <div class="row" style="margin-left: 10px;">
                 <!-- Product Sales Chart -->
-                <div class="col-md-6">
+                <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="card mb-3">
                         <div class="card-body" id="product-sales-chart"></div>
                     </div>
                 </div>
 
                 <!-- Expenses Chart -->
-                <div class="col-md-6">
+                <div class="col-lg-6 col-md-12 col-sm-12">
                     <div class="card mb-3">
                         <div class="card-body" id="expenses-chart"></div>
                     </div>
