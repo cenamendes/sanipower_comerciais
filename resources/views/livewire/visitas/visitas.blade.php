@@ -265,7 +265,7 @@
                             <tbody>
 
                                 @foreach ($visitas as $vst)
-                                    <tr data-href="{{ route('visitas.info', $vst->client_id) }}">
+                                    <tr data-href="{{ route('visitas.info', $vst->id) }}">
                                         <td>{{ $vst->id }}</td>
                                         <td>{{ $vst->cliente }}</td>
                                         <td>{{ $vst->data_inicial }} / {{ $vst->hora_inicial}}</td>
