@@ -274,7 +274,7 @@
 
         <!-- FIM MODAL -->
     </div>
-
+</div>
     <script>
         // Obtém todas as linhas da tabela
         const tableRows = document.querySelectorAll('tr[data-href]');
