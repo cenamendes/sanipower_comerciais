@@ -609,6 +609,9 @@ class DetalheProposta extends Component
                             $count++;
                         }
 
+                    }else  if ($prodRap == "0") {
+                        $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                        return false;
                     }
                 }
             }
@@ -622,6 +625,9 @@ class DetalheProposta extends Component
                             ];
                             $count++;
                         }
+                    }else  if ($prodComm == "0") {
+                        $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                        return false;
                     }
                 }
             }
