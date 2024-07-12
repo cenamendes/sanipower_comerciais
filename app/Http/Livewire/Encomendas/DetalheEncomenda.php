@@ -612,6 +612,9 @@ class DetalheEncomenda extends Component
                             $count++;
                         }
                     }
+                }else if ($prodRap == "0") {
+                    $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                    return false;
                 }
             }
             foreach ($this->produtosComment as $j => $prodComm) {
@@ -624,19 +627,23 @@ class DetalheEncomenda extends Component
                             ];
                             $count++;
                         }
+                    }else  if ($prodComm == "0") {
+                        $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                        return false;
                     }
                 }
             }
         }
         $response = [];
         foreach($productChosen as $prodId){
+            
             $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "encomenda");
         }
 
         foreach($productChosenComment as $prodId){
             $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $prodId["comentario"]);
         }
-
+        
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
