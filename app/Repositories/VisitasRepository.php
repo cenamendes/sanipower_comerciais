@@ -495,6 +495,27 @@ class VisitasRepository implements VisitasInterface
         return $allTasks;
     }
 
+    public function getListagemVisitasAndTarefasWithDate($user,$date): array
+    {
+
+        $allTasks = [];
+
+        if(Auth::user()->nivel == "3"){
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')->where('data_inicial',$date)->get();
+            $tarefas = Tarefas::where('data_inicial',$date)->get();
+        } else {
+            $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->where('data_inicial',$date)->with('tipovisita')->get();
+            $tarefas = Tarefas::where('data_inicial',$date)->where('user_id',Auth::user()->id)->get();
+        }
+
+        $allTasks["visitas"] = $visitasAgendadas;
+
+        $allTasks["tarefas"] = $tarefas;
+        
+
+        return $allTasks;
+    }
+
     public function getVisitasAgendadas($clientID): LengthAwarePaginator
     {
         $visitasAgendadas = VisitasAgendadas::where('finalizado','0')->where('cliente',json_decode($clientID))->paginate(10);

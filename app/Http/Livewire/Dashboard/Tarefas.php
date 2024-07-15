@@ -58,7 +58,10 @@ class Tarefas extends Component
    
        /********* */
 
-    protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito"];
+       public $flagReset = false;
+       public $mesEscolhido = "";
+
+    protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData"];
 
     public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository, ClientesInterface $clientesInterface)
     {
@@ -70,6 +73,8 @@ class Tarefas extends Component
     public function mount()
     {
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        $this->flagReset = false;
+        $this->mesEscolhido = "";
         
     }
 
@@ -397,6 +402,23 @@ class Tarefas extends Component
 
         session()->flash($status, $message);
         return redirect()->route('dashboard');
+    }
+
+    public function changeDashWithDate($data)
+    {
+        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefasWithDate(Auth::user()->id,$data);
+        $this->flagReset = true;
+        $this->mesEscolhido = date('Y-m',strtotime($data));
+        $this->dispatchBrowserEvent('updateList');
+    }
+
+
+    public function originalData()
+    {
+        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        $this->flagReset = false;
+        $this->mesEscolhido = "";
+        $this->dispatchBrowserEvent('updateList');
     }
 
     public function render()

@@ -151,6 +151,9 @@
 
     <span class="d-none" id="valuesTarefas">{{json_encode($listagemTarefas)}}</span>
 
+    <input type="hidden" id="flagReset" wire:model="flagReset">
+    <input type="hidden" id="mesEscolhido" wire:model="mesEscolhido">
+
     <!--  MODAL EDITAR TAREFA  -->
 
     <div class="modal fade" id="modalTarefas" tabindex="-1" role="dialog" aria-labelledby="modalTarefas" aria-hidden="true">
@@ -518,6 +521,8 @@
             Livewire.hook('message.processed', (message, component) => {
                 loader.style.display = 'none';
             });
+
+           
         });
 
 
@@ -587,15 +592,52 @@
 
             var calendarEl = document.getElementById('calendarTarefas');
 
+          
+            var checkFlagReset = jQuery("#flagReset").val();
+    
+            
+            
+            if (checkFlagReset == "") {
+               
+                headerToolbar = {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'listMonth,listWeek,listDay'
+                };
+            } 
+            else {
+               
+                if (checkFlagReset == "false") {
+   
+                    headerToolbar = {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'listMonth,listWeek,listDay'
+                    };
+                } else {
+                    headerToolbar = {
+                        left: 'resetButton',
+                      
+                    };
+                }
+            }
+           
+            
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'listMonth',
                 events: eventTarefa,
                 locale: 'pt-br',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'listMonth,listWeek,listDay'
+                customButtons: {
+                    resetButton: {
+                        text: 'Resetar Filtro',
+                        click: function() {
+            
+                            Livewire.emit('originalData')
+                        }
+                    }
                 },
+                headerToolbar: headerToolbar,
                 buttonText: {
                     today: 'Hoje',
                     day: 'Dia',
@@ -613,6 +655,8 @@
                         allDayText: 'Dia'
                     }
                 },
+               
+               
                 //FAZER O ABRIR POP PARA VER A INFORMAÇÃO
                 eventDidMount: function(info, element) {
                     var scroller = info.el.closest(".fc-scroller");
@@ -636,6 +680,23 @@
                     }
 
 
+                    if(checkFlagReset == "true")
+                    {
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","none");
+                        jQuery('.fc-listMonth-button').css("display","none");
+                        jQuery('.fc-listWeek-button').css("display","none");
+                        jQuery('.fc-listDay-button').css("display","none");
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-prev-button').css("display","none");
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-next-button').css("display","none");
+                        
+                        
+                    } else {
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","gg");
+                        jQuery('.fc-listMonth-button').css("display","block");
+                        jQuery('.fc-listWeek-button').css("display","block");
+                        jQuery('.fc-listDay-button').css("display","block");
+                    }
+                    
 
 
                 },
@@ -867,6 +928,16 @@
             });
 
             calendar.render();
+
+            var mesEsc = jQuery("#mesEscolhido").val();
+            
+            if(mesEsc != "")
+            {
+                console.log(mesEsc);
+                calendar.gotoDate(mesEsc+'-01');
+            }
+
+            //
         }
 
 

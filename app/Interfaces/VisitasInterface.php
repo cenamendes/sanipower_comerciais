@@ -44,6 +44,8 @@ interface VisitasInterface
     public function getListagemVisitasAgendadas($user): object;
 
     public function getListagemVisitasAndTarefas($user): array;
+
+    public function getListagemVisitasAndTarefasWithDate($user,$date): array;
     
     /*** */
 
