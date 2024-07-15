@@ -530,12 +530,22 @@
                 {
                     if (index == "visitas") {
                         $.each(valores, function(indexVisita, valoresVisita) {
-                  
+
+                            if(valoresVisita.finalizado == 0){
+                                colorState = "blue";
+                                
+                            } else if(valoresVisita.finalizado == 1) {
+                                colorState = "green";
+                            } else {
+                                colorState = "#e6e600";
+                            }
+
+
                             eventTarefa.push({
                                 title: valoresVisita.cliente,
                                 start: valoresVisita.data_inicial + "T" + valoresVisita.hora_inicial,
                                 end: valoresVisita.data_inicial + "T" + valoresVisita.hora_final,
-                                backgroundColor: valoresVisita.tipovisita.cor,
+                                backgroundColor: colorState,
                                 assunto: valoresVisita.assunto_text,
                                 dataInicial: valoresVisita.data_inicial,
                                 horaInicial: valoresVisita.hora_inicial,
@@ -791,7 +801,7 @@
                         @this.set('tipoVisitaEscolhidoDireito',info.event.extendedProps.idTipoVisita,true);
                         @this.set('assuntoTextVisitaDireito',info.event.extendedProps.assunto,true);
 
-                        console.log(info.event.extendedProps.clientId);
+                        
                         $('#clienteVisitaIDDireito').val(JSON.stringify(info.event.extendedProps.clientId));
                         $('#dataInicialVisitaDireito').val(info.event.extendedProps.dataInicial);
                         $('#horaInicialVisitaDireito').val(info.event.extendedProps.horaInicial);

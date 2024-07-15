@@ -165,12 +165,21 @@
 
             $.each(calendarValues, function(index, valores) {
                 {
+
+                    if(valores.finalizado == 0){
+                        colorState = "blue";
+                        
+                    } else if(valores.finalizado == 1) {
+                        colorState = "green";
+                    } else {
+                        colorState = "#e6e600";
+                    }
                    
                     event.push({
                         title: valores.cliente,
                         start: valores.data_inicial+"T"+valores.hora_inicial,
                         end: valores.data_inicial+"T"+valores.hora_final,
-                        backgroundColor: valores.tipovisita.cor,
+                        backgroundColor: colorState,
                         assunto: valores.assunto_text,
                         dataInicial: valores.data_inicial,
                         horaInicial: valores.hora_inicial,

@@ -347,6 +347,7 @@ class Visitas extends Component
                 }
             
         })
+       ->orderBy('data_inicial','DESC')
        ->paginate($this->perPage);
 
 

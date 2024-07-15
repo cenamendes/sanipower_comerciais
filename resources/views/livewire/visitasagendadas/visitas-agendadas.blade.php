@@ -22,7 +22,7 @@
         style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-evenly; padding-top:1rem;">
         @foreach ($tiposvisitas as $visitatipos)
             <p class="card-text visita-tipo" data-cor="{{ $visitatipos->cor }}" style="cursor: pointer;">
-                <i class="fa fa-circle" style="color:{{ $visitatipos->cor }}"></i> {{ $visitatipos->tipo }}
+                 {{ $visitatipos->tipo }}
             </p>
         @endforeach
     </div>
@@ -44,10 +44,17 @@
                 </thead>
                 <tbody>
                     @foreach($groupedVisitas as $visita)
-                    <tr class="visita-row" data-cor="{{ $visita->tipovisita->cor }}">
+                    <tr class="visita-row" data-cor="{{ $visita->tipovisita->cor }}" data-href="{{route('visitas.info',$visita->id)}}">
                         <td style="cursor: default;">
                             {{ $visita->tipovisita->nome }}
-                            <i class="fa fa-circle" style="color:{{ $visita->tipovisita->cor }}"></i>
+                            @if($visita->finalizado == 0)
+                                <i class="fa fa-circle" style="color:blue"></i>
+                            @elseif($visita->finalizado == 1)
+                                <i class="fa fa-circle" style="color:green"></i>
+                            @else
+                                <i class="fa fa-circle" style="color:#e6e600"></i>
+                            @endif
+                           
                         </td>
                         <td style="cursor: default;">{{ $visita->cliente }}</td>
                         <td style="cursor: default;">{{ $visita->data_inicial }} {{ $visita->hora_inicial }}</td>
@@ -61,6 +68,21 @@
     </div>
 
     <script>
+
+        const tableRows = document.querySelectorAll('tr[data-href]');
+
+        // Adiciona um ouvinte de evento de clique a cada linha
+        tableRows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                // Obtém o URL de destino do atributo data-href
+                const href = row.dataset.href;
+
+                // Redireciona o usuário para o URL de destino
+                window.location.href = href;
+            });
+        });
+
+
         document.querySelectorAll('.visita-tipo').forEach(function(element) {
             element.addEventListener('click', function() {
                 var cor = this.getAttribute('data-cor');

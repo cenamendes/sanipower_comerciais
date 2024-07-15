@@ -139,7 +139,7 @@
                     <div class="row">
                         <div class="col-xl-8 col-xs-12">
                             <div class="caption uppercase">
-                                <i class="ti-user"></i> Encomendas
+                                <i class="ti-user"></i> Encomendas (Clientes)
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">

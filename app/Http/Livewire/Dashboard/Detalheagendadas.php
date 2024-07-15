@@ -24,6 +24,7 @@ class Detalheagendadas extends Component
         {
             $this->visitas = VisitasAgendadas::with('tipovisita')
                 ->where('data_inicial', '>=', $currentDate)
+                ->where('finalizado','!=', 1)
                 ->orderBy('data_inicial', 'asc')
                 ->get();
         }
@@ -31,6 +32,7 @@ class Detalheagendadas extends Component
             $this->visitas = VisitasAgendadas::with('tipovisita')
             ->where('user_id', $userId)
             ->where('data_inicial', '>=', $currentDate)
+            ->where('finalizado','!=', 1)
             ->orderBy('data_inicial', 'asc')
             ->get();
         }
@@ -47,12 +49,14 @@ class Detalheagendadas extends Component
         {
             $this->visitas = VisitasAgendadas::with('tipovisita')
                 ->where('data_inicial', '>=', $currentDate)
+                ->where('finalizado','!=', 1)
                 ->orderBy('data_inicial', 'asc')
                 ->get();
         }
         else {
             $this->visitas = VisitasAgendadas::with('tipovisita')
             ->where('user_id', $userId)
+            ->where('finalizado','!=', 1)
             ->where('data_inicial', '>=', $currentDate)
             ->orderBy('data_inicial', 'asc')
             ->get();
