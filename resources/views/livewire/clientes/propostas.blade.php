@@ -73,7 +73,18 @@
 
                 </div>
                 <div class="card-body">
-
+                    <div class="row mb-2">
+                        <div class="col-lg-4">
+                            <label class="mt-2">Estado Proposta</label>
+                            <div class="input-group">
+                                <select name="perPage" wire:model.lazy="estadoProposta" class="form-control">
+                                    <option value="" selected>Todas</option>
+                                    <option value="1">Com comentário</option>
+                                    <option value="2">Sem comentário</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div id="dataTables_wrapper" class="dataTables_wrapper container"
                         style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                         <div class="left">
@@ -104,33 +115,81 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($detalhesPropostas as $detalhe)
-                                    <tr>
+                               @foreach ($detalhesPropostas as $detalhe)
+                                <tr>
+
+                                    @php
+                                        $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
+                                        ->where('tipo', 'propostas')
+                                        ->get();
+                                    @endphp
+
+                                    @if($estadoProposta == 1)
+
+                                        @if ($cmt->count() > 0)
+
+                                            <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
+                                            <td>{{ $detalhe->budget }}</td>
+                                            <td>{{ $detalhe->total }}</td>
+                                            <td>{{ $detalhe->status }}</td>
+                                            <td>
+                                               
+                                                <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe->id) }})">
+                                                    <i class="ti ti-plus"></i> Ver Proposta
+                                                </button>
+                                            
+                                               
+                                                <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                                    Ver Comentário
+                                                </button>
+                                               
+                                            
+                                                
+                                            </td>
+
+                                        @endif
+
+                                    @elseif($estadoProposta == 2)
+                                            @if ($cmt->count() == 0)
+
+                                                <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
+                                                <td>{{ $detalhe->budget }}</td>
+                                                <td>{{ $detalhe->total }}</td>
+                                                <td>{{ $detalhe->status }}</td>
+                                                <td>
+                                                    {{-- <button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button> --}}
+                                                
+                                                    <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe->id) }})">
+                                                        <i class="ti ti-plus"></i> Ver Proposta
+                                                    </button>
+                                                </td>
+
+                                            @endif
+                                    @else
+
                                         <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
                                         <td>{{ $detalhe->budget }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
-                                        <td><button type="button" class="btn btn-primary"
-                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i
-                                                    class="ti ti-plus"></i> Comentário</button>
-                                            @php
-                                                $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
-                                                    ->where('tipo', 'propostas')
-                                                    ->get();
-                                            @endphp
-                                            @if ($cmt->count() > 0)
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Ver Comentário
-                                                </button>
-                                            @endif
-                                        </td>
                                         <td>
-                                        <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe->id) }})">
-                                            <i class="ti ti-plus"></i> Ver Proposta
-                                        </button>
-                                    </td>
-                                    </tr>
+                                            {{-- <button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button> --}}
+                                        
+                                            <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe->id) }})">
+                                                <i class="ti ti-plus"></i> Ver Proposta
+                                            </button>
+                                            
+                                            @if ($cmt->count() > 0)
+                                            <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                                Ver Comentário
+                                            </button>
+                                            @endif
+                                        
+                                            
+                                        </td>
+                                                
+                                    @endif
+                                   
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>

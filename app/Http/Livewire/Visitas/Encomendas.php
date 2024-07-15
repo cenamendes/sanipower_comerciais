@@ -29,6 +29,9 @@ class Encomendas extends Component
     private ?object $detailsEncomenda = NULL;
     public ?object $comentario = NULL;
 
+    public $estadoEncomenda = "";
+
+
     public function boot(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -112,7 +115,10 @@ class Encomendas extends Component
         $this->restartDetails();
 
     }
-
+    public function updatedEstadoEncomenda()
+    {
+        $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+    }
     public function restartDetails()
     {
         $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
@@ -187,6 +193,8 @@ class Encomendas extends Component
     {
 
         $this->encomendaID = $id;
+
+        $this->comentarioEncomenda = "";
 
         $this->restartDetails();
 
