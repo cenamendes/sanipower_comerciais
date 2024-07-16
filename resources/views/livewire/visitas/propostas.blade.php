@@ -117,6 +117,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($detalhesPropostas as $detalhe)
+                               
                                 <tr>
 
                                     @php
@@ -337,8 +338,6 @@
             });
         });
 
-       
-
         document.addEventListener('abrirModalVerComentarioProposta', function() {
             // $('#modalVerComentarioProposta').modal('show');
             $('#modalVerComentarioProposta').modal('show');
@@ -347,6 +346,8 @@
         document.addEventListener('openDetalhePropostaModal', function() {
             $('#detalhePropostaModal').modal('show');
         });
+
+        
     </script>
 
 </div>
