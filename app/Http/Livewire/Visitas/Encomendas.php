@@ -166,11 +166,10 @@ class Encomendas extends Component
             }
         }
 
-        // Reinicia os detalhes da encomenda
+
         $this->restartDetails();
 
-        // Exibe a mensagem usando o evento do navegador
-        $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+        $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
     }
 
 

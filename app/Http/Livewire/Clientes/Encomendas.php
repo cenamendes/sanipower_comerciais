@@ -164,7 +164,7 @@ class Encomendas extends Component
             $status = "error";
         }
     }
-
+    
     // Reinicia os detalhes da encomenda
     $this->restartDetails();
 

@@ -111,7 +111,6 @@
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
-                                    <th>Detalhe Proposta</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -269,7 +268,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detalhePropostaModalLabel">Detalhes da Encomenda</h5>
+                    <h5 class="modal-title" id="detalhePropostaModalLabel">Detalhes da Proposta</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -309,8 +308,19 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="row">
+                        <div class="card-body" style="margin-left:15px;margin-right:15px;">
+                            <hr>
+                            <h5>Adicionar Comentário</h5>
+                            <div class="input-group">
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentarioProposta"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($propostaID) }})">Adicionar</button>
+                    <button type="button" class="btn btn-outline-primary" wire:click="sendComentario({{ json_encode($propostaID) }})">Gerar PDF</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                 </div>
             </div>
@@ -346,7 +356,7 @@
         });
 
         window.addEventListener('checkToaster', function(e) {
-
+            $('#detalhePropostaModal').modal('hide');
             jQuery("#modalComentario").modal('hide');
             jQuery("#modalComentarioProp").modal('hide');
 
@@ -358,6 +368,8 @@
                 toastr.warning(e.detail.message);
             }
         });
+
+  
     </script>
 
 </div>
