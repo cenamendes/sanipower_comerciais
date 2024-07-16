@@ -263,12 +263,14 @@ class DetalheEncomenda extends Component
 
     }
 
-    public function deletar($itemId)
+    public function deletar($itemReference)
     {
-        Carrinho::where('id', $itemId)->delete();
+        Carrinho::where('id_encomenda', $this->codEncomenda)
+        ->where('referencia', $itemReference)
+        ->delete();
 
-        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $itemId]);
 
+        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $itemReference]);
     }
 
 
@@ -803,22 +805,27 @@ class DetalheEncomenda extends Component
         }
 
         $iamgens_unique = array_unique($imagens);
-
         $arrayCart = [];
 
-        foreach($iamgens_unique as $img)
-        {
+        foreach ($iamgens_unique as $img) {
             $arrayCart[$img] = [];
-            foreach($this->carrinhoCompras as $cart)
-            {
+            foreach ($this->carrinhoCompras as $cart) {
 
-                if($img == $cart->image_ref)
-                {
-                    array_push($arrayCart[$img],$cart);
+                if ($img == $cart->image_ref) {
+                    $found = false;
+                    foreach ($arrayCart[$img] as &$item) {
+                        if ($item->referencia == $cart->referencia) {
+                            $item->qtd += $cart->qtd;
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        array_push($arrayCart[$img], $cart);
+                    }
                 }
             }
         }
-
         $this->lojas = $this->encomendasRepository->getLojas();
 
         return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);

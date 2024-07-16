@@ -260,11 +260,14 @@ class DetalheProposta extends Component
 
     }
 
-    public function deletar($itemId)
+    public function deletar($itemReference)
     {
-        Carrinho::where('id', $itemId)->delete();
 
-        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $itemId]);
+        Carrinho::where('id_proposta', $this->codEncomenda)
+        ->where('referencia', $itemReference)
+        ->delete();
+
+        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $itemReference]);
 
     }
 
@@ -800,17 +803,23 @@ class DetalheProposta extends Component
 
         $iamgens_unique = array_unique($imagens);
 
-        $arrayCart = [];
+       $arrayCart = [];
 
-        foreach($iamgens_unique as $img)
-        {
+        foreach ($iamgens_unique as $img) {
             $arrayCart[$img] = [];
-            foreach($this->carrinhoCompras as $cart)
-            {
-                
-                if($img == $cart->image_ref)
-                {
-                    array_push($arrayCart[$img],$cart);
+            foreach ($this->carrinhoCompras as $cart) {
+                if ($img == $cart->image_ref) {
+                    $found = false;
+                    foreach ($arrayCart[$img] as &$item) {
+                        if ($item->referencia == $cart->referencia) {
+                            $item->qtd += $cart->qtd;
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        array_push($arrayCart[$img], $cart);
+                    }
                 }
             }
         }
