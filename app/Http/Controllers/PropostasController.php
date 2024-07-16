@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Carrinho;
-use App\Interfaces\ClientesInterface;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 
 
 class PropostasController extends Controller
@@ -39,5 +40,25 @@ class PropostasController extends Controller
         }
         
         return view('propostas.details',["idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda]);
+    }
+
+    public function showDetailProposta($idProposta)
+    {
+        if($idProposta == "nova")
+        {
+            return view('propostas.clientes');
+        } 
+        else
+        {
+            $proposta = Session::get('proposta');            
+
+            return view('propostas.details',["idCliente" => "", "codEncomenda" => "","proposta" => $proposta]);
+        }
+       
+    }
+
+    public function propostasList()
+    {
+        return view('propostas.clientes');
     }
 }

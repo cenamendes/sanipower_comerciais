@@ -6,13 +6,24 @@
             <ol class="breadcrumb pl-4" style="padding-left: 25px;">
                 <li class="breadcrumb-item"><a href=""><i class="ti-user"></i> Clientes</a></li>
                 <li class="breadcrumb-item">Proposta Cliente</li>
-                <li class="breadcrumb-item active">{{$nameCliente}}</li>
+                @if(isset($nameCliente))
+                    <li class="breadcrumb-item active">{{$nameCliente}}</li>
+                @else
+                    <li class="breadcrumb-item active">{{$proposta->name}}</li>
+                @endif
 
             </ol>
         </div>
     </div>
 
-    @livewire('propostas.detalhe-proposta',["cliente" => $idCliente, "codEncomenda" => $codEncomenda])
+    <div>
+        @if($proposta != null)
+            @livewire('propostas.proposta-info',["proposta" => $proposta])
+        @else
+            @livewire('propostas.detalhe-proposta',["cliente" => $idCliente, "codEncomenda" => $codEncomenda])
+        @endif
+    </div>
+    
 
 
 @endsection

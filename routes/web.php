@@ -62,6 +62,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/propostas', [PropostasController::class, 'index'])->name('propostas');
     Route::get('/propostas/detalhes/{id}', [PropostasController::class, 'showDetail'])->name('propostas.detail');
+    Route::get('/propostas/{idProposta}', [PropostasController::class, 'showDetailProposta'])->name('propostas.proposta');
+    Route::get('/propostas/nova', [PropostasController::class, 'propostasList'])->name('propostas.nova');
 
     Route::get('/getCode', [OfficeController::class, 'getCode']);
 
