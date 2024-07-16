@@ -151,6 +151,7 @@
 
     <span class="d-none" id="valuesTarefas">{{json_encode($listagemTarefas)}}</span>
 
+    <input type="hidden" id="dayPicked" wire:model="dayPicked">
     <input type="hidden" id="flagReset" wire:model="flagReset">
     <input type="hidden" id="mesEscolhido" wire:model="mesEscolhido">
 
@@ -525,6 +526,14 @@
            
         });
 
+        function formatDate(dateString) {
+                var date = new Date(dateString);
+                return new Intl.DateTimeFormat('pt-BR', {
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric'
+                }).format(date);
+        }
 
         function startCalendar() {
             var calendarValuesTarefa = JSON.parse($('#valuesTarefas').text());
@@ -595,6 +604,12 @@
           
             var checkFlagReset = jQuery("#flagReset").val();
     
+            var specificDate = jQuery("#dayPicked").val();
+
+            if(specificDate != "") {
+                var formattedDate = formatDate(specificDate);
+            }
+
             
             
             if (checkFlagReset == "") {
@@ -615,9 +630,10 @@
                         right: 'listMonth,listWeek,listDay'
                     };
                 } else {
+                   
                     headerToolbar = {
                         left: 'resetButton',
-                      
+                        center: 'title',
                     };
                 }
             }
@@ -630,12 +646,13 @@
                 locale: 'pt-br',
                 customButtons: {
                     resetButton: {
-                        text: 'Resetar Filtro',
+                        text: 'Reset Filtro',
                         click: function() {
             
                             Livewire.emit('originalData')
                         }
                     }
+                   
                 },
                 headerToolbar: headerToolbar,
                 buttonText: {
@@ -655,8 +672,35 @@
                         allDayText: 'Dia'
                     }
                 },
-               
-               
+                initialDate: checkFlagReset === "true" ? specificDate : null,
+
+                datesSet: function() {
+
+                    if(checkFlagReset == "true")
+                    {
+                       
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","none");
+                        jQuery('.fc-listMonth-button').css("display","none");
+                        jQuery('.fc-listWeek-button').css("display","none");
+                        jQuery('.fc-listDay-button').css("display","none");
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-prev-button').css("display","none");
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-next-button').css("display","none");
+                      
+                        var label = '<div class="fc-date-label">' + formattedDate + '</div>';
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-toolbar-title').html(label);
+                       
+                    } else {
+                     
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","gg");
+                        jQuery('.fc-listMonth-button').css("display","block");
+                        jQuery('.fc-listWeek-button').css("display","block");
+                        jQuery('.fc-listDay-button').css("display","block");
+
+                  
+                         jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-toolbar-title .fc-date-label').remove();
+                    }
+                    
+                },
                 //FAZER O ABRIR POP PARA VER A INFORMAÇÃO
                 eventDidMount: function(info, element) {
                     var scroller = info.el.closest(".fc-scroller");
@@ -678,25 +722,6 @@
                     if (info.event.end - info.event.start <= 3600000) { // Se a duração for menor ou igual a 1 hora
                         info.el.classList.add('fc-short-event'); // Adiciona a classe para eventos curtos
                     }
-
-
-                    if(checkFlagReset == "true")
-                    {
-                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","none");
-                        jQuery('.fc-listMonth-button').css("display","none");
-                        jQuery('.fc-listWeek-button').css("display","none");
-                        jQuery('.fc-listDay-button').css("display","none");
-                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-prev-button').css("display","none");
-                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-next-button').css("display","none");
-                        
-                        
-                    } else {
-                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","gg");
-                        jQuery('.fc-listMonth-button').css("display","block");
-                        jQuery('.fc-listWeek-button').css("display","block");
-                        jQuery('.fc-listDay-button').css("display","block");
-                    }
-                    
 
 
                 },
@@ -785,7 +810,10 @@
                         domNodes: [customDiv]
                     };
                 },
+               
                 eventClick: function(info) {
+                   
+                   
 
                     if (info.event.extendedProps.tarefa == "no") {
                         $("#modalInformacaoTarefa").modal();
@@ -933,7 +961,7 @@
             
             if(mesEsc != "")
             {
-                console.log(mesEsc);
+          
                 calendar.gotoDate(mesEsc+'-01');
             }
 

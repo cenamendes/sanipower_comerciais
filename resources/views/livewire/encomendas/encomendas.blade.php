@@ -143,7 +143,11 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
-
+                            <div class="tools">
+                               
+                                <a wire:click="adicionarEncomenda" style="color:white!important;" class="btn btn-sm btn-success"
+                                    ><i class="ti-book"></i> Adicionar Encomenda</a>
+                            </div>
                         </div>
                     </div>
 
@@ -169,24 +173,24 @@
                         <table class="table table-bordered table-hover init-datatable" id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Nome do Cliente</th>
-                                    <th>Número do Cliente</th>
-                                    <th>Zona do Cliente</th>
-                                    <th>Nº Contribuinte</th>
+                                    <th>Data</th>
+                                    <th>Encomenda</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach ($clientes as $clt )
-                                    <tr data-href="{{route('encomendas.detail',$clt->id)}}">
-                                        <td>{{$clt->name}}</td>
-                                        <td>{{$clt->no}}</td>
-                                        <td>{{$clt->zone}}</td>
-                                        <td>{{$clt->nif}}</td>
+                             
+                                @foreach ($encomendas as $enc )
+                                    <tr wire:click="checkOrder({{json_encode($enc->id)}})">
+                                        <td>{{ date('Y-m-d', strtotime($enc->date)) }}</td>
+                                        <td>{{$enc->order}}</td>
+                                        <td>{{$enc->total}}</td>
+                                        <td>{{$enc->status}}</td>
                                         <td>
-                                            <a href="{{route('encomendas.detail',$clt->id)}}" class="btn btn-primary">
-                                                <i class="ti-plus"></i> Nova Encomenda
+                                            <a wire:click="checkOrder({{json_encode($enc->id)}})" style="color:white!important;" class="btn btn-primary">
+                                                <i class="ti-eye"></i> Ver Encomenda
                                             </a>
                                         </td>
                                     </tr>
@@ -195,7 +199,7 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $clientes->links() }}
+                    {{ $encomendas->links() }}
                 </div>
             </div>
         </div>

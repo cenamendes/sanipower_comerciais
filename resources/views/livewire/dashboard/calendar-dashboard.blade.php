@@ -196,6 +196,8 @@
 
             var calendarEl = document.getElementById('calendar');
 
+            var checkFlagReset = jQuery("#flagReset").val();
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             events:event,
@@ -265,6 +267,8 @@
                 return { domNodes: [customDiv] };
             },
             dateClick: function(info) {
+
+
                 var clickedDate = new Date(info.dateStr).toISOString().split('T')[0];
 
                 Livewire.emit("changeDashWithDate",clickedDate)

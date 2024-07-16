@@ -111,7 +111,7 @@
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
-                                    <th>Detalhe Proposta</th>
+                   
                                 </tr>
                             </thead>
                             <tbody>

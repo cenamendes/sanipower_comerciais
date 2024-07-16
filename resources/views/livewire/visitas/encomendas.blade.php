@@ -117,8 +117,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              
-
+                       
                                 @foreach ($detalhesEncomenda as $detalhe)
                                 <tr>
 
@@ -133,7 +132,7 @@
                                         @if ($cmt->count() > 0)
 
                                             <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                            <td>{{ $detalhe->budget }}</td>
+                                            <td>{{ $detalhe->order }}</td>
                                             <td>{{ $detalhe->total }}</td>
                                             <td>{{ $detalhe->status }}</td>
                                             <td>
@@ -157,7 +156,7 @@
                                             @if ($cmt->count() == 0)
 
                                                 <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                                <td>{{ $detalhe->budget }}</td>
+                                                <td>{{ $detalhe->order }}</td>
                                                 <td>{{ $detalhe->total }}</td>
                                                 <td>{{ $detalhe->status }}</td>
                                                 <td>
@@ -172,7 +171,7 @@
                                     @else
 
                                         <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                        <td>{{ $detalhe->budget }}</td>
+                                        <td>{{ $detalhe->order }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
                                         <td>
