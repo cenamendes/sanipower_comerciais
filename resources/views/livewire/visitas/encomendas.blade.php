@@ -113,8 +113,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              
-
+                       
                                 @foreach ($detalhesEncomenda as $detalhe)
                                 <tr>
 

@@ -89,8 +89,9 @@ class DetalheEncomenda extends Component
     public $produtosRapida = [];
     public $produtosComment = [];
 
-
     /***** */
+
+    public ?object $encomenda = NULL;
 
     public int $perPage = 10;
     protected $listeners = ["rechargeFamily" => "rechargeFamily", "cleanModal" => "cleanModal" ,'campoAlterado' =>'campoAlterado', 'addProductCommentEncomenda'=>'addProductCommentEncomenda'];
@@ -120,6 +121,7 @@ class DetalheEncomenda extends Component
         $this->initProperties();
         $this->idCliente = $cliente;
         $this->codEncomenda = $codEncomenda;
+
 
         $this->specificProduct = 0;
         $this->filter = false;

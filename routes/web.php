@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/encomendas', [EncomendasController::class, 'index'])->name('encomendas');
     Route::get('/encomendas/detalhes/{id}', [EncomendasController::class, 'showDetail'])->name('encomendas.detail');
+    Route::get('/encomendas/{idEncomenda}', [EncomendasController::class, 'showDetailEncomenda'])->name('encomendas.encomenda');
+    Route::get('/encomendas/nova', [EncomendasController::class, 'encomendasList'])->name('encomendas.nova');
 
     Route::get('/propostas', [PropostasController::class, 'index'])->name('propostas');
     Route::get('/propostas/detalhes/{id}', [PropostasController::class, 'showDetail'])->name('propostas.detail');

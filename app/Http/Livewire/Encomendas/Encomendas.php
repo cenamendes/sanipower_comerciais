@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Encomendas;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 
 class Encomendas extends Component
 {
@@ -27,6 +28,7 @@ class Encomendas extends Component
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
     
+    public $idCliente;
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -50,14 +52,15 @@ class Encomendas extends Component
         $this->emailCliente = '';
         $this->nifCliente = '';
 
+        $this->idCliente = '';
+
     }
 
     public function mount()
     {
         $this->initProperties();
         $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-      
-        array_push($this->encomendasByClient,$this->encomendas);
+     
 
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
 
@@ -70,12 +73,14 @@ class Encomendas extends Component
     public function updatedNomeCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         
+        $arrayEncomendas = [];
+
         foreach($this->clientes as $cli)
         {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,"valor do cli stamp");
-            array_push($this->encomendasByClient,$this->encomendas);
+            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$cli->id);
+            array_push($arrayEncomendas,$this->encomendas);
 
         }
         
@@ -247,6 +252,26 @@ class Encomendas extends Component
             $this->totalRecords = $getInfoClientes["nr_registos"];
         }
 
+    }
+
+    public function checkOrder($idEncomenda)
+    {
+        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+       
+        foreach($this->encomendas as $enc)
+        {
+            if($enc->id == $idEncomenda)
+            {
+                Session::put('encomenda', $enc);
+                return redirect()->route('encomendas.encomenda', ['idEncomenda' => $idEncomenda]);
+            }
+        }
+    }
+
+    public function adicionarEncomenda()
+    {
+        Session::forget('encomenda');
+        return redirect()->route('encomendas.nova');
     }
 
     public function paginationView()

@@ -212,6 +212,6 @@ class EncomendasAdicionar extends Component
         
     public function render()
     {
-        return view('livewire.encomendas.encomendas',["clientes" => $this->clientes]);
+        return view('livewire.encomendas.encomendas-adicionar',["clientes" => $this->clientes]);
     }
 }

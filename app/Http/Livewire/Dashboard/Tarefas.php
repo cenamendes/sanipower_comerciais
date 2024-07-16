@@ -60,6 +60,7 @@ class Tarefas extends Component
 
        public $flagReset = false;
        public $mesEscolhido = "";
+       public $dayPicked;
 
     protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData"];
 
@@ -74,6 +75,7 @@ class Tarefas extends Component
     {
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
         $this->flagReset = false;
+        $this->dayPicked = "";
         $this->mesEscolhido = "";
         
     }
@@ -408,6 +410,7 @@ class Tarefas extends Component
     {
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefasWithDate(Auth::user()->id,$data);
         $this->flagReset = true;
+        $this->dayPicked = date('Y-m-d',strtotime($data));
         $this->mesEscolhido = date('Y-m',strtotime($data));
         $this->dispatchBrowserEvent('updateList');
     }
@@ -417,6 +420,7 @@ class Tarefas extends Component
     {
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
         $this->flagReset = false;
+        $this->dayPicked = "";
         $this->mesEscolhido = "";
         $this->dispatchBrowserEvent('updateList');
     }
