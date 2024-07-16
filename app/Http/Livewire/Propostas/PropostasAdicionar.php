@@ -5,9 +5,8 @@ namespace App\Http\Livewire\Propostas;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Interfaces\ClientesInterface;
-use Illuminate\Support\Facades\Session;
 
-class Propostas extends Component
+class PropostasAdicionar extends Component
 {
     use WithPagination;
     
@@ -17,7 +16,6 @@ class Propostas extends Component
     public int $totalRecords = 0;
     private ?object $clientesRepository = NULL;
     protected ?object $clientes = NULL;
-    protected ?object $propostas = NULL;
 
     public ?string $nomeCliente = '';
     public ?string $numeroCliente = '';
@@ -25,8 +23,6 @@ class Propostas extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
-
-    public $idCliente;
     
 
     public function boot(ClientesInterface $clientesRepository)
@@ -51,16 +47,13 @@ class Propostas extends Component
         $this->emailCliente = '';
         $this->nifCliente = '';
 
-        $this->idCliente = '';
     }
 
     public function mount()
     {
         $this->initProperties();
-        $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-
-
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -72,7 +65,7 @@ class Propostas extends Component
     {
         $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -82,7 +75,7 @@ class Propostas extends Component
     {
         $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -92,7 +85,7 @@ class Propostas extends Component
     {
         $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -102,7 +95,7 @@ class Propostas extends Component
     {
         $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -112,7 +105,7 @@ class Propostas extends Component
     {
         $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -122,7 +115,7 @@ class Propostas extends Component
     {
         $this->pageChosen = 1;
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -133,9 +126,9 @@ class Propostas extends Component
         $this->pageChosen = $page;
 
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-            $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+            $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         } else {
-            $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+            $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         }
         
     }
@@ -147,16 +140,16 @@ class Propostas extends Component
             $this->pageChosen--;
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             } else {
-                $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
             }
         }
         else if($this->pageChosen == 1){
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             } else {
-                $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
             }
         }
     }
@@ -167,9 +160,9 @@ class Propostas extends Component
             $this->pageChosen++;
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             } else {
-                $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
             }
         }
     }
@@ -196,41 +189,19 @@ class Propostas extends Component
         session()->put('perPage', $this->perPage);
 
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-
-            $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+            $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
             $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
             $this->totalRecords = $getInfoClientes["nr_registos"];
         } else {
-
-            $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+            $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+            $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
 
             $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
             $this->totalRecords = $getInfoClientes["nr_registos"];
         }
 
-    }
-
-    public function adicionarProposta()
-    {
-        Session::forget('proposta');
-        return redirect()->route('propostas.nova');
-    }
-
-    public function checkOrder($idProposta)
-    {
-        $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-       
-        foreach($this->propostas as $enc)
-        {
-            if($enc->id == $idProposta)
-            {
-                Session::put('proposta', $enc);
-                return redirect()->route('propostas.proposta', ['idProposta' => $idProposta]);
-            }
-        }
     }
 
     public function paginationView()
@@ -241,6 +212,6 @@ class Propostas extends Component
         
     public function render()
     {
-        return view('livewire.propostas.propostas',["propostas" => $this->propostas]);
+        return view('livewire.propostas.propostas-adicionar',["clientes" => $this->clientes]);
     }
 }
