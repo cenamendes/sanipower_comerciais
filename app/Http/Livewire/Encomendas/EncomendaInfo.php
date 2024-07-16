@@ -130,8 +130,42 @@ class EncomendaInfo extends Component
     
     public function render()
     {
-          
-        return view('livewire.encomendas.encomenda-info',["encomenda" => $this->encomenda]);
+        
+        foreach ($this->encomenda->lines as $prod){
+             $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod->category_number."/".$prod->family_number."-".$prod->subfamily_number."-".$prod->product_number.".jpg";
+             $prod->image_ref = $image_ref;
+        }
+
+        $imagens = [];
+        foreach($this->encomenda->lines as $carrinho){
+            array_push($imagens,$carrinho->image_ref);
+        }
+        
+        $iamgens_unique = array_unique($imagens);
+
+
+        $arrayCart = [];
+
+        foreach ($iamgens_unique as $img) {
+            $arrayCart[$img] = [];
+            foreach ($this->encomenda->lines as $cart) {
+                if ($img == $cart->image_ref) {
+                    $found = false;
+                    foreach ($arrayCart[$img] as &$item) {
+                        
+                        if ($item->reference == $cart->reference) {
+                            $item->qtd += $cart->qtd;
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        array_push($arrayCart[$img], $cart);
+                    }
+                }
+            }
+        }
+        return view('livewire.encomendas.encomenda-info',["encomenda" => $this->encomenda,"arrayCart" =>$arrayCart]);
 
     }
 }

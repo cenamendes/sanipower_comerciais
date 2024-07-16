@@ -174,10 +174,13 @@
          
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
            
-           
+                @forelse ($arrayCart as $img => $item)
+                
                 <div class="row" style="align-items: center;">
-                  
-                    <div class="col-md-12 p-0">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
+                    </div>
+                    <div class="col-md-10 p-0">
                         <table class="table table-hover init-datatable">
                             <thead class="thead-light">
                                 <tr>
@@ -191,8 +194,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($encomenda->lines as $prod)
-                                   
+
+                                @forelse ($item as $prod)
                                     <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
                                         <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->reference }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->description }}</td>
@@ -205,13 +208,18 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto na encomenda</td>
+                                        <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
+            @empty
+                <tr>
+                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                </tr>
+            @endforelse
 
                 <div class="row">
                     <div class="col-12 text-right" style="border-bottom: none;">
