@@ -39,7 +39,7 @@ class PropostasController extends Controller
             $codEncomenda = $checkCarrinho->id_proposta;
         }
         
-        return view('propostas.details',["idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda]);
+        return view('propostas.details',["idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda, "proposta" => null]);
     }
 
     public function showDetailProposta($idProposta)
