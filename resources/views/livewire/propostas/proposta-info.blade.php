@@ -34,7 +34,7 @@
                                 class="ti-eye"></i>
                             Adjudicar Proposta</a>
                         <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Enviar email</a>
-                        <a href="javascript:void(0);" wire:click="cancelarProposta" class="btn btn-sm btn-secondary"> Criar Encomenda</a>
+                        <a href="javascript:void(0);" wire:click="gerarPdfProposta" class="btn btn-sm btn-secondary"> Gerar PDF</a>
                     </div>
                 </div>
             </div>
