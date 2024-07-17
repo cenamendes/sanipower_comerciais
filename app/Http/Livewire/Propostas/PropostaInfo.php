@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Propostas;
 
+use App\Mail\SendProposta;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use App\Models\Carrinho;
 use App\Models\ComentariosProdutos;
@@ -12,10 +14,19 @@ use App\Interfaces\ClientesInterface;
 use App\Interfaces\EncomendasInterface;
 use App\Interfaces\PropostasInterface;
 use Illuminate\Support\Facades\Session;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\View;
+
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PropostaInfo extends Component
 {
-    use WithPagination;
+    use WithPagination ;
+
 
     public $carrinhoCompras = [];
     private ?object $clientesRepository = null;
@@ -126,7 +137,28 @@ class PropostaInfo extends Component
 
         $this->showLoaderPrincipal = true;
     }
+    public function enviarEmail($proposta)
+    {
 
+        if (!$proposta) {
+            dd("Não há valor na variável \$proposta");
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+    
+        $pdf = new Dompdf();
+        $pdf->loadHtml(View::make('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)])->render());
+    
+        $pdf->render();
+    
+        $pdfContent = $pdf->output();
+    
+        try {
+            Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
+        }
+    }
 
     public function gerarPdfProposta($proposta)
     {
