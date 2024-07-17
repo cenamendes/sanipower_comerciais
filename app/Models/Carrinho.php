@@ -20,6 +20,7 @@ class Carrinho extends Model
         'designacao',
         'pvp',
         'discount',
+        'discount2',
         'qtd',
         'image_ref',
         'model',

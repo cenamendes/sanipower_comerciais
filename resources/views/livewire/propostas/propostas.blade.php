@@ -234,6 +234,16 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+        
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if ("{{ session('success') }}") {
+                toastr.success("{{ session('success') }}");
+            }
+            if("{{ session('warning') }}"){
+                toastr.warning("{{ session('warning') }}");
+            }
+        });
 
 
 

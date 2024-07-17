@@ -91,7 +91,7 @@ class PropostaInfo extends Component
 
     /***** */
 
-    protected ?object $proposta = NULL;
+    private ?object $proposta = NULL;
 
     public int $perPage = 10;
 
@@ -126,6 +126,36 @@ class PropostaInfo extends Component
         $this->showLoaderPrincipal = true;
     }
 
+    public function adjudicarProposta($proposta)
+    {
+
+       Carrinho::where('id_cliente', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
+       ComentariosProdutos::where('no', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
+        
+
+        foreach($proposta["lines"] as $prop)
+        {
+           
+            Carrinho::create([
+                "id_proposta" => $proposta["id"],
+                "id_cliente" => $proposta["number"],
+                "id_user" => Auth::user()->id_phc,
+                "referencia" => $prop["reference"],
+                "designacao" => $prop["description"],
+                "price" => $prop["price"],
+                "discount" => $prop["discount"],
+                "discount2" => $prop["discount2"],
+                "qtd" => $prop["quantity"],
+                "iva" => 12,
+                "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg"
+            ]);
+        }
+
+
+        session()->flash("success", "Proposta adjudicada com sucesso");
+        return redirect()->route('propostas');
+      
+    }
    
     
     public function render()

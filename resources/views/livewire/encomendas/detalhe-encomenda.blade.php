@@ -607,6 +607,7 @@
                                     <th>Modelo</th>
                                     <th>PVP unitário</th>
                                     <th>Desconto</th>
+                                    <th>Desconto 2</th>
                                     <th>Preço unitário</th>
                                     <th>Qtd mínima</th>
                                     <th>Stock</th>
@@ -615,14 +616,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                             
                                 @if (!empty($detailProduto))
-                               
+                             
                                     @foreach ($detailProduto->product as $i => $prod)
                                         <tr style="background-color:{{ $prod->color }}">
                                             <td>{{ $prod->referense }}</td>
                                             <td>{{ $prod->model }}</td>
                                             <td>{{ $prod->pvp }}</td>
                                             <td>{{ $prod->discount }}</td>
+                                            <td>{{ $prod->discount2 }}</td>
                                             <td>{{ $prod->price }}</td>
                                             <td>{{ $prod->quantity }}</td>
                                             <td style="text-align:center;font-size:large;">
@@ -754,6 +757,7 @@
                 $ValorTotal = 0;
                 $ValorTotalComIva = 0;
             @endphp
+           
             @forelse ($arrayCart as $img => $item)
                 <div class="row" style="align-items: center;">
                     <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
@@ -768,6 +772,7 @@
                                     <th>Modelo</th>
                                     <th>PVP (UNI)</th>
                                     <th class="d-none d-md-table-cell">Desconto</th>
+                                    <th class="d-none d-md-table-cell">Desconto 2</th>
                                     <th>Preço (c/desc.)</th>
                                     <th>Qtd.Enc.</th>
                                     <th>Iva</th>
@@ -789,6 +794,7 @@
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                         <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
+                                        <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->iva }} %</td>
@@ -1050,6 +1056,7 @@
                                         <th>Modelo</th>
                                         <th>PVP unitário</th>
                                         <th>Desconto</th>
+                                        <th>Desconto 2</th>
                                         <th>Preço unitário</th>
                                         <th>Quantidade mínima</th>
                                         <th>Stock</th>
@@ -1065,6 +1072,7 @@
                                                 <td>{{ $prod->model }}</td>
                                                 <td>{{ $prod->pvp }}</td>
                                                 <td>{{ $prod->discount }}</td>
+                                                <td>{{ $prod->discount2 }}</td>
                                                 <td>{{ $prod->price }}</td>
                                                 <td>{{ $prod->quantity }}</td>
                                                 <td style="text-align:center;font-size:large;">
