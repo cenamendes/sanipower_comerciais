@@ -135,7 +135,6 @@ class EncomendaInfo extends Component
              $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod->family_number."/".$prod->family_number."-".$prod->subfamily_number."-".$prod->product_number.".jpg";
              $prod->image_ref = $image_ref;
         }
-
         $imagens = [];
         foreach($this->encomenda->lines as $carrinho){
             array_push($imagens,$carrinho->image_ref);

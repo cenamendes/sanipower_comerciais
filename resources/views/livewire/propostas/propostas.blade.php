@@ -181,7 +181,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                             
                                 @foreach ($propostas as $pro )
                                     <tr wire:click="checkOrder({{json_encode($pro->id)}})">
                                         <td>{{ date('Y-m-d', strtotime($pro->date)) }}</td>

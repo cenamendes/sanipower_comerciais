@@ -61,7 +61,7 @@
                         <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
                             Ver Encomenda</a>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Finalizar Encomenda</a>
+                        <a href="javascript:void(0);"  wire:click="finalizarencomenda" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Encomenda</a>
                         <a href="javascript:void(0);" wire:click="cancelarEncomenda" class="btn btn-sm btn-secondary" > Cancelar</a>
                     </div>
                 </div>
@@ -1000,7 +1000,7 @@
              <div class="row p-4">
                  <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
                      <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                     <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
+                     <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Guardar Encomenda</a>
                  </div>
                  <div class="col-12 pb-3 p-0 d-md-none text-center">
                      <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
@@ -1199,7 +1199,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary">Finalizar Encomenda</a>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab"  wire:click="finalizarencomenda" class="nav-link btn btn-outline-primary">Guardar Encomenda</a>
             </div>
         </div>
     </div>
