@@ -30,9 +30,16 @@
             <div class="teste" style="padding-right:35px;">
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
-                        <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
-                                class="ti-eye"></i>
-                            Adjudicar Proposta</a>
+                        @php
+                            $check = \App\Models\Carrinho::where('id_proposta',$proposta->id)->first();
+                        @endphp
+   
+                        @if($check == null)
+                            <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success"><i
+                                    class="ti-eye"></i>
+                                Adjudicar Proposta
+                            </a>
+                        @endif
                         <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Enviar email</a>
                         <a href="javascript:void(0);" wire:click="gerarPdfProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-secondary"> Gerar PDF</a>
                     </div>
@@ -43,7 +50,7 @@
 
         <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:70vh;padding-right: 0;">
             <div class="tab-content">
-
+           
                 <div class="tab-pane fade {{ $tabDetail }}" id="tab4">
                     <h4 class="card-title">{{ $proposta->name }}</h4>
                     <p class="card-text">
@@ -207,6 +214,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            
                                 @forelse ($proposta->lines as $prod)
                                    
                                     <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">

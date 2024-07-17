@@ -91,6 +91,8 @@ class DetalheProposta extends Component
 
     /***** */
 
+    public $kitCheck;
+
     public int $perPage = 10;
     protected $listeners = ["rechargeFamily" => "rechargeFamily", "cleanModal" => "cleanModal"];
 
@@ -744,6 +746,15 @@ class DetalheProposta extends Component
         dd($encoded_finalizar);
 
 
+    }
+
+    public function updatedKitCheck()
+    {
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
     }
 
     public function render()

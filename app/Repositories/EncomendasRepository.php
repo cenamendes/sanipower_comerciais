@@ -252,6 +252,7 @@ class EncomendasRepository implements EncomendasInterface
             "designacao" => $nameProduct,
             "pvp" => $qtd["product"]->pvp,
             "discount" => $qtd["product"]->discount,
+            "discount2" => $qtd["product"]->discount2,
             "price" => $qtd["product"]->price,
             "model" => $qtd["product"]->model,
             "qtd" => intval($qtd["quantidade"]),

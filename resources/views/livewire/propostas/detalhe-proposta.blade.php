@@ -846,6 +846,7 @@
                                                                     <th>Modelo</th>
                                                                     <th>PVP unitário</th>
                                                                     <th>Desconto</th>
+                                                                    <th>Desconto 2</th>
                                                                     <th>Preço unitário</th>
                                                                     <th>Qtd mínima</th>
                                                                     <th>Stock</th>
@@ -861,6 +862,7 @@
                                                                             <td>{{ $prod->model }}</td>
                                                                             <td>{{ $prod->pvp }}</td>
                                                                             <td>{{ $prod->discount }}</td>
+                                                                            <td>{{ $prod->discount2 }}</td>
                                                                             <td>{{ $prod->price }}</td>
                                                                             <td>{{ $prod->quantity }}</td>
                                                                             <td style="text-align:center;font-size:large;">
@@ -1000,15 +1002,17 @@
                         <table class="table table-hover init-datatable">
                             <thead class="thead-light">
                                 <tr>
+                             
                                     <th class="d-none d-lg-table-cell">Referência</th>
                                     <th>Produto</th>
                                     <th>Modelo</th>
-                                    <th>PVP (UNI)</th>
-                                    <th class="d-none d-md-table-cell">Desconto</th>
-                                    <th>Preço (c/desc.)</th>
-                                    <th>Qtd.Enc.</th>
-                                    <th>Iva</th>
-                                    <th>Total</th>
+                                    <th @if($kitCheck == true) style=" display: none; " @endif>PVP (UNI)</th>
+                                    <th @if($kitCheck == true) style=" display: none!important; " @endif class="d-none d-md-table-cell">Desc</th>
+                                    <th @if($kitCheck == true) style=" display: none!important; " @endif class="d-none d-md-table-cell">Desc 2</th>
+                                    <th @if($kitCheck == true) style=" display: none; " @endif>Preço (c/desc.)</th>
+                                    <th @if($kitCheck == true) style=" display: none; " @endif>Qtd.Enc.</th>
+                                    <th @if($kitCheck == true) style=" display: none; " @endif>Iva</th>
+                                    <th @if($kitCheck == true) style=" display: none; " @endif>Total</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -1024,13 +1028,14 @@
                                         <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
-                                        <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->iva }} %</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar(`{{ $prod->referencia }}`)">X</a></strong></td>
+                                        <td style="@if($kitCheck == true) display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
+                                        <td class="d-none d-md-table-cell"  style="@if($kitCheck == true)display: none!important; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
+                                        <td class="d-none d-md-table-cell"  style=" @if($kitCheck == true)display: none!important; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td>
+                                        <td style=" @if($kitCheck == true) display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
+                                        <td style=" @if($kitCheck == true) display:  none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
+                                        <td style=" @if($kitCheck == true) display:none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->iva }} %</td>
+                                        <td style="@if($kitCheck == true) display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                                        <td style=" @if($kitCheck == true)display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar(`{{ $prod->referencia }}`)">X</a></strong></td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -1039,6 +1044,16 @@
                                 @endforelse
                             </tbody>
                         </table>
+
+                        <div class="form-checkbox">
+                            <label>
+                                <input type="checkbox" id="kitCheck" class="kitCheck" wire:model="kitCheck">
+                                <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                Proposta em KIT?
+                            </label>
+                        </div>
+                       
+
                     </div>
                 </div>
             @empty
@@ -1278,6 +1293,7 @@
                                         <th>Modelo</th>
                                         <th>PVP unitário</th>
                                         <th>Desconto</th>
+                                        <th>Desconto 2</th>
                                         <th>Preço unitário</th>
                                         <th>Quantidade mínima</th>
                                         <th>Stock</th>
@@ -1293,6 +1309,7 @@
                                                 <td>{{ $prod->model }}</td>
                                                 <td>{{ $prod->pvp }}</td>
                                                 <td>{{ $prod->discount }}</td>
+                                                <td>{{ $prod->discount2 }}</td>
                                                 <td>{{ $prod->price }}</td>
                                                 <td>{{ $prod->quantity }}</td>
                                                 <td style="text-align:center;font-size:large;">
@@ -1504,7 +1521,12 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+
         function attachHandlers() {
+
+            $('.kitCheck').off('change').on('change', function() {
+                $('.kitCheck').not(this).prop('checked', false);
+            });
 
             $('.produto-quantidade').off('input').on('input', function() {
 
