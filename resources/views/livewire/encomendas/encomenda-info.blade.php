@@ -238,6 +238,18 @@
             </div>
         </div>
     </div>
+    <script>
+        window.addEventListener('checkToaster', function(e) {
+
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+
+            if(e.detail.status == "error"){
+                toastr.warning(e.detail.message);
+            }
+        });
+    </script>
 </div>
 
 

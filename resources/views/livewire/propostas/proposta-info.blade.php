@@ -40,7 +40,7 @@
                                 Adjudicar Proposta
                             </a>
                         @endif
-                        <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Enviar email</a>
+                        <a href="javascript:void(0);" wire:click="enviarEmail({{ json_encode($proposta) }})" class="btn btn-sm btn-primary"><i class="ti-save"></i> Enviar email</a>
                         <a href="javascript:void(0);" wire:click="gerarPdfProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-secondary"> Gerar PDF</a>
                     </div>
                 </div>
