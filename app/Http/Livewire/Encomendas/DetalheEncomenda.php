@@ -742,7 +742,6 @@ class DetalheEncomenda extends Component
         $arrayProdutos = [];
         $uniqueProducts = [];
         foreach ($this->carrinhoCompras as $prod) {
-
             $nota = ComentariosProdutos::where('reference', $prod->referencia)
                         ->where('id_encomenda', $prod->id_encomenda)
                         ->first();
@@ -791,7 +790,7 @@ class DetalheEncomenda extends Component
             "bistamp" => "",
             "obrano" => null,
             "data" => date('Y-m-d'),
-            "no" => $this->codEncomenda,
+            "no" => intval($prod->id_cliente),
             "etotal_siva" => number_format($valorTotal, 2, ',', '.'),
             "etotal" => number_format($valorTotalComIva, 2, ',', '.'),
             "referencia" => $this->referenciaFinalizar,
@@ -800,7 +799,7 @@ class DetalheEncomenda extends Component
             "loja" => $this->lojaFinalizar,
             "pagamento" => $resultPagamento[0],
             "vendedor_id" => intval(Auth::user()->id_phc),
-            "encomendano" => $this->codEncomenda,
+            "encomendano" => intval($this->codEncomenda),
             "visita_id" => 0,
             "proposta_id" => "",
             "tipo" => "Encomenda",

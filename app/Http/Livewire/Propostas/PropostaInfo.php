@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Carrinho;
 use App\Models\ComentariosProdutos;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\EncomendasInterface;
@@ -119,11 +120,27 @@ class PropostaInfo extends Component
     {
         $this->initProperties();
         $this->proposta = $proposta;
-
+        session()->put('proposta', $this->proposta);
         $this->specificProduct = 0;
         $this->filter = false;
 
         $this->showLoaderPrincipal = true;
+    }
+
+
+    public function gerarPdfProposta($proposta)
+    {
+        // Recuperar os registros do banco dados
+        // Gerar o PDF usando DomPDF
+        if (!$proposta) {
+            dd("nao tem valor no proposta");
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+        // Gerar o PDF usando DomPDF
+        $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
+        return response()->streamDownload(function() use ($pdf) {
+            echo $pdf->output();
+        }, 'pdfTabelaPropostas.pdf');
     }
 
     public function adjudicarProposta($proposta)
@@ -155,6 +172,7 @@ class PropostaInfo extends Component
         session()->flash("success", "Proposta adjudicada com sucesso");
         return redirect()->route('propostas');
       
+
     }
    
     
@@ -195,8 +213,10 @@ class PropostaInfo extends Component
         //         }
         //     }
         // }
+
+        $proposta = session()->get('proposta');
        
-        return view('livewire.propostas.proposta-info',["proposta" => $this->proposta]);
+        return view('livewire.propostas.proposta-info',["proposta" => $proposta]);
 
     }
 }
