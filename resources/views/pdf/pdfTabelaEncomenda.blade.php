@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Proposta</title>
+    <title>Encomenda</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,7 +69,7 @@
     <div class="container">
         <div class="header">
             <img src="{{asset('logo/sanipower.png')}}" alt="Logo da Empresa">
-            <h1>Proposta</h1>
+            <h1>Encomenda</h1>
             <p>Empresa Sanipower, S.A.</p>
             <p>Endereço:  R. de Nossa Sra. de Fátima 351, 4495-364 Beiriz</p>
             <p>Telefone: (+351) 252 249 460</p>
@@ -127,7 +127,7 @@
         </table>
         <table class="totals">
             <tr>
-                <th>Preço da proposta</th>
+                <th>Preço da encomenda</th>
                 <td>{{ number_format($propostaData['total'], 2, ',', '.') }}</td>
             </tr>
         </table>

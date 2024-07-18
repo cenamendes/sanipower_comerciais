@@ -6,6 +6,9 @@ use Livewire\Component;
 use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
 use App\Models\Comentarios;
+use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class Propostas extends Component
 {
@@ -171,6 +174,29 @@ class Propostas extends Component
         $this->dispatchBrowserEvent('checkToaster',["message" => $message, "status" => $status]);
     }
 
+
+    public function gerarPdfProposta($propostaID, $proposta)
+    {
+        if (!$proposta) {
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+        foreach ($proposta['data'] as $oneProposta) {
+            if ($oneProposta['id'] === $propostaID) {
+                $proposta = $oneProposta;
+            }
+        }
+
+        $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
+
+        $this->dispatchBrowserEvent('checkToaster');
+
+        $this->restartDetails();
+
+
+        return response()->streamDownload(function() use ($pdf) {
+            echo $pdf->output();
+        }, 'pdfTabelaPropostas.pdf');
+    }
 
     public function verComentario($idProposta)
     {

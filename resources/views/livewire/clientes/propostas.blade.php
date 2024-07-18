@@ -321,7 +321,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($propostaID) }})">Adicionar</button>
-                    <button type="button" class="btn btn-outline-primary" wire:click="sendComentario({{ json_encode($propostaID) }})">Gerar PDF</button>
+                    <button type="button" class="btn btn-outline-primary" wire:click="gerarPdfProposta({{ json_encode($propostaID)}}, {{ json_encode($detalhesPropostas)}})">Gerar PDF</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                 </div>
             </div>

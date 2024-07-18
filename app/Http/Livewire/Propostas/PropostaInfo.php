@@ -169,7 +169,6 @@ class PropostaInfo extends Component
     {
 
         if (!$proposta) {
-            dd("nao tem valor no proposta");
             return redirect()->back()->with('error', 'Proposta não encontrada.');
         }
 

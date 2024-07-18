@@ -6,7 +6,8 @@ use Livewire\Component;
 use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
 use App\Models\Comentarios;
-
+use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 class Encomendas extends Component
 {
     use WithPagination;
@@ -172,7 +173,28 @@ class Encomendas extends Component
     $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
 }
 
+    public function gerarPdfEncomenda($encomendaID, $encomenda)
+    {
+        if (!$encomenda) {
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+        foreach ($encomenda['data'] as $oneEncomenda) {
+            if ($oneEncomenda['id'] === $encomendaID) {
+                $encomenda = $oneEncomenda;
+            }
+        }
 
+        $pdf = PDF::loadView('pdf.pdfTabelaEncomenda', ["proposta" => json_encode($encomenda)]);
+
+        $this->dispatchBrowserEvent('checkToaster');
+
+        $this->restartDetails();
+
+
+        return response()->streamDownload(function() use ($pdf) {
+            echo $pdf->output();
+        }, 'pdfTabelaPropostas.pdf');
+    }
 
 public function verComentario($idEncomenda)
 {
