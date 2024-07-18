@@ -113,7 +113,7 @@ class Visitas extends Component
 
     public function updatedNumeroCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
     }
 
     public function updatedZonaCliente()
