@@ -270,9 +270,15 @@ class Visitas extends Component
         })
         ->when($this->numeroCliente, function($query) {
 
-           
                 if($this->numeroCliente != "") {
-                    $query->where('cliente', 'like', '%' . $this->clientes[0]->name . '%');
+                
+                    if($this->clientes->count() > 0)
+                    {
+                        $query->where('cliente', 'like', '%' . $this->clientes[0]->name . '%');
+                    }  else {
+                        $query->whereRaw('1 = 0');
+                    }
+                    
                 }
             
 
@@ -281,14 +287,19 @@ class Visitas extends Component
            
                 if($this->zonaCliente != "") {
                     $query->where(function($subQuery) {
-                        foreach($this->clientes as $index => $client)
+
+                        if($this->clientes->count() > 0)
                         {
-                            if ($index == 0) {
-                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
-                            } else {
-                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            foreach($this->clientes as $index => $client)
+                            {
+                                if ($index == 0) {
+                                    $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                                } else {
+                                    $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                                }
                             }
                         }
+
                     });
                 
                 }
@@ -299,12 +310,16 @@ class Visitas extends Component
                 if($this->nifCliente != "") {
                 
                     $query->where(function($subQuery) {
-                        foreach($this->clientes as $index => $client)
+
+                        if($this->clientes->count() > 0)
                         {
-                            if ($index == 0) {
-                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
-                            } else {
-                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            foreach($this->clientes as $index => $client)
+                            {
+                                if ($index == 0) {
+                                    $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                                } else {
+                                    $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                                }
                             }
                         }
                     });
@@ -316,14 +331,19 @@ class Visitas extends Component
             
                 if($this->telemovelCliente != "") {
                     $query->where(function($subQuery) {
-                        foreach($this->clientes as $index => $client)
+
+                        if($this->clientes->count() > 0)
                         {
-                            if ($index == 0) {
-                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
-                            } else {
-                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            foreach($this->clientes as $index => $client)
+                            {
+                                if ($index == 0) {
+                                    $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                                } else {
+                                    $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                                }
                             }
                         }
+
                     });
                 
                 }
@@ -334,14 +354,19 @@ class Visitas extends Component
            
                 if($this->emailCliente != "") {
                     $query->where(function($subQuery) {
-                        foreach($this->clientes as $index => $client)
+
+                        if($this->clientes->count() > 0)
                         {
-                            if ($index == 0) {
-                                $subQuery->where('cliente', 'like', '%' . $client->name . '%');
-                            } else {
-                                $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                            foreach($this->clientes as $index => $client)
+                            {
+                                if ($index == 0) {
+                                    $subQuery->where('cliente', 'like', '%' . $client->name . '%');
+                                } else {
+                                    $subQuery->orWhere('cliente', 'like', '%' . $client->name . '%');
+                                }
                             }
                         }
+
                     });
                 
                 }
@@ -349,7 +374,7 @@ class Visitas extends Component
         })
        ->orderBy('data_inicial','DESC')
        ->paginate($this->perPage);
-
+      
 
         $this->totalRecords = $this->visitas->total();
         $this->pageChosen = $this->visitas->currentPage();
