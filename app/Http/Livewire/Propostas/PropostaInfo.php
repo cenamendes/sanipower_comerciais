@@ -16,6 +16,7 @@ use App\Interfaces\PropostasInterface;
 use Illuminate\Support\Facades\Session;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 
 use Illuminate\Bus\Queueable;
@@ -139,18 +140,22 @@ class PropostaInfo extends Component
     }
     public function enviarEmail($proposta)
     {
-
         if (!$proposta) {
             dd("Não há valor na variável \$proposta");
             return redirect()->back()->with('error', 'Proposta não encontrada.');
         }
     
         $pdf = new Dompdf();
-        $pdf->loadHtml(View::make('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)])->render());
+        $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
     
         $pdf->render();
     
         $pdfContent = $pdf->output();
+    
+        // $fileName = 'proposta_' . time() . '.pdf';  // Método para guerdar pdf no local Storage
+        // $filePath = 'public/propostas/' . $fileName;
+    
+        // Storage::put($filePath, $pdfContent);
     
         try {
             Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
@@ -162,13 +167,12 @@ class PropostaInfo extends Component
 
     public function gerarPdfProposta($proposta)
     {
-        // Recuperar os registros do banco dados
-        // Gerar o PDF usando DomPDF
+
         if (!$proposta) {
             dd("nao tem valor no proposta");
             return redirect()->back()->with('error', 'Proposta não encontrada.');
         }
-        // Gerar o PDF usando DomPDF
+
         $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
         return response()->streamDownload(function() use ($pdf) {
             echo $pdf->output();
