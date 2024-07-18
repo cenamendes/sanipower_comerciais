@@ -31,8 +31,9 @@ class SendProposta extends Mailable
     public function build()
     {
         return $this->view('mail.proposta')
-              ->attachData($this->pdfContent, 'Proposta.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
+                ->subject('Sanipower, S.A.')
+                ->attachData($this->pdfContent, 'Proposta.pdf', [
+                            'mime' => 'application/pdf',
+                        ]);
     }
 }
