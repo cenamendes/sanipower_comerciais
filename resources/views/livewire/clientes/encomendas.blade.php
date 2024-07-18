@@ -318,7 +318,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($encomendaID) }})">Adicionar</button>
-                        <button type="button" class="btn btn-outline-primary" wire:click="sendComentario({{ json_encode($encomendaID) }})">Gerar PDF</button>
+                        <button type="button" class="btn btn-outline-primary"  wire:click="gerarPdfEncomenda({{ json_encode($encomendaID)}}, {{ json_encode($detalhesEncomenda)}})">Gerar PDF</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                     </div>
                 </div>
@@ -351,6 +351,9 @@
             window.addEventListener('checkToaster', event => {
                 $('#detalhePropostaModal').modal('hide');
             });
+        });
+        window.addEventListener('checkToaster', function(e) {
+            $('#detalheEncomendaModal').modal('hide');
         });
     </script>
 
