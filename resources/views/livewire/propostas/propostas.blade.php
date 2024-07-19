@@ -174,7 +174,8 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Data</th>
-                                    <th>Encomenda</th>
+                                    <th>Proposta</th>
+                                    <th>Cliente</th>
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
@@ -185,6 +186,7 @@
                                     <tr wire:click="checkOrder({{json_encode($pro->id)}})">
                                         <td>{{ date('Y-m-d', strtotime($pro->date)) }}</td>
                                         <td>{{$pro->budget}}</td>
+                                        <td>{{$pro->name}}</td>
                                         <td>{{$pro->total}}</td>
                                         <td>{{$pro->status}}</td>
                                         <td>

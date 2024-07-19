@@ -646,7 +646,7 @@
                 locale: 'pt-br',
                 customButtons: {
                     resetButton: {
-                        text: 'Reset Filtro',
+                        text: 'Hoje',
                         click: function() {
             
                             Livewire.emit('originalData')

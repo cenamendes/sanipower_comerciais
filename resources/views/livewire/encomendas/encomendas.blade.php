@@ -175,17 +175,19 @@
                                 <tr>
                                     <th>Data</th>
                                     <th>Encomenda</th>
+                                    <th>Cliente</th>
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                             
+                          
                                 @foreach ($encomendas as $enc )
                                     <tr wire:click="checkOrder({{json_encode($enc->id)}})">
                                         <td>{{ date('Y-m-d', strtotime($enc->date)) }}</td>
                                         <td>{{$enc->order}}</td>
+                                        <td>{{$enc->name}}</td>
                                         <td>{{$enc->total}}</td>
                                         <td>{{$enc->status}}</td>
                                         <td>

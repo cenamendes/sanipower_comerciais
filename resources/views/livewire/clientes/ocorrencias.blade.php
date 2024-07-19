@@ -224,7 +224,7 @@
                                 <th>Quantidade</th>
                                 <th>Preço</th>
                                 <th>Desconto</th>
-                                <th>Desconto 2</th>
+                                {{-- <th>Desconto 2</th> --}}
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -239,7 +239,7 @@
                                             <td style="text-align:center">{{ $line->quantity }}</td>
                                             <td style="text-align:center">{{ $line->price }} €</td>
                                             <td style="text-align:center">{{ $line->discount }}</td>
-                                            <td style="text-align:center">{{ $line->discount2 }}</td>
+                                            {{-- <td style="text-align:center">{{ $line->discount2 }}</td> --}}
                                             <td style="text-align:center">{{ $line->total }} €</td>
                                         </tr>
                                     @endforeach

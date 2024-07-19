@@ -844,13 +844,13 @@
                                                                 <tr>
                                                                     <th>Referência</th>
                                                                     <th>Modelo</th>
-                                                                    <th>PVP unitário</th>
+                                                                    <th>PVP (UNI)</th>
                                                                     <th>Desconto</th>
-                                                                    <th>Desconto 2</th>
-                                                                    <th>Preço unitário</th>
+                                                                    {{-- <th>Desconto 2</th> --}}
+                                                                    <th>Preço (UNI)</th>
                                                                     <th>Qtd mínima</th>
                                                                     <th>Stock</th>
-                                                                    <th style="width: 150px;">Qtd a encomendar</th>
+                                                                    <th style="width: 150px;">Quantidade</th>
                                                                     <th class="text-center">Ações</th>
                                                                 </tr>
                                                             </thead>
@@ -862,7 +862,7 @@
                                                                             <td>{{ $prod->model }}</td>
                                                                             <td>{{ $prod->pvp }}</td>
                                                                             <td>{{ $prod->discount }}</td>
-                                                                            <td>{{ $prod->discount2 }}</td>
+                                                                            {{-- <td>{{ $prod->discount2 }}</td> --}}
                                                                             <td>{{ $prod->price }}</td>
                                                                             <td>{{ $prod->quantity }}</td>
                                                                             <td style="text-align:center;font-size:large;">
@@ -1291,13 +1291,13 @@
                                     <tr>
                                         <th>Referência</th>
                                         <th>Modelo</th>
-                                        <th>PVP unitário</th>
+                                        <th>PVP (UNI)</th>
                                         <th>Desconto</th>
-                                        <th>Desconto 2</th>
-                                        <th>Preço unitário</th>
-                                        <th>Quantidade mínima</th>
+                                        {{-- <th>Desconto 2</th> --}}
+                                        <th>Preço (UNI)</th>
+                                        <th>Qtd mínima</th>
                                         <th>Stock</th>
-                                        <th>Quantidade a encomendar</th>
+                                        <th>Quantidade</th>
                                         <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
@@ -1309,7 +1309,7 @@
                                                 <td>{{ $prod->model }}</td>
                                                 <td>{{ $prod->pvp }}</td>
                                                 <td>{{ $prod->discount }}</td>
-                                                <td>{{ $prod->discount2 }}</td>
+                                                {{-- <td>{{ $prod->discount2 }}</td> --}}
                                                 <td>{{ $prod->price }}</td>
                                                 <td>{{ $prod->quantity }}</td>
                                                 <td style="text-align:center;font-size:large;">

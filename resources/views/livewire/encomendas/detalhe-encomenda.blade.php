@@ -605,13 +605,13 @@
                                 <tr>
                                     <th>Referência</th>
                                     <th>Modelo</th>
-                                    <th>PVP unitário</th>
+                                    <th>PVP (UNI)</th>
                                     <th>Desconto</th>
-                                    <th>Desconto 2</th>
-                                    <th>Preço unitário</th>
+                                    {{-- <th>Desconto 2</th> --}}
+                                    <th>Preço (UNI)</th>
                                     <th>Qtd mínima</th>
                                     <th>Stock</th>
-                                    <th style="width: 150px;">Qtd a encomendar</th>
+                                    <th style="width: 150px;">Quantidade</th>
                                     <th class="text-center">Ações</th>
                                 </tr>
                             </thead>
@@ -625,7 +625,7 @@
                                             <td>{{ $prod->model }}</td>
                                             <td>{{ $prod->pvp }}</td>
                                             <td>{{ $prod->discount }}</td>
-                                            <td>{{ $prod->discount2 }}</td>
+                                            {{-- <td>{{ $prod->discount2 }}</td> --}}
                                             <td>{{ $prod->price }}</td>
                                             <td>{{ $prod->quantity }}</td>
                                             <td style="text-align:center;font-size:large;">
@@ -772,7 +772,7 @@
                                     <th>Modelo</th>
                                     <th>PVP (UNI)</th>
                                     <th class="d-none d-md-table-cell">Desconto</th>
-                                    <th class="d-none d-md-table-cell">Desconto 2</th>
+                                    {{-- <th class="d-none d-md-table-cell">Desconto 2</th> --}}
                                     <th>Preço (c/desc.)</th>
                                     <th>Qtd.Enc.</th>
                                     <th>Iva</th>
@@ -794,7 +794,7 @@
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                         <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                                        <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td>
+                                        {{-- <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td> --}}
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->iva }} %</td>
@@ -1054,13 +1054,13 @@
                                     <tr>
                                         <th>Referência</th>
                                         <th>Modelo</th>
-                                        <th>PVP unitário</th>
+                                        <th>PVP (UNI)</th>
                                         <th>Desconto</th>
-                                        <th>Desconto 2</th>
-                                        <th>Preço unitário</th>
-                                        <th>Quantidade mínima</th>
+                                        {{-- <th>Desconto 2</th> --}}
+                                        <th>Preço (UNI)</th>
+                                        <th>Qtd mínima</th>
                                         <th>Stock</th>
-                                        <th>Quantidade a encomendar</th>
+                                        <th>Quantidade</th>
                                         <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
@@ -1072,7 +1072,7 @@
                                                 <td>{{ $prod->model }}</td>
                                                 <td>{{ $prod->pvp }}</td>
                                                 <td>{{ $prod->discount }}</td>
-                                                <td>{{ $prod->discount2 }}</td>
+                                                {{-- <td>{{ $prod->discount2 }}</td> --}}
                                                 <td>{{ $prod->price }}</td>
                                                 <td>{{ $prod->quantity }}</td>
                                                 <td style="text-align:center;font-size:large;">
