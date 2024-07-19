@@ -33,7 +33,6 @@
                     <p class="card-text">
 
                         <!--  INICIO DOS DETALHES   -->
-
                     <div class="row form-group">
                         <div class="col-xl-4">
 
