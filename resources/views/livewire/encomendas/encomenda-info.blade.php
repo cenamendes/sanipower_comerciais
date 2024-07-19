@@ -52,6 +52,21 @@
                         <div class="col-xl-4">
 
                             <div class="form-group">
+                                <label>Email do Cliente</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-carolina"><i
+                                                class="ti-user text-light"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control"
+                                        value="{{ $encomenda->email }}" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-4">
+
+                            <div class="form-group">
                                 <label>Nº do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -64,8 +79,11 @@
                             </div>
 
                         </div>
-                        <div class="col-xl-4">
+                        
+                    </div>
 
+                    <div class="row form-group">
+                        <div class="col-xl-4">
                             <div class="form-group">
                                 <label>Nº de Contribuinte</label>
                                 <div class="input-group">
@@ -78,9 +96,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row form-group">
                         <div class="col-xl-4">
 
                             <div class="form-group">
@@ -111,7 +126,10 @@
                             </div>
 
                         </div>
-                        <div class="col-xl-4">
+                    </div>
+
+                    <div class="row form-group">
+                     <div class="col-xl-4">
 
                             <div class="form-group">
                                 <label>Código Postal</label>
@@ -125,9 +143,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row form-group">
                         <div class="col-xl-4">
 
                             <div class="form-group">
@@ -188,7 +203,7 @@
                                     <th>Quantidade</th>
                                     <th>Preço</th>
                                     <th class="d-none d-md-table-cell">Desconto</th>
-                                    {{-- <th>Desconto 2</th> --}}
+                                    <th>Desconto 2</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -201,7 +216,7 @@
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->quantity }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                         <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                                        {{-- <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td> --}}
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->total, 2, ',', '.') }} €</td>
                                     
                                     </tr>

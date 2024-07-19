@@ -76,6 +76,21 @@
                         <div class="col-xl-4">
 
                             <div class="form-group">
+                                <label>Email do Cliente</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-carolina"><i
+                                                class="ti-info-alt text-light"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control"
+                                        value="{{ $proposta->email }}" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-4">
+
+                            <div class="form-group">
                                 <label>Nº do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -88,6 +103,10 @@
                             </div>
 
                         </div>
+                        
+                    </div>
+
+                    <div class="row form-group">
                         <div class="col-xl-4">
 
                             <div class="form-group">
@@ -102,9 +121,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row form-group">
                         <div class="col-xl-4">
 
                             <div class="form-group">
@@ -135,8 +151,11 @@
                             </div>
 
                         </div>
-                        <div class="col-xl-4">
+                       
+                    </div>
 
+                    <div class="row form-group">
+                        <div class="col-xl-4">
                             <div class="form-group">
                                 <label>Código Postal</label>
                                 <div class="input-group">
@@ -149,9 +168,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row form-group">
                         <div class="col-xl-4">
 
                             <div class="form-group">
