@@ -188,6 +188,11 @@ class Propostas extends Component
             }
         }
 
+        foreach ($proposta['lines'] as $index => $prod) {
+            $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod['family_number']."/".$prod['family_number']."-".$prod['subfamily_number']."-".$prod['product_number'].".jpg";
+            $proposta['lines'][$index]['image_ref'] = $image_ref;
+        }
+
         $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
 
         $this->dispatchBrowserEvent('checkToaster');

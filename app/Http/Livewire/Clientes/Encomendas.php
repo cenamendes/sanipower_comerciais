@@ -184,6 +184,11 @@ class Encomendas extends Component
             }
         }
 
+        foreach ($encomenda['lines'] as $index => $prod) {
+            $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod['family_number']."/".$prod['family_number']."-".$prod['subfamily_number']."-".$prod['product_number'].".jpg";
+            $encomenda['lines'][$index]['image_ref'] = $image_ref;
+        }
+
         $pdf = PDF::loadView('pdf.pdfTabelaEncomenda', ["proposta" => json_encode($encomenda)]);
 
         $this->dispatchBrowserEvent('checkToaster');
