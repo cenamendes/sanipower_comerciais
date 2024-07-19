@@ -104,6 +104,7 @@
         <table class="items">
             <thead>
                 <tr>
+                    <th>Img</th>
                     <th>Produto</th>
                     <th>Descrição</th>
                     <th>Quantidade</th>
@@ -115,6 +116,11 @@
             <tbody>
                 @foreach ($propostaData['lines'] as $line)
                     <tr>
+                        <td>
+                            @if($line['product_number'] != "")
+                                <img style="width:45px;" src="{{ $line['image_ref'] }}" >
+                            @endif    
+                        </td>
                         <td>{{ $line['id'] }}</td>
                         <td>{{ $line['description'] }}</td>
                         <td>{{ $line['quantity'] }}</td>
