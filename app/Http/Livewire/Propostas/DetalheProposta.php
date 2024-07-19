@@ -823,7 +823,11 @@ class DetalheProposta extends Component
                     $found = false;
                     foreach ($arrayCart[$img] as &$item) {
                         if ($item->referencia == $cart->referencia) {
-                            $item->qtd += $cart->qtd;
+                            if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
+                                $item->qtd += $cart->qtd;
+                            } else {
+                                break;
+                            }
                             $found = true;
                             break;
                         }
