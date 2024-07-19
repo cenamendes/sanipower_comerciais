@@ -64,7 +64,7 @@
 </head>
 <body>
      @php
-        $propostaData = json_decode($proposta, true);
+        $encomendaData = json_decode($encomenda, true);
     @endphp
     <div class="container">
         <div class="header">
@@ -78,27 +78,27 @@
         <table class="details">
             <tr>
                 <th>ID da Proposta</th>
-                <td>{{ $propostaData['id'] }}</td>
+                <td>{{ $encomendaData['id'] }}</td>
                 <th>Data</th>
-                <td>{{ date('d/m/Y', strtotime($propostaData['date'])) }}</td>
+                <td>{{ date('d/m/Y', strtotime($encomendaData['date'])) }}</td>
             </tr>
             <tr>
                 <th>Nome do Cliente</th>
-                <td>{{ $propostaData['name'] }}</td>
+                <td>{{ $encomendaData['name'] }}</td>
                 <th>NIF</th>
-                <td>{{ $propostaData['nif'] }}</td>
+                <td>{{ $encomendaData['nif'] }}</td>
             </tr>
             <tr>
                 <th>Endereço</th>
-                <td>{{ $propostaData['address'] }}</td>
+                <td>{{ $encomendaData['address'] }}</td>
                 <th>Cidade</th>
-                <td>{{ $propostaData['city'] }}</td>
+                <td>{{ $encomendaData['city'] }}</td>
             </tr>
             <tr>
                 <th>CEP</th>
-                <td>{{ $propostaData['zipcode'] }}</td>
+                <td>{{ $encomendaData['zipcode'] }}</td>
                 <th>Zona</th>
-                <td>{{ $propostaData['zone'] }}</td>
+                <td>{{ $encomendaData['zone'] }}</td>
             </tr>
         </table>
         <table class="items">
@@ -114,12 +114,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($propostaData['lines'] as $line)
+                @foreach ($encomendaData['lines'] as $line)
                     <tr>
                         <td>
                             @if($line['product_number'] != "")
                                 <img style="width:45px;" src="{{ $line['image_ref'] }}" >
+
                             @endif    
+                            
                         </td>
                         <td>{{ $line['id'] }}</td>
                         <td>{{ $line['description'] }}</td>
@@ -134,7 +136,7 @@
         <table class="totals">
             <tr>
                 <th>Preço da encomenda</th>
-                <td>{{ number_format($propostaData['total'], 2, ',', '.') }}</td>
+                <td>{{ number_format($encomendaData['total'], 2, ',', '.') }}</td>
             </tr>
         </table>
     </div>

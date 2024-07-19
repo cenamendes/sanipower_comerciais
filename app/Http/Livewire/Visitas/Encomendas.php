@@ -189,7 +189,7 @@ class Encomendas extends Component
             $encomenda['lines'][$index]['image_ref'] = $image_ref;
         }
   
-        $pdf = PDF::loadView('pdf.pdfTabelaEncomenda', ["proposta" => json_encode($encomenda)]);
+        $pdf = PDF::loadView('pdf.pdfTabelaEncomenda', ["encomenda" => json_encode($encomenda)]);
 
         $this->dispatchBrowserEvent('checkToaster');
 
@@ -198,7 +198,7 @@ class Encomendas extends Component
 
         return response()->streamDownload(function() use ($pdf) {
             echo $pdf->output();
-        }, 'pdfTabelaPropostas.pdf');
+        }, 'pdfTabelaEncomenda.pdf');
     }
 
     public function verComentario($idEncomenda)
