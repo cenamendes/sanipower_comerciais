@@ -798,11 +798,7 @@
                                                         $prod->referencia = $referenciaCorrigida;
                                                     @endphp
                                                     <input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
-                                                    wire:model.defer=" @php
-                                                        $referencia = $prod->referencia;
-                                                        $referenciaCorrigida = rtrim($referencia, '.');
-                                                        $prod->referencia = $referenciaCorrigida;
-                                                    @endphp.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
+                                                                 wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
                                                         <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
                                                     </label>
                                                 </div>
@@ -831,11 +827,14 @@
 
                                 <td colspan="1" style="white-space: nowrap;text-align: right;width: 10%;padding: 0.25rem;">
                                     <span style="display:flex;align-items: center;">
-                                        <label style="position: relative;top: -15px;right: -13px;z-index:2;text-shadow: -1px 1px 9px rgba(255,255,255,1);">Iva </label>
-                                        <input type="number" class="form-control" style="position: relative;left: -17px;z-index:1;"
-                                            placeholder="Iva" wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" value="{{$iva2}}">
-                                        
+                                        <label style="position: relative;top: -15px;right: -13px;z-index:2;text-shadow: -1px 1px 9px rgba(255,255,255,1);">Iva</label>
+                                        <select class="form-control" name="ivaInKit"wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" style="width: 50%;left: -16px;position: relative;">
+                                            <option value="22">22</option>
+                                            <option value="12">12</option>
+                                            <option value="5">5</option>
+                                        </select>
                                     </span>
+                                </select>
                                 </td>
                                 
                                 <td colspan="1" style="white-space: nowrap;text-align: right;">Total c/IVA</td>
