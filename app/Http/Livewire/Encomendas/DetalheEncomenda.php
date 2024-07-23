@@ -894,7 +894,7 @@ class DetalheEncomenda extends Component
                                 ->update($novosValores);
         }
 
-        $this->selectedItemsRemoveKit = [];
+        $this->selectedItems = [];
 
         $this->tabDetail = "";
         $this->tabProdutos = "";
@@ -1019,7 +1019,6 @@ class DetalheEncomenda extends Component
             }
         }
         $this->lojas = $this->encomendasRepository->getLojas();
-       
         return view('livewire.encomendas.detalhe-encomenda',["onkit" => $onkit, "allkit" => $allkit,"detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
     }
