@@ -57,9 +57,9 @@
             <div class="teste" style="padding-right:35px;">
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
-                        <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
+                        {{-- <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
-                            Ver Proposta</a>
+                            Ver Proposta</a> --}}
                         <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Proposta</a>
                         <a href="javascript:void(0);" wire:click="cancelarProposta" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>
@@ -68,7 +68,7 @@
 
         </div>
 
-        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:70vh;padding-right: 0;">
+        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:70vh;padding-right: 0.4rem;">
             <div class="tab-content">
 
                 <div class="tab-pane fade {{ $tabDetail }}" id="tab4">
@@ -988,90 +988,213 @@
                     @endif
                 </div>
             </div>
-            <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;">
+            <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;min-width: 800px;">
             @php
                 $ValorTotal = 0;
                 $ValorTotalComIva = 0;
             @endphp
-            @forelse ($arrayCart as $img => $item)
+            {{-- @forelse ($arrayCart as $img => $item) --}}
                 <div class="row" style="align-items: center;">
-                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
-                    </div>
-                    <div class="col-md-10 p-0">
-                        <table class="table table-hover init-datatable">
+                    @if($onkit)
+                    <div class="col-md-12 p-0">
+                        <table class="table init-datatable">
                             <thead class="thead-light">
-                                <tr>
-                             
-                                    <th class="d-none d-lg-table-cell">Referência</th>
+                                <tr style="background:#d6d8db78;">
+                                    <th style="width: 5%;"></th>
+                                    <th style="width: 15%;">Referência</th>
                                     <th>Produto</th>
                                     <th>Modelo</th>
-                                    <th @if($kitCheck == true) style=" display: none; " @endif>PVP (UNI)</th>
-                                    <th @if($kitCheck == true) style=" display: none!important; " @endif class="d-none d-md-table-cell">Desc</th>
-                                    <th @if($kitCheck == true) style=" display: none!important; " @endif class="d-none d-md-table-cell">Desc 2</th>
-                                    <th @if($kitCheck == true) style=" display: none; " @endif>Preço (c/desc.)</th>
-                                    <th @if($kitCheck == true) style=" display: none; " @endif>Qtd.Enc.</th>
-                                    <th @if($kitCheck == true) style=" display: none; " @endif>Iva</th>
-                                    <th @if($kitCheck == true) style=" display: none; " @endif>Total</th>
+                                    <th style="width: 10%; text-align: right;">Qtd</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
+                            @php
+                                $iva2 = 0;
+                                $ValorTotalComIva = 0;
+                            @endphp
+                            @forelse ($arrayCart as $img => $item)
+
                                 @forelse ($item as $prod)
-                                    @php
-                                        $totalItem = $prod->price * $prod->qtd;
-                                        $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
-                                        $ValorTotal += $totalItem;
-                                        $ValorTotalComIva += $totalItemComIva;
-                                    @endphp
-                                    <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
-                                        <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
-                                        <td style="@if($kitCheck == true) display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
-                                        <td class="d-none d-md-table-cell"  style="@if($kitCheck == true)display: none!important; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                                        <td class="d-none d-md-table-cell"  style=" @if($kitCheck == true)display: none!important; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td>
-                                        <td style=" @if($kitCheck == true) display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
-                                        <td style=" @if($kitCheck == true) display:  none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
-                                        <td style=" @if($kitCheck == true) display:none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->iva }} %</td>
-                                        <td style="@if($kitCheck == true) display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
-                                        <td style=" @if($kitCheck == true)display: none; @endif border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar(`{{ $prod->referencia }}`)">X</a></strong></td>
-                                    </tr>
+                                    @if($prod->inkit)
+                                        @php
+                                            $totalItem = $prod->price * $prod->qtd;
+                                            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva2 / 100));
+                                            $ValorTotal += $totalItem;
+                                            $ValorTotalComIva += $totalItemComIva;
+                                            $iva2 = $prod->iva2;
+                                        @endphp
+                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                            <td><input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
+                                                    wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]"></td>
+                                            <td >{{ $prod->referencia }}</td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
+                                            <td style=" width:15%">{{ $prod->model }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
+                                            <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`)"></i> </td>
+                                        </tr>
+                                       
+                                    @endif
+                                    
                                 @empty
                                     <tr>
-                                        <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                                        <td colspan="8" style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c !important; text-align:center;">Nenhum produto no carrinho</td>
                                     </tr>
                                 @endforelse
+                            @empty
+                                <tr>
+                                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                                </tr>
+                            @endforelse
+                             <tr style="background:#d6d8db78;">
+                                <td colspan="3" style="white-space: nowrap;text-align: right;"></td>
+
+                                <td colspan="1" style="white-space: nowrap;text-align: right;width: 10%;padding: 0.25rem;">
+                                    <span style="display:flex;align-items: center;">
+                                        <label style="position: relative;top: -15px;right: -13px;z-index:2;text-shadow: -1px 1px 9px rgba(255,255,255,1);">Iva </label>
+                                        <input type="number" class="form-control" style="position: relative;left: -17px;z-index:1;"
+                                            placeholder="Iva" wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" value="{{$iva2}}">
+                                        
+                                    </span>
+                                </td>
+                                
+                                <td colspan="1" style="white-space: nowrap;text-align: right;">Total c/IVA</td>
+
+                                <td colspan="1" style="white-space: nowrap;text-align: right;" class="bold">{{number_format($ValorTotalComIva, 2, ',', '.')}} €</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    
+                    <div class="col-md-12 p-0"  style=" text-align: right;margin-bottom: 15px;">
+                    
+                        <div class="btn-remove-itens-kit" >
+                            <button class="btn btn-md btn-primary" wire:click="RemoverItemKit"><i class="ti-shopping-cart"></i> Remover do Kit </button>
+                        </div>
+                    
+                    </div>
+                    @endif
+                    {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
+                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 9rem; height:auto;">
+                    </div> --}}
+                    @if($allkit)
+                    <div class="col-md-12 p-0">
+                    
+                        <table class="table init-datatable">
+                            <thead class="thead-light">
+                                <tr style="background:#d6d8db78;">
+                                    <th ></th>
+                             
+                                    <th >Referência</th>
+                                    <th>Produto</th>
+                                    <th style="width: 30%;">Modelo</th>
+                                    <th style=" text-align: right;width: 0%;">PVP</th>
+                                    <th style=" text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
+                                    <th style=" text-align: right;width: 0%;">P(c/desc.)</th>
+                                    <th style=" text-align: right;width: 0%;">Qtd</th>
+                                    <th style=" text-align: right;width: 0%;">Iva</th>
+                                    <th></th>
+                                    <th style=" text-align: right; " >Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @forelse ($arrayCart as $img => $item)
+
+                                @forelse ($item as $prod)
+                                    @if($prod->inkit == 0)
+
+                                        @php
+                                            $totalItem = $prod->price * $prod->qtd;
+                                            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+                                            $ValorTotal += $totalItem;
+                                            $ValorTotalComIva += $totalItemComIva;
+                                        @endphp
+                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                            <td><input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" wire:model.defer="selectedItemsAddKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]"></td>
+                                            <td>{{ $prod->referencia }}</td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
+                                            <td style=" width:15%">{{ $prod->model }}</td>
+                                            <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->iva }} %</td>
+                                            <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`)"></i> </td>
+                                            <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                                        </tr>
+                                    @endif
+                                @empty
+                                    <tr>
+                                        <td colspan="8" style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c !important; text-align:center;">Nenhum produto no carrinho</td>
+                                    </tr>
+                                @endforelse
+                            @empty
+                                <tr>
+                                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
 
-                        <div class="form-checkbox">
+                        {{-- <div class="form-checkbox">
                             <label>
                                 <input type="checkbox" id="kitCheck" class="kitCheck" wire:model="kitCheck">
                                 <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                Proposta em KIT?
+                                Adicionar ao Kit
                             </label>
-                        </div>
+                        </div> --}}
                        
 
                     </div>
+                    <div class="col-md-12 p-0"  style=" text-align: right;margin-bottom: 15px;">
+                        <div class="btn-Add-itens-kit">
+                            <button class="btn btn-md btn-primary" wire:click="AdicionarItemKit"><i class="ti-shopping-cart"></i> Adicionar ao Kit </button>
+                        </div>
+                    </div>
+
+                    @endif
+
                 </div>
-            @empty
+            {{-- @empty
                 <tr>
                     <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
                 </tr>
-            @endforelse
+            @endforelse --}}
             <div class="row">
-                <div class="col-12 text-right" style="border-bottom: none;">
-                    <table class="float-right" style="width: 240px; margin-top: 1rem;">
+                {{-- <div class="col-md-2 d-flex p-0">
+                </div> --}}
+                <div class="col-md-12 p-0 text-right" style="border-bottom: none;padding: 0;">
+                 
+               
+                    <br/>
+                    <table class="float-right table init-datatable">
                         <tbody>
-                            <tr style="border-bottom: 1px solid #232b58!important;">
-                                <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
+                            <tr style="background:#d6d8db78;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td >Total s/IVA</td>
+                                <td style="width: 10%;white-space: nowrap;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid #232b58!important;">
-                                <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                <td style="width: 140px;" class="bold">{{ number_format($ValorTotalComIva, 2, ',', '.') }} €</td>
+                            <tr style="background:#d6d8db78;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td >Total c/IVA</td>
+                                <td style="width: 10%;white-space: nowrap;" class="bold">{{ number_format($ValorTotalComIva, 2, ',', '.') }} €</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1499,9 +1622,6 @@
         });
     });
 
-    
-
-    // vinicius
     const checkbox = document.getElementById('checkbox');
 
     const sidebar = document.getElementById('sidebarProd');
@@ -1896,5 +2016,51 @@
     document.addEventListener('compraRapida', function(e) {
         jQuery('#modalProdutos').modal();
     });
+    window.addEventListener('checkToaster', function(e) {
+        const checkboxes = document.querySelectorAll('.checkboxAddKit');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    });
+
+    {{-- document.addEventListener('livewire:load', function() {
+
+        function checkCheckboxes() {
+        const checkboxes = document.querySelectorAll('.checkboxAddKit');
+        const buttonContainer = document.querySelector('.btn-Add-itens-kit');
+        
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        if (anyChecked) {
+            buttonContainer.style.display = 'block';
+        } else {
+            buttonContainer.style.display = 'none';
+        }
+        }
+
+        document.querySelectorAll('.checkboxAddKit').forEach(checkbox => {
+        checkbox.addEventListener('change', checkCheckboxes);
+        });
+        checkCheckboxes();
+
+
+        function checkCheckboxesRemove() {
+        const checkboxes = document.querySelectorAll('.checkboxRemoveKit');
+        const buttonContainer = document.querySelector('.btn-remove-itens-kit');
+        
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        console.log(anyChecked);
+        if (anyChecked) {
+            buttonContainer.style.display = 'block';
+        } else {
+            buttonContainer.style.display = 'none';
+        }
+        }
+
+        document.querySelectorAll('.checkboxRemoveKit').forEach(checkbox => {
+        checkbox.addEventListener('change', checkCheckboxesRemove);
+        });
+        checkCheckboxesRemove();
+    }); --}}
+
 </script>
 </div>

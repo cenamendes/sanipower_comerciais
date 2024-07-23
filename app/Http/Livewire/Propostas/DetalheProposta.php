@@ -35,6 +35,12 @@ class DetalheProposta extends Component
 
     public bool $showLoaderPrincipal = true;
 
+    public $selectedItemsAddKit = [];
+    public $selectedItemsRemoveKit = [];
+
+    public $valueIvaInKit = 0;
+
+
     public string $tabDetail = "";
     public string $tabProdutos = "show active";
     public string $tabDetalhesPropostas = "";
@@ -127,6 +133,7 @@ class DetalheProposta extends Component
 
         $this->showLoaderPrincipal = true;
     }
+
     public function rechargeFamily($id)
     {
         $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
@@ -747,6 +754,80 @@ class DetalheProposta extends Component
 
 
     }
+    public function AdicionarItemKit()
+    {
+        $selectedProductIds = array_keys(array_filter($this->selectedItemsAddKit));
+        $codEncomenda = $this->codEncomenda;
+        foreach ($selectedProductIds as $itemId) {
+            $selectedItemsArray = json_decode($itemId, true);
+
+            $designacao = $selectedItemsArray[2];
+            $referencia = $selectedItemsArray[1];
+            $novosValores = [
+                'inkit' => 1,
+            ];
+            Carrinho::where('id_proposta', $codEncomenda)
+                                ->where('referencia', $referencia)
+                                ->where('designacao', $designacao)
+                                ->update($novosValores);
+        }
+
+        $this->selectedItems = [];
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+        
+    }
+    public function RemoverItemKit()
+    {
+        $selectedProductIds = array_keys(array_filter($this->selectedItemsRemoveKit));
+        $codEncomenda = $this->codEncomenda;
+        foreach ($selectedProductIds as $itemId) {
+            $selectedItemsArray = json_decode($itemId, true);
+
+            $designacao = $selectedItemsArray[2];
+            $referencia = $selectedItemsArray[1];
+            $novosValores = [
+                'inkit' => 0,
+                'iva2' => 0,
+
+            ];
+            Carrinho::where('id_proposta', $codEncomenda)
+                                ->where('referencia', $referencia)
+                                ->where('designacao', $designacao)
+                                ->update($novosValores);
+        }
+
+        $this->selectedItems = [];
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+        $this->dispatchBrowserEvent('checkToaster');
+    }
+    
+    public function ivaInKit()
+    {
+    
+        $codEncomenda = $this->codEncomenda;
+        $valueIvaInKit = $this->valueIvaInKit;
+        $novosValores = [
+            'iva2' => intval($valueIvaInKit),
+        ];
+        Carrinho::where('id_proposta', $codEncomenda)
+        ->where('inKit', 1)
+        ->update($novosValores);
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+    }
 
     public function updatedKitCheck()
     {
@@ -815,10 +896,17 @@ class DetalheProposta extends Component
         $iamgens_unique = array_unique($imagens);
 
        $arrayCart = [];
-
+       $onkit = 0;
+       $allkit = 0;
         foreach ($iamgens_unique as $img) {
             $arrayCart[$img] = [];
             foreach ($this->carrinhoCompras as $cart) {
+                if($cart->inkit){
+                    $onkit = $cart->inkit ;
+                }
+                if($cart->inkit == 0){
+                    $allkit = 1;
+                }
                 if ($img == $cart->image_ref) {
                     $found = false;
                     foreach ($arrayCart[$img] as &$item) {
@@ -842,7 +930,7 @@ class DetalheProposta extends Component
         $this->lojas = $this->encomendasRepository->getLojas();
 
    
-        return view('livewire.propostas.detalhe-proposta',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
+        return view('livewire.propostas.detalhe-proposta',["onkit" => $onkit, "allkit" => $allkit, "detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
     }
 }

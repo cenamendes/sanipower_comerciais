@@ -39,6 +39,7 @@
                
                 <div class="tab-pane fade {{ $tabDetail }}" id="tab4">
 
+
                     <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         <h4 class="card-title">{{ $encomenda->order }} - {{ $encomenda->name }}</h4>
                     </button>
@@ -98,7 +99,9 @@
                                             </div>
                                         </div>
 
+
                                     </div>
+
 
                                     <div class="row form-group">
                                         <div class="col-xl-4">
@@ -181,7 +184,9 @@
                 
                                         </div>
 
+
                                     </div>
+
 
 
 
@@ -190,7 +195,9 @@
                             </div>
                         </div>
 
+
                     </div>
+
 
                     <div class="row form-group mt-2">
                         <div class="col-12 pr-0">
@@ -249,7 +256,7 @@
                                     <th>Quantidade</th>
                                     <th>Preço</th>
                                     <th class="d-none d-md-table-cell">Desconto</th>
-                                    {{-- <th>Desconto 2</th> --}}
+                                    <th>Desconto 2</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -262,7 +269,7 @@
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->quantity }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                         <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                                        {{-- <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td> --}}
+                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount2 }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->total, 2, ',', '.') }} €</td>
                                     
                                     </tr>
