@@ -912,7 +912,7 @@ class DetalheEncomenda extends Component
         $novosValores = [
             'iva2' => intval($valueIvaInKit),
         ];
-        Carrinho::where('id_proposta', $codEncomenda)
+        Carrinho::where('id_encomenda', $codEncomenda)
         ->where('inKit', 1)
         ->update($novosValores);
         $this->tabDetail = "";

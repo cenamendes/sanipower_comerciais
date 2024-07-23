@@ -834,8 +834,13 @@
                                         <label style="position: relative;top: -15px;right: -13px;z-index:2;text-shadow: -1px 1px 9px rgba(255,255,255,1);">Iva </label>
                                         <input type="number" class="form-control" style="position: relative;left: -17px;z-index:1;"
                                             placeholder="Iva" wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" value="{{$iva2}}">
-                                        
+                                        <select class="form-control" name="ivaInKit"wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" style="width: 50%;left: -16px;position: relative;">
+                                            <option value="22">22</option>
+                                            <option value="12">12</option>
+                                            <option value="5">5</option>
+                                        </select>
                                     </span>
+                                </select>
                                 </td>
                                 
                                 <td colspan="1" style="white-space: nowrap;text-align: right;">Total c/IVA</td>
