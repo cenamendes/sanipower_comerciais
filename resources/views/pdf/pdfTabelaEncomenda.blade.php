@@ -118,8 +118,9 @@
                     <tr>
                         <td>
                             @if($line['product_number'] != "")
+                              @if(isset($line['image_ref']))
                                 <img style="width:45px;" src="{{ $line['image_ref'] }}" >
-
+                               @endif
                             @endif    
                             
                         </td>

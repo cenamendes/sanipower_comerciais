@@ -24,13 +24,14 @@ class EncomendasController extends Controller
 
     public function showDetail($id)
     {
-      
+   
         $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
-    
+     
         $checkCarrinho = Carrinho::where("id_user", Auth::user()->id)
                         ->where('id_cliente',$detailsClientes->customers[0]->no)
-                        ->where('id_encomenda','!=','')->first();
+                        ->first();
 
+        
         if(empty($checkCarrinho)){
             $codEncomenda = $detailsClientes->customers[0]->no;
             $randomChar = mt_rand(1000000, 9999999);

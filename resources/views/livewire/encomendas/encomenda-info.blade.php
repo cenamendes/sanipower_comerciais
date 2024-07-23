@@ -23,167 +23,220 @@
                     <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
                 </li>
             </ul>
+
+            <div class="teste" style="padding-right:35px;">
+                <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
+                    <div class="tools">
+                        <a href="javascript:void(0);" wire:click="enviarEmail({{ json_encode($encomenda) }})" class="btn btn-sm btn-primary"><i class="ti-save"></i> Enviar email</a>
+                        <a href="javascript:void(0);" wire:click="gerarPdfProposta({{ json_encode($encomenda) }})" class="btn btn-sm btn-secondary"> Gerar PDF</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:70vh;padding-right: 0;">
             <div class="tab-content">
-
+               
                 <div class="tab-pane fade {{ $tabDetail }}" id="tab4">
-                    <h4 class="card-title">{{ $encomenda->name }}</h4>
-                    <p class="card-text">
 
-                        <!--  INICIO DOS DETALHES   -->
-                    <div class="row form-group">
-                        <div class="col-xl-4">
 
-                            <div class="form-group">
-                                <label>Nome do Cliente</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-user text-light"></i></span>
+                    <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <h4 class="card-title">{{ $encomenda->order }} - {{ $encomenda->name }}</h4>
+                    </button>
+
+                    <div class="row ml-0 mr-0 mt-4 d-block">
+
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                           
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                                <div class="card-body">
+
+                                    <div class="row">
+
+                                        <div class="col-xl-4">
+
+                                            <div class="form-group">
+                                                <label>Nome do Cliente</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-user text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->name }}" readonly>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+                                        <div class="col-xl-4">
+                
+                                            <div class="form-group">
+                                                <label>Nº do Cliente</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-info-alt text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->number }}" readonly>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+                                        <div class="col-xl-4">
+                
+                                            <div class="form-group">
+                                                <label>Nº de Contribuinte</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-marker text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->nif }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                     </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->name }}" readonly>
+
+
+                                    <div class="row form-group">
+                                        <div class="col-xl-4">
+
+                                            <div class="form-group">
+                                                <label>Morada</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-location-arrow text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->address }}" readonly>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+                                        <div class="col-xl-4">
+                
+                                            <div class="form-group">
+                                                <label>Localidade</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-location-arrow text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->city }}" readonly>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+                                        <div class="col-xl-4">
+                
+                                            <div class="form-group">
+                                                <label>Código Postal</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-location-arrow text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->zipcode }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+
+                                        <div class="col-xl-4">
+
+                                            <div class="form-group">
+                                                <label>Zona do Cliente</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-pin text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->zone }}" readonly>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+                
+                                        <div class="col-xl-4">
+                
+                                            <div class="form-group">
+                                                <label>Condições de pagamento</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-carolina"><i
+                                                                class="ti-credit-card text-light"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $encomenda->payment_conditions }}" readonly>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+
+
+                                    </div>
+
+
+
+
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="col-xl-4">
-
-                            <div class="form-group">
-                                <label>Email do Cliente</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-user text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->email }}" readonly>
-                                </div>
                             </div>
-
                         </div>
-                        <div class="col-xl-4">
 
-                            <div class="form-group">
-                                <label>Nº do Cliente</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-info-alt text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->number }}" readonly>
-                                </div>
-                            </div>
 
-                        </div>
-                        
                     </div>
 
-                    <div class="row form-group">
-                        <div class="col-xl-4">
-                            <div class="form-group">
-                                <label>Nº de Contribuinte</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-marker text-light"></i></span>
+
+                    <div class="row form-group mt-2">
+                        <div class="col-12 pr-0">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        <h5 class="pl-2">Comentários</h5>
+                                    </button>
+    
+                                    <div id="collapseTwo" class="collapse">
+                                        <div class="card-body">
+                                            <div class="timeline-wrapper">
+                                                @isset($comentario)
+                                                    @foreach ($comentario as $comentarios)
+                                                        <div class="timeline-item" data-date="{{ $comentarios->created_at }} &#8594; {{ $comentarios->user->name }}">
+                                                            <p>{{ $comentarios->comentario }}</p>
+                                                        </div>
+                                                    @endforeach
+                                                @endisset
+                                            </div>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->nif }}" readonly>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-4">
-
-                            <div class="form-group">
-                                <label>Morada</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-location-arrow text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->address }}" readonly>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-xl-4">
-
-                            <div class="form-group">
-                                <label>Localidade</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-location-arrow text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->city }}" readonly>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
-                    <div class="row form-group">
-                     <div class="col-xl-4">
-
-                            <div class="form-group">
-                                <label>Código Postal</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-location-arrow text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->zipcode }}" readonly>
-                                </div>
+                    <div class="row">
+                        <div class="card-body" style="margin-left:15px;margin-right:15px;">
+                            <hr>
+                            <h5>Adicionar Comentário</h5>
+                            <div class="input-group mb-2">
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentarioEncomenda"></textarea>
                             </div>
+                            <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($encomenda->id) }})">Adicionar</button>
                         </div>
-                        <div class="col-xl-4">
-
-                            <div class="form-group">
-                                <label>Zona do Cliente</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-pin text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->zone }}" readonly>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-xl-4">
-
-                            <div class="form-group">
-                                <label>Condições de pagamento</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-carolina"><i
-                                                class="ti-credit-card text-light"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control"
-                                        value="{{ $encomenda->payment_conditions }}" readonly>
-                                </div>
-                            </div>
-
-                        </div>
-                       
-
-                       
                     </div>
 
-                  
 
-                    
-                    <!--  FIM DETALHES   -->
-                    </p>
                 </div>
          
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
@@ -252,7 +305,7 @@
             </div>
         </div>
     </div>
-    <script>
+    {{-- <script>
         window.addEventListener('checkToaster', function(e) {
 
             if (e.detail.status == "success") {
@@ -263,7 +316,7 @@
                 toastr.warning(e.detail.message);
             }
         });
-    </script>
+    </script> --}}
 </div>
 
 

@@ -139,7 +139,7 @@
                                             
                                                
                                                 <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Ver Comentário
+                                                    Comentários
                                                 </button>
                                                
                                             
@@ -179,7 +179,7 @@
                                             
                                             @if ($cmt->count() > 0)
                                             <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                Ver Comentário
+                                                Comentários
                                             </button>
                                             @endif
                                         
@@ -240,7 +240,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalVerComentarioLabel">Ver Comentário</h5>
+                    <h5 class="modal-title" id="modalVerComentarioLabel">Comentários</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -317,8 +317,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($encomendaID) }})">Adicionar</button>
+                        <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($encomendaID) }})">Adicionar Comentário</button>
                         <button type="button" class="btn btn-outline-primary"  wire:click="gerarPdfEncomenda({{ json_encode($encomendaID)}}, {{ json_encode($detalhesEncomenda)}})">Gerar PDF</button>
+                        <button type="button" class="btn btn-outline-primary" wire:click="enviarEmail({{ json_encode($detalhesEncomenda) }},{{json_encode($encomendaID)}})" class="btn btn-sm btn-primary">Enviar email</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                     </div>
                 </div>

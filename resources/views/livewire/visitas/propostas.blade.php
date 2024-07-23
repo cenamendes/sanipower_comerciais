@@ -142,7 +142,7 @@
                                             
                                                
                                                 <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Ver Comentário
+                                                    Comentários
                                                 </button>
                                                
                                             
@@ -182,7 +182,7 @@
                                             
                                             @if ($cmt->count() > 0)
                                             <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                Ver Comentário
+                                                Comentários
                                             </button>
                                             @endif
                                         
@@ -239,7 +239,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalVerComentarioLabel">Ver Comentário</h5>
+                    <h5 class="modal-title" id="modalVerComentarioLabel">Comentários</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -316,8 +316,19 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($propostaID) }})">Adicionar</button>
+                    <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($propostaID) }})">Adicionar Comentário</button>
                     <button type="button" class="btn btn-outline-primary" wire:click="gerarPdfProposta({{ json_encode($propostaID)}}, {{ json_encode($detalhesPropostas)}})">Gerar PDF</button>
+                    @php
+                        $check = \App\Models\Carrinho::where('id_proposta',$propostaID)->first();
+                    @endphp
+
+                    @if($check == null)
+                        <button type="button" class="btn btn-outline-primary" wire:click="adjudicarProposta({{ json_encode($detalhesPropostas) }},{{json_encode($propostaID)}})" class="btn btn-sm btn-success">
+                            Adjudicar Proposta
+                        </button>
+                    @endif
+                    <button type="button" class="btn btn-outline-primary" wire:click="enviarEmail({{ json_encode($detalhesPropostas) }},{{json_encode($propostaID)}})" class="btn btn-sm btn-primary"> Enviar email</button>
+
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                 </div>
             </div>

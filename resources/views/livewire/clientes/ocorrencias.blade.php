@@ -107,11 +107,11 @@
                                 @foreach ($detalhesOcorrencias as $detalhe)
                                     <tr>
                                         <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                        <td>{{ $detalhe->order }}</td>
+                                        <td>{{ $detalhe->occurrence }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
                                         <td><button type="button" class="btn btn-primary"
-                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i
+                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->occurrence) }})"><i
                                                     class="ti ti-plus"></i> Comentário</button>
                                             @php
                                                 $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
@@ -121,7 +121,7 @@
                                             @if ($cmt->count() > 0)
                                                 <button type="button" class="btn btn-primary"
                                                     wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Ver Comentário
+                                                    Comentários
                                                 </button>
                                             @endif
                                         </td>
@@ -182,7 +182,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalVerComentarioLabel">Ver Comentário</h5>
+                    <h5 class="modal-title" id="modalVerComentarioLabel">Comentários</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -231,7 +231,7 @@
                         <tbody>
                             @isset($detalhesOcorrencias)
                             @foreach ($detalhesOcorrencias as $oco)
-                                @if($oco->id == $ocorrenciasID)
+                                {{-- @if($oco->id == $ocorrenciasID) --}}
                                     @foreach ($oco->lines as $line)
                                         <tr>
                                             <td>{{ $line->reference }}</td>
@@ -243,7 +243,7 @@
                                             <td style="text-align:center">{{ $line->total }} €</td>
                                         </tr>
                                     @endforeach
-                                @endif
+                                {{-- @endif --}}
                             @endforeach
                             @endisset
                         </tbody>

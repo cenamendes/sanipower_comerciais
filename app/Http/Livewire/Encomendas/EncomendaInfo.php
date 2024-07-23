@@ -2,16 +2,21 @@
 
 namespace App\Http\Livewire\Encomendas;
 
+use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
-use App\Models\ComentariosProdutos;
+use App\Mail\SendEncomenda;
+use App\Models\Comentarios;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ComentariosProdutos;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
-use App\Interfaces\EncomendasInterface;
-use App\Interfaces\PropostasInterface;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Http\RedirectResponse;
+use App\Interfaces\PropostasInterface;
+use App\Interfaces\EncomendasInterface;
+use Illuminate\Support\Facades\Session;
 
 class EncomendaInfo extends Component
 {
@@ -92,6 +97,10 @@ class EncomendaInfo extends Component
     protected ?object $encomenda = NULL;
 
     public int $perPage = 10;
+
+    public ?object $comentario = NULL;
+
+    public $comentarioEncomenda = "";
    
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $propostasRepository)
@@ -118,7 +127,7 @@ class EncomendaInfo extends Component
     {
         $this->initProperties();
         $this->encomenda = $encomenda;
-    
+        session()->put('encomendaINFO', $this->encomenda);
 
         $this->specificProduct = 0;
         $this->filter = false;
@@ -126,17 +135,82 @@ class EncomendaInfo extends Component
         $this->showLoaderPrincipal = true;
     }
 
+    public function sendComentario($idEncomenda)
+    {
+        if (empty($this->comentarioEncomenda)) {
+            $message = "O campo de comentário está vazio!";
+            $status = "error";
+        } else {
+            $response = $this->clientesRepository->sendComentarios($idEncomenda, $this->comentarioEncomenda, "encomendas");
+
+            $responseArray = $response->getData(true);
+
+            if ($responseArray["success"] == true) {
+                $message = "Comentário adicionado com sucesso!";
+                $status = "success";
+            } else {
+                $message = "Não foi possível adicionar o comentário!";
+                $status = "error";
+            }
+        }
+        
+        // Reinicia os detalhes da encomenda
+        $this->comentarioEncomenda = "";
+        // Exibe a mensagem usando o evento do navegador
+         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+    }
+
+    public function gerarPdfProposta($encomenda)
+    {
+
+        if (!$encomenda) {
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+
+        $pdf = PDF::loadView('pdf.pdfTabelaEncomenda', ["encomenda" => json_encode($encomenda)]);
+        return response()->streamDownload(function() use ($pdf) {
+            echo $pdf->output();
+        }, 'pdfTabelaEncomendas.pdf');
+    }
+
+    public function enviarEmail($encomenda)
+    {
+
+        if (!$encomenda) {
+            dd("Não há valor na variável \$encomenda");
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+    
+        $pdf = new Dompdf();
+        $pdf = PDF::loadView('pdf.pdfTabelaEncomenda', ["encomenda" => json_encode($encomenda)]);
+    
+        $pdf->render();
+    
+        $pdfContent = $pdf->output();
+    
+      
+        try {
+            Mail::to(Auth::user()->email)->send(new SendEncomenda($pdfContent));
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
+        }
+    }
        
     
     public function render()
     {
-        
-        foreach ($this->encomenda->lines as $prod){
+        $encomenda = session('encomendaINFO');
+        $comentario = Comentarios::with('user')->where('stamp', $encomenda->id)->where('tipo', 'encomendas')->orderBy('id','DESC')->get();
+       
+        $this->comentario = $comentario;
+
+        foreach ($encomenda->lines as $prod){
              $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod->family_number."/".$prod->family_number."-".$prod->subfamily_number."-".$prod->product_number.".jpg";
              $prod->image_ref = $image_ref;
         }
         $imagens = [];
-        foreach($this->encomenda->lines as $carrinho){
+        foreach($encomenda->lines as $carrinho){
             array_push($imagens,$carrinho->image_ref);
         }
         
@@ -147,7 +221,7 @@ class EncomendaInfo extends Component
 
         foreach ($iamgens_unique as $img) {
             $arrayCart[$img] = [];
-            foreach ($this->encomenda->lines as $cart) {
+            foreach ($encomenda->lines as $cart) {
                 if ($img == $cart->image_ref) {
                     $found = false;
                     foreach ($arrayCart[$img] as &$item) {
@@ -168,7 +242,7 @@ class EncomendaInfo extends Component
                 }
             }
         }
-        return view('livewire.encomendas.encomenda-info',["encomenda" => $this->encomenda,"arrayCart" =>$arrayCart]);
+        return view('livewire.encomendas.encomenda-info',["encomenda" => $encomenda,"arrayCart" =>$arrayCart]);
 
     }
 }
