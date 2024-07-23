@@ -47,7 +47,7 @@
                     <div class="row ml-0 mr-0 mt-4 d-block">
 
                         <div class="accordion" id="accordionExample">
-                            <div class="card">
+                            <div class="card" style="margin-left: 18px;margin-right: 34px;">
                            
                             <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
                                 <div class="card-body">
@@ -218,7 +218,7 @@
                     <div class="row form-group mt-2">
                         <div class="col-12 pr-0">
                             <div class="accordion" id="accordionExample">
-                                <div class="card">
+                                <div class="card" style="margin-left: 18px;margin-right: 34px;">
                                     <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                                         <h5 class="pl-2">Comentários</h5>
                                     </button>
