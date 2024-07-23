@@ -39,6 +39,10 @@ interface ClientesInterface
 
     public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array;
 
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator;
+
+    public function getNumberOfPagesEncomendasFiltro($perPage,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array;
+
     //DETALHES CLIENTE -> ABA PROPOSTAS **/
 
     public function getPropostasCliente($perPage,$page,$nomeCliente): LengthAwarePaginator;

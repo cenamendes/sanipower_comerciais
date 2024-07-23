@@ -808,7 +808,7 @@
                                                 </div>
                                             </td>
                                             <td >{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small></td>
                                             <td style=" width:15%">{{ $prod->model }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
                                             <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`)"></i> </td>
@@ -912,7 +912,7 @@
                                                 </div>
                                             </td>
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small></td>
                                             <td style=" width:15%">{{ $prod->model }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>

@@ -200,7 +200,7 @@ class PropostaInfo extends Component
 
         foreach($proposta["lines"] as $prop)
         {
-           
+         
             Carrinho::create([
                 "id_proposta" => $proposta["id"],
                 "id_cliente" => $proposta["number"],
@@ -212,6 +212,7 @@ class PropostaInfo extends Component
                 "discount2" => $prop["discount2"],
                 "qtd" => $prop["quantity"],
                 "iva" => 12,
+                "model" => $prop["model"],
                 "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
                 "proposta_info" => $proposta["budget"]
             ]);
@@ -282,16 +283,17 @@ class PropostaInfo extends Component
             foreach ($this->proposta->lines as $cart) {
                 if ($img == $cart->image_ref) {
                     $found = false;
-                    foreach ($arrayCart[$img] as &$item) {
-                        
+                    foreach ($arrayCart[$img] as $item) {
                         if ($item->reference == $cart->reference) {
-                            if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
-                                $item->qtd += $cart->qtd;
-                            } else {
+                            if(isset($cart->qtd)) {
+                                if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
+                                    $item->qtd += $cart->qtd;
+                                } else {
+                                    break;
+                                }
+                                $found = true;
                                 break;
                             }
-                            $found = true;
-                            break;
                         }
                     }
                     if (!$found) {
