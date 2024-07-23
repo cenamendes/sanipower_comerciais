@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire\Visitas;
 
-use Livewire\Component;
-use App\Interfaces\ClientesInterface;
-use Livewire\WithPagination;
-use App\Models\Comentarios;
 use Dompdf\Dompdf;
+use Livewire\Component;
+use App\Mail\SendEncomenda;
+use App\Models\Comentarios;
+use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Interfaces\ClientesInterface;
+
 class Encomendas extends Component
 {
     use WithPagination;
@@ -204,7 +208,7 @@ class Encomendas extends Component
     public function verComentario($idEncomenda)
     {
         // Carrega o comentário correspondente
-        $comentario = Comentarios::with('user')->where('stamp', $idEncomenda)->where('tipo', 'encomendas')->get();
+        $comentario = Comentarios::with('user')->where('stamp', $idEncomenda)->where('tipo', 'encomendas')->orderBy('id','DESC')->get();
 
         // Define o comentário para exibir no modal
         $this->comentario = $comentario;
@@ -225,6 +229,41 @@ class Encomendas extends Component
         $this->restartDetails();
 
         $this->dispatchBrowserEvent('openDetalheEncomendaModal');
+    }
+
+    public function enviarEmail($detalheEncomenda,$encomendaID)
+    {
+
+        foreach($detalheEncomenda["data"] as $pr)
+        {
+            if($encomendaID == $pr["id"])
+            {
+                $encomenda = $pr;
+            }
+        }
+
+        if (!$encomenda) {
+            dd("Não há valor na variável \$proposta");
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+
+ 
+        $pdf = new Dompdf();
+        $pdf = PDF::loadView('pdf.pdfTabelaEncomenda', ["encomenda" => json_encode($encomenda)]);
+    
+        $pdf->render();
+    
+        $pdfContent = $pdf->output();
+    
+           
+        try {
+            Mail::to(Auth::user()->email)->send(new SendEncomenda($pdfContent));
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
+        }
+
+        $this->restartDetails();
     }
 
 

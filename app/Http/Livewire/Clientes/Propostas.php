@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire\Clientes;
 
-use Livewire\Component;
-use App\Interfaces\ClientesInterface;
-use Livewire\WithPagination;
-use App\Models\Comentarios;
 use Dompdf\Dompdf;
+use Livewire\Component;
+use App\Models\Carrinho;
+use App\Mail\SendProposta;
+use App\Models\Comentarios;
+use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Interfaces\ClientesInterface;
 
 
 class Propostas extends Component
@@ -206,7 +210,7 @@ class Propostas extends Component
     public function verComentario($idProposta)
     {
         // Carrega o comentário correspondente
-        $comentario = Comentarios::with('user')->where('stamp', $idProposta)->where('tipo', 'propostas')->get();
+        $comentario = Comentarios::with('user')->where('stamp', $idProposta)->where('tipo', 'propostas')->orderBy('id','DESC')->get();
 
         // Define o comentário para exibir no modal
         $this->comentario = $comentario;
@@ -224,6 +228,84 @@ class Propostas extends Component
         $this->restartDetails();
 
         $this->dispatchBrowserEvent('openDetalhePropostaModal');
+    }
+
+    public function adjudicarProposta($detalheProposta,$propostaID)
+    {       
+        foreach($detalheProposta["data"] as $pr)
+        {
+            if($propostaID == $pr["id"])
+            {
+                $proposta = $pr;
+            }
+        }
+
+        foreach($proposta["lines"] as $prop)
+        {
+           
+            Carrinho::create([
+                "id_proposta" => $proposta["id"],
+                "id_cliente" => $proposta["number"],
+                "id_user" => Auth::user()->id,
+                "referencia" => $prop["reference"],
+                "designacao" => $prop["description"],
+                "price" => $prop["price"],
+                "discount" => $prop["discount"],
+                "discount2" => $prop["discount2"],
+                "qtd" => $prop["quantity"],
+                "iva" => 12,
+                "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
+                "proposta_info" => $proposta["budget"]
+            ]);
+        }
+
+        
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(10,1,"",$proposta["number"],"","","","");
+
+
+        session()->flash("success", "Proposta adjudicada com sucesso");
+        return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);
+      
+
+    }
+
+    public function enviarEmail($detalheProposta,$propostaID)
+    {
+
+        foreach($detalheProposta["data"] as $pr)
+        {
+            if($propostaID == $pr["id"])
+            {
+                $proposta = $pr;
+            }
+        }
+
+        if (!$proposta) {
+            dd("Não há valor na variável \$proposta");
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+
+ 
+        $pdf = new Dompdf();
+        $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
+    
+        $pdf->render();
+    
+        $pdfContent = $pdf->output();
+    
+        // $fileName = 'proposta_' . time() . '.pdf';  // Método para guerdar pdf no local Storage
+        // $filePath = 'public/propostas/' . $fileName;
+    
+        // Storage::put($filePath, $pdfContent);
+    
+        try {
+            Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
+        }
+
+        $this->restartDetails();
     }
 
     public function render()

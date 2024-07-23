@@ -2,26 +2,27 @@
 
 namespace App\Http\Livewire\Propostas;
 
-use App\Mail\SendProposta;
-use Illuminate\Support\Facades\Mail;
+use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
-use App\Models\ComentariosProdutos;
+use App\Mail\SendProposta;
+use App\Models\Comentarios;
 use Livewire\WithPagination;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Auth;
-use App\Interfaces\ClientesInterface;
-use App\Interfaces\EncomendasInterface;
-use App\Interfaces\PropostasInterface;
-use Illuminate\Support\Facades\Session;
-use Dompdf\Dompdf;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Storage;
-
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ComentariosProdutos;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
+use App\Interfaces\ClientesInterface;
+use App\Interfaces\PropostasInterface;
+
+
 use Illuminate\Queue\SerializesModels;
+use App\Interfaces\EncomendasInterface;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PropostaInfo extends Component
@@ -108,6 +109,10 @@ class PropostaInfo extends Component
 
     public int $perPage = 10;
 
+    public ?object $comentario = NULL;
+
+    public $comentarioEncomenda = "";
+
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $PropostasRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -140,6 +145,7 @@ class PropostaInfo extends Component
     }
     public function enviarEmail($proposta)
     {
+
         if (!$proposta) {
             dd("Não há valor na variável \$proposta");
             return redirect()->back()->with('error', 'Proposta não encontrada.');
@@ -180,9 +186,8 @@ class PropostaInfo extends Component
 
     public function adjudicarProposta($proposta)
     {
-
-       Carrinho::where('id_cliente', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
-       ComentariosProdutos::where('no', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
+       //Carrinho::where('id_cliente', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
+       //ComentariosProdutos::where('no', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
         
 
         foreach($proposta["lines"] as $prop)
@@ -191,7 +196,7 @@ class PropostaInfo extends Component
             Carrinho::create([
                 "id_proposta" => $proposta["id"],
                 "id_cliente" => $proposta["number"],
-                "id_user" => Auth::user()->id_phc,
+                "id_user" => Auth::user()->id,
                 "referencia" => $prop["reference"],
                 "designacao" => $prop["description"],
                 "price" => $prop["price"],
@@ -199,21 +204,55 @@ class PropostaInfo extends Component
                 "discount2" => $prop["discount2"],
                 "qtd" => $prop["quantity"],
                 "iva" => 12,
-                "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg"
+                "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
+                "proposta_info" => $proposta["budget"]
             ]);
         }
 
+        
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(10,1,"",$proposta["number"],"","","","");
+
 
         session()->flash("success", "Proposta adjudicada com sucesso");
-        return redirect()->route('propostas');
+        return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);
       
 
+    }
+
+    public function sendComentario($idProposta)
+    {
+        if (empty($this->comentarioEncomenda)) {
+            $message = "O campo de comentário está vazio!";
+            $status = "error";
+        } else {
+            $response = $this->clientesRepository->sendComentarios($idProposta, $this->comentarioEncomenda, "propostas");
+
+            $responseArray = $response->getData(true);
+
+            if ($responseArray["success"] == true) {
+                $message = "Comentário adicionado com sucesso!";
+                $status = "success";
+            } else {
+                $message = "Não foi possível adicionar o comentário!";
+                $status = "error";
+            }
+        }
+        
+        // Reinicia os detalhes da encomenda
+        $this->comentarioEncomenda = "";
+        // Exibe a mensagem usando o evento do navegador
+        $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
    
     
     public function render()
     {
-        
+        $proposta = session('proposta');
+        $comentario = Comentarios::with('user')->where('stamp', $proposta->id)->where('tipo', 'propostas')->orderBy('id','DESC')->get();
+
+        // Define o comentário para exibir no modal
+        $this->comentario = $comentario;
+
         $this->proposta = session()->get('proposta');
         foreach ($this->proposta->lines as $prod){
             $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod->family_number."/".$prod->family_number."-".$prod->subfamily_number."-".$prod->product_number.".jpg";

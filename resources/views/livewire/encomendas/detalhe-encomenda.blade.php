@@ -789,7 +789,7 @@
                                         $ValorTotalComIva += $totalItemComIva;
                                     @endphp
                                     <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
-                                        <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
+                                        <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}<br><small style="color:#1791ba;">{{$prod->proposta_info}}</small></td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
                                         <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
@@ -1178,7 +1178,7 @@
                                     @forelse ($carrinhoCompras as $item)
                                         <tr>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->referencia }}</td>
-                                            <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}<br><small style="color:#1791ba;">{{$item->proposta_info}}</small></td>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->price, 2, ',', '.') }} €</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:5%">

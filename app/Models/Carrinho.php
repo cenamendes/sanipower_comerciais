@@ -26,5 +26,6 @@ class Carrinho extends Model
         'model',
         'iva',
         'price',
+        'proposta_info'
     ];
 }

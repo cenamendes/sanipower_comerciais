@@ -307,13 +307,14 @@ class DetalheVisitas extends Component
                     "user_id" => Auth::user()->id
                 ]);
 
+
                 if(!empty($visitaCreate)) {
                     session()->flash('success', "Visita atualizada com sucesso");
-                    return redirect()->route('visitas');
+                    return redirect()->route('visitas.info',["id" => $this->idVisita]);
         
                 } else {
                     session()->flash('warning', "Não foi possivel alterar a visita!");
-                    return redirect()->route('visitas');
+                    return redirect()->route('visitas.info',["id" => $this->idVisita]);
                 }
 
             } 
@@ -347,13 +348,15 @@ class DetalheVisitas extends Component
                     "user_id" => Auth::user()->id
                 ]);
 
+        
+                
                 if(!empty($visitaCreate)) {
                     session()->flash('success', "Visita registada com sucesso");
-                    return redirect()->route('visitas');
+                    return redirect()->route('visitas.info',["id" => $agenda->id]);
         
                 } else {
                     session()->flash('warning', "Não foi possivel adicionar visita!");
-                    return redirect()->route('visitas');
+                    return redirect()->route('visitas.info',["id" => $agenda->id]);
                 }
 
             }
@@ -414,14 +417,14 @@ class DetalheVisitas extends Component
                 ]);
             }
            
-
+            
             if(!empty($visitaCreate)) {
                 session()->flash('success', "Visita registada com sucesso");
-                return redirect()->route('visitas');
+                return redirect()->route('visitas.info',["id" => $agenda->id]);
     
             } else {
                 session()->flash('warning', "Não foi possivel adicionar visita!");
-                return redirect()->route('visitas');
+                return redirect()->route('visitas.info',["id" => $agenda->id]);
             }
 
         }
@@ -577,12 +580,12 @@ class DetalheVisitas extends Component
         if($responseArray["success"] == true){
 
             session()->flash('success', "Visita registada e finalizada com sucesso");
-            return redirect()->route('visitas');
+            return redirect()->route('visitas.info',["id" => $getVisitaID->id]);
         }
         else {
             
             session()->flash('warning', "Não foi possivel adicionar visita!");
-            return redirect()->route('visitas');
+            return redirect()->route('visitas.info',["id" => $getVisitaID->id]);
         }
 
       

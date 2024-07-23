@@ -59,6 +59,19 @@
 
                         </div>
 
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label class="mt-2">Comentário</label>
+                                    <div class="input-group">
+                                        <select name="perPage" wire:model.lazy="estadoEncomenda" class="form-control">
+                                            <option value="" selected>Todas</option>
+                                            <option value="1">Com comentário</option>
+                                            <option value="2">Sem comentário</option>
+                                        </select>
+                                    </div>
+                            </div>
+                        </div>
+
                         <div class="row ml-0 mr-0 mt-4 d-block">
 
                              <!-- PARTE DO ACCORDEON -->
@@ -182,8 +195,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                          
-                                @foreach ($encomendas as $enc )
+                      
+                                @foreach ($encomendas as $enc)
+                                   
                                     <tr wire:click="checkOrder({{json_encode($enc->id)}})">
                                         <td>{{ date('Y-m-d', strtotime($enc->date)) }}</td>
                                         <td>{{$enc->order}}</td>
@@ -195,7 +209,8 @@
                                                 <i class="ti-eye"></i> Ver Encomenda
                                             </a>
                                         </td>
-                                    </tr>
+                                    </tr>                              
+
                                 @endforeach
 
                             </tbody>
