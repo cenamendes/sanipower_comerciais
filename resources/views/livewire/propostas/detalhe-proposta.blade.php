@@ -1025,8 +1025,20 @@
                                             $iva2 = $prod->iva2;
                                         @endphp
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td><input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
-                                                    wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]"></td>
+                                            <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                    @php
+                                                        $referencia = $prod->referencia;
+                                                        $referenciaCorrigida = rtrim($referencia, '.');
+                                                        $prod->referencia = $referenciaCorrigida;
+                                                    @endphp
+                                                    <input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
+                                                    wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td>
                                             <td >{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
                                             <td style=" width:15%">{{ $prod->model }}</td>
@@ -1112,7 +1124,20 @@
                                             $ValorTotalComIva += $totalItemComIva;
                                         @endphp
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td><input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" wire:model.defer="selectedItemsAddKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]"></td>
+                                            <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                    @php
+                                                        $referencia = $prod->referencia;
+                                                        $referenciaCorrigida = rtrim($referencia, '.');
+                                                        $prod->referencia = $referenciaCorrigida;
+                                                    @endphp
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
+                                                            wire:model.defer="selectedItemsAddKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td>
                                             <td>{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
                                             <td style=" width:15%">{{ $prod->model }}</td>
@@ -1155,8 +1180,9 @@
                     </div>
 
                     @endif
-
+      
                 </div>
+               
             {{-- @empty
                 <tr>
                     <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
@@ -1200,7 +1226,6 @@
                     </table>
                 </div>
             </div>
-          
         </div>
 
             <div class="tab-pane fade {{ $tabFinalizar }}" id="tab7">
