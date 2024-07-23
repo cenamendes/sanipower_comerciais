@@ -28,5 +28,6 @@ class Carrinho extends Model
         'iva',
         'iva2',
         'price',
+        'proposta_info'
     ];
 }

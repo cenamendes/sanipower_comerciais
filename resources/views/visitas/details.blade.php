@@ -69,6 +69,16 @@
                 toastr.warning(e.detail.message);
             }
         });
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if ("{{ session('success') }}") {
+                toastr.success("{{ session('success') }}");
+            }
+
+            if("{{ session('error') }}"){
+                toastr.warning("{{ session('error') }}");
+            }
+        });
         
 </script>
 
