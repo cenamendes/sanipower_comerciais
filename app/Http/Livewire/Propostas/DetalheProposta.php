@@ -779,12 +779,13 @@ class DetalheProposta extends Component
         $this->tabDetalhesPropostas = "show active";
         $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
-        
+        $this->dispatchBrowserEvent('checkToaster');
     }
     public function RemoverItemKit()
     {
         $selectedProductIds = array_keys(array_filter($this->selectedItemsRemoveKit));
         $codEncomenda = $this->codEncomenda;
+        
         foreach ($selectedProductIds as $itemId) {
             $selectedItemsArray = json_decode($itemId, true);
 

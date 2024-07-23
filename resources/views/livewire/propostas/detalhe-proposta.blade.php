@@ -1025,8 +1025,15 @@
                                             $iva2 = $prod->iva2;
                                         @endphp
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td><input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
-                                                    wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]"></td>
+                                            <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                    <input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
+                                                    wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td>
                                             <td >{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
                                             <td style=" width:15%">{{ $prod->model }}</td>
@@ -1112,7 +1119,15 @@
                                             $ValorTotalComIva += $totalItemComIva;
                                         @endphp
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td><input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" wire:model.defer="selectedItemsAddKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]"></td>
+                                            <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
+                                                            wire:model.defer="selectedItemsAddKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td>
                                             <td>{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
                                             <td style=" width:15%">{{ $prod->model }}</td>
