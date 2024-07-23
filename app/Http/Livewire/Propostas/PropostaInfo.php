@@ -140,6 +140,9 @@ class PropostaInfo extends Component
     }
     public function enviarEmail($proposta)
     {
+        
+        $emailArray = explode("; ", $proposta["email"]);
+        
         if (!$proposta) {
             dd("Não há valor na variável \$proposta");
             return redirect()->back()->with('error', 'Proposta não encontrada.');
@@ -159,6 +162,11 @@ class PropostaInfo extends Component
     
         try {
             Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
+
+            foreach ($emailArray as $email) {
+                Mail::to($email)->send(new SendProposta($pdfContent));
+            }
+
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);

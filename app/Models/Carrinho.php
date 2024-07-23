@@ -21,10 +21,12 @@ class Carrinho extends Model
         'pvp',
         'discount',
         'discount2',
+        'inkit',
         'qtd',
         'image_ref',
         'model',
         'iva',
+        'iva2',
         'price',
     ];
 }
