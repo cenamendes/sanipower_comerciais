@@ -64,8 +64,6 @@ class Encomendas extends Component
     {
         $this->initProperties();
         $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-     
-
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
@@ -78,171 +76,20 @@ class Encomendas extends Component
     public function updatedNomeCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        $arrayEncomendas = [];
+        // $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
 
-        foreach($this->clientes as $cli)
-        {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$cli->id);
-            array_push($arrayEncomendas,$this->encomendas);
-
-        }
-        
-        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
-    }
-
-    public function updatedNumeroCliente()
-    {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
-    }
-
-    public function updatedZonaCliente()
-    {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
-    }
-
-    public function updatedNifCliente()
-    {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
-    }
-
-    public function updatedTelemovelCliente()
-    {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
-    }
-
-    public function updatedEmailCliente()
-    {
-        $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
-    }
-
-    public function gotoPage($page)
-    {
-        $this->pageChosen = $page;
-
-        if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-            $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        } else {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        }
-        
-    }
-
-   
-    public function previousPage()
-    {
-        if ($this->pageChosen > 1) {
-            $this->pageChosen--;
-
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            } else {
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            }
-        }
-        else if($this->pageChosen == 1){
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            } else {
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            }
-        }
-    }
-
-    public function nextPage()
-    {
-        if ($this->pageChosen < $this->numberMaxPages) {
-            $this->pageChosen++;
-
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
-        
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            } else {
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            }
-        }
-    }
-
-    public function getPageRange()
-    {
-        $currentPage = $this->pageChosen;
-        $lastPage = $this->numberMaxPages;
-
-        $start = max(1, $currentPage - 2);
-        $end = min($lastPage, $currentPage + 2);
-
-        return range($start, $end);
-    }
-
-    public function isCurrentPage($page)
-    {
-        return $page == $this->pageChosen;
-    }
-
-    public function updatedPerPage(): void
-    {
-        $this->resetPage();
-        session()->put('perPage', $this->perPage);
+        // $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+        // $this->totalRecords = $getInfoClientes["nr_registos"];
 
         if($this->estadoEncomenda != "")
         {
-            $encomendas = $this->clientesRepository->getEncomendasCliente(9999999,$this->pageChosen,"");
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
 
             $arrayEncomendas = [];
     
@@ -298,11 +145,955 @@ class Encomendas extends Component
         else 
         {
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-            
-            
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            } else {
                 $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
                 $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            }
+        }
+
+    }
+
+    public function updatedNumeroCliente()
+    {
+        $this->pageChosen = 1;
+        // $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+
+        // $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+        // $this->totalRecords = $getInfoClientes["nr_registos"];
+
+        if($this->estadoEncomenda != "")
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
+
+            $arrayEncomendas = [];
+    
+            foreach($encomendas as $enc)
+            {
+                if($this->estadoEncomenda == 1)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario != null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                elseif($this->estadoEncomenda == 2)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario == null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                else
+                {
+                    array_push($arrayEncomendas,$enc);
+                }
+            }
+          
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    
+            if($arrayEncomendas != null)
+            {
+                $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                $this->numberMaxPages = floor($contaPaginas);
+                $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+    
+                $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+    
+            }
+            else {
+            
+                $currentItems = [];
+                $this->numberMaxPages = 0;
+                $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+            }
+    
+            
+            $this->totalRecords = count($arrayEncomendas);
+    
+            $this->encomendas = $itemsPaginate;
+        }
+        else 
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            }
+        }
+
+    }
+
+    public function updatedZonaCliente()
+    {
+        $this->pageChosen = 1;
+        // $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+
+        // $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+        // $this->totalRecords = $getInfoClientes["nr_registos"];
+
+        if($this->estadoEncomenda != "")
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
+
+            $arrayEncomendas = [];
+    
+            foreach($encomendas as $enc)
+            {
+                if($this->estadoEncomenda == 1)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario != null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                elseif($this->estadoEncomenda == 2)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario == null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                else
+                {
+                    array_push($arrayEncomendas,$enc);
+                }
+            }
+          
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    
+            if($arrayEncomendas != null)
+            {
+                $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                $this->numberMaxPages = floor($contaPaginas);
+                $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+    
+                $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+    
+            }
+            else {
+            
+                $currentItems = [];
+                $this->numberMaxPages = 0;
+                $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+            }
+    
+            
+            $this->totalRecords = count($arrayEncomendas);
+    
+            $this->encomendas = $itemsPaginate;
+        }
+        else 
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            }
+        }
+
+    }
+
+    public function updatedNifCliente()
+    {
+        $this->pageChosen = 1;
+        // $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+
+        // $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+        // $this->totalRecords = $getInfoClientes["nr_registos"];
+
+        if($this->estadoEncomenda != "")
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
+
+            $arrayEncomendas = [];
+    
+            foreach($encomendas as $enc)
+            {
+                if($this->estadoEncomenda == 1)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario != null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                elseif($this->estadoEncomenda == 2)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario == null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                else
+                {
+                    array_push($arrayEncomendas,$enc);
+                }
+            }
+          
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    
+            if($arrayEncomendas != null)
+            {
+                $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                $this->numberMaxPages = floor($contaPaginas);
+                $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+    
+                $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+    
+            }
+            else {
+            
+                $currentItems = [];
+                $this->numberMaxPages = 0;
+                $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+            }
+    
+            
+            $this->totalRecords = count($arrayEncomendas);
+    
+            $this->encomendas = $itemsPaginate;
+        }
+        else 
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            }
+        }
+
+    }
+
+    public function updatedTelemovelCliente()
+    {
+        $this->pageChosen = 1;
+        // $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+
+        // $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+        // $this->totalRecords = $getInfoClientes["nr_registos"];
+
+        if($this->estadoEncomenda != "")
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
+
+            $arrayEncomendas = [];
+    
+            foreach($encomendas as $enc)
+            {
+                if($this->estadoEncomenda == 1)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario != null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                elseif($this->estadoEncomenda == 2)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario == null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                else
+                {
+                    array_push($arrayEncomendas,$enc);
+                }
+            }
+          
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    
+            if($arrayEncomendas != null)
+            {
+                $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                $this->numberMaxPages = floor($contaPaginas);
+                $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+    
+                $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+    
+            }
+            else {
+            
+                $currentItems = [];
+                $this->numberMaxPages = 0;
+                $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+            }
+    
+            
+            $this->totalRecords = count($arrayEncomendas);
+    
+            $this->encomendas = $itemsPaginate;
+        }
+        else 
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            }
+        }
+
+    }
+
+    public function updatedEmailCliente()
+    {
+        $this->pageChosen = 1;
+        // $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+
+        // $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+        // $this->totalRecords = $getInfoClientes["nr_registos"];
+
+        if($this->estadoEncomenda != "")
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
+
+            $arrayEncomendas = [];
+    
+            foreach($encomendas as $enc)
+            {
+                if($this->estadoEncomenda == 1)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario != null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                elseif($this->estadoEncomenda == 2)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario == null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                else
+                {
+                    array_push($arrayEncomendas,$enc);
+                }
+            }
+          
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    
+            if($arrayEncomendas != null)
+            {
+                $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                $this->numberMaxPages = floor($contaPaginas);
+                $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+    
+                $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+    
+            }
+            else {
+            
+                $currentItems = [];
+                $this->numberMaxPages = 0;
+                $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+            }
+    
+            
+            $this->totalRecords = count($arrayEncomendas);
+    
+            $this->encomendas = $itemsPaginate;
+        }
+        else 
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            }
+        }
+
+    }
+
+    public function gotoPage($page)
+    {
+        $this->pageChosen = $page;
+
+        // if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+        //     $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // } else {
+        //     $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // }
+
+        if($this->estadoEncomenda != "")
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
+
+         
+
+            $arrayEncomendas = [];
+        
+    
+            foreach($encomendas as $enc)
+            {
+                if($this->estadoEncomenda == 1)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario != null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                elseif($this->estadoEncomenda == 2)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario == null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                else
+                {
+                    array_push($arrayEncomendas,$enc);
+                }
+            }
+
+         
+          
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    
+            if($arrayEncomendas != null)
+            {
+                $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                //$this->numberMaxPages = floor($contaPaginas);
+                $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+    
+                $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+    
+            }
+            else {
+            
+                $currentItems = [];
+                $this->numberMaxPages = 0;
+                $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+            }
+        
+
+          
+            //$this->totalRecords = count($arrayEncomendas);
+        
+            $this->encomendas = $itemsPaginate;
+        }
+        else 
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+    
+                $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                $this->totalRecords = $getInfoClientes["nr_registos"];
+            }
+        }
+        
+    }
+
+   
+    public function previousPage()
+    {
+        if ($this->pageChosen > 1) {
+            $this->pageChosen--;
+
+            // if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+            //     $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            // } else {
+            //     $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            // }
+
+            if($this->estadoEncomenda != "")
+            {
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                    $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                
+                } else {
+                    $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                }
+    
+                $arrayEncomendas = [];
+        
+                foreach($encomendas as $enc)
+                {
+                    if($this->estadoEncomenda == 1)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+        
+                        if($checkComentario != null)
+                        {
+                            array_push($arrayEncomendas,$enc);
+                        }
+                    }
+                    elseif($this->estadoEncomenda == 2)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+        
+                        if($checkComentario == null)
+                        {
+                            array_push($arrayEncomendas,$enc);
+                        }
+                    }
+                    else
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+              
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        
+                if($arrayEncomendas != null)
+                {
+                    $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                    $this->numberMaxPages = floor($contaPaginas);
+                    $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+        
+                    $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+        
+                }
+                else {
+                
+                    $currentItems = [];
+                    $this->numberMaxPages = 0;
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+                }
+        
+                
+                $this->totalRecords = count($arrayEncomendas);
+        
+                $this->encomendas = $itemsPaginate;
+            }
+            else 
+            {
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+    
+                    $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                    $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+                    $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                    $this->totalRecords = $getInfoClientes["nr_registos"];
+                } else {
+                    $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                    $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+        
+                    $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                    $this->totalRecords = $getInfoClientes["nr_registos"];
+                }
+            }
+        }
+        else if($this->pageChosen == 1){
+            // if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+            //     $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            // } else {
+            //     $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            // }
+
+            if($this->estadoEncomenda != "")
+            {
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                    $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                
+                } else {
+                    $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                }
+    
+                $arrayEncomendas = [];
+        
+                foreach($encomendas as $enc)
+                {
+                    if($this->estadoEncomenda == 1)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+        
+                        if($checkComentario != null)
+                        {
+                            array_push($arrayEncomendas,$enc);
+                        }
+                    }
+                    elseif($this->estadoEncomenda == 2)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+        
+                        if($checkComentario == null)
+                        {
+                            array_push($arrayEncomendas,$enc);
+                        }
+                    }
+                    else
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+              
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        
+                if($arrayEncomendas != null)
+                {
+                    $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                    $this->numberMaxPages = floor($contaPaginas) + 1;
+                    $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+        
+                    $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+        
+                }
+                else {
+                
+                    $currentItems = [];
+                    $this->numberMaxPages = 0;
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+                }
+        
+                
+                $this->totalRecords = count($arrayEncomendas);
+        
+                $this->encomendas = $itemsPaginate;
+            }
+            else 
+            {
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+    
+                    $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                    $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+                    $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                    $this->totalRecords = $getInfoClientes["nr_registos"];
+                } else {
+                    $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                    $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+        
+                    $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                    $this->totalRecords = $getInfoClientes["nr_registos"];
+                }
+            }
+        }
+    }
+
+    public function nextPage()
+    {
+        if ($this->pageChosen < $this->numberMaxPages) {
+            $this->pageChosen++;
+
+            // if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+            //     $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        
+            // } else {
+            //     $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            // }
+
+            if($this->estadoEncomenda != "")
+            {
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                    $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                
+                } else {
+                    $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                }
+    
+                $arrayEncomendas = [];
+        
+                foreach($encomendas as $enc)
+                {
+                    if($this->estadoEncomenda == 1)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+        
+                        if($checkComentario != null)
+                        {
+                            array_push($arrayEncomendas,$enc);
+                        }
+                    }
+                    elseif($this->estadoEncomenda == 2)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+        
+                        if($checkComentario == null)
+                        {
+                            array_push($arrayEncomendas,$enc);
+                        }
+                    }
+                    else
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+              
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        
+                if($arrayEncomendas != null)
+                {
+                    $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                    $this->numberMaxPages = floor($contaPaginas) + 1;
+                    $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+        
+                    $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+        
+                }
+                else {
+                
+                    $currentItems = [];
+                    $this->numberMaxPages = 0;
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+                }
+        
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                    $verifyNumber = $this->clientesRepository->getEncomendasClienteFiltro(999999,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                
+                } else {
+                    $verifyNumber = $this->clientesRepository->getEncomendasCliente(9999999,1,$this->idCliente);
+                }
+
+                $arrayVerify = [];
+
+                foreach($verifyNumber as $enc)
+                {
+                    if($this->estadoEncomenda == 1)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+
+                        if($checkComentario != null)
+                        {
+                            array_push($arrayVerify,$enc);
+                        }
+                    }
+                    elseif($this->estadoEncomenda == 2)
+                    {
+                        $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+
+                        if($checkComentario == null)
+                        {
+                            array_push($arrayVerify,$enc);
+                        }
+                    }
+                    else
+                    {
+                        array_push($arrayVerify,$enc);
+                    }
+                }
+      
+                $this->totalRecords = count($arrayVerify);
+        
+                $this->encomendas = $itemsPaginate;
+            }
+            else 
+            {
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+    
+                    $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                    $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+                    $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                    $this->totalRecords = $getInfoClientes["nr_registos"];
+                } else {
+                    $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+                    $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+        
+                    $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+                    $this->totalRecords = $getInfoClientes["nr_registos"];
+                }
+            }
+        }
+    }
+
+    public function getPageRange()
+    {
+        $currentPage = $this->pageChosen;
+        $lastPage = $this->numberMaxPages;
+
+        $start = max(1, $currentPage - 2);
+        $end = min($lastPage, $currentPage + 2);
+
+        return range($start, $end);
+    }
+
+    public function isCurrentPage($page)
+    {
+        return $page == $this->pageChosen;
+    }
+
+    public function updatedPerPage(): void
+    {
+        $this->resetPage();
+        session()->put('perPage', $this->perPage);
+
+        if($this->estadoEncomenda != "")
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
+
+            $arrayEncomendas = [];
+    
+            foreach($encomendas as $enc)
+            {
+                if($this->estadoEncomenda == 1)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario != null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                elseif($this->estadoEncomenda == 2)
+                {
+                    $checkComentario = Comentarios::where('tipo','encomendas')->where('stamp',$enc->id)->first();
+    
+                    if($checkComentario == null)
+                    {
+                        array_push($arrayEncomendas,$enc);
+                    }
+                }
+                else
+                {
+                    array_push($arrayEncomendas,$enc);
+                }
+            }
+          
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    
+            if($arrayEncomendas != null)
+            {
+                $contaPaginas = count($arrayEncomendas) / $this->perPage;
+                $this->numberMaxPages = floor($contaPaginas);
+                $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
+    
+                $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);
+    
+            }
+            else {
+            
+                $currentItems = [];
+                $this->numberMaxPages = 0;
+                $itemsPaginate = new LengthAwarePaginator($currentItems, 0,$this->perPage);
+            }
+    
+            
+            $this->totalRecords = count($arrayEncomendas);
+    
+            $this->encomendas = $itemsPaginate;
+        }
+        else 
+        {
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
     
                 $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
                 $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -322,11 +1113,21 @@ class Encomendas extends Component
     {
         if($this->estadoEncomenda != "")
         {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente(999999,$this->pageChosen,"");
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            }
         }
         else
         {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            
+            } else {
+                $this->encomendas = $this->clientesRepository->getEncomendasCliente(999999,$this->pageChosen,"");
+            }
         }
 
         foreach($this->encomendas as $enc)
@@ -341,11 +1142,16 @@ class Encomendas extends Component
 
     public function updatedEstadoEncomenda()
     {
-        $encomendas = $this->clientesRepository->getEncomendasCliente(9999999,$this->pageChosen,"");
+        if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+            $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        } else {
+            $this->encomendas = $this->clientesRepository->getEncomendasCliente(9999999,$this->pageChosen,"");
+        }
 
         $arrayEncomendas = [];
 
-        foreach($encomendas as $enc)
+        foreach($this->encomendas as $enc)
         {
             if($this->estadoEncomenda == 1)
             {
@@ -370,13 +1176,15 @@ class Encomendas extends Component
                 array_push($arrayEncomendas,$enc);
             }
         }
+
+
       
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         if($arrayEncomendas != null)
         {
             $contaPaginas = count($arrayEncomendas) / $this->perPage;
-            $this->numberMaxPages = floor($contaPaginas);
+            $this->numberMaxPages = floor($contaPaginas) + 1;
             $currentItems = array_slice($arrayEncomendas, $this->perPage * ($currentPage - 1), $this->perPage);
 
             $itemsPaginate = new LengthAwarePaginator($currentItems,floor($contaPaginas),$this->perPage);

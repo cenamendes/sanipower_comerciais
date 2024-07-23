@@ -227,13 +227,15 @@ class EncomendaInfo extends Component
                     foreach ($arrayCart[$img] as &$item) {
                         
                         if ($item->reference == $cart->reference) {
-                            if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
-                                $item->qtd += $cart->qtd;
-                            } else {
+                            if(isset($cart->qtd)) {
+                                if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
+                                    $item->qtd += $cart->qtd;
+                                } else {
+                                    break;
+                                }
+                                $found = true;
                                 break;
                             }
-                            $found = true;
-                            break;
                         }
                     }
                     if (!$found) {
