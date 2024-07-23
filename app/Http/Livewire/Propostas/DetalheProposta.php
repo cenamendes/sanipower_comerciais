@@ -37,7 +37,6 @@ class DetalheProposta extends Component
 
     public $selectedItemsAddKit = [];
     public $selectedItemsRemoveKit = [];
-
     public $valueIvaInKit = 0;
 
 

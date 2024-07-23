@@ -36,6 +36,10 @@ class DetalheEncomenda extends Component
 
     public bool $showLoaderPrincipal = true;
 
+    public $selectedItemsAddKit = [];
+    public $selectedItemsRemoveKit = [];
+    public $valueIvaInKit = 0;
+
     public string $tabDetail = "";
     public string $tabProdutos = "show active";
     public string $tabDetalhesEncomendas = "";
@@ -838,8 +842,95 @@ class DetalheEncomenda extends Component
         dd($encoded_finalizar);
 
     }
-
     
+
+    public function AdicionarItemKit()
+    {
+        
+        $selectedProductIds = array_keys(array_filter($this->selectedItemsAddKit));
+
+        $codEncomenda = $this->codEncomenda;
+        foreach ($selectedProductIds as $itemId) {
+            $selectedItemsArray = json_decode($itemId, true);
+
+            $designacao = $selectedItemsArray[2];
+            
+            $referencia = $selectedItemsArray[1];
+            $novosValores = [
+                'inkit' => 1,
+            ];
+            Carrinho::where('id_encomenda', $codEncomenda)
+                                ->where('referencia', $referencia)
+                                ->where('designacao', $designacao)
+                                ->update($novosValores);
+        }
+
+        $this->selectedItemsAddKit = [];
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesEncomendas = "show active";
+        $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
+        $this->dispatchBrowserEvent('checkToaster');
+    }
+    public function RemoverItemKit()
+    {
+        $selectedProductIds = array_keys(array_filter($this->selectedItemsRemoveKit));
+        $codEncomenda = $this->codEncomenda;
+        foreach ($selectedProductIds as $itemId) {
+            
+            $selectedItemsArray = json_decode($itemId, true);
+            $designacao = $selectedItemsArray[2];
+            $referencia = $selectedItemsArray[1];
+            $novosValores = [
+                'inkit' => 0,
+                'iva2' => 0,
+
+            ];
+            Carrinho::where('id_encomenda', $codEncomenda)
+                                ->where('referencia', $referencia)
+                                ->where('designacao', $designacao)
+                                ->update($novosValores);
+        }
+
+        $this->selectedItemsRemoveKit = [];
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesEncomendas = "show active";
+        $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
+        $this->dispatchBrowserEvent('checkToaster');
+    }
+    
+    public function ivaInKit()
+    {
+    
+        $codEncomenda = $this->codEncomenda;
+        $valueIvaInKit = $this->valueIvaInKit;
+        $novosValores = [
+            'iva2' => intval($valueIvaInKit),
+        ];
+        Carrinho::where('id_proposta', $codEncomenda)
+        ->where('inKit', 1)
+        ->update($novosValores);
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesEncomendas = "show active";
+        $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
+    }
+
+    public function updatedKitCheck()
+    {
+       
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesEncomendas = "show active";
+        $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
+    }
     
     public function render()
     {
@@ -895,11 +986,17 @@ class DetalheEncomenda extends Component
 
         $iamgens_unique = array_unique($imagens);
         $arrayCart = [];
-
+        $onkit = 0;
+        $allkit = 0;
         foreach ($iamgens_unique as $img) {
             $arrayCart[$img] = [];
             foreach ($this->carrinhoCompras as $cart) {
-
+                if($cart->inkit){
+                    $onkit = $cart->inkit ;
+                }
+                if($cart->inkit == 0){
+                    $allkit = 1;
+                }
                 if ($img == $cart->image_ref) {
                     $found = false;
                     foreach ($arrayCart[$img] as &$item) {
@@ -921,7 +1018,7 @@ class DetalheEncomenda extends Component
         }
         $this->lojas = $this->encomendasRepository->getLojas();
        
-        return view('livewire.encomendas.detalhe-encomenda',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
+        return view('livewire.encomendas.detalhe-encomenda',["onkit" => $onkit, "allkit" => $allkit,"detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
     }
 }

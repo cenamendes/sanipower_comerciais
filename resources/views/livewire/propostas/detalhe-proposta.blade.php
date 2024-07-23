@@ -1028,6 +1028,11 @@
                                             <td>
                                                 <div class="form-checkbox">
                                                     <label>
+                                                    @php
+                                                        $referencia = $prod->referencia;
+                                                        $referenciaCorrigida = rtrim($referencia, '.');
+                                                        $prod->referencia = $referenciaCorrigida;
+                                                    @endphp
                                                     <input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
                                                     wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
                                                         <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
@@ -1122,6 +1127,11 @@
                                             <td>
                                                 <div class="form-checkbox">
                                                     <label>
+                                                    @php
+                                                        $referencia = $prod->referencia;
+                                                        $referenciaCorrigida = rtrim($referencia, '.');
+                                                        $prod->referencia = $referenciaCorrigida;
+                                                    @endphp
                                                         <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
                                                             wire:model.defer="selectedItemsAddKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
                                                         <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
@@ -1170,8 +1180,9 @@
                     </div>
 
                     @endif
-
+      
                 </div>
+               
             {{-- @empty
                 <tr>
                     <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
@@ -1215,7 +1226,6 @@
                     </table>
                 </div>
             </div>
-          
         </div>
 
             <div class="tab-pane fade {{ $tabFinalizar }}" id="tab7">
