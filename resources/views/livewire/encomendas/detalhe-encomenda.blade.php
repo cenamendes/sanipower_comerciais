@@ -794,11 +794,13 @@
                                                     <label>
                                                      @php
                                                         $referencia = $prod->referencia;
-                                                        $referenciaCorrigida = rtrim($referencia, '.');
-                                                        $prod->referencia = $referenciaCorrigida;
+                                                        $referenciaCorrigida = str_replace('.', '£', $referencia);
+
+                                                        $designacao = $prod->designacao;
+                                                        $designacaoCorrigida = str_replace('.', '£', $designacao);
                                                     @endphp
                                                     <input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
-                                                                 wire:model.defer="selectedItemsRemoveKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
+                                                                 wire:model.defer="selectedItemsRemoveKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
                                                         <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
                                                     </label>
                                                 </div>
@@ -896,11 +898,14 @@
                                                     <label>
                                                         @php
                                                             $referencia = $prod->referencia;
-                                                            $referenciaCorrigida = rtrim($referencia, '.');
-                                                            $prod->referencia = $referenciaCorrigida;
+                                                            $referenciaCorrigida = str_replace('.', '£', $referencia);
+
+                                                            
+                                                            $designacao = $prod->designacao;
+                                                            $designacaoCorrigida = str_replace('.', '£', $designacao);
                                                         @endphp
                                                         <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
-                                                            wire:model.defer="selectedItemsAddKit.[{{ $prod->id }},{{ $prod->referencia }},{{ json_encode($prod->designacao) }}]">
+                                                            wire:model.defer="selectedItemsAddKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
                                                         <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
                                                     </label>
                                                 </div>
