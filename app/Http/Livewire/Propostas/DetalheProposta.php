@@ -761,7 +761,11 @@ class DetalheProposta extends Component
             $selectedItemsArray = json_decode($itemId, true);
 
             $designacao = $selectedItemsArray[2];
+            $designacao = str_replace('£', '.', $designacao);
+
             $referencia = $selectedItemsArray[1];
+            $referencia = str_replace('£', '.', $referencia);
+
             $novosValores = [
                 'inkit' => 1,
             ];
@@ -789,7 +793,11 @@ class DetalheProposta extends Component
             $selectedItemsArray = json_decode($itemId, true);
 
             $designacao = $selectedItemsArray[2];
+            $designacao = str_replace('£', '.', $designacao);
+
             $referencia = $selectedItemsArray[1];
+            $referencia = str_replace('£', '.', $referencia);
+
             $novosValores = [
                 'inkit' => 0,
                 'iva2' => 0,

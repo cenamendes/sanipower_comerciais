@@ -244,7 +244,8 @@ class Propostas extends Component
         {
            
             Carrinho::create([
-                "id_proposta" => $proposta["id"],
+                "id_proposta" => "",
+                "id_encomenda" => $proposta["id"],
                 "id_cliente" => $proposta["number"],
                 "id_user" => Auth::user()->id,
                 "referencia" => $prop["reference"],

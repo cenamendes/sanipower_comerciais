@@ -851,11 +851,15 @@ class DetalheEncomenda extends Component
 
         $codEncomenda = $this->codEncomenda;
         foreach ($selectedProductIds as $itemId) {
+            
             $selectedItemsArray = json_decode($itemId, true);
 
             $designacao = $selectedItemsArray[2];
+            $designacao = str_replace('£', '.', $designacao);
             
             $referencia = $selectedItemsArray[1];
+            $referencia = str_replace('£', '.', $referencia);
+
             $novosValores = [
                 'inkit' => 1,
             ];
@@ -881,8 +885,13 @@ class DetalheEncomenda extends Component
         foreach ($selectedProductIds as $itemId) {
             
             $selectedItemsArray = json_decode($itemId, true);
+
             $designacao = $selectedItemsArray[2];
+            $designacao = str_replace('£', '.', $designacao);
+            
             $referencia = $selectedItemsArray[1];
+            $referencia = str_replace('£', '.', $referencia);
+
             $novosValores = [
                 'inkit' => 0,
                 'iva2' => 0,
