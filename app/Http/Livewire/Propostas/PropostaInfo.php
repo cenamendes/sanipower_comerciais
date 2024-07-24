@@ -167,11 +167,11 @@ class PropostaInfo extends Component
         // Storage::put($filePath, $pdfContent);
     
         try {
-            Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
+            // Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
 
-            foreach ($emailArray as $email) {
-                Mail::to($email)->send(new SendProposta($pdfContent));
-            }
+            // foreach ($emailArray as $email) {
+            //     Mail::to($email)->send(new SendProposta($pdfContent));
+            // }
 
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
         } catch (\Exception $e) {
