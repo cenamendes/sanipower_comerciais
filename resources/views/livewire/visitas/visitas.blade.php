@@ -263,7 +263,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($visitas as $vst)
                                     <tr data-href="{{ route('visitas.info', $vst->id) }}">
                                         <td>{{ $vst->id }}</td>

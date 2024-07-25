@@ -26,7 +26,7 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes Cliente</a>
+                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes</a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab5" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises Gerais</a>

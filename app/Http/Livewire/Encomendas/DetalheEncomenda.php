@@ -991,7 +991,9 @@ class DetalheEncomenda extends Component
 
         }
 
-        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)->get();
+        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)
+        ->orderBy('inkit', 'desc')
+        ->get();
 
         $imagens = [];
 
