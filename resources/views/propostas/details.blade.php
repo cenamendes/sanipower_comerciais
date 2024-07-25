@@ -69,6 +69,8 @@
     
             jQuery("#modalProdutos").modal('hide');
             jQuery("#modalEncomenda").modal('hide');
+            jQuery("#modalProposta").modal('hide');
+            
 
             if (e.detail.status == "success") {
                 toastr.success(e.detail.message);

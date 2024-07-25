@@ -101,6 +101,10 @@ class EncomendaInfo extends Component
     public ?object $comentario = NULL;
 
     public $comentarioEncomenda = "";
+
+    public $emailArray;
+    public $emailSend;
+
    
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $propostasRepository)
@@ -175,10 +179,27 @@ class EncomendaInfo extends Component
 
     public function enviarEmail($encomenda)
     {
+
         dd("Erro");
+
+
+        $emailArray = explode("; ", $encomenda["email"]);
+
+        $this->emailArray = $emailArray;
+
+        array_push($this->emailArray,Auth::user()->email);
+        
+        $this->dispatchBrowserEvent('chooseEmail');
+
+    }
+
+    public function enviarEmailClientes($encomenda)
+    {
+       
+
         if (!$encomenda) {
             dd("Não há valor na variável \$encomenda");
-            return redirect()->back()->with('error', 'Proposta não encontrada.');
+            return redirect()->back()->with('error', 'Encomenda não encontrada.');
         }
     
         $pdf = new Dompdf();
@@ -188,13 +209,23 @@ class EncomendaInfo extends Component
     
         $pdfContent = $pdf->output();
     
-      
-        try {
-            Mail::to(Auth::user()->email)->send(new SendEncomenda($pdfContent));
-            $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
+   
+        foreach($this->emailArray as $i => $email)
+        {
+            if(isset($this->emailSend[$i]))
+            {
+                if($this->emailSend[$i] == true)
+                {
+                    Mail::to($email)->send(new SendEncomenda($pdfContent));
+                }
+            }
+           
         }
+
+        $this->emailArray = [];
+
+        $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
+        
     }
        
     
