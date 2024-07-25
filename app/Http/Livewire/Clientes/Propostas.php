@@ -12,6 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 
 
 class Propostas extends Component
@@ -220,14 +221,35 @@ class Propostas extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
     }
 
-    public function detalhePropostaModal($id)
+    public function detalhePropostaModal($proposta)
     {
+      
+        Session::put('rota','clientes.detail');
+        Session::put('parametro',$this->idCliente);
 
-        $this->propostaID = $id;
+        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-        $this->restartDetails();
+        
 
-        $this->dispatchBrowserEvent('openDetalhePropostaModal');
+        foreach($this->detailsPropostas as $det)
+        {
+            if($det->id == $proposta["id"])
+            {
+                $propSend = $det;
+            }
+        }
+
+        
+
+        Session::put('proposta',$propSend);
+
+        return redirect()->route('propostas.proposta',["idProposta" => $propSend->id]);
+
+        // $this->propostaID = $id;
+
+        // $this->restartDetails();
+
+        // $this->dispatchBrowserEvent('openDetalhePropostaModal');
     }
 
     public function adjudicarProposta($detalheProposta,$propostaID)

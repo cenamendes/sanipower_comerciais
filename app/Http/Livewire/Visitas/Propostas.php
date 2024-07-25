@@ -12,6 +12,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 class Propostas extends Component
 {
@@ -20,6 +22,7 @@ class Propostas extends Component
     private ?object $clientesRepository = NULL;
     protected ?object $clientes = NULL;
     public string $idCliente = "";
+    public string $idVisita = "";
 
     private ?object $propostasDetail = NULL;
     public ?string $propostaID = "";
@@ -55,11 +58,11 @@ class Propostas extends Component
 
     }
 
-    public function mount($cliente)
+    public function mount($cliente, $visita)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-
+        $this->idVisita = $visita;
         //$this->idCliente = "AJ19073058355,4450000-1";
 
         $this->restartDetails();
@@ -222,16 +225,50 @@ class Propostas extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
     }
 
-    public function detalhePropostaModal($id)
+    public function detalhePropostaModal($proposta)
     {
+        
+        if($this->idVisita == 0)
+        {
 
-        $this->propostaID = $id;
+            Session::put('rota','visitas.detail');
+            Session::put('parametro',$this->idCliente);
+           
+        } else {
 
-        $this->comentarioProposta = "";
+            Session::put('rota','visitas.info');
+            Session::put('parametro',$this->idVisita);
+           
+        }
+        
 
-        $this->restartDetails();
+       
 
-        $this->dispatchBrowserEvent('openDetalhePropostaModal');
+        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+        
+
+        foreach($this->detailsPropostas as $det)
+        {
+            if($det->id == $proposta["id"])
+            {
+                $propSend = $det;
+            }
+        }
+
+        
+
+        Session::put('proposta',$propSend);
+
+        return redirect()->route('propostas.proposta',["idProposta" => $propSend->id]);
+        
+        // $this->propostaID = $id;
+
+        // $this->comentarioProposta = "";
+
+        // $this->restartDetails();
+
+        // $this->dispatchBrowserEvent('openDetalhePropostaModal');
     }
 
     public function adjudicarProposta($detalheProposta,$propostaID)

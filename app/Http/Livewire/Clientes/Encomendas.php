@@ -11,6 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 
 class Encomendas extends Component
 {
@@ -218,15 +219,38 @@ class Encomendas extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentario');
     }
 
-    public function detalheEncomendaModal($id)
+    public function detalheEncomendaModal($encomenda)
     {
 
-        $this->encomendaID = $id;
+        Session::put('rota','clientes.detail');
+        Session::put('parametro',$this->idCliente);
 
-        $this->restartDetails();
+        $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-        $this->dispatchBrowserEvent('openDetalheEncomendaModal');
+        
+
+        foreach($this->detailsEncomenda as $det)
+        {
+            if($det->id == $encomenda["id"])
+            {
+                $propSend = $det;
+            }
+        }
+
+        
+
+        Session::put('encomenda',$propSend);
+
+        return redirect()->route('encomendas.encomenda',["idEncomenda" => $propSend->id]);
+
     }
+        
+    //     $this->encomendaID = $id;
+
+    //     $this->restartDetails();
+
+    //     $this->dispatchBrowserEvent('openDetalheEncomendaModal');
+    // }
 
     public function enviarEmail($detalheEncomenda,$encomendaID)
     {

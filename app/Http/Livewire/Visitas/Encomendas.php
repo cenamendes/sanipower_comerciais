@@ -11,6 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 
 class Encomendas extends Component
 {
@@ -19,6 +20,7 @@ class Encomendas extends Component
     private ?object $clientesRepository = NULL;
     protected ?object $clientes = NULL;
     public string $idCliente = "";
+    public string $idVisita = "";
 
     private ?object $encomendasDetail = NULL;
     public ?string $encomendaID = "";
@@ -54,11 +56,11 @@ class Encomendas extends Component
 
     }
 
-    public function mount($cliente)
+    public function mount($cliente, $visita)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-
+        $this->idVisita = $visita;
         //$this->idCliente = "AJ19073058355,4450000-1";
 
         $this->restartDetails();
@@ -219,16 +221,47 @@ class Encomendas extends Component
     }
 
 
-    public function detalheEncomendaModal($id)
+    public function detalheEncomendaModal($encomenda)
     {
+        
+        if($this->idVisita == 0)
+        {
 
-        $this->encomendaID = $id;
+            Session::put('rota','visitas.detail');
+            Session::put('parametro',$this->idCliente);
+           
+        } else {
 
-        $this->comentarioEncomenda = "";
+            Session::put('rota','visitas.info');
+            Session::put('parametro',$this->idVisita);
+           
+        }
 
-        $this->restartDetails();
+        $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-        $this->dispatchBrowserEvent('openDetalheEncomendaModal');
+        
+
+        foreach($this->detailsEncomenda as $det)
+        {
+            if($det->id == $encomenda["id"])
+            {
+                $propSend = $det;
+            }
+        }
+
+        
+
+        Session::put('encomenda',$propSend);
+
+        return redirect()->route('encomendas.encomenda',["idEncomenda" => $propSend->id]);
+        
+        // $this->encomendaID = $id;
+
+        // $this->comentarioEncomenda = "";
+
+        // $this->restartDetails();
+
+        // $this->dispatchBrowserEvent('openDetalheEncomendaModal');
     }
 
     public function enviarEmail($detalheEncomenda,$encomendaID)

@@ -62,6 +62,7 @@
                                 class="ti-eye"></i>
                             Ver Encomenda</a> --}}
                         {{-- <a href="javascript:void(0);"  wire:click="finalizarencomenda" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Encomenda</a> --}}
+                        <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary" > Voltar atrás</a>
                         <a href="javascript:void(0);" wire:click="cancelarEncomenda" class="btn btn-sm btn-secondary" > Cancelar</a>
                     </div>
                 </div>
@@ -1051,10 +1052,7 @@
                      <div class="form-group">
                          <label>Vossa referência</label>
                          <div class="input-group">
-                             <div class="input-group-prepend">
-                                 <span class="input-group-text bg-carolina"><i
-                                         class="ti-light-bulb text-light"></i></span>
-                             </div>
+                        
                              <input type="text" class="form-control" wire:model.defer="referenciaFinalizar">
                          </div>
                      </div>
@@ -1872,6 +1870,11 @@
     document.addEventListener('compraRapida', function(e) {
         jQuery('#modalProdutos').modal();
     });
+
+    document.addEventListener('changeRoute', function(e) {
+        window.location.href = document.referrer;
+    });
+    
      window.addEventListener('checkToaster', function(e) {
         const checkboxes = document.querySelectorAll('.checkboxAddKit');
         checkboxes.forEach(function(checkbox) {

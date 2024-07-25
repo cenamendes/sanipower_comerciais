@@ -479,7 +479,7 @@
 
                     <p class="card-text">
 
-                        @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id, "visita" => $idVisita])
 
                     </p>
                 </div>
@@ -488,7 +488,7 @@
 
                     <p class="card-text">
 
-                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id, "visita" => $idVisita])
 
                     </p>
                 </div>

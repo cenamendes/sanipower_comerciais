@@ -940,6 +940,12 @@ class DetalheEncomenda extends Component
         $this->tabDetalhesCampanhas = "";
         $this->tabFinalizar = "";
     }
+
+    public function voltarAtras()
+    {
+        $this->dispatchBrowserEvent('changeRoute');
+
+    }
     
     public function render()
     {

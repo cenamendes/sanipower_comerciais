@@ -133,14 +133,14 @@
                                             <td>{{ $detalhe->status }}</td>
                                             <td>
                                                
-                                                <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe->id) }})">
+                                                <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe) }})">
                                                     <i class="ti ti-plus"></i> Ver Encomenda
                                                 </button>
                                             
                                                
-                                                <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                                {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
                                                     Comentários
-                                                </button>
+                                                </button> --}}
                                                
                                             
                                                 
@@ -158,7 +158,7 @@
                                                 <td>
                                                     {{-- <button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button> --}}
                                                 
-                                                    <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe->id) }})">
+                                                    <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe) }})">
                                                         <i class="ti ti-plus"></i> Ver Encomenda
                                                     </button>
                                                 </td>
@@ -173,15 +173,15 @@
                                         <td>
                                             {{-- <button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button> --}}
                                         
-                                            <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe->id) }})">
+                                            <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe) }})">
                                                 <i class="ti ti-plus"></i> Ver Encomenda
                                             </button>
                                             
-                                            @if ($cmt->count() > 0)
+                                            {{-- @if ($cmt->count() > 0)
                                             <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
                                                 Comentários
                                             </button>
-                                            @endif
+                                            @endif --}}
                                         
                                             
                                         </td>
