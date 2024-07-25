@@ -113,6 +113,9 @@ class PropostaInfo extends Component
 
     public $comentarioEncomenda = "";
 
+    public $emailArray;
+    public $emailSend;
+
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $PropostasRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -145,10 +148,20 @@ class PropostaInfo extends Component
     }
     public function enviarEmail($proposta)
     {
-        
         $emailArray = explode("; ", $proposta["email"]);
-        
 
+        $this->emailArray = $emailArray;
+
+        array_push($this->emailArray,Auth::user()->email);
+        
+        $this->dispatchBrowserEvent('chooseEmail');
+
+     
+    }
+
+    public function enviarEmailClientes($proposta)
+    {
+       
         if (!$proposta) {
             dd("Não há valor na variável \$proposta");
             return redirect()->back()->with('error', 'Proposta não encontrada.');
@@ -161,22 +174,23 @@ class PropostaInfo extends Component
     
         $pdfContent = $pdf->output();
     
-        // $fileName = 'proposta_' . time() . '.pdf';  // Método para guerdar pdf no local Storage
-        // $filePath = 'public/propostas/' . $fileName;
-    
-        // Storage::put($filePath, $pdfContent);
-    
-        try {
-            // Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
-
-            // foreach ($emailArray as $email) {
-            //     Mail::to($email)->send(new SendProposta($pdfContent));
-            // }
-
-            $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
+   
+        foreach($this->emailArray as $i => $email)
+        {
+            if(isset($this->emailSend[$i]))
+            {
+                if($this->emailSend[$i] == true)
+                {
+                    Mail::to($email)->send(new SendProposta($pdfContent));
+                }
+            }
+           
         }
+
+        $this->emailArray = [];
+
+        $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
+        
     }
 
     public function gerarPdfProposta($proposta)
