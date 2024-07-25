@@ -74,12 +74,12 @@ class Visitas extends Component
             $this->perPage = 10;
         }
 
-        $this->nomeCliente = '';
-        $this->numeroCliente = '';
-        $this->zonaCliente = '';
-        $this->telemovelCliente = '';
-        $this->emailCliente = '';
-        $this->nifCliente = '';
+        $this->nomeCliente = Session::get('nomeClienteVisitas');
+        $this->numeroCliente = Session::get('numeroClienteVisitas');
+        $this->zonaCliente = Session::get('zonaClienteVisitas');
+        $this->telemovelCliente = Session::get('telemovelClienteVisitas');
+        $this->emailCliente = Session::get('emailClienteVisitas');
+        $this->nifCliente = Session::get('nifClienteVisitas');
 
         // $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
@@ -109,32 +109,40 @@ class Visitas extends Component
     public function updatedNomeCliente()
     {
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        
+
+        Session::put('nomeClienteVisitas', $this->nomeCliente);
     }
 
     public function updatedNumeroCliente()
     {
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        Session::put('numeroClienteVisitas', $this->numeroCliente);
+        
     }
 
     public function updatedZonaCliente()
     {
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        Session::put('zonaClienteVisitas', $this->zonaCliente);
     }
 
     public function updatedNifCliente()
     {
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        Session::put('nifClienteVisitas', $this->nifCliente);
     }
 
     public function updatedTelemovelCliente()
     {
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        Session::put('telemovelClienteVisitas', $this->telemovelCliente);
+    
     }
 
     public function updatedEmailCliente()
     {
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        Session::put('emailClienteVisitas', $this->emailCliente);
     }
 
    

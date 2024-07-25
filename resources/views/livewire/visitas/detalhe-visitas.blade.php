@@ -74,13 +74,16 @@
                          {{-- <button class="btn btn-sm btn-primary text-left" type="button">
                             <i class="fas fa-info"></i>
                         </button> --}}
-                        @if($getVisita->finalizado == 0)
-                            <h6 class="text-chili" style="margin-bottom: 0;font-weight: bold;">Agendada</h6>
-                        @elseif($getVisita->finalizado == 2)
-                            <h6 class="text-warning" style="margin-bottom: 0;font-weight: bold;">Iniciada</h6>
-                        @else
-                            <h6 class="text-forest" style="margin-bottom: 0;font-weight: bold;">Finalizada</h6>
+                        @if ($getVisita)
+                            @if($getVisita->finalizado == 0)
+                                <h6 class="text-chili" style="margin-bottom: 0;font-weight: bold;">Agendada</h6>
+                            @elseif($getVisita->finalizado == 2)
+                                <h6 class="text-warning" style="margin-bottom: 0;font-weight: bold;">Iniciada</h6>
+                            @else
+                                <h6 class="text-forest" style="margin-bottom: 0;font-weight: bold;">Finalizada</h6>
+                            @endif
                         @endif
+                     
                     </div>
                      <div class="row ml-0 mr-0 mt-4 d-block">
 
