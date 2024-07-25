@@ -282,7 +282,7 @@
                                         </td>
                                         <td>
 
-                                            <a wire:click="saveSession" href="{{ route('visitas.info', $vst->id) }}"
+                                            <a href="{{ route('visitas.info', $vst->id) }}"
                                                 class="btn btn-primary">
                                                 <i class="ti-search"></i>
                                             </a>
