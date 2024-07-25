@@ -215,7 +215,6 @@ class PropostaInfo extends Component
        //Carrinho::where('id_cliente', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
        //ComentariosProdutos::where('no', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
         
-
         foreach($proposta["lines"] as $prop)
         {
          

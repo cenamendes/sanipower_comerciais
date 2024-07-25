@@ -38,22 +38,18 @@ class PropostasController extends Controller
         }else{
             $codEncomenda = $checkCarrinho->id_proposta;
         }
-        
         return view('propostas.details',["idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda, "proposta" => null]);
     }
 
     public function showDetailProposta($idProposta)
     {
-    
         if($idProposta == "nova")
         {
             return view('propostas.clientes');
         } 
         else
         {
-
-            $proposta = Session::get('proposta');            
-        
+            $proposta = Session::get('proposta');
             return view('propostas.details',["idCliente" => "", "codEncomenda" => "","proposta" => $proposta]);
         }
        

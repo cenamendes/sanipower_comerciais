@@ -69,15 +69,26 @@ class VisitasAdicionar extends Component
             $this->perPage = 10;
         }
 
-        $this->nomeCliente = '';
-        $this->numeroCliente = '';
-        $this->zonaCliente = '';
-        $this->telemovelCliente = '';
-        $this->emailCliente = '';
-        $this->nifCliente = '';
+        // $this->nomeCliente = '';
+        // $this->numeroCliente = '';
+        // $this->zonaCliente = '';
+        // $this->telemovelCliente = '';
+        // $this->emailCliente = '';
+        // $this->nifCliente = '';
 
-        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+        $this->nomeCliente = Session::get('nomeClienteVisitasCreate');
+        $this->numeroCliente = Session::get('numeroClienteVisitasCreate');
+        $this->zonaCliente = Session::get('zonaClienteVisitasCreate');
+        $this->telemovelCliente = Session::get('telemovelClienteVisitasCreate');
+        $this->emailCliente = Session::get('emailClienteVisitasCreate');
+        $this->nifCliente = Session::get('nifClienteVisitasCreate');
+
+        // $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+
+
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
@@ -111,6 +122,7 @@ class VisitasAdicionar extends Component
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
+        Session::put('nomeClienteVisitasCreate', $this->nomeCliente);
     }
 
     public function updatedNumeroCliente()
@@ -121,6 +133,7 @@ class VisitasAdicionar extends Component
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
+        Session::put('numeroClienteVisitasCreate', $this->numeroCliente);
     }
 
     public function updatedZonaCliente()
@@ -131,6 +144,7 @@ class VisitasAdicionar extends Component
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
+        Session::put('zonaClienteVisitasCreate', $this->zonaCliente);
     }
 
     public function updatedNifCliente()
@@ -141,6 +155,7 @@ class VisitasAdicionar extends Component
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
+        Session::put('nifClienteVisitasCreate', $this->nifCliente);
     }
 
     public function updatedTelemovelCliente()
@@ -151,6 +166,7 @@ class VisitasAdicionar extends Component
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
+        Session::put('telemovelClienteVisitasCreate', $this->telemovelCliente);
     }
 
     public function updatedEmailCliente()
@@ -161,6 +177,7 @@ class VisitasAdicionar extends Component
 
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
+        Session::put('emailClienteVisitasCreate', $this->emailCliente);
     }
 
     public function gotoPage($page)

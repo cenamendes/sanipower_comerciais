@@ -1030,103 +1030,6 @@
             @endphp
             {{-- @forelse ($arrayCart as $img => $item) --}}
                 <div class="row" style="align-items: center;">
-                    @if($onkit)
-                    <div class="col-md-12 p-0">
-                        <table class="table init-datatable">
-                            <thead class="thead-light">
-                                <tr style="background:#d6d8db78;">
-                                    <th style="width: 5%;"></th>
-                                    <th style="width: 15%;">Referência</th>
-                                    <th>Produto</th>
-                                    <th>Modelo</th>
-                                    <th style="width: 10%; text-align: right;">Qtd</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @php
-                                $iva2 = 0;
-                                $ValorTotalComIva = 0;
-                            @endphp
-                            @forelse ($arrayCart as $img => $item)
-
-                                @forelse ($item as $prod)
-                                    @if($prod->inkit)
-                                        @php
-                                            $totalItem = $prod->price * $prod->qtd;
-                                            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva2 / 100));
-                                            $ValorTotal += $totalItem;
-                                            $ValorTotalComIva += $totalItemComIva;
-                                            $iva2 = $prod->iva2;
-                                        @endphp
-                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td>
-                                                <div class="form-checkbox">
-                                                    <label>
-                                                    @php
-                                                        $referencia = $prod->referencia;
-                                                        $referenciaCorrigida = str_replace('.', '£', $referencia);
-
-                                                        $designacao = $prod->designacao;
-                                                        $designacaoCorrigida = str_replace('.', '£', $designacao);
-                                                    @endphp
-                                                    <input type="checkbox" class="checkboxRemoveKit" data-id="{{ $prod->id }}"
-                                                    wire:model.defer="selectedItemsRemoveKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
-                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td >{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
-                                            <td style=" width:15%">{{ $prod->model }}</td>
-                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
-                                            <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`)"></i> </td>
-                                        </tr>
-                                       
-                                    @endif
-                                    
-                                @empty
-                                    <tr>
-                                        <td colspan="8" style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c !important; text-align:center;">Nenhum produto no carrinho</td>
-                                    </tr>
-                                @endforelse
-                            @empty
-                                <tr>
-                                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                                </tr>
-                            @endforelse
-                             <tr style="background:#d6d8db78;">
-                                <td colspan="3" style="white-space: nowrap;text-align: right;"></td>
-
-                                <td colspan="1" style="white-space: nowrap;text-align: right;width: 10%;padding: 0.25rem;">
-                                    <span style="display:flex;align-items: center;">
-                                        <label style="position: relative;top: -15px;right: -13px;z-index:2;text-shadow: -1px 1px 9px rgba(255,255,255,1);">Iva </label>
-                                        <select class="form-control" name="ivaInKit"wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" style="width: 50%;left: -16px;position: relative;">
-                                            <option value="22">22</option>
-                                            <option value="12">12</option>
-                                            <option value="5">5</option>
-                                        </select>
-                                    </span>
-                                </td>
-                                
-                                <td colspan="1" style="white-space: nowrap;text-align: right;">Total c/IVA</td>
-
-                                <td colspan="1" style="white-space: nowrap;text-align: right;" class="bold">{{number_format($ValorTotalComIva, 2, ',', '.')}} €</td>
-
-                            </tr>
-                            </tbody>
-                        </table>
-                        
-                    </div>
-                    
-                    <div class="col-md-12 p-0"  style=" text-align: right;margin-bottom: 15px;">
-                    
-                        <div class="btn-remove-itens-kit" >
-                            <button class="btn btn-md btn-primary" wire:click="RemoverItemKit"><i class="ti-shopping-cart"></i> Remover do Kit </button>
-                        </div>
-                    
-                    </div>
-                    @endif
                     {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                         <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 9rem; height:auto;">
                     </div> --}}
@@ -1136,11 +1039,10 @@
                         <table class="table init-datatable">
                             <thead class="thead-light">
                                 <tr style="background:#d6d8db78;">
-                                    <th ></th>
+                                    <th style="width: 0;"></th>
                              
-                                    <th >Referência</th>
+                                    <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
-                                    <th style="width: 30%;">Modelo</th>
                                     <th style=" text-align: right;width: 0%;">PVP</th>
                                     <th style=" text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
                                     <th style=" text-align: right;width: 0%;">P(c/desc.)</th>
@@ -1154,6 +1056,49 @@
                             @forelse ($arrayCart as $img => $item)
 
                                 @forelse ($item as $prod)
+                                    @if($prod->inkit == 1)
+
+                                        @php
+                                            $totalItem = $prod->price * $prod->qtd;
+                                            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+                                            $ValorTotal += $totalItem;
+                                            $ValorTotalComIva += $totalItemComIva;
+                                        @endphp
+                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                            <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        @php
+                                                            $referencia = $prod->referencia;
+                                                            $referenciaCorrigida = str_replace('.', '£', $referencia);
+
+                                                            
+                                                            $designacao = $prod->designacao;
+                                                            $designacaoCorrigida = str_replace('.', '£', $designacao);
+                                                        @endphp
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
+                                                            wire:model.defer="selectedItemsRemoveKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>{{ $prod->referencia }}</td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small></td>
+                                            <td style="text-align: right; white-space: nowrap;"></td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;"></td>
+                                            <td style=" text-align: right; white-space: nowrap;"></td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">
+                                                <select class="form-control" name="ivaInKit"wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" style="position: relative;width: 61px;left: 12px;">
+                                                    <option value="22">22</option>
+                                                    <option value="12">12</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </td>
+                                            <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`)"></i> </td>
+                                            <td style=" width: 10%; text-align: right; white-space: nowrap;"></td>
+                                        </tr>
+                                    @endif
                                     @if($prod->inkit == 0)
 
                                         @php
@@ -1181,7 +1126,6 @@
                                             </td>
                                             <td>{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
-                                            <td style=" width:15%">{{ $prod->model }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
@@ -1214,9 +1158,12 @@
                        
 
                     </div>
-                    <div class="col-md-12 p-0"  style=" text-align: right;margin-bottom: 15px;">
+                    <div class="col-md-12 p-0 d-flex"  style="text-align:right;margin-bottom: 15px;justify-content: flex-end;">
                         <div class="btn-Add-itens-kit">
                             <button class="btn btn-md btn-primary" wire:click="AdicionarItemKit"><i class="ti-shopping-cart"></i> Adicionar ao Kit </button>
+                        </div>
+                          <div class="btn-remove-itens-kit"  style="margin-left: 10px;">
+                            <button class="btn btn-md btn-primary" wire:click="RemoverItemKit"><i class="ti-shopping-cart"></i> Remover do Kit </button>
                         </div>
                     </div>
 

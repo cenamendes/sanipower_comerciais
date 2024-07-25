@@ -30,7 +30,7 @@ class Visitas extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
-    public $estadoVisita;
+    public ?string $estadoVisita = '';
 
     public ?object $tipoVisita = NULL;
     public ?string $nomeClienteVisitaTemp = "";
@@ -80,6 +80,9 @@ class Visitas extends Component
         $this->telemovelCliente = Session::get('telemovelClienteVisitas');
         $this->emailCliente = Session::get('emailClienteVisitas');
         $this->nifCliente = Session::get('nifClienteVisitas');
+
+        $this->estadoVisita = Session::get('estadoVisitaVisitas');
+
 
         // $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
@@ -144,7 +147,10 @@ class Visitas extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         Session::put('emailClienteVisitas', $this->emailCliente);
     }
-
+    public function updatedEstadoVisita()
+    {
+        Session::put('estadoVisitaVisitas', $this->estadoVisita);
+    }
    
     public function getPageRange()
     {

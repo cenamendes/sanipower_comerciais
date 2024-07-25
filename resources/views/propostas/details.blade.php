@@ -15,7 +15,6 @@
             </ol>
         </div>
     </div>
-
     <div>
         @if($proposta != null)
             @livewire('propostas.proposta-info',["proposta" => $proposta])

@@ -29,6 +29,7 @@
             <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
 
             <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
+            <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary" > Voltar atrás</a>
         </div>
     </div>
 
@@ -556,6 +557,9 @@
         });
         window.addEventListener('listagemDetalherVisitasModal', function() {
             jQuery("#listagemDetalherVisitas").modal();
+        });
+        document.addEventListener('changeRoute', function(e) {
+            window.location.href = document.referrer;
         });
         $('#listagemDetalherVisitas').on('hidden.bs.modal', function () {
             @this.set('clientID', "");
