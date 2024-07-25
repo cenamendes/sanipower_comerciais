@@ -180,6 +180,9 @@ class EncomendaInfo extends Component
     public function enviarEmail($encomenda)
     {
 
+        dd("Erro");
+
+
         $emailArray = explode("; ", $encomenda["email"]);
 
         $this->emailArray = $emailArray;
@@ -193,6 +196,7 @@ class EncomendaInfo extends Component
     public function enviarEmailClientes($encomenda)
     {
        
+
         if (!$encomenda) {
             dd("Não há valor na variável \$encomenda");
             return redirect()->back()->with('error', 'Encomenda não encontrada.');

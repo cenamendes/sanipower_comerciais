@@ -148,6 +148,9 @@ class PropostaInfo extends Component
     }
     public function enviarEmail($proposta)
     {
+
+        dd("Erro");
+
         $emailArray = explode("; ", $proposta["email"]);
 
         $this->emailArray = $emailArray;

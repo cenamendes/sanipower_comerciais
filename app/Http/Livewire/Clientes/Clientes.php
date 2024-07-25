@@ -114,9 +114,11 @@ class Clientes extends Component
             $user = Auth::user();
     
             // Envie o email
-            Mail::to($user->email)->send(new CriarCliente($this->criarnomeCliente, $this->criarnumeroCliente, $this->criarzonaCliente, $this->criarnumContribuinte));
+            
+            // Mail::to($user->email)->send(new CriarCliente($this->criarnomeCliente, $this->criarnumeroCliente, $this->criarzonaCliente, $this->criarnumContribuinte));
     
             $this->limparCampos();
+            dd("Email nao enviado ao cliente.");
         } else {
             $this->dispatchBrowserEvent('checkToaster', ['status' => 'error', 'message' => 'Por favor, preencha todos os campos corretamente!']);
         }
