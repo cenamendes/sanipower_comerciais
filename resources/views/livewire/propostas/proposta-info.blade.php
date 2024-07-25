@@ -52,11 +52,12 @@
             <div class="tab-content">
            
                 <div class="tab-pane fade {{ $tabDetail }}" id="tab4">
-
-                    <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h4 class="card-title">{{ $proposta->budget }} - {{ $proposta->name }}</h4>
-                    </button>
-
+                    <div style="display:flex;align-items: center;">
+                        <h4 class="card-title" style="margin-bottom: 0;">{{ $proposta->budget }} - {{ $proposta->name }} </h4>
+                        <button class="btn btn-sm btn-primary text-left" style="margin-left: 10px;margin-right: 10px;" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
                     <div class="row ml-0 mr-0 mt-4 d-block">
 
                         <div class="accordion" id="accordionExample">

@@ -263,7 +263,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($visitas as $vst)
                                     <tr data-href="{{ route('visitas.info', $vst->id) }}">
                                         <td>{{ $vst->id }}</td>
@@ -283,7 +282,7 @@
                                         </td>
                                         <td>
 
-                                            <a href="{{ route('visitas.info', $vst->id) }}"
+                                            <a wire:click="saveSession" href="{{ route('visitas.info', $vst->id) }}"
                                                 class="btn btn-primary">
                                                 <i class="ti-search"></i>
                                             </a>

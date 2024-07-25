@@ -23970,11 +23970,13 @@ body.theme-blue .card.card-tabs .card-body {
     display: none;
   }
 }
-
-@media (max-width: 1200px) {
+@media (max-width: 450px) {
   .navigationLinks{
-      display: none;
+    display: none;
   }
+}
+@media (max-width: 1200px) {
+  
   .sidebar {
     position: fixed;
     top: 74px;

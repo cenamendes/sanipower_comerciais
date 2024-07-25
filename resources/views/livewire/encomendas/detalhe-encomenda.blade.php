@@ -849,13 +849,7 @@
                         
                     </div>
                     
-                    <div class="col-md-12 p-0"  style=" text-align: right;margin-bottom: 15px;">
-                    
-                        <div class="btn-remove-itens-kit" >
-                            <button class="btn btn-md btn-primary" wire:click="RemoverItemKit"><i class="ti-shopping-cart"></i> Remover do Kit </button>
-                        </div>
-                    
-                    </div>
+               
                     @endif
                     {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                         <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 9rem; height:auto;">
@@ -884,6 +878,44 @@
                             @forelse ($arrayCart as $img => $item)
 
                                 @forelse ($item as $prod)
+                                @if($prod->inkit == 1)
+
+                                        @php
+                                            $totalItem = $prod->price * $prod->qtd;
+                                            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+                                            $ValorTotal += $totalItem;
+                                            $ValorTotalComIva += $totalItemComIva;
+                                        @endphp
+                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                            <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        @php
+                                                            $referencia = $prod->referencia;
+                                                            $referenciaCorrigida = str_replace('.', '£', $referencia);
+
+                                                            
+                                                            $designacao = $prod->designacao;
+                                                            $designacaoCorrigida = str_replace('.', '£', $designacao);
+                                                        @endphp
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
+                                                            wire:model.defer="selectedItemsAddKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>{{ $prod->referencia }}</td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small></td>
+                                            <td style=" width:15%">{{ $prod->model }}</td>
+                                            <td style="text-align: right; white-space: nowrap;"></td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;"></td>
+                                            <td style=" text-align: right; white-space: nowrap;"></td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->iva }} %</td>
+                                            <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`)"></i> </td>
+                                            <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                                        </tr>
+                                    @endif
                                     @if($prod->inkit == 0)
 
                                         @php
@@ -945,12 +977,15 @@
                        
 
                     </div>
-                    <div class="col-md-12 p-0"  style=" text-align: right;margin-bottom: 15px;">
+                    <div class="col-md-12 p-0 d-flex" style="text-align:right;margin-bottom: 15px;justify-content: flex-end;">
                         <div class="btn-Add-itens-kit">
                             <button class="btn btn-md btn-primary" wire:click="AdicionarItemKit"><i class="ti-shopping-cart"></i> Adicionar ao Kit </button>
                         </div>
+                        <div class="btn-remove-itens-kit"  style="margin-left: 10px;">
+                            <button class="btn btn-md btn-primary" wire:click="RemoverItemKit"><i class="ti-shopping-cart"></i> Remover do Kit </button>
+                        </div>
                     </div>
-
+             
                     @endif
       
                 </div>

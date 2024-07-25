@@ -328,7 +328,6 @@ class VisitasAdicionar extends Component
 
     public function render()
     {        
-        
         Session::put('activeModalFinalizado', '');
         return view('livewire.visitas.visitas-adicionar',["clientes" => $this->clientes]);
     }

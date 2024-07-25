@@ -109,6 +109,7 @@ class Visitas extends Component
     public function updatedNomeCliente()
     {
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
     }
 
     public function updatedNumeroCliente()
@@ -160,7 +161,6 @@ class Visitas extends Component
     {
         $this->resetPage();
         session()->put('perPage', $this->perPage);
-
     }
 
     public function paginationView()
@@ -241,7 +241,6 @@ class Visitas extends Component
         $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
 
     }
-
 
     public function render()
     {       
@@ -384,7 +383,7 @@ class Visitas extends Component
         $this->numberMaxPages = $this->visitas->lastPage();
 
         $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
-    
+        
         Session::put('activeModalFinalizado', '');
         return view('livewire.visitas.visitas',["visitas" => $this->visitas, "clientesListagem" => $this->clientesListagem]);
     }

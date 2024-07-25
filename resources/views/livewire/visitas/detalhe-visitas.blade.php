@@ -36,10 +36,7 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes Cliente</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#tab5" data-toggle="tab" class="nav-link {{$tabRelatorio}}">Relatório</a>
+                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes</a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab6" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises De Vendas</a>
@@ -67,8 +64,31 @@
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
-                    <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>
-                    <p class="card-text">
+                    <div style="display:flex;align-items: center;">
+
+
+                    <h4 class="card-title" style="margin-bottom: 0;">{{$detalhesCliente->customers[0]->name}}</h4>
+                        <button class="btn btn-sm btn-primary text-left" style="margin-left: 10px;margin-right: 10px;" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <i class="fas fa-info"></i>
+                        </button>
+                         {{-- <button class="btn btn-sm btn-primary text-left" type="button">
+                            <i class="fas fa-info"></i>
+                        </button> --}}
+                        @if($getVisita->finalizado == 0)
+                            <h6 class="text-chili" style="margin-bottom: 0;font-weight: bold;">Agendada</h6>
+                        @elseif($getVisita->finalizado == 2)
+                            <h6 class="text-warning" style="margin-bottom: 0;font-weight: bold;">Iniciada</h6>
+                        @else
+                            <h6 class="text-forest" style="margin-bottom: 0;font-weight: bold;">Finalizada</h6>
+                        @endif
+                    </div>
+                     <div class="row ml-0 mr-0 mt-4 d-block">
+
+                        <div class="accordion" id="accordionExample">
+                            <div class="card" style="margin-left: 18px;margin-right: 34px;">
+                           
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                                <div class="card-body">
 
                         <!--  INICIO DOS DETALHES   -->
 
@@ -266,9 +286,14 @@
                         </div>
 
                         <!--  FIM DETALHES   -->
-                    </p>
-                </div>
-                <div class="tab-pane fade {{$tabRelatorio}}" id="tab5">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+                
 
                     <p class="card-text">
 

@@ -33,7 +33,6 @@ class DetalheVisitas extends Component
 
     public string $tabDetail = "show active";
     public string $tabAnalysis = "";
-    public string $tabRelatorio = "";
     public string $tabEncomendas = "";
     public string $tabPropostas = "";
     public string $tabFinanceiro = "";
@@ -665,6 +664,8 @@ class DetalheVisitas extends Component
     public function render()
     {
         $this->tiposVisitaCollection = TiposVisitas::all();
-        return view('livewire.visitas.detalhe-visitas',["detalhesCliente" => $this->detailsClientes, "analisesCliente" =>$this->analysisClientes]);
+        
+        $getVisitaID = VisitasAgendadas::where('id',$this->idVisita)->first();
+        return view('livewire.visitas.detalhe-visitas',["detalhesCliente" => $this->detailsClientes, "analisesCliente" => $this->analysisClientes, "getVisita" => $getVisitaID]);
     }
 }
