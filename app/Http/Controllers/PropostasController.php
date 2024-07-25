@@ -44,14 +44,16 @@ class PropostasController extends Controller
 
     public function showDetailProposta($idProposta)
     {
+    
         if($idProposta == "nova")
         {
             return view('propostas.clientes');
         } 
         else
         {
-            $proposta = Session::get('proposta');            
 
+            $proposta = Session::get('proposta');            
+        
             return view('propostas.details',["idCliente" => "", "codEncomenda" => "","proposta" => $proposta]);
         }
        

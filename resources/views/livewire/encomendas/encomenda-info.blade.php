@@ -29,6 +29,7 @@
                     <div class="tools">
                         <a href="javascript:void(0);" wire:click="enviarEmail({{ json_encode($encomenda) }})" class="btn btn-sm btn-primary"><i class="fas fa-paper-plane"></i> Enviar email</a>
                         <a href="javascript:void(0);" wire:click="gerarPdfProposta({{ json_encode($encomenda) }})" class="btn btn-sm btn-secondary"> Gerar PDF</a>
+                        <a href="javascript:void(0);" wire:click="goBack" class="btn btn-sm btn-secondary"> Voltar atrás</a>
                     </div>
                 </div>
             </div>

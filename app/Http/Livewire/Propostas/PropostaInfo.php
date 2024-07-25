@@ -141,6 +141,7 @@ class PropostaInfo extends Component
         $this->initProperties();
         $this->proposta = $proposta;
         session()->put('proposta', $this->proposta);
+
         $this->specificProduct = 0;
         $this->filter = false;
 
@@ -270,6 +271,27 @@ class PropostaInfo extends Component
         // Exibe a mensagem usando o evento do navegador
         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
+
+    public function goBack()
+    {
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+     
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                return redirect()->route($rota,$parametro);
+            }
+
+            return redirect()->route($rota);
+
+        
+        }
+        
+    }
    
     
     public function render()
@@ -279,13 +301,13 @@ class PropostaInfo extends Component
 
         // Define o comentário para exibir no modal
         $this->comentario = $comentario;
-
+        
         $this->proposta = session()->get('proposta');
         foreach ($this->proposta->lines as $prod){
             $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod->family_number."/".$prod->family_number."-".$prod->subfamily_number."-".$prod->product_number.".jpg";
             $prod->image_ref = $image_ref;
         }
-        
+   
         $imagens = [];
         foreach($this->proposta->lines as $carrinho){
             array_push($imagens,$carrinho->image_ref);

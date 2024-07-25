@@ -227,6 +227,27 @@ class EncomendaInfo extends Component
         $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
         
     }
+
+    public function goBack()
+    {
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+     
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                return redirect()->route($rota,$parametro);
+            }
+
+            return redirect()->route($rota);
+
+        
+        }
+        
+    }
        
     
     public function render()

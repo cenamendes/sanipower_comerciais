@@ -75,6 +75,7 @@ class DetalheProposta extends Component
     public $levantamentoLoja;
     public $observacaoFinalizar;
     public $referenciaFinalizar;
+    public $validadeProposta;
 
     public $lojaFinalizar;
 
@@ -82,6 +83,8 @@ class DetalheProposta extends Component
     public $chequeFinalizar;
     public $pagamentoFinalizar;
     public $transferenciaFinalizar;
+
+    public $enviarCliente;
 
     public ?array $lojas = NULL;
 
@@ -844,6 +847,31 @@ class DetalheProposta extends Component
         $this->tabDetalhesPropostas = "show active";
         $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
+    }
+
+    public function goBack()
+    {
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+     
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                return redirect()->route($rota,$parametro);
+            }
+
+            return redirect()->route($rota);
+
+        }
+    }
+
+    public function voltarAtras()
+    {
+        $this->dispatchBrowserEvent('changeRoute');
+
     }
 
     public function render()

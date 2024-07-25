@@ -1134,6 +1134,7 @@ class Encomendas extends Component
         {
             if($enc->id == $idEncomenda)
             {
+                Session::put('rota','encomendas');
                 Session::put('encomenda', $enc);
                 return redirect()->route('encomendas.encomenda', ['idEncomenda' => $idEncomenda]);
             }

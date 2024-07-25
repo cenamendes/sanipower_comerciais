@@ -665,6 +665,6 @@ class DetalheVisitas extends Component
     public function render()
     {
         $this->tiposVisitaCollection = TiposVisitas::all();
-        return view('livewire.visitas.detalhe-visitas',["detalhesCliente" => $this->detailsClientes, "analisesCliente" =>$this->analysisClientes]);
+        return view('livewire.visitas.detalhe-visitas',["detalhesCliente" => $this->detailsClientes, "analisesCliente" =>$this->analysisClientes, "idVisita" => $this->idVisita]);
     }
 }

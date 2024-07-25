@@ -14,6 +14,40 @@
         }
     }
 
+        /*  DATEPICKER */
+
+        .datepicker {
+            z-index: 1051 !important;
+            /* ou qualquer valor maior que o z-index do modal */
+        }
+
+        .datepicker .day,
+        .datepicker .dow {
+            padding: 5px 10px !important;
+            /* Ajuste o padding conforme necessário */
+        }
+
+        .datepicker table tr td {
+            width: 30px !important;
+            /* Ajuste a largura das células conforme necessário */
+        }
+
+        .datepicker .prev,
+        .datepicker .datepicker-switch,
+        .datepicker .next {
+            text-align: center !important;
+        }
+
+        .datepicker table tr td.day {
+            cursor: pointer;
+        }
+
+        .datepicker table tr td.day:hover {
+            background-color: #1791ba;
+            /* Ajuste a cor de fundo conforme necessário */
+        }
+
+
 </style>
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
@@ -61,6 +95,7 @@
                                 class="ti-eye"></i>
                             Ver Proposta</a> --}}
                         <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Proposta</a>
+                        <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary"> Voltar atrás</a>
                         <a href="javascript:void(0);" wire:click="cancelarProposta" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>
                 </div>
@@ -1250,15 +1285,28 @@
                          <div class="form-group">
                              <label>Vossa referência</label>
                              <div class="input-group">
-                                 <div class="input-group-prepend">
-                                     <span class="input-group-text bg-carolina"><i
-                                             class="ti-light-bulb text-light"></i></span>
-                                 </div>
+                                 
                                  <input type="text" class="form-control" wire:model.defer="referenciaFinalizar">
                              </div>
                          </div>
  
                      </div>
+
+                     <div class="col-xl-12 col-xs-12">
+ 
+                        <div class="form-group">
+                            <label>Validade da Proposta</label>
+                            <div class="input-group date">
+                                <input type="text" id="validadeProposta" class="form-control" wire:model.defer="validadeProposta">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="ti-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
  
                      <div class="col-xl-12 col-xs-12">
  
@@ -1273,66 +1321,7 @@
                   
                  </div>
  
-                 <div class="row form-group">
-                     <div class="col-xl-12 col-xs-12">
-                         <h5 style="border-bottom:1px solid;padding-bottom:10px;">Dados logísticos</h5>
-                     </div>
- 
-                     <div class="col-xl-6 col-xs-6 mt-2">
- 
-                         <div class="col-xl-12 col-xs-12">
-                             <div class="form-checkbox">
-                                 <label>
-                                     <input type="checkbox" id="levantamento_loja" class="checkFinalizar" wire:model.defer="levantamentoLoja">
-                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                     Levantamento em loja
-                                 </label>
-                             </div>
-                            
-                         </div>
-         
-                         <div class="col-xl-12 col-xs-12">
-                             <div class="form-checkbox">
-                                 <label>
-                                     <input type="checkbox" id="viatura_sanipower" class="checkFinalizar" wire:model.defer="viaturaSanipower">
-                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                     Entrega por viatura SANIPOWER
-                                 </label>
-                             </div>
-                         </div>
-     
-                         <div class="col-xl-12 col-xs-12">
-                             <div class="form-checkbox">
-                                 <label>
-                                     <input type="checkbox" id="transportadora" class="checkFinalizar" wire:model.defer="transportadora">
-                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                     Entrega por transportadora
-                                 </label>
-                             </div>
-                         </div>
- 
-                     </div>
- 
-                     <div class="col-xl-6 col-xs-6 mt-2">
- 
-                        <div class="col-xl-12 col-xs-12">
-                            <label id="selectLabel" style="display:none;">Selecione loja</label>
-     
-                            <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar" style="display:none;">
-                               @foreach ($lojas as $loja )
-                                 @foreach ($loja->stores as $store )
-                                   <option value="{{$store->id}}">{{$store->name}}</option>
-                                 @endforeach
-                               @endforeach
-                            </select>
-                        </div>
-                   
- 
-                     </div>
-                   
-                    
- 
-                 </div>
+                 
  
                  <div class="row form-group mt-4">
                      <div class="col-xl-12 col-xs-12">
@@ -1385,8 +1374,27 @@
                      </div>
  
                                        
- 
                  </div>
+
+                 <div class="row form-group mt-4">
+                   
+                    <div class="col-xl-12 col-xs-12">
+                        <h5 style="border-bottom:1px solid;padding-bottom:10px;">Adicionais</h5>
+                    </div>
+                    <div class="col-xl-12 col-xs-12 mt-2">
+                        <div class="col-xl-12 col-xs-12">
+                            <div class="form-checkbox">
+                                <label>
+                                    <input type="checkbox" id="enviarCliente" class="enviarCliente" wire:model.defer="enviarCliente">
+                                    <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                    Enviar Cliente?
+                                </label>
+                            </div>
+                            
+                        </div>   
+                    </div>          
+
+                </div>
  
                  <div class="row p-4">
                      <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
@@ -1603,7 +1611,8 @@
 <!-- FIM TABS  -->
 
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
-    {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
+
+
 <script>
     
     document.addEventListener("DOMContentLoaded", function() {
@@ -1671,7 +1680,38 @@
         }
     });
 
+    $(document).ready(function() {
+
+        $.fn.datepicker.dates['pt-BR'] = {
+                            days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+                            daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                            daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
+                            months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                            monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                            today: "Hoje",
+                            clear: "Limpar",
+                            format: "dd/mm/yyyy",
+                            titleFormat: "MM yyyy",
+                            /* Leverages same syntax as 'format' */
+                            weekStart: 0
+        };
+      
+        $('#validadeProposta').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR',
+                autoclose: true
+            }).on('changeDate', function(e) {
+
+                var formattedDate = moment(e.date).format('YYYY-MM-DD');
+
+                @this.set('validadeProposta', formattedDate, true);
+
+        });
+
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
+
 
         function attachHandlers() {
 
@@ -2042,6 +2082,10 @@
         if (tab) {
             tab.click();
         }
+    });
+
+    document.addEventListener('changeRoute', function(e) {
+        window.location.href = document.referrer;
     });
 
     document.addEventListener('compraRapida', function(e) {

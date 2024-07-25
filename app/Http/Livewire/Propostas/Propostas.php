@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Comentarios;
 use Livewire\WithPagination;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -298,7 +299,9 @@ class Propostas extends Component
         {
             if($enc->id == $idProposta)
             {
+               
                 Session::put('proposta', $enc);
+                Session::put('rota','propostas');
                 return redirect()->route('propostas.proposta', ['idProposta' => $idProposta]);
             }
         }
