@@ -175,7 +175,7 @@ class EncomendaInfo extends Component
 
     public function enviarEmail($encomenda)
     {
-
+        dd("Erro");
         if (!$encomenda) {
             dd("Não há valor na variável \$encomenda");
             return redirect()->back()->with('error', 'Proposta não encontrada.');
