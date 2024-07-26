@@ -319,7 +319,7 @@
                     <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($propostaID) }})">Adicionar Comentário</button>
                     <button type="button" class="btn btn-outline-primary" wire:click="gerarPdfProposta({{ json_encode($propostaID)}}, {{ json_encode($detalhesPropostas)}})">Gerar PDF</button>
                     @php
-                        $check = \App\Models\Carrinho::where('id_proposta',$propostaID)->first();
+                        $check = \App\Models\Carrinho::where('id_encomenda',$propostaID)->first();
                     @endphp
 
                     @if($check == null)
