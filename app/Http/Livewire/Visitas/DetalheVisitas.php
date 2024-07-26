@@ -660,7 +660,11 @@ class DetalheVisitas extends Component
     {
         return 'livewire.pagination';
     }
-
+    public function voltarAtras()
+    {
+        $this->dispatchBrowserEvent('changeRoute');
+        $this->skipRender();
+    }
     public function render()
     {
         $this->tiposVisitaCollection = TiposVisitas::all();

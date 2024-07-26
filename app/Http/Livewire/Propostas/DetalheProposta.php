@@ -964,6 +964,7 @@ class DetalheProposta extends Component
         $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)
             ->where('id_user',Auth::user()->id)
             ->where('id_proposta', '!=', '')
+            ->orderBy('inkit', 'desc')
             ->get();
 
         $imagens = [];

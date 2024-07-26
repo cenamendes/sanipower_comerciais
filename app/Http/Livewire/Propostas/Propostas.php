@@ -290,7 +290,7 @@ class Propostas extends Component
             $this->propostas = $this->clientesRepository->getPropostasCliente(999999,$this->pageChosen,"");
         } 
         else 
-        {
+        {   
             $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         }
        
@@ -299,7 +299,7 @@ class Propostas extends Component
         {
             if($enc->id == $idProposta)
             {
-               
+                
                 Session::put('proposta', $enc);
                 Session::put('rota','propostas');
                 return redirect()->route('propostas.proposta', ['idProposta' => $idProposta]);

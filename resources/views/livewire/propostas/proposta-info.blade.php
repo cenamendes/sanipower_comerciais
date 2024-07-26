@@ -31,7 +31,7 @@
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
                         @php
-                            $check = \App\Models\Carrinho::where('id_proposta',$proposta->id)->first();
+                            $check = \App\Models\Carrinho::where('id_encomenda',$proposta->id)->first();
                         @endphp
    
                         @if($check == null)

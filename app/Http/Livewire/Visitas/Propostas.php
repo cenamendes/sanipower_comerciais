@@ -296,6 +296,7 @@ class Propostas extends Component
                 "discount2" => $prop["discount2"],
                 "qtd" => $prop["quantity"],
                 "iva" => 12,
+                "pvp" => $prop["pvp"],
                 "model" => $prop["model"],
                 "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
                 "proposta_info" => $proposta["budget"]

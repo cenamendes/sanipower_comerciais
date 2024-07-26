@@ -848,10 +848,9 @@ class DetalheEncomenda extends Component
     {
         
         $selectedProductIds = array_keys(array_filter($this->selectedItemsAddKit));
-
+        
         $codEncomenda = $this->codEncomenda;
         foreach ($selectedProductIds as $itemId) {
-            
             $selectedItemsArray = json_decode($itemId, true);
 
             $designacao = $selectedItemsArray[2];
@@ -863,9 +862,14 @@ class DetalheEncomenda extends Component
             $novosValores = [
                 'inkit' => 1,
             ];
+            
             Carrinho::where('id_encomenda', $codEncomenda)
                                 ->where('referencia', $referencia)
                                 ->where('designacao', $designacao)
+                                ->where(function($query) {
+                                    $query->where('proposta_info', null)
+                                          ->orWhere('proposta_info', '');
+                                })
                                 ->update($novosValores);
         }
 
