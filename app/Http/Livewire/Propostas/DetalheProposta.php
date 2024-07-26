@@ -2,14 +2,16 @@
 
 namespace App\Http\Livewire\Propostas;
 
+use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
-use App\Models\ComentariosProdutos;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\WithPagination;
+use App\Models\ComentariosProdutos;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
-use App\Interfaces\EncomendasInterface;
 use App\Interfaces\PropostasInterface;
+use App\Interfaces\EncomendasInterface;
 use Illuminate\Support\Facades\Session;
 
 class DetalheProposta extends Component
@@ -872,6 +874,47 @@ class DetalheProposta extends Component
     {
         $this->dispatchBrowserEvent('changeRoute');
 
+    }
+
+    public function finalizarproposta()
+    {
+    
+        if($this->enviarCliente == true)
+        {
+            //envia email
+
+            //so enviar depois do return do post
+            //do post tenho de conseguir a proposta_id
+        }
+        else
+        {
+            //Nao envia
+
+            // $curl = curl_init();
+
+            // curl_setopt_array($curl, array(
+            //     CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets',
+            //     CURLOPT_RETURNTRANSFER => true,
+            //     CURLOPT_ENCODING => '',
+            //     CURLOPT_MAXREDIRS => 10,
+            //     CURLOPT_TIMEOUT => 0,
+            //     CURLOPT_FOLLOWLOCATION => true,
+            //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            //     CURLOPT_CUSTOMREQUEST => 'POST',
+            //     CURLOPT_POSTFIELDS => $encoded_finalizar,
+            //     CURLOPT_HTTPHEADER => array(
+            //         'Content-Type: application/json'
+            //     ),
+            // ));
+    
+            // $response = curl_exec($curl);
+    
+            // curl_close($curl);
+    
+            // $response_decoded = json_decode($response);
+        }
+       
+    
     }
 
     public function render()

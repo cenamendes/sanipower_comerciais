@@ -65,6 +65,7 @@
             jQuery("#modalProdutos").modal('hide');
             jQuery("#modalEncomenda").modal('hide');
             jQuery("#modalProposta").modal('hide');
+            jQuery("#modalComentario").modal('hide');     
             
 
             if (e.detail.status == "success") {

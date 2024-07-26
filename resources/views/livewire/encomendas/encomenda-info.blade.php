@@ -237,22 +237,21 @@
                                                 @endisset
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="card-body" style="margin-left:15px;margin-right:15px;">
+                                                <hr>
+                                                <button type="button" class="btn btn-outline-success" wire:click="openComentario({{ json_encode($encomenda->id) }})">Adicionar Comentário</button>
+                                                                                                
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="card-body" style="margin-left:15px;margin-right:15px;">
-                            <hr>
-                            <h5>Adicionar Comentário</h5>
-                            <div class="input-group mb-2">
-                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentarioEncomenda"></textarea>
-                            </div>
-                            <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($encomenda->id) }})">Adicionar</button>
-                        </div>
-                    </div>
+                    
 
 
                 </div>
@@ -377,6 +376,32 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="modalComentario" aria-hidden="true" >
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary"><i class="ti-archive"></i> Adicionar Comentário</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                           
+                    <div class="input-group mb-2">
+                        <textarea type="text" class="form-control" cols="4" rows="4" style="resize: none;" wire:model.defer="comentarioEncomenda"></textarea>
+                    </div>
+                          
+                       
+                </div>
+                <div class="modal-footer">
+                    <a href="#tab6" id="sendComentario" wire:click="sendComentario({{json_encode($encomendaComentarioId)}})" data-toggle="tab" class="nav-link btn btn-outline-primary">Adicionar Comentário</a>
+                </div>
+            </div>
+        </div>
+    </div>
   
     <script>
         window.addEventListener('chooseEmail', function(e) {
@@ -384,6 +409,10 @@
             $("#modalProposta").modal();
 
             
+        });
+
+        window.addEventListener('openComentario', function(e) {
+            $("#modalComentario").modal();
         });
     </script>
 </div>

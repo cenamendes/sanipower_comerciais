@@ -116,6 +116,8 @@ class PropostaInfo extends Component
     public $emailArray;
     public $emailSend;
 
+    public $propostaComentarioId;
+
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $PropostasRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -245,6 +247,13 @@ class PropostaInfo extends Component
         return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);
       
 
+    }
+
+    public function openComentario($idProposta)
+    {
+        $this->propostaComentarioId = $idProposta;
+
+        $this->dispatchBrowserEvent('openComentario');
     }
 
     public function sendComentario($idProposta)

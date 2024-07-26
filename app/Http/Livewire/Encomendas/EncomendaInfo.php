@@ -105,6 +105,8 @@ class EncomendaInfo extends Component
     public $emailArray;
     public $emailSend;
 
+
+    public $encomendaComentarioId;
    
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $propostasRepository)
@@ -137,6 +139,13 @@ class EncomendaInfo extends Component
         $this->filter = false;
 
         $this->showLoaderPrincipal = true;
+    }
+
+    public function openComentario($idEncomenda)
+    {
+        $this->encomendaComentarioId = $idEncomenda;
+
+        $this->dispatchBrowserEvent('openComentario');
     }
 
     public function sendComentario($idEncomenda)
