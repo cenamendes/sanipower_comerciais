@@ -39,9 +39,9 @@ interface ClientesInterface
 
     public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array;
 
-    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator;
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda): LengthAwarePaginator;
 
-    public function getNumberOfPagesEncomendasFiltro($perPage,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array;
+    public function getNumberOfPagesEncomendasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda): array;
 
     //DETALHES CLIENTE -> ABA PROPOSTAS **/
 
