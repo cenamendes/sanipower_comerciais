@@ -45,9 +45,9 @@
                         <label class="mt-2">Nivel</label>
                         <select class="form-control selectpicker" wire:model.lazy="Nivel">
                             <option value="0">Nivel</option>
-                            <option value="1">Nivel 1</option>
-                            <option value="2">Nivel 2</option>
-                            <option value="3">Nivel 3</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Supervisor</option>
+                            <option value="3">Comercial</option>
                         </select>
                         @error('Nivel')  <span class="text-danger">O campo nivel é obrigatório.</span> @enderror
                     </div>

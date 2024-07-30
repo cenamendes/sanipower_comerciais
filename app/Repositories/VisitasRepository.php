@@ -463,10 +463,22 @@ class VisitasRepository implements VisitasInterface
 
     public function getListagemVisitasAgendadas($user): object
     {
-        if(Auth::user()->nivel == "3")
+        if(Auth::user()->nivel == "1")
         {
             $visitasAgendadas = VisitasAgendadas::with('tipovisita')->get();
-        } else {
+        } 
+        elseif(Auth::user()->nivel == "2") 
+        {
+            $currentUserId = Auth::user()->id;
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')
+            ->with('user')
+            ->whereHas('user',function($query) use ($currentUserId){
+                $query->where('nivel', '!=', 2)
+                      ->orWhere('id', $currentUserId);
+            })->get();
+        }
+        else
+        {
             $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
         }
         
@@ -479,10 +491,30 @@ class VisitasRepository implements VisitasInterface
 
         $allTasks = [];
 
-        if(Auth::user()->nivel == "3"){
+        if(Auth::user()->nivel == "1"){
             $visitasAgendadas = VisitasAgendadas::with('tipovisita')->get();
             $tarefas = Tarefas::all();
-        } else {
+        }
+
+        elseif(Auth::user()->nivel == "2"){
+
+            $currentUserId = Auth::user()->id;
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')
+            ->with('user')
+            ->whereHas('user', function($query) use ($currentUserId){
+                $query->where('nivel', '!=', 2)
+                      ->orWhere('id', $currentUserId);
+            })->get();
+
+            $tarefas = Tarefas::with('user')
+            ->whereHas('user', function($query){
+                $query->where('nivel', '!=', 2)
+                      ->orWhere('id', Auth::user()->id);
+            })->get();
+
+
+        }
+        else {
             $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->with('tipovisita')->get();
             $tarefas = Tarefas::where('user_id',Auth::user()->id)->get();
         }
@@ -500,10 +532,31 @@ class VisitasRepository implements VisitasInterface
 
         $allTasks = [];
 
-        if(Auth::user()->nivel == "3"){
+        if(Auth::user()->nivel == "1"){
             $visitasAgendadas = VisitasAgendadas::with('tipovisita')->where('data_inicial',$date)->get();
             $tarefas = Tarefas::where('data_inicial',$date)->get();
-        } else {
+        } 
+        else if(Auth::user()->nivel == "2") {
+
+            $currentUserId = Auth::user()->id;
+            $visitasAgendadas = VisitasAgendadas::with('tipovisita')
+            ->with('user')
+            ->whereHas('user',function($query) use ($currentUserId){
+                $query->where('nivel', '!=', 2)
+                      ->orWhere('id', $currentUserId);
+            })
+            ->where('data_inicial',$date)
+            ->get();
+
+            $tarefas = Tarefas::with('user')
+            ->whereHas('user',function($query){
+                $query->where('nivel', '!=', 2)
+                      ->orWhere('id', Auth::user()->id);
+            })->where('data_inicial',$date)
+            ->get();
+
+        }
+        else {
             $visitasAgendadas = VisitasAgendadas::where('user_id',Auth::user()->id)->where('data_inicial',$date)->with('tipovisita')->get();
             $tarefas = Tarefas::where('data_inicial',$date)->where('user_id',Auth::user()->id)->get();
         }
@@ -512,6 +565,40 @@ class VisitasRepository implements VisitasInterface
 
         $allTasks["tarefas"] = $tarefas;
         
+
+        return $allTasks;
+    }
+
+    public function getVisitasFilter($userID): object
+    {
+        $visitasAgendadas = VisitasAgendadas::where('user_id',$userID)->with('tipovisita')->get();
+
+        return $visitasAgendadas;
+    }
+
+    public function getTarefasFilter($userID): array
+    {
+        $tarefas = Tarefas::where('user_id',$userID)->get();
+
+        $visitasAgendadas = VisitasAgendadas::where('user_id',$userID)->with('tipovisita')->get();
+
+        $tasks["tarefas"] = $tarefas;
+
+        $tasks["visitas"] = $visitasAgendadas;
+
+        return $tasks;
+    }
+
+    public function getVisitasTarefasDateFilter($userID,$date): array
+    {
+       
+        $visitasAgendadas = VisitasAgendadas::where('user_id',$userID)->where('data_inicial',$date)->with('tipovisita')->get();
+        $tarefas = Tarefas::where('data_inicial',$date)->where('user_id',$userID)->get();
+        
+
+        $allTasks["visitas"] = $visitasAgendadas;
+
+        $allTasks["tarefas"] = $tarefas;
 
         return $allTasks;
     }

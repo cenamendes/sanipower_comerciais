@@ -697,8 +697,9 @@ class ClientesRepository implements ClientesInterface
         $mobileCliente = '&Mobile_phone=';
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
 
         $curl = curl_init();
 
@@ -718,9 +719,9 @@ class ClientesRepository implements ClientesInterface
         ));
 
         $response = curl_exec($curl);
-
+    
         curl_close($curl);
-
+    
         $response_decoded = json_decode($response);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
@@ -750,8 +751,9 @@ class ClientesRepository implements ClientesInterface
         $mobileCliente = '&Mobile_phone=';
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
 
         $curl = curl_init();
 
@@ -784,30 +786,232 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
+    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): LengthAwarePaginator
+    {
+        
+        if ($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+       
+        if ($estadoProposta != "0") {
+            $commentCliente = '&Comments='.urlencode($estadoProposta);
+        } else {
+            $commentCliente = '&Comments=0';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+     
+        $response_decoded = json_decode($response);
+       
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+    
+        return $itemsPaginate; 
+    }
+
+    public function getNumberOfPagesPropostasFiltro($perPage,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): array
+    {
+    
+        if ($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+    
+       
+        if ($estadoProposta != "0") {
+            $commentCliente = '&Comments='.urlencode($estadoProposta);
+        }
+        else {
+            $commentCliente = '&Comments=0';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+        
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
     public function sendComentarios($idProposta, $comentario, $type): JsonResponse
     {
-        $comentarioCreated = Comentarios::create([
-            "stamp" => $idProposta,
-            "tipo" => $type,
-            "comentario" => $comentario,
-            'id_user' => Auth::user()->id
-        ]);
+        // $comentarioCreated = Comentarios::create([
+        //     "stamp" => $idProposta,
+        //     "tipo" => $type,
+        //     "comentario" => $comentario,
+        //     'id_user' => Auth::user()->id
+        // ]);
 
-        if ($comentarioCreated) {
+        $comentarios = [
+            "document_id" => $idProposta,
+            "comment" => $comentario,
+            "user" => Auth::user()->name,
+            "date" => date('Y-m-d'),
+            "hour" => date('H:i:s')
+        ];
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/comments',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($comentarios),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+
+        if ($response_decoded->success == true) {
             // Inserção bem-sucedida
             return response()->json([
                 'success' => true,
-                'data' => $comentarioCreated
+                'message' => 'Comentário adicionado com sucesso'
             ], 201);
         } else {
             // Falha na inserção
             return response()->json([
                 'success' => false,
-                'message' => 'Falha ao inserir o comentário na base de dados.'
+                'message' => 'Falha ao inserir na base de dados.'
             ], 500);
         }
 
-        return $comentarioCreated;
+        return $response_decoded;
     }
 
     public function getOcorrenciasCliente($perPage,$page,$idCliente): LengthAwarePaginator

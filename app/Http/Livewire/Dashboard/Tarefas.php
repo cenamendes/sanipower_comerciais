@@ -62,7 +62,9 @@ class Tarefas extends Component
        public $mesEscolhido = "";
        public $dayPicked;
 
-    protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData"];
+       public $comercialPicked;
+
+    protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
 
     public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository, ClientesInterface $clientesInterface)
     {
@@ -239,7 +241,12 @@ class Tarefas extends Component
             }, $collectionClientes->customers);
         }
          
-        $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
+        
+        if(isset($this->clientes[0]["id"]))
+        {
+            $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
+        }       
+        
 
         $this->dispatchBrowserEvent('openVisitaModal');
         
@@ -406,9 +413,18 @@ class Tarefas extends Component
         return redirect()->route('dashboard');
     }
 
-    public function changeDashWithDate($data)
+    public function changeDashWithDate($data,$checkComercial)
     {
-        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefasWithDate(Auth::user()->id,$data);
+      
+        if($checkComercial == 0)
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefasWithDate(Auth::user()->id,$data);
+        } else {
+            $this->listagemTarefas = $this->visitasRepository->getVisitasTarefasDateFilter($checkComercial,$data);
+        }
+
+        $this->comercialPicked = $checkComercial;
+       
         $this->flagReset = true;
         $this->dayPicked = date('Y-m-d',strtotime($data));
         $this->mesEscolhido = date('Y-m',strtotime($data));
@@ -418,10 +434,34 @@ class Tarefas extends Component
 
     public function originalData()
     {
-        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        
+        if($this->comercialPicked == "0")
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        } 
+        else if($this->comercialPicked == null)
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        }
+        else {
+            $this->listagemTarefas = $this->visitasRepository->getTarefasFilter($this->comercialPicked);
+        }
+       
         $this->flagReset = false;
         $this->dayPicked = "";
         $this->mesEscolhido = "";
+        $this->dispatchBrowserEvent('updateList');
+    }
+
+    public function handleChangeTarefas($id)
+    {
+        if($id == "0")
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        } else {
+            $this->listagemTarefas = $this->visitasRepository->getTarefasFilter($id);
+        }
+       
         $this->dispatchBrowserEvent('updateList');
     }
 

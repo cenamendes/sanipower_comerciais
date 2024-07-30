@@ -488,7 +488,7 @@
                 <div class="tab-pane fade {{$tabPropostas}}" id="tab8">
 
                     <p class="card-text">
-
+                    
                         @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id, "visita" => $idVisita])
 
                     </p>

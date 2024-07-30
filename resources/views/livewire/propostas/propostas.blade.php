@@ -64,7 +64,7 @@
                                 <label class="mt-2">Comentário</label>
                                     <div class="input-group">
                                         <select name="perPage" wire:model.lazy="estadoProposta" class="form-control">
-                                            <option value="" selected>Todas</option>
+                                            <option value="0" selected>Todas</option>
                                             <option value="1">Com comentário</option>
                                             <option value="2">Sem comentário</option>
                                         </select>
