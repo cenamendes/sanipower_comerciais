@@ -385,7 +385,7 @@ class Visitas extends Component
                 }
             
         })
-        ->when(Auth::user()->nivel == 2, function($query) {
+        ->when(Auth::user()->nivel == 3, function($query) {
             $query->where('user_id', Auth::user()->id);
         })
        ->orderBy('data_inicial','DESC')
