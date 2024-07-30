@@ -99,6 +99,7 @@ class EncomendaInfo extends Component
     public int $perPage = 10;
 
     public ?object $comentario = NULL;
+    public ?object $firstComentario = NULL;
 
     public $comentarioEncomenda = "";
 
@@ -134,7 +135,7 @@ class EncomendaInfo extends Component
         $this->initProperties();
         $this->encomenda = $encomenda;
         session()->put('encomendaINFO', $this->encomenda);
-
+      
         $this->specificProduct = 0;
         $this->filter = false;
 
@@ -262,7 +263,9 @@ class EncomendaInfo extends Component
     public function render()
     {
         $encomenda = session('encomendaINFO');
-        $comentario = Comentarios::with('user')->where('stamp', $encomenda->id)->where('tipo', 'encomendas')->orderBy('id','DESC')->get();
+        $comentario = Comentarios::with('user')->where('stamp', $encomenda->id)->where('tipo', 'encomendas')->orderBy('id','DESC')->skip(env('COMENTARIO_NUMBER'))->take(PHP_INT_MAX)->get();
+
+        $this->firstComentario = Comentarios::with('user')->where('stamp', $encomenda->id)->where('tipo', 'encomendas')->orderBy('id','DESC')->take(env('COMENTARIO_NUMBER'))->get();
        
         $this->comentario = $comentario;
 

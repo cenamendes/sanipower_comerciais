@@ -195,7 +195,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                      
+                     
                                 @foreach ($encomendas as $enc)
                                    
                                     <tr wire:click="checkOrder({{json_encode($enc->id)}})">

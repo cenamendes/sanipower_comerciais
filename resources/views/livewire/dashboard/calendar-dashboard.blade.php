@@ -1,53 +1,32 @@
 <div>
+
+    @if(Auth::user()->nivel != 3)
+        <div class="row">
+            <label style="padding-left:15px;">Selecione Comercial</label>
+            <div class="input-group" style="padding-left:15px;margin-bottom:10px;">
+                        
+                <select class="form-control" id="userSelected" wire:model="userSelected">
+                    <option value="0">Todos</option>
+                    @isset($comerciais)
+                    
+                        @foreach ($comerciais as $com)
+
+                            <option value="{{ $com->id }}">{{ $com->name }}</option>
+                
+
+                        @endforeach
+
+                    @endisset
+                </select>
+            </div>
+        </div>
+    @endif
     
     <div class="card mb-3" style="height: 98%;">
         <div id="calendar"></div>
     </div>
 
     <span class="d-none" id="values">{{$listagemCalendario}}</span>
-
-{{-- <div class="modal fade" id="modalInformacao" tabindex="-1" role="dialog" aria-labelledby="modalInformacao"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary" id="modalProdutos">Informação do Evento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-
-                <div class="row d-block text-center font-weight-bold">
-                    <label class="text-center"><span id="visitaName"></span></label>
-                </div>
-                
-                
-                <label class="mt-4">Nome do Cliente</label>
-                <div class="input-group">
-                    
-                    <input type="text" class="form-control" placeholder="Nome do Cliente" id="clienteName" disabled>
-                </div>
-
-                <label class="mt-4">Data (Hora Inicial / Hora Final)</label>
-                <div class="input-group">
-                    
-                    <input type="text" class="form-control" placeholder="Hora Marcada" id="horaMarcada" disabled>
-                </div>
-
-                <label class="mt-4">Assunto</label>
-                <div class="input-group">
-                    <textarea type="text" id="assuntoMarcado" class="form-control" cols="4" rows="6" disabled></textarea>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div> --}}
 
 
 <div class="modal fade" id="modalInformacao" tabindex="-1" role="dialog" aria-labelledby="modalInformacao" aria-hidden="true">
@@ -271,7 +250,9 @@
 
                 var clickedDate = new Date(info.dateStr).toISOString().split('T')[0];
 
-                Livewire.emit("changeDashWithDate",clickedDate)
+                var checkComercial = jQuery("#userSelected").val();
+
+                Livewire.emit("changeDashWithDate",clickedDate,checkComercial)
             },
             eventClick: function(info) {
 

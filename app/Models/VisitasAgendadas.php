@@ -29,4 +29,9 @@ class VisitasAgendadas extends Model
 
         return $this->belongsTo(TiposVisitas::class,'id_tipo_visita','id');
     }
+
+    public function user(){
+
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

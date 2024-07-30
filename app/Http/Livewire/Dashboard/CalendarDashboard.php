@@ -8,6 +8,7 @@ use App\Models\VisitasAgendadas;
 use App\Interfaces\VisitasInterface;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
+use App\Models\User;
 
 class CalendarDashboard extends Component
 {
@@ -33,6 +34,9 @@ class CalendarDashboard extends Component
 
     /********* */
 
+    public $userSelected;
+    public $comerciais;
+
 
     protected $listeners = ['visitaAddedEsquerda' => 'visitaArrived'];
 
@@ -47,6 +51,8 @@ class CalendarDashboard extends Component
         $this->listagemCalendario = $this->visitasRepository->getListagemVisitasAgendadas(Auth::user()->id);
 
         $this->tipoVisita = TiposVisitas::all();
+
+        // $this->comerciais = User::where('nivel','3')->get();
 
     }
 
@@ -109,9 +115,25 @@ class CalendarDashboard extends Component
         return redirect()->route('dashboard');
     }
 
+    public function updatedUserSelected()
+    {
+        if($this->userSelected == "0")
+        {
+            $this->listagemCalendario = $this->visitasRepository->getListagemVisitasAgendadas(Auth::user()->id);
+        } else {
+            $this->listagemCalendario = $this->visitasRepository->getVisitasFilter($this->userSelected);
+        }
+
+        $this->emit('changeTarefas',$this->userSelected);
+        
+        $this->dispatchBrowserEvent('restartCalendar');
+    }
+
     public function render()
     {
         $this->clientes = [$this->clientesRepository->getAllListagemClientesObject()];
+
+        $this->comerciais = User::where('nivel','3')->get();
         
         return view('livewire.dashboard.calendar-dashboard');
     }

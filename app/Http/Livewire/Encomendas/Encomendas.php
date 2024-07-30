@@ -1113,22 +1113,23 @@ class Encomendas extends Component
     {
         if($this->estadoEncomenda != "")
         {
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+            // if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
                 $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             
-            } else {
+        } else {
                 $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            }
         }
-        else
-        {
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // }
+        // else
+        // {
+        //     if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
+        //         $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             
-            } else {
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente(999999,$this->pageChosen,"");
-            }
-        }
+        //     } else {
+        //         $this->encomendas = $this->clientesRepository->getEncomendasCliente(999999,$this->pageChosen,"");
+        //     }
+        // }
+
 
         foreach($this->encomendas as $enc)
         {
@@ -1219,6 +1220,7 @@ class Encomendas extends Component
         
     public function render()
     {
+    
         return view('livewire.encomendas.encomendas',["encomendas" => $this->encomendas]);
     }
 }
