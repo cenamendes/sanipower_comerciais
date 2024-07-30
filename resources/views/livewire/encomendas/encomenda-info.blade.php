@@ -232,7 +232,11 @@
                                                     $comentariosApi = $encomenda->comments;
                                                 @endphp
                                                 @isset($comentariosApi)
-                                                    @foreach ($comentariosApi as $comentarioApi)
+                                                    @php
+                                                        $primeirosTresComentarios = array_slice($comentariosApi, 0, 3);
+                                                        $restanteComentarios = array_slice($comentariosApi, 3);
+                                                    @endphp
+                                                    @foreach ($primeirosTresComentarios as $comentarioApi)
                                                         @php
                                                             $date = $comentarioApi->date;
                                                             $hour = $comentarioApi->hour;
@@ -245,9 +249,9 @@
                                                         </div>
                                                     @endforeach
                                                 @endisset
-                                            </div>
-                                        
-                                        @if(count($comentario) == 0)
+
+                                        @if(count($restanteComentarios) > 0)
+                                        @else
                                             <div class="row">
                                                 <div class="card-body" style="margin-left:15px;margin-right:15px;">
                                                     <hr>
@@ -257,13 +261,21 @@
                                         @endif
                         
                                         <!-- Seção Adicional para Comentários -->
-                                        @if(count($comentario) > 0)
-                                            <div id="additionalComments" class="timeline-wrapper" style="display: none;">
-                                                @foreach ($comentario as $comentarios)
-                                                    <div class="timeline-item" data-date="{{ $comentarios->created_at }} &#8594; {{ $comentarios->user->name }}">
-                                                        <p>{{ $comentarios->comentario }}</p>
-                                                    </div>
-                                                @endforeach
+
+                                        @if(count($restanteComentarios) > 0)
+                                            <div id="additionalComments" class="timeline-wrapper" style="display: none;margin:0;">
+                                                 @foreach ($restanteComentarios as $comentarioApi)
+                                                        @php
+                                                            $date = $comentarioApi->date;
+                                                            $hour = $comentarioApi->hour;
+                                                            $dataFormatada = date('Y-m-d', strtotime($date));
+                                                            $horaCorrigida = rtrim($hour, ':') . ':00';
+                                                            $horaFormatada = date('H:i', strtotime($horaCorrigida));
+                                                        @endphp
+                                                        <div class="timeline-item" data-date="{{ $dataFormatada }} {{$horaFormatada}} &#8594; {{ $comentarioApi->user }}">
+                                                            <p>{{  $comentarioApi->comment }}</p>
+                                                        </div>
+                                                    @endforeach
 
                                                 <div class="row">
                                                     <div class="card-body" style="margin-left:15px;margin-right:15px;">
