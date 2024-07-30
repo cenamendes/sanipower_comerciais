@@ -228,10 +228,20 @@
                                     <div id="collapseTwo" class="collapse">
                                         <div class="card-body">
                                             <div class="timeline-wrapper">
-                                                @isset($comentario)
-                                                    @foreach ($comentario as $comentarios)
-                                                        <div class="timeline-item" data-date="{{ $comentarios->created_at }} &#8594; {{ $comentarios->user->name }}">
-                                                            <p>{{ $comentarios->comentario }}</p>
+                                                @php
+                                                    $comentariosApi = $encomenda->comments;
+                                                @endphp
+                                                @isset($comentariosApi)
+                                                    @foreach ($comentariosApi as $comentarioApi)
+                                                        @php
+                                                            $date = $comentarioApi->date;
+                                                            $hour = $comentarioApi->hour;
+                                                            $dataFormatada = date('Y-m-d', strtotime($date));
+                                                            $horaCorrigida = rtrim($hour, ':') . ':00';
+                                                            $horaFormatada = date('H:i', strtotime($horaCorrigida));
+                                                        @endphp
+                                                        <div class="timeline-item" data-date="{{ $dataFormatada }} {{$horaFormatada}} &#8594; {{ $comentarioApi->user }}">
+                                                            <p>{{  $comentarioApi->comment }}</p>
                                                         </div>
                                                     @endforeach
                                                 @endisset
@@ -250,10 +260,6 @@
                             </div>
                         </div>
                     </div>
-
-                    
-
-
                 </div>
          
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">

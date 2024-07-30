@@ -55,6 +55,7 @@ class Propostas extends Component
         $this->telemovelCliente = '';
         $this->emailCliente = '';
         $this->nifCliente = '';
+        
 
         $this->idCliente = '';
     }
