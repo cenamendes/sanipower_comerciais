@@ -32,7 +32,7 @@ class Encomendas extends Component
     
     public $idCliente;
 
-    public $estadoEncomenda = "";
+    public $estadoEncomenda = "0";
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -151,9 +151,9 @@ class Encomendas extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-
+ 
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-            $this->encomendas = $this->clientesRepository->getEncomendaslienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+            $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
         } else {
             $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
         }
@@ -232,26 +232,30 @@ class Encomendas extends Component
 
     }
 
-    public function checkOrder($idEncomenda)
+    public function checkOrder($idEncomenda, $encomenda)
     {
-        if($this->estadoEncomenda != "")
-        {
-            $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        // if($this->estadoEncomenda != "")
+        // {
+        //     $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro(9999999,$this->pageChosen,"",$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             
-        } else {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        }
+        // } else {
+        //     $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // }
      
 
-        foreach($this->encomendas as $enc)
-        {
-            if($enc->id == $idEncomenda)
-            {
+        // foreach($this->encomendas as $enc)
+        // {
+        //     if($enc->id == $idEncomenda)
+        //     {
+
+        $json = json_encode($encomenda);
+        $object = json_decode($json, false);
+
                 Session::put('rota','encomendas');
-                Session::put('encomenda', $enc);
+                Session::put('encomenda', $object);
                 return redirect()->route('encomendas.encomenda', ['idEncomenda' => $idEncomenda]);
-            }
-        }
+        //     }
+        // }
     }
 
     public function adicionarEncomenda()
@@ -268,7 +272,6 @@ class Encomendas extends Component
         
     public function render()
     {
-    
         return view('livewire.encomendas.encomendas',["encomendas" => $this->encomendas]);
     }
 }

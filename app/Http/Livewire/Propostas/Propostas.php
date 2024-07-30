@@ -31,7 +31,7 @@ class Propostas extends Component
 
     public $idCliente;
 
-    public $estadoProposta = "";
+    public $estadoProposta = "0";
     
 
     public function boot(ClientesInterface $clientesRepository)
@@ -137,7 +137,7 @@ class Propostas extends Component
         $this->pageChosen = 1;
         $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
-                                                                                           
+                                                                                       
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
@@ -233,28 +233,32 @@ class Propostas extends Component
         return redirect()->route('propostas.nova');
     }
 
-    public function checkOrder($idProposta)
+    public function checkOrder($idProposta, $proposta)
     {
-        if($this->estadoProposta != "0")
-        {
-            $this->propostas = $this->clientesRepository->getPropostasCliente(999999,$this->pageChosen,"");
-        } 
-        else 
-        {   
-            $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        }
+        // if($this->estadoProposta != "0")
+        // {
+        //     $this->propostas = $this->clientesRepository->getPropostasCliente(999999,$this->pageChosen,"");
+        // } 
+        // else 
+        // {   
+        //     $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // }
        
        
-        foreach($this->propostas as $enc)
-        {
-            if($enc->id == $idProposta)
-            {
-                
-                Session::put('proposta', $enc);
+        // foreach($this->propostas as $enc)
+        // {
+        //     dD($enc);
+        //     if($enc->id == $idProposta)
+        //     {
+          $json = json_encode($proposta);
+          $object = json_decode($json, false);
+
+      
+                Session::put('proposta', $object);
                 Session::put('rota','propostas');
                 return redirect()->route('propostas.proposta', ['idProposta' => $idProposta]);
-            }
-        }
+        //     }
+        // }
     }
 
 

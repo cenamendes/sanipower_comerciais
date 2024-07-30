@@ -196,14 +196,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($propostas as $pro )
-                                    <tr wire:click="checkOrder({{json_encode($pro->id)}})">
+                                    <tr wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})">
                                         <td>{{ date('Y-m-d', strtotime($pro->date)) }}</td>
                                         <td>{{$pro->budget}}</td>
                                         <td>{{$pro->name}}</td>
                                         <td>{{$pro->total}}</td>
                                         <td>{{$pro->status}}</td>
                                         <td>
-                                            <a wire:click="checkOrder({{json_encode($pro->id)}})" style="color:white!important;" class="btn btn-primary">
+                                            <a wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})" style="color:white!important;" class="btn btn-primary">
                                                 <i class="ti-eye"></i> Ver Proposta
                                             </a>
                                         </td>

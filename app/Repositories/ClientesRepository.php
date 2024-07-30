@@ -118,8 +118,9 @@ class ClientesRepository implements ClientesInterface
         $mobileCliente = '&Mobile_phone=';
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
 
         $curl = curl_init();
  
@@ -142,7 +143,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
  
         $response_decoded = json_decode($response);
-        
+    
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
  
         if($response_decoded != null)
@@ -459,8 +460,9 @@ class ClientesRepository implements ClientesInterface
         $mobileCliente = '&Mobile_phone=';
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
 
         $curl = curl_init();
 
@@ -601,7 +603,7 @@ class ClientesRepository implements ClientesInterface
         $response = curl_exec($curl);
 
         curl_close($curl);
-     
+        
         $response_decoded = json_decode($response);
        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -928,7 +930,6 @@ class ClientesRepository implements ClientesInterface
             $nifCliente = '&Nif=';
         }
     
-        dd($estadoProposta);
         if ($estadoProposta != "0") {
             $commentCliente = '&Comments='.urlencode($estadoProposta);
         }
@@ -937,7 +938,7 @@ class ClientesRepository implements ClientesInterface
         }
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
-
+        
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -960,7 +961,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-        
+      
         $arrayInfo = [];
 
         $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
@@ -1008,7 +1009,6 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-        DD($response_decoded);
 
         if ($response_decoded->success == true) {
             // Inserção bem-sucedida
