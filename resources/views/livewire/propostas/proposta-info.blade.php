@@ -261,9 +261,10 @@
                                                         @endphp
                                                         <div class="timeline-item" data-date="{{ $dataFormatada }} {{$horaFormatada}} &#8594; {{ $comentarioApi->user }}">
                                                             <p>{{ $comentarioApi->comment }}</p>
+                                                        </div>
                                                     @endforeach
                                                 @endisset
-                                            </div>
+                                            
                                             
                                             @if(count($comentario) == 0)
                                                 <div class="row">
