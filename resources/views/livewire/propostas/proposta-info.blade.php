@@ -236,13 +236,14 @@
                         
                             <div class="accordion" id="accordionExample">
                                 <!-- Item de Acordeão para os Comentários -->
-                                <div style="display:flex;align-items: center;">
-                                        <h4 class="card-title" style="margin-top: 6px;">Comentários</h4>
+                                
+                                <div class="card" style="margin-left: 18px; margin-right: 34px;">
+                                    <div class="card-header" style="display:flex;align-items: center;">
+                                       <h4 style="margin: 0;">Comentários</h4>
                                         {{-- <button class="btn btn-sm btn-primary text-left" style="margin-left: 10px;margin-right: 10px;" type="button"data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                             <i class="fas fa-info"></i>
                                         </button> --}}
                                     </div>
-                                <div class="card" style="margin-left: 18px; margin-right: 34px;">
                                     <!-- Botão para Expandir/Contrair o Primeiro Timeline -->
                                     {{-- <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     </button> --}}
