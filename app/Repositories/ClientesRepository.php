@@ -147,9 +147,9 @@ class ClientesRepository implements ClientesInterface
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
  
         if($response_decoded != null)
-        {
+        {   
             $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
- 
+            
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
  
         }

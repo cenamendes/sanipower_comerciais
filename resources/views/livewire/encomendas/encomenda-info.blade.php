@@ -225,7 +225,7 @@
                                         <h5 class="pl-2">Comentários</h5>
                                     </button>
     
-                                    <div id="collapseTwo" class="collapse">
+                                    <div id="collapseTwo" class="collapse show">
                                         <div class="card-body">
                                             <div class="timeline-wrapper">
                                                 @php
@@ -246,29 +246,6 @@
                                                     @endforeach
                                                 @endisset
                                             </div>
-                                        </div>
-
-
-                        {{-- <div class="accordion" id="accordionExample">
-                            <!-- Item de Acordeão para os Comentários -->
-                            <div class="card" style="margin-left: 18px; margin-right: 34px;">
-                                <!-- Botão para Expandir/Contrair o Primeiro Timeline -->
-                                <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <h5 class="pl-2">Comentários</h5>
-                                </button>
-                        
-                                <!-- Seção Colapsável com o Primeiro Timeline e o Botão "Mostrar Mais" -->
-                                <div id="collapseOne" class="collapse show">
-                                    <div class="card-body">
-                                        <div class="timeline-wrapper">
-                                            @isset($firstComentario)
-                                                @foreach ($firstComentario as $come)
-                                                    <div class="timeline-item" data-date="{{ $come->created_at }} &#8594; {{ $come->user->name }}">
-                                                        <p>{{ $come->comentario }}</p>
-                                                    </div>
-                                                @endforeach
-                                            @endisset
-                                        </div>
                                         
                                         @if(count($comentario) == 0)
                                             <div class="row">
@@ -315,19 +292,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
 
                     </div>
                 </div>
-
-
-
-                    </div>
-                    </div>
-
-            </div>
-
-         
+                 </div>
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
            
                 @forelse ($arrayCart as $img => $item)
@@ -390,11 +359,10 @@
                     </div>
                 </div>
           
-                </div>
             </div>
         </div>
     </div>
-
+</div>
     <!-- MODAL -->
 
     <div class="modal fade" id="modalProposta" tabindex="-1" role="dialog" aria-labelledby="modalProposta" aria-hidden="true" >
