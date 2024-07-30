@@ -1039,7 +1039,7 @@
                         <table class="table init-datatable">
                             <thead class="thead-light">
                                 <tr style="background:#d6d8db78;">
-                                    <th style="width: 0;"></th>
+                                    {{-- <th style="width: 0;"></th> --}}
                              
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
@@ -1065,7 +1065,7 @@
                                             $ValorTotalComIva += $totalItemComIva;
                                         @endphp
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td>
+                                            {{-- <td>
                                                 <div class="form-checkbox">
                                                     <label>
                                                         @php
@@ -1081,7 +1081,7 @@
                                                         <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
                                                     </label>
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                             <td>{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small></td>
                                             <td style="text-align: right; white-space: nowrap;"></td>
@@ -1108,7 +1108,7 @@
                                             $ValorTotalComIva += $totalItemComIva;
                                         @endphp
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td>
+                                            {{-- <td>
                                                 <div class="form-checkbox">
                                                     <label>
                                                     @php
@@ -1123,7 +1123,7 @@
                                                         <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
                                                     </label>
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                             <td>{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
@@ -1158,14 +1158,14 @@
                        
 
                     </div>
-                    <div class="col-md-12 p-0 d-flex"  style="text-align:right;margin-bottom: 15px;justify-content: flex-end;">
+                    {{-- <div class="col-md-12 p-0 d-flex"  style="text-align:right;margin-bottom: 15px;justify-content: flex-end;">
                         <div class="btn-Add-itens-kit">
                             <button class="btn btn-md btn-primary" wire:click="AdicionarItemKit"><i class="ti-shopping-cart"></i> Adicionar ao Kit </button>
                         </div>
                           <div class="btn-remove-itens-kit"  style="margin-left: 10px;">
                             <button class="btn btn-md btn-primary" wire:click="RemoverItemKit"><i class="ti-shopping-cart"></i> Remover do Kit </button>
                         </div>
-                    </div>
+                    </div> --}}
 
                     @endif
       
