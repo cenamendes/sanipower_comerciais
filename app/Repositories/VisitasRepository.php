@@ -634,6 +634,7 @@ class VisitasRepository implements VisitasInterface
             "end_date" => $end_date
         ];
 
+     
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

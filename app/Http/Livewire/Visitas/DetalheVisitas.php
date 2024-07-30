@@ -416,14 +416,14 @@ class DetalheVisitas extends Component
                 ]);
             }
            
-            
+           
             if(!empty($visitaCreate)) {
                 session()->flash('success', "Visita registada com sucesso");
-                return redirect()->route('visitas.info',["id" => $agenda->id]);
+                return redirect()->route('visitas.info',["id" => $getId->id]);
     
             } else {
                 session()->flash('warning', "Não foi possivel adicionar visita!");
-                return redirect()->route('visitas.info',["id" => $agenda->id]);
+                return redirect()->route('visitas.info',["id" => $getId->id]);
             }
 
         }
@@ -662,8 +662,25 @@ class DetalheVisitas extends Component
     }
     public function voltarAtras()
     {
-        $this->dispatchBrowserEvent('changeRoute');
-        $this->skipRender();
+        // $this->dispatchBrowserEvent('changeRoute');
+        // $this->skipRender();
+
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+     
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                return redirect()->route($rota,$parametro);
+            }
+
+            return redirect()->route($rota);
+
+        
+        }
     }
     public function render()
     {

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Interfaces\ClientesInterface;
 use App\Models\VisitasAgendadas;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 
 class VisitasController extends Controller
 {
@@ -45,6 +46,10 @@ class VisitasController extends Controller
     public function visitasInfo($id)
     {
         $visitaAgendada = VisitasAgendadas::where('id',$id)->first();
+
+        
+        Session::put('rota','visitas');
+          
         
         $detailsClientes = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
         return view('visitas.details',["idVisita" => $id, "idCliente" => $visitaAgendada->client_id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "1"]);

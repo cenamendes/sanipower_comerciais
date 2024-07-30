@@ -24,7 +24,8 @@ class EncomendasController extends Controller
 
     public function showDetail($id)
     {
-   
+        Session::put('rota','encomendas.nova');
+        
         $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
      
         $checkCarrinho = Carrinho::where("id_user", Auth::user()->id)
@@ -47,12 +48,13 @@ class EncomendasController extends Controller
     {
         if($idEncomenda == "nova")
         {
+      
             return view('encomendas.clientes');
         } 
         else
         {
             $encomenda = Session::get('encomenda');            
-
+         
             return view('encomendas.details',["idCliente" => "", "codEncomenda" => "","encomenda" => $encomenda]);
         }
        

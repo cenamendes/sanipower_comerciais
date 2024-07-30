@@ -947,7 +947,24 @@ class DetalheEncomenda extends Component
 
     public function voltarAtras()
     {
-        $this->dispatchBrowserEvent('changeRoute');
+        // $this->dispatchBrowserEvent('changeRoute');
+        
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+     
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                return redirect()->route($rota,$parametro);
+            }
+
+            return redirect()->route($rota);
+
+        
+        }
 
     }
     
