@@ -876,9 +876,8 @@ class ClientesRepository implements ClientesInterface
         return $itemsPaginate; 
     }
 
-    public function getNumberOfPagesPropostasFiltro($perPage,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): array
+    public function getNumberOfPagesPropostasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): array
     {
-    
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } else {
@@ -915,7 +914,7 @@ class ClientesRepository implements ClientesInterface
             $nifCliente = '&Nif=';
         }
     
-       
+        dd($estadoProposta);
         if ($estadoProposta != "0") {
             $commentCliente = '&Comments='.urlencode($estadoProposta);
         }

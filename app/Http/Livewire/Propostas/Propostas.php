@@ -55,7 +55,7 @@ class Propostas extends Component
         $this->telemovelCliente = '';
         $this->emailCliente = '';
         $this->nifCliente = '';
-        
+
 
         $this->idCliente = '';
     }
@@ -134,11 +134,10 @@ class Propostas extends Component
 
     public function updatedEstadoProposta()
     {
-  
         $this->pageChosen = 1;
         $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
-
+                                                                                           
         $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
