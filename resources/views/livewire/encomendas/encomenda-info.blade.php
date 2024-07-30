@@ -249,7 +249,7 @@
                                         </div>
 
 
-                        <div class="accordion" id="accordionExample">
+                        {{-- <div class="accordion" id="accordionExample">
                             <!-- Item de Acordeão para os Comentários -->
                             <div class="card" style="margin-left: 18px; margin-right: 34px;">
                                 <!-- Botão para Expandir/Contrair o Primeiro Timeline -->
@@ -315,7 +315,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>

@@ -261,12 +261,6 @@
                                                         @endphp
                                                         <div class="timeline-item" data-date="{{ $dataFormatada }} {{$horaFormatada}} &#8594; {{ $comentarioApi->user }}">
                                                             <p>{{ $comentarioApi->comment }}</p>
-
-                                                @isset($firstComentario)
-                                                    @foreach ($firstComentario as $come)
-                                                        <div class="timeline-item" data-date="{{ $come->created_at }} &#8594; {{ $come->user->name }}">
-                                                            <p>{{ $come->comentario }}</p>
-                                                        </div>
                                                     @endforeach
                                                 @endisset
                                             </div>
