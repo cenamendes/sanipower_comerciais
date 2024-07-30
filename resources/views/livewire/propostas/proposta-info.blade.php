@@ -236,14 +236,22 @@
                         
                             <div class="accordion" id="accordionExample">
                                 <!-- Item de Acordeão para os Comentários -->
+                                
                                 <div class="card" style="margin-left: 18px; margin-right: 34px;">
+                                    <div class="card-header" style="display:flex;align-items: center;">
+                                       <h4 style="margin: 0;">Comentários</h4>
+                                        {{-- <button class="btn btn-sm btn-primary text-left" style="margin-left: 10px;margin-right: 10px;" type="button"data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="fas fa-info"></i>
+                                        </button> --}}
+                                    </div>
                                     <!-- Botão para Expandir/Contrair o Primeiro Timeline -->
-                                    <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <h5 class="pl-2">Comentários</h5>
-                                    </button>
-                            
+                                    {{-- <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    </button> --}}
+                                    
                                     <!-- Seção Colapsável com o Primeiro Timeline e o Botão "Mostrar Mais" -->
-                                    <div id="collapseOne" class="collapse show">
+                                    {{-- <div id="collapseOne" class="collapse show"> --}}
+                                    <div>
+
                                         <div class="card-body">
                                             <div class="timeline-wrapper">
 

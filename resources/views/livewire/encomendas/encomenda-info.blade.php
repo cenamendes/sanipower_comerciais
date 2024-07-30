@@ -219,13 +219,22 @@
                     <div class="row form-group mt-2">
                         <div class="col-12 pr-0">
 
-                            <div class="accordion" id="accordionExample">
+                            <div class="accordion" id="accordionExample"> 
+                                 
                                 <div class="card" style="margin-left: 18px;margin-right: 34px;">
-                                    <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                        <h5 class="pl-2">Comentários</h5>
-                                    </button>
+                                    <div class="card-header" style="display:flex;align-items: center;">
+                                        <h4 style="margin: 0;">Comentários</h4>
+                                      {{-- <button class="btn btn-sm btn-primary text-left" style="margin-left: 10px;margin-right: 10px;" type="button"data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="fas fa-info"></i>
+                                        </button> --}}
+                               
+                                    </div>
+                                    {{-- <button class="btn btn-block text-left pl-0" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        
+                                    </button> --}}
     
-                                    <div id="collapseTwo" class="collapse show">
+                                    {{-- <div id="collapseTwo" class="collapse show"> --}}
+                                    <div>
                                         <div class="card-body">
                                             <div class="timeline-wrapper">
                                                 @php
@@ -308,7 +317,8 @@
 
                     </div>
                 </div>
-                 </div>
+            </div>
+             </div>
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
            
                 @forelse ($arrayCart as $img => $item)
