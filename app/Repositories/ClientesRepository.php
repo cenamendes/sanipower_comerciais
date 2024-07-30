@@ -986,7 +986,7 @@ class ClientesRepository implements ClientesInterface
             "hour" => date('H:i:s')
         ];
 
-
+     
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

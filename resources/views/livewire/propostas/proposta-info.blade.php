@@ -255,6 +255,7 @@
                                                     $primeirosTresComentarios = array_slice($comentariosApi, 0, 3);
                                                     $restanteComentarios = array_slice($comentariosApi, 3);
                                                 @endphp
+
                                                  @foreach ($primeirosTresComentarios as $comentarioApi)
                                                     @php
                                                         $date = $comentarioApi->date;
@@ -265,6 +266,7 @@
                                                     @endphp
                                                     <div class="timeline-item" data-date="{{ $dataFormatada }} {{$horaFormatada}} &#8594; {{ $comentarioApi->user }}">
                                                         <p>{{ $comentarioApi->comment }}</p>
+
                                                     </div>
                                                 @endforeach
                                             @endisset
