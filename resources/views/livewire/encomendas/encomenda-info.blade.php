@@ -317,6 +317,7 @@
                     </div>
                 </div>
             </div>
+             </div>
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
            
                 @forelse ($arrayCart as $img => $item)
