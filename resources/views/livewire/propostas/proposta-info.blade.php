@@ -322,7 +322,7 @@
 
             </div>
 
-                
+              </div>  
             <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;">
                 
                 @forelse ($arrayCart as $img => $item)
@@ -389,8 +389,8 @@
 
             </div>
         </div>
-    </div>   
-    
+    </div>
+ 
     <!-- MODAL -->
 
     <div class="modal fade" id="modalProposta" tabindex="-1" role="dialog" aria-labelledby="modalProposta" aria-hidden="true" >
