@@ -29,7 +29,7 @@
 @push('scripts_footer')
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    // document.addEventListener("DOMContentLoaded", function() {
 
         document.addEventListener('encomendaAtual', function() {
 
@@ -72,7 +72,7 @@
                 toastr.warning(e.detail.message);
             }
         });
-    });
+    // });
 </script>
 
 @endpush

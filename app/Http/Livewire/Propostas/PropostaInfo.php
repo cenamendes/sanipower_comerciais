@@ -285,6 +285,7 @@ class PropostaInfo extends Component
             }
         }
 
+
         // Reinicia os detalhes da encomenda
         $this->comentarioEncomenda = "";
         // Exibe a mensagem usando o evento do navegador

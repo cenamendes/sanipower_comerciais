@@ -256,6 +256,7 @@
                                                             $date = $comentarioApi->date;
                                                             $hour = $comentarioApi->hour;
                                                             $dataFormatada = date('Y-m-d', strtotime($date));
+                                                         
                                                             $horaCorrigida = rtrim($hour, ':') . ':00';
                                                             $horaFormatada = date('H:i', strtotime($horaCorrigida));
                                                         @endphp
