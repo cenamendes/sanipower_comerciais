@@ -167,11 +167,22 @@ class EncomendaInfo extends Component
                 $status = "error";
             }
         }
+
+        $encomendas = $this->clientesRepository->getEncomendasCliente(999999,1,"");
+
+        foreach($encomendas as $enc)
+        {
+            if($enc->id == $idEncomenda)
+            {
+                Session::put('encomendaINFO',$enc);
+            }
+        }
         
+
         // Reinicia os detalhes da encomenda
         $this->comentarioEncomenda = "";
         // Exibe a mensagem usando o evento do navegador
-         $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+        $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
     }
 
     public function gerarPdfProposta($encomenda)
@@ -266,7 +277,7 @@ class EncomendaInfo extends Component
         $comentario = Comentarios::with('user')->where('stamp', $encomenda->id)->where('tipo', 'encomendas')->orderBy('id','DESC')->skip(env('COMENTARIO_NUMBER'))->take(PHP_INT_MAX)->get();
 
         $this->firstComentario = Comentarios::with('user')->where('stamp', $encomenda->id)->where('tipo', 'encomendas')->orderBy('id','DESC')->take(env('COMENTARIO_NUMBER'))->get();
-       
+     
         $this->comentario = $comentario;
 
         foreach ($encomenda->lines as $prod){
