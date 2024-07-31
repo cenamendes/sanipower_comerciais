@@ -241,7 +241,8 @@ class PropostaInfo extends Component
 
         
         $this->clientes = $this->clientesRepository->getListagemClienteFiltro(10,1,"",$proposta["number"],"","","","");
-
+        // criar outra funçao para conseguir o cliente
+        // passar o id do phc como 0
 
         session()->flash("success", "Proposta adjudicada com sucesso");
         return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);

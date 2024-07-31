@@ -104,7 +104,7 @@
         <table class="items">
             <thead>
                 <tr>
-                    <th>Img</th>
+                    {{-- <th>Img</th> --}}
                     <th>Produto</th>
                     <th>Descrição</th>
                     <th>Quantidade</th>
@@ -116,14 +116,14 @@
             <tbody>
                 @foreach ($encomendaData['lines'] as $line)
                     <tr>
-                        <td>
+                        {{-- <td>
                             @if($line['product_number'] != "")
                               @if(isset($line['image_ref']))
                                 <img style="width:45px;" src="{{ $line['image_ref'] }}" >
                                @endif
                             @endif    
                             
-                        </td>
+                        </td> --}}
                         <td>{{ $line['id'] }}</td>
                         <td>{{ $line['description'] }}</td>
                         <td>{{ $line['quantity'] }}</td>
