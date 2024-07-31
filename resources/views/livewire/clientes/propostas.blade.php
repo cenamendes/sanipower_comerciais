@@ -115,7 +115,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                        
+                         
                                @foreach ($detalhesPropostas as $detalhe)
                                 <tr>
 

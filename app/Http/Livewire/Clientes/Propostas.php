@@ -130,8 +130,8 @@ class Propostas extends Component
     {
         $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
+   
+        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
         $this->totalRecords = $getInfoClientes["nr_registos"];
 
     }
@@ -335,6 +335,8 @@ class Propostas extends Component
 
     public function render()
     {
+   
+  
         return view('livewire.clientes.propostas',["detalhesPropostas" => $this->detailsPropostas]);
     }
 }
