@@ -168,15 +168,10 @@ class EncomendaInfo extends Component
             }
         }
 
-        $encomendas = $this->clientesRepository->getEncomendasCliente(999999,1,"");
+        $encomendas = $this->clientesRepository->getEncomendaID($idEncomenda);
 
-        foreach($encomendas as $enc)
-        {
-            if($enc->id == $idEncomenda)
-            {
-                Session::put('encomendaINFO',$enc);
-            }
-        }
+        Session::put('encomendaINFO',$encomendas->orders[0]);
+          
         
 
         // Reinicia os detalhes da encomenda

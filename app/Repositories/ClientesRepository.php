@@ -733,7 +733,7 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
-
+       
         $response = curl_exec($curl);
     
         curl_close($curl);
@@ -967,6 +967,64 @@ class ClientesRepository implements ClientesInterface
         $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
 
         return $arrayInfo;
+    }
+
+    public function getEncomendaID($encomendaID): object
+    {
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?order_id='.$encomendaID,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+    
+        curl_close($curl);
+    
+        $response_decoded = json_decode($response);
+    
+        return $response_decoded; 
+    }
+
+    public function getPropostaID($propostaID): object
+    {
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budget?budget_id='.$propostaID,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+    
+        curl_close($curl);
+    
+        $response_decoded = json_decode($response);
+    
+        return $response_decoded; 
     }
 
     public function sendComentarios($idProposta, $comentario, $type): JsonResponse

@@ -275,15 +275,11 @@ class PropostaInfo extends Component
             }
         }
         
-        $propostas = $this->clientesRepository->getPropostasCliente(999999,1,"");
+        $propostas = $this->clientesRepository->getPropostaID($idProposta);
 
-        foreach($propostas as $prop)
-        {
-            if($prop->id == $idProposta)
-            {
-                Session::put('proposta',$prop);
-            }
-        }
+       
+        Session::put('proposta',$propostas->budgets[0]);
+         
 
 
         // Reinicia os detalhes da encomenda
