@@ -158,7 +158,7 @@
 
                             <div class="tools">
                                 <a href="javascript:void(0);" class="btn btn-sm btn-primary"
-                                    wire:click="criarCliente"><i class="ti-user"></i> Criar Cliente</a>
+                                    wire:click="criarCliente"><i class="ti-user"></i> Novo Cliente</a>
                             </div>
 
                         </div>
@@ -231,7 +231,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="modalCliente">Criar Cliente</h5>
+                    <h5 class="modal-title text-primary" id="modalCliente">Novo Cliente</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

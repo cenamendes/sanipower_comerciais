@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::delete('/logout', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware(['auth', 'check.level:3'])->group(function () {
+    Route::middleware(['auth', 'check.level:1'])->group(function () {
         Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
     });
 

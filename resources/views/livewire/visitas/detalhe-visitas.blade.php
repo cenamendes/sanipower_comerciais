@@ -12,23 +12,23 @@
     <!-- TABS  -->
     
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-3 col-xs-12">
             <h4>Adicionar Visita</h4>
         </div>
         
-        <div class="tools col-md-6 col-xs-12 text-right">
+        <div class="tools col-md-9 col-xs-12 text-right">
             @if(isset($checkStatus))
                 @if($checkStatus != "1")
-                    <a href="javascript:void(0);" wire:click="guardarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
+                    <a href="javascript:void(0);" wire:click="guardarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar</a>
 
-                    <a href="javascript:void(0);" wire:click="finalizarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita e Finalizar</a>
+                    <a href="javascript:void(0);" wire:click="finalizarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar e Finalizar</a>
                 @endif
             @endif
             
-            <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
-            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
+            <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
+            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a>
 
-            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Ocorrência</a>
             <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary" > Voltar atrás</a>
         </div>
     </div>
