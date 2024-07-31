@@ -259,19 +259,11 @@
                                                     @endforeach
                                                 @endisset
 
-                                        @if(count($restanteComentarios) > 0)
-                                        @else
-                                            <div class="row">
-                                                <div class="card-body" style="margin-left:15px;margin-right:15px;">
-                                                    <hr>
-                                                    <button type="button" class="btn btn-outline-success" wire:click="openComentario({{ json_encode($encomenda->id) }})">Adicionar Comentário</button>
-                                                </div>
-                                            </div>
-                                        @endif
-                        
+                                                              
                                         <!-- Seção Adicional para Comentários -->
 
                                         @if(count($restanteComentarios) > 0)
+                                       
                                             <div id="additionalComments" class="timeline-wrapper" style="display: none;margin:0;">
                                                  @foreach ($restanteComentarios as $comentarioApi)
                                                         @php
@@ -286,26 +278,26 @@
                                                         </div>
                                                     @endforeach
 
-                                                <div class="row">
-                                                    <div class="card-body" style="margin-left:15px;margin-right:15px;">
-                                                        <hr>
-                                                        <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($encomenda->id) }})">
-                                                            Adicionar Comentário
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                              
                                             </div>
                         
                                             
                                             <div class="row mt-3">
                                                 <div class="card-body" style="margin-left:15px;margin-right:15px;">
-                                                    <hr>
+                                                    
                                                     <button type="button" class="btn btn-outline-primary" id="toggleMoreComments">
                                                         Mostrar mais
                                                     </button>
                                                     <button type="button" class="btn btn-outline-primary d-none" id="toggleLessComments">
                                                         Mostrar menos
                                                     </button>
+                                                    
+                                                    <hr>
+                                                    
+                                                    <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($encomenda->id) }})">
+                                                        Adicionar Comentário
+                                                    </button>
+                                                   
                                                    
                                                 </div>
                                             </div>

@@ -15,10 +15,10 @@
         <div class="tools">
             <a href="{{ route('visitas.agendar-visita', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
 
-            <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
-            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
+            <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
+            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a>
 
-            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Ocorrência</a>
         </div>
     </div>
 
