@@ -357,14 +357,18 @@
                         <table class="table table-hover init-datatable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="width: 0;">
-                                        <div class="form-checkbox">
-                                            <label>
-                                                <input type="checkbox" class="checkboxAddKit" data-id="all">
-                                                <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
-                                            </label>
-                                        </div>
-                                    </th>
+                                    @if($check == null)
+                                        <th style="width: 0;">
+                                            <div class="form-checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="checkboxAll" data-id="all"
+                                                        wire:click="checkBoxTrue" checked>
+                                                    <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                </label>
+                                            </div>
+                                        </th>
+                                    @endif
+
 
                                     <th style="width: 0;">Referência</th>
                                     <th class="d-none d-md-table-cell">Descrição</th>
@@ -378,16 +382,26 @@
                             <tbody>
                                 @forelse ($arrayCart as $img => $item)
                                     @forelse ($item as $prod)
-
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            <td>
-                                                <div class="form-checkbox">
-                                                    <label>
-                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}">
-                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
-                                                    </label>
-                                                </div>
-                                            </td>
+                                            @if($check == null)
+                                                <td>
+                                                    <div class="form-checkbox">
+                                                        <label>
+                                                            @php
+                                                                
+                                                                $reference = $prod->reference;
+                                                                $referenciaCorrigida = str_replace('.', '£', $reference);
+                                                                
+                                                                $description = $prod->description;
+                                                                $designacaoCorrigida = str_replace('.', '£', $description);
+                                                            @endphp
+                                                            <input type="checkbox" class="checkboxItem" data-id="{{ $prod->id }}"
+                                                                wire:model.defer="selectedItemsAdjudicar.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                            <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            @endif
 
 
 
@@ -409,7 +423,7 @@
                                                 </div>
                                             </td> --}}
 
-                                           <td>{{ $prod->reference }}</td>
+                                            <td>{{ $prod->reference }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->description }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ $prod->quantity }}</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
@@ -536,8 +550,6 @@
                     <div class="input-group mb-2">
                         <textarea type="text" class="form-control" cols="4" rows="4" style="resize: none;" wire:model.defer="comentarioEncomenda"></textarea>
                     </div>
-                          
-                       
                 </div>
                 <div class="modal-footer">
                     <a href="#tab6" id="sendComentario" wire:click="sendComentario({{json_encode($propostaComentarioId)}})" data-toggle="tab" class="nav-link btn btn-outline-primary">Adicionar Comentário</a>
@@ -573,8 +585,32 @@
                 lessCommentsButton.classList.add('d-none');
                 moreCommentsButton.classList.remove('d-none');
             });
+            
         });
-        
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            // Função para sincronizar os checkboxes
+            function syncCheckboxes() {
+                var isChecked = document.querySelector('.checkboxAll').checked;
+                document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
+                    checkbox.checked = isChecked;
+                });
+            }
+
+            document.querySelector('.checkboxAll').addEventListener('click', function() {
+                syncCheckboxes();
+            });
+            document.addEventListener('livewire:load', function() {
+
+                Livewire.on('syncCheckbox', (checkBoxTrue) => {
+                    document.querySelector('.checkboxAll').checked = checkBoxTrue;
+                    document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
+                        checkbox.checked = checkBoxTrue;
+                    });
+                });
+                syncCheckboxes();
+            });
+        });
     </script>
     
 
