@@ -33,6 +33,14 @@ class Propostas extends Component
     public int $numberMaxPages;
     public int $totalRecords = 0;
 
+    
+    public ?string $nomeCliente = '';
+    public ?string $numeroCliente = '';
+    public ?string $zonaCliente = '';
+    public ?string $telemovelCliente = '';
+    public ?string $emailCliente = '';
+    public ?string $nifCliente = '';
+
     public ?string $comentarioProposta = "";
 
     private ?object $detailsPropostas = NULL;
@@ -131,8 +139,15 @@ class Propostas extends Component
 
     public function updatedEstadoProposta()
     {
-        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $this->detailsPropostas = $propostasArray["paginator"];
+
+        $this->pageChosen = 1;
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+   
         $this->detailsPropostas = $propostasArray["paginator"];
+        $this->numberMaxPages = $propostasArray["nr_paginas"];
+        $this->totalRecords = $propostasArray["nr_registos"];
     }
 
     public function restartDetails()

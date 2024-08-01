@@ -143,10 +143,15 @@ class Encomendas extends Component
     public function updatedEstadoEncomenda()
     {
 
-        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        // $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
         
+        // $this->detailsEncomenda = $encomendasArray["paginator"];
+        $this->pageChosen = 1;
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
         $this->detailsEncomenda = $encomendasArray["paginator"];
-
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
     }
 
     public function restartDetails()
@@ -317,6 +322,7 @@ class Encomendas extends Component
 
     public function render()
     {
+
         return view('livewire.clientes.encomendas',["detalhesEncomenda" => $this->detailsEncomenda]);
     }
 }

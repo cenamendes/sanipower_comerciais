@@ -76,7 +76,7 @@
                             <label class="mt-2">Estado Encomenda</label>
                                 <div class="input-group">
                                     <select name="perPage" wire:model.lazy="estadoEncomenda" class="form-control">
-                                        <option value="" selected>Todas</option>
+                                        <option value="0" selected>Todas</option>
                                         <option value="1">Com comentário</option>
                                         <option value="2">Sem comentário</option>
                                     </select>
@@ -117,77 +117,20 @@
                                 @foreach ($detalhesEncomenda as $detalhe)
                                 <tr>
 
-                                    @php
-                                        $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
-                                        ->where('tipo', 'encomendas')
-                                        ->get();
-                                    @endphp
-
-                                    @if($estadoEncomenda == 1)
-
-                                        @if ($cmt->count() > 0)
+                                  
 
                                             <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
                                             <td>{{ $detalhe->order }}</td>
                                             <td>{{ $detalhe->total }}</td>
                                             <td>{{ $detalhe->status }}</td>
                                             <td>
-                                               
                                                 <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe) }})">
                                                     <i class="ti ti-plus"></i> Ver Encomenda
                                                 </button>
-                                            
-                                               
                                                 {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
                                                     Comentários
                                                 </button> --}}
-                                               
-                                            
-                                                
                                             </td>
-
-                                        @endif
-
-                                    @elseif($estadoEncomenda == 2)
-                                            @if ($cmt->count() == 0)
-
-                                                <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                                <td>{{ $detalhe->order }}</td>
-                                                <td>{{ $detalhe->total }}</td>
-                                                <td>{{ $detalhe->status }}</td>
-                                                <td>
-                                                    {{-- <button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button> --}}
-                                                
-                                                    <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe) }})">
-                                                        <i class="ti ti-plus"></i> Ver Encomenda
-                                                    </button>
-                                                </td>
-
-                                            @endif
-                                    @else
-
-                                        <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                        <td>{{ $detalhe->order }}</td>
-                                        <td>{{ $detalhe->total }}</td>
-                                        <td>{{ $detalhe->status }}</td>
-                                        <td>
-                                            {{-- <button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i class="ti ti-plus"></i> Comentário</button> --}}
-                                        
-                                            <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe) }})">
-                                                <i class="ti ti-plus"></i> Ver Encomenda
-                                            </button>
-                                            
-                                            {{-- @if ($cmt->count() > 0)
-                                            <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                Comentários
-                                            </button>
-                                            @endif --}}
-                                        
-                                            
-                                        </td>
-                                                
-                                    @endif
-                                   
                                 </tr>
                                 @endforeach
                             </tbody>
