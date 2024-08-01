@@ -111,7 +111,6 @@
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
-
                                 </tr>
                             </thead>
                             <tbody>
