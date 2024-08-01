@@ -30,12 +30,20 @@ class Encomendas extends Component
     public int $numberMaxPages;
     public int $totalRecords = 0;
 
+
+    public ?string $nomeCliente = '';
+    public ?string $numeroCliente = '';
+    public ?string $zonaCliente = '';
+    public ?string $telemovelCliente = '';
+    public ?string $emailCliente = '';
+    public ?string $nifCliente = '';
+
     public ?string $comentarioEncomenda = "";
 
     private ?object $detailsEncomenda = NULL;
     public ?object $comentario = NULL;
 
-    public $estadoEncomenda = "";
+    public $estadoEncomenda = 0;
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -134,9 +142,11 @@ class Encomendas extends Component
     }
     public function updatedEstadoEncomenda()
     {
+
         $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
         
         $this->detailsEncomenda = $encomendasArray["paginator"];
+
     }
 
     public function restartDetails()
