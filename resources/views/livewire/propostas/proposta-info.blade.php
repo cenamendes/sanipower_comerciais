@@ -356,6 +356,15 @@
                         <table class="table table-hover init-datatable">
                             <thead class="thead-light">
                                 <tr>
+                                    <th style="width: 0;">
+                                        <div class="form-checkbox">
+                                            <label>
+                                                <input type="checkbox" class="checkboxAddKit" data-id="all">
+                                                <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                            </label>
+                                        </div>
+                                    </th>
+
                                     <th style="width: 0;">Referência</th>
                                     <th class="d-none d-md-table-cell">Descrição</th>
                                     <th style="text-align: right;width: 0%;">Quantidade</th>
@@ -370,6 +379,34 @@
                                     @forelse ($item as $prod)
 
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                            <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+
+
+
+                                            {{-- <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        @php
+                                                            $referencia = $prod->referencia;
+                                                            $referenciaCorrigida = str_replace('.', '£', $referencia);
+
+                                                            
+                                                            $designacao = $prod->designacao;
+                                                            $designacaoCorrigida = str_replace('.', '£', $designacao);
+                                                        @endphp
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
+                                                            wire:model.defer="selectedItemsRemoveKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td> --}}
 
                                            <td>{{ $prod->reference }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->description }}</td>
