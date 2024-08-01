@@ -161,7 +161,8 @@ class DetalheVisitas extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->tabRelatorio = "";
         $this->tabDetail = "";
@@ -177,7 +178,8 @@ class DetalheVisitas extends Component
 
     public function previousPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
 
         $this->tabRelatorio = "";
@@ -193,7 +195,8 @@ class DetalheVisitas extends Component
 
     public function nextPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
 
         $this->tabRelatorio = "";
@@ -265,16 +268,20 @@ class DetalheVisitas extends Component
 
     public function restartDetails()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPageRelatorio,$this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
+       
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPageRelatorio,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->numberMaxPages = $arrayCliente["nr_paginas"] + 1;
+        $this->totalRecords = $arrayCliente["nr_registos"];
     }
 
     public function guardarVisita()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+
+        $this->detailsClientes = $arrayCliente["object"];
 
         $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
 
@@ -362,7 +369,7 @@ class DetalheVisitas extends Component
         }
         else 
         {
-       
+          
             if($this->idVisita == 0)
             {
                 $agenda = VisitasAgendadas::create([
@@ -375,6 +382,9 @@ class DetalheVisitas extends Component
                     "finalizado" => "2",
                     "id_tipo_visita" => $this->tipoVisitaSelect
                 ]);
+
+
+                $getId = VisitasAgendadas::where('id',$agenda->id)->first();
     
                     
                 $visitaCreate = Visitas::create([
@@ -434,7 +444,9 @@ class DetalheVisitas extends Component
 
     public function finalizarVisita()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+
+        $this->detailsClientes = $arrayCliente["object"];
 
         $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
 

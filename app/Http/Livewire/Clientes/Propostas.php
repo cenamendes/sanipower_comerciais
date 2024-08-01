@@ -71,7 +71,9 @@ class Propostas extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        $this->detailsPropostas = $propostasArray["paginator"];
     }
 
 
@@ -79,10 +81,12 @@ class Propostas extends Component
     {
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
-            $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->detailsPropostas = $propostasArray["paginator"];
         }
         else if($this->pageChosen == 1){
-            $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->detailsPropostas = $propostasArray["paginator"];
         }
 
     }
@@ -92,7 +96,8 @@ class Propostas extends Component
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
 
-            $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->detailsPropostas = $propostasArray["paginator"];
         }
     }
 
@@ -124,15 +129,17 @@ class Propostas extends Component
     }
     public function updatedEstadoProposta()
     {
-        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->detailsPropostas = $propostasArray["paginator"];
     }
     public function restartDetails()
     {
-        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
    
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->detailsPropostas = $propostasArray["paginator"];
+        $this->numberMaxPages = $propostasArray["nr_paginas"];
+        $this->totalRecords = $propostasArray["nr_registos"];
 
     }
 
@@ -227,8 +234,8 @@ class Propostas extends Component
         Session::put('rota','clientes.detail');
         Session::put('parametro',$this->idCliente);
 
-        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->detailsPropostas = $propostasArray["paginator"];
         
 
         foreach($this->detailsPropostas as $det)

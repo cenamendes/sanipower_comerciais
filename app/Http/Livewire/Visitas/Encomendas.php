@@ -71,7 +71,10 @@ class Encomendas extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+
+        $this->detailsEncomenda = $encomendasArray["paginator"];
     }
 
 
@@ -79,10 +82,14 @@ class Encomendas extends Component
     {
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
-            $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+            $this->detailsEncomenda = $encomendasArray["paginator"];
         }
         else if($this->pageChosen == 1){
-            $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+            $this->detailsEncomenda = $encomendasArray["paginator"];
         }
 
     }
@@ -92,7 +99,9 @@ class Encomendas extends Component
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
 
-            $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+            $this->detailsEncomenda = $encomendasArray["paginator"];
         }
     }
 
@@ -124,15 +133,18 @@ class Encomendas extends Component
     }
     public function updatedEstadoEncomenda()
     {
-        $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+        $this->detailsEncomenda = $encomendasArray["paginator"];
     }
     public function restartDetails()
     {
-        $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
+        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+     
+        $this->detailsEncomenda = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"];
-        $this->totalRecords = $getInfoClientes["nr_registos"];
 
     }
 
@@ -237,7 +249,9 @@ class Encomendas extends Component
            
         }
 
-        $this->detailsEncomenda = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+        $this->detailsEncomenda = $encomendasArray["paginator"];
 
         
 

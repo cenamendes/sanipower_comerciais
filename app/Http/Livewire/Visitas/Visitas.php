@@ -99,7 +99,9 @@ class Visitas extends Component
         $this->initProperties();
       
         if($idAgendar != "") {
-            $infoCliente = $this->clientesRepository->getDetalhesCliente($this->idAgendar);
+         
+            $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idAgendar);
+            $infoCliente = $arrayCliente["object"];
  
             $this->clientID = $idAgendar;
 
@@ -225,9 +227,10 @@ class Visitas extends Component
             return false;
         }
 
-        $cliente = $this->clientesRepository->getDetalhesCliente(json_decode($this->clienteVisitaID));
-
       
+
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente(json_decode($this->clienteVisitaID));
+        $cliente = $arrayCliente["object"];
 
 
         $response = $this->visitasRepository->addVisitaDatabase($cliente->customers[0]->id, $cliente->customers[0]->name,preg_replace('/[a-zA-Z]/', '', $this->dataInicial), preg_replace('/[a-zA-Z]/', '', $this->horaInicial), preg_replace('/[a-zA-Z]/', '', $this->horaFinal), $this->tipoVisitaEscolhido, $this->assuntoText);
