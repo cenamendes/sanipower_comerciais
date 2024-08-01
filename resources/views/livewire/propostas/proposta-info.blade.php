@@ -609,7 +609,6 @@
             Livewire.hook('message.processed', (message, component) => {
                 moreComments();
             });
-            
         });
        
         document.addEventListener('DOMContentLoaded', function() {
