@@ -312,11 +312,7 @@
                                                         <button type="button" class="btn btn-outline-primary d-none" id="toggleLessComments">
                                                             Mostrar menos
                                                         </button>
-                                                        <hr>
-
-                                                        <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($proposta->id) }})">
-                                                            Adicionar Comentário
-                                                        </button>
+                                                        
                                                       
                                                         {{-- <button type="button" class="btn btn-outline-primary" id="toggleMoreComments">
                                                             Mostrar mais
@@ -328,6 +324,11 @@
                                                     </div>
                                                 </div>
                                             @endif
+                                            <hr>
+
+                                                        <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($proposta->id) }})">
+                                                            Adicionar Comentário
+                                                        </button>
                                                
                                         </div>
                                     </div>

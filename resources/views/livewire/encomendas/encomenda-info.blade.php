@@ -292,16 +292,17 @@
                                                         Mostrar menos
                                                     </button>
                                                     
-                                                    <hr>
                                                     
-                                                    <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($encomenda->id) }})">
-                                                        Adicionar Comentário
-                                                    </button>
                                                    
                                                    
                                                 </div>
                                             </div>
                                         @endif
+                                        <hr>
+                                                    
+                                                    <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($encomenda->id) }})">
+                                                        Adicionar Comentário
+                                                    </button>
                                     </div>
                                 </div>
                             </div>
