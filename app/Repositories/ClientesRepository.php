@@ -290,6 +290,89 @@ class ClientesRepository implements ClientesInterface
     
         return $itemsPaginate; 
     }
+    public function getListagemClienteAllFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator
+    {
+        
+        if ($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
+        $idPhcUser = 0; //Acesso a todos os clientes
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.$idPhcUser.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+     
+        $response_decoded = json_decode($response);
+       
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+    
+        return $itemsPaginate; 
+    }
 
     public function getNumberOfPagesClienteFiltro($perPage,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array
     {

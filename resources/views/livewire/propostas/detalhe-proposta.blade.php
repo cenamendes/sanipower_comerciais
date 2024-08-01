@@ -1043,13 +1043,13 @@
                              
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
-                                    <th style=" text-align: right;width: 0%;">PVP</th>
-                                    <th style=" text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
-                                    <th style=" text-align: right;width: 0%;">P(c/desc.)</th>
-                                    <th style=" text-align: right;width: 0%;">Qtd</th>
-                                    <th style=" text-align: right;width: 0%;">Iva</th>
+                                    <th style="text-align: right;width: 0%;">PVP</th>
+                                    <th style="text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
+                                    <th style="text-align: right;width: 0%;">P(c/desc.)</th>
+                                    <th style="text-align: right;width: 0%;">Qtd</th>
+                                    <th style="text-align: right;width: 0%;">Iva</th>
                                     <th></th>
-                                    <th style=" text-align: right; " >Total</th>
+                                    <th style="text-align: right;">Total</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -357,7 +357,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th style="width: 0;">Referência</th>
-                                    <th  class="d-none d-md-table-cell">Descrição</th>
+                                    <th class="d-none d-md-table-cell">Descrição</th>
                                     <th style="text-align: right;width: 0%;">Quantidade</th>
                                     <th style="text-align: right;width: 0%;">Preço</th>
                                     <th style="text-align: right;width: 0%;">Desconto</th>
