@@ -107,7 +107,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Data</th>
-                                    <th>Encomenda</th>
+                                    <th>Proposta</th>
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
