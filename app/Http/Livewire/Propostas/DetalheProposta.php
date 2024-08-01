@@ -140,7 +140,8 @@ class DetalheProposta extends Component
 
     public function rechargeFamily($id)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
@@ -176,7 +177,8 @@ class DetalheProposta extends Component
         session(['subFamily' => $idSubFamily]);
         session(['productNumber' => $productNumber]);
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
@@ -203,7 +205,8 @@ class DetalheProposta extends Component
 
         session(['searchSubFamily' => $this->searchSubFamily]);
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
@@ -212,7 +215,8 @@ class DetalheProposta extends Component
     }
     public function adicionarProduto($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber, $productName)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
@@ -251,7 +255,8 @@ class DetalheProposta extends Component
         $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
@@ -287,7 +292,8 @@ class DetalheProposta extends Component
 
     public function deletartodos()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)->delete();
 
         $this->dispatchBrowserEvent('itemDeletar');
@@ -298,7 +304,8 @@ class DetalheProposta extends Component
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
         $this->getCategories = $this->PropostasRepository->getCategoriasSearched($this->getCategoriesAll->category[$idCategory - 1]->id, $idFamily);
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
@@ -325,7 +332,8 @@ class DetalheProposta extends Component
 
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
         $this->searchSubFamily = $this->PropostasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);
@@ -388,7 +396,8 @@ class DetalheProposta extends Component
 
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->searchProduct != "") {
             $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily, $this->searchProduct);
@@ -416,7 +425,8 @@ class DetalheProposta extends Component
     {
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->familyInfo = false;
 
@@ -937,7 +947,8 @@ class DetalheProposta extends Component
 
     public function render()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();

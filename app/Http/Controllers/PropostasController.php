@@ -27,7 +27,9 @@ class PropostasController extends Controller
     {
         Session::put('rota','propostas.nova');
 
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
+        $detailsClientes = $arrayCliente["object"];
+        
         $checkCarrinho = Carrinho::where("id_user", Auth::user()->id)
                         ->where('id_cliente',$detailsClientes->customers[0]->no)
                         ->where('id_proposta','!=','')->first();

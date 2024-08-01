@@ -63,11 +63,14 @@ class Encomendas extends Component
     public function mount()
     {
         $this->initProperties();
-        $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
+
+        
 
 
     }
@@ -76,54 +79,59 @@ class Encomendas extends Component
     public function updatedNomeCliente()
     {
         $this->pageChosen = 1;
-        $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
     }
 
     public function updatedNumeroCliente()
     {
         $this->pageChosen = 1;
-        $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
     public function updatedZonaCliente()
     {
         $this->pageChosen = 1;
-        $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
     public function updatedNifCliente()
     {
         $this->pageChosen = 1;
-        $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
     public function updatedTelemovelCliente()
     {
         $this->pageChosen = 1;
-        $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
@@ -131,20 +139,23 @@ class Encomendas extends Component
     public function updatedEmailCliente()
     {
         $this->pageChosen = 1;
-        $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
+
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
     }
 
     public function updatedEstadoEncomenda()
     {
         $this->pageChosen = 1;
-        $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->encomendas = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
@@ -153,9 +164,11 @@ class Encomendas extends Component
         $this->pageChosen = $page;
  
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-            $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+            $this->encomendas = $encomendasArray["paginator"];
         } else {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+            $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+            $this->encomendas = $encomendasArray["paginator"];
         }
         
     }
@@ -167,16 +180,20 @@ class Encomendas extends Component
             $this->pageChosen--;
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $this->encomendas = $encomendasArray["paginator"];
             } else {
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $encomendasArray =  $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->encomendas = $encomendasArray["paginator"];
             }
         }
         else if($this->pageChosen == 1){
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $encomendasArray =  $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $this->encomendas = $encomendasArray["paginator"];
             } else {
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->encomendas = $encomendasArray["paginator"];
             }
         }
     }
@@ -187,9 +204,11 @@ class Encomendas extends Component
             $this->pageChosen++;
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-                $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $this->encomendas = $encomendasArray["paginator"];
             } else {
-                $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                $this->encomendas = $encomendasArray["paginator"];
             }
         }
     }
@@ -216,17 +235,19 @@ class Encomendas extends Component
         session()->put('perPage', $this->perPage);
 
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-            $this->encomendas = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+       
 
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-            $this->totalRecords = $getInfoClientes["nr_registos"];
+            $this->encomendas = $encomendasArray["paginator"];
+            $this->numberMaxPages = $encomendasArray["nr_paginas"];
+            $this->totalRecords = $encomendasArray["nr_registos"];
         } else {
-            $this->encomendas = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPagesEncomendasCliente($this->perPage,$this->idCliente);
-
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-            $this->totalRecords = $getInfoClientes["nr_registos"];
+            
+            $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+            $this->encomendas = $encomendasArray["paginator"];
+            $this->numberMaxPages = $encomendasArray["nr_paginas"];
+            $this->totalRecords = $encomendasArray["nr_registos"];
         }
         
 

@@ -104,7 +104,8 @@ class VisitasAdicionar extends Component
        
 
         if($idAgendar != "") {
-            $infoCliente = $this->clientesRepository->getDetalhesCliente($this->idAgendar);
+            $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idAgendar);
+            $infoCliente = $arrayCliente["object"];
  
             $this->clientID = $idAgendar;
 

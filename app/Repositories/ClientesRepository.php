@@ -449,7 +449,7 @@ class ClientesRepository implements ClientesInterface
     /**** END FILTROS ****/
 
 
-    public function getDetalhesCliente($id): object
+    public function getDetalhesCliente($id): array
     {
         $curl = curl_init();
 
@@ -473,7 +473,13 @@ class ClientesRepository implements ClientesInterface
 
         $response_decoded = json_decode($response);
 
-        return $response_decoded;
+
+       return 
+        [
+            "object" => $response_decoded,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
     }
 
    
@@ -481,7 +487,7 @@ class ClientesRepository implements ClientesInterface
 
     /***  DETALHES DO CLIENTE *****/
 
-    public function getEncomendasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getEncomendasCliente($perPage,$page,$idCliente): array
     {
         $nomeCliente = '&Name=';
         $numeroCliente = '&Customer_number=0';
@@ -494,7 +500,7 @@ class ClientesRepository implements ClientesInterface
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
 
         $curl = curl_init();
-
+      
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
@@ -508,7 +514,7 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
-
+   
         $response = curl_exec($curl);
 
         curl_close($curl);
@@ -531,7 +537,11 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
     
-        return $itemsPaginate; 
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
     }
 
     public function getNumberOfPagesAnalisesCliente($perPage,$idCliente): array
@@ -617,7 +627,7 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
-    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda): LengthAwarePaginator
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda): array
     {
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
@@ -703,7 +713,11 @@ class ClientesRepository implements ClientesInterface
         }
 
     
-        return $itemsPaginate; 
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
     }
 
     public function getNumberOfPagesEncomendasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda): array
@@ -786,7 +800,7 @@ class ClientesRepository implements ClientesInterface
 
 
     
-    public function getPropostasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getPropostasCliente($perPage,$page,$idCliente): array
     {
         $nomeCliente = '&Name=';
         $numeroCliente = '&Customer_number=0';
@@ -820,6 +834,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
     
         $response_decoded = json_decode($response);
+        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         if($response_decoded != null)
@@ -836,8 +851,13 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
+
+        // return $itemsPaginate; 
     }
 
     public function getNumberOfPagesPropostasCliente($perPage,$idCliente): array
@@ -883,7 +903,7 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
-    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): LengthAwarePaginator
+    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): array
     {
         
         if ($nomeCliente != "") {
@@ -969,8 +989,12 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
     
-        return $itemsPaginate; 
     }
 
     public function getNumberOfPagesPropostasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): array
