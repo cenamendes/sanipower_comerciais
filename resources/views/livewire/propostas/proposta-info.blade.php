@@ -36,10 +36,12 @@
                         @endphp
    
                         @if($check == null)
-                            <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
-                            <i class="ti-shopping-cart"></i>
-                                Adjudicar Proposta
-                            </a>
+                            @if($cliente[0])
+                                <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
+                                <i class="ti-shopping-cart"></i>
+                                    Adjudicar Proposta
+                                </a>
+                            @endif
                         @endif
                         <a href="javascript:void(0);" wire:click="enviarEmail({{ json_encode($proposta) }})" class="btn btn-sm btn-primary"><i class="fas fa-paper-plane"></i> Enviar email</a>
                         <a href="javascript:void(0);" wire:click="gerarPdfProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-secondary"> Gerar PDF</a>
@@ -326,9 +328,9 @@
                                             @endif
                                             <hr>
 
-                                                        <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($proposta->id) }})">
-                                                            Adicionar Comentário
-                                                        </button>
+                                            <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($proposta->id) }})">
+                                                Adicionar Comentário
+                                            </button>
                                                
                                         </div>
                                     </div>
@@ -358,15 +360,18 @@
                             <thead class="thead-light">
                                 <tr>
                                     @if($check == null)
-                                        <th style="width: 0;">
-                                            <div class="form-checkbox">
-                                                <label>
-                                                    <input type="checkbox" class="checkboxAll" data-id="all"
-                                                        wire:click="checkBoxTrue" checked>
-                                                    <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
-                                                </label>
-                                            </div>
-                                        </th>
+                                        @if($cliente[0])
+                                            <th style="width: 0;">
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" class="checkboxAll" data-id="all"
+                                                            wire:click="checkBoxTrue" checked>
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </th>
+                                        @endif
+
                                     @endif
 
 
@@ -384,23 +389,26 @@
                                     @forelse ($item as $prod)
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
                                             @if($check == null)
-                                                <td>
-                                                    <div class="form-checkbox">
-                                                        <label>
-                                                            @php
-                                                                
-                                                                $reference = $prod->reference;
-                                                                $referenciaCorrigida = str_replace('.', '£', $reference);
-                                                                
-                                                                $description = $prod->description;
-                                                                $designacaoCorrigida = str_replace('.', '£', $description);
-                                                            @endphp
-                                                            <input type="checkbox" class="checkboxItem" data-id="{{ $prod->id }}"
-                                                                wire:model.defer="selectedItemsAdjudicar.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
-                                                            <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
-                                                        </label>
-                                                    </div>
-                                                </td>
+                                                @if($cliente[0])
+                                                    <td>
+                                                        <div class="form-checkbox">
+                                                            <label>
+                                                                @php
+                                                                    
+                                                                    $reference = $prod->reference;
+                                                                    $referenciaCorrigida = str_replace('.', '£', $reference);
+                                                                    
+                                                                    $description = $prod->description;
+                                                                    $designacaoCorrigida = str_replace('.', '£', $description);
+                                                                @endphp
+                                                                <input type="checkbox" class="checkboxItem" data-id="{{ $prod->id }}"
+                                                                    wire:model.defer="selectedItemsAdjudicar.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                                <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                @endif
+
                                             @endif
 
 

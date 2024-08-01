@@ -228,48 +228,71 @@ class PropostaInfo extends Component
     {
         //Carrinho::where('id_cliente', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
         //ComentariosProdutos::where('no', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
-        $selectedProductIds = array_keys(array_filter($this->selectedItemsAdjudicar));
+        $selectedProductIds = array_keys(array_filter($this->selectedItemsAdjudicar)); // true
         
-
-        $selectedProductIdsfalse = array_keys(array_filter($this->selectedItemsAdjudicar, function($value) {
+        
+        $selectedProductIdsfalse = array_keys(array_filter($this->selectedItemsAdjudicar, function($value) {  // false
             return $value === false;
         }));
         //$changedItems = array_diff_key($this->selectedItemsAdjudicar);  retorna todos
-
+      
         if($this->checkBoxTrue)
-        {
+        {   
+            
             foreach($proposta["lines"] as $prop)
+        
             {
-                foreach ($selectedProductIdsfalse as $itemId) {
-                
-                    $selectedItemsArray = json_decode($itemId, false);
-                    $designacao = $selectedItemsArray[2];
-                    $designacao = str_replace('£', '.', $designacao);
+                if($selectedProductIdsfalse){
+                    foreach ($selectedProductIdsfalse as $itemId) {
                     
-                    $referencia = $selectedItemsArray[1];
-                    $referencia = str_replace('£', '.', $referencia);
-                
-                    if($prop["reference"] != $referencia && $prop["description"] != $designacao)
-                    {
-                        Carrinho::create([
-                            "id_proposta" => "",
-                            "id_encomenda" => $proposta["id"],
-                            "id_cliente" => $proposta["number"],
-                            "id_user" => Auth::user()->id,
-                            "referencia" => $prop["reference"],
-                            "designacao" => $prop["description"],
-                            "price" => $prop["price"],
-                            "discount" => $prop["discount"],
-                            "discount2" => $prop["discount2"],
-                            "qtd" => $prop["quantity"],
-                            "iva" => 12,
-                            "pvp" => $prop["pvp"],
-                            "model" => $prop["model"],
-                            "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
-                            "proposta_info" => $proposta["budget"],
-                        ]);
-                    } 
+                        $selectedItemsArray = json_decode($itemId, false);
+                        $designacao = $selectedItemsArray[2];
+                        $designacao = str_replace('£', '.', $designacao);
+                        
+                        $referencia = $selectedItemsArray[1];
+                        $referencia = str_replace('£', '.', $referencia);
+                        
+                        if($prop["reference"] != $referencia && $prop["description"] != $designacao)
+                        {
+                            Carrinho::create([
+                                "id_proposta" => "",
+                                "id_encomenda" => $proposta["id"],
+                                "id_cliente" => $proposta["number"],
+                                "id_user" => Auth::user()->id,
+                                "referencia" => $prop["reference"],
+                                "designacao" => $prop["description"],
+                                "price" => $prop["price"],
+                                "discount" => $prop["discount"],
+                                "discount2" => $prop["discount2"],
+                                "qtd" => $prop["quantity"],
+                                "iva" => 12,
+                                "pvp" => $prop["pvp"],
+                                "model" => $prop["model"],
+                                "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
+                                "proposta_info" => $proposta["budget"],
+                            ]);
+                        } 
+                    }
+                }else{
+                    Carrinho::create([
+                        "id_proposta" => "",
+                        "id_encomenda" => $proposta["id"],
+                        "id_cliente" => $proposta["number"],
+                        "id_user" => Auth::user()->id,
+                        "referencia" => $prop["reference"],
+                        "designacao" => $prop["description"],
+                        "price" => $prop["price"],
+                        "discount" => $prop["discount"],
+                        "discount2" => $prop["discount2"],
+                        "qtd" => $prop["quantity"],
+                        "iva" => 12,
+                        "pvp" => $prop["pvp"],
+                        "model" => $prop["model"],
+                        "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
+                        "proposta_info" => $proposta["budget"],
+                    ]);
                 }
+                
             }
         }
         else
@@ -314,7 +337,7 @@ class PropostaInfo extends Component
 
         
         // $this->clientes = $this->clientesRepository->getListagemClienteFiltro(10,1,"",$proposta["number"],"","","","");
-        $this->clientes = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta["number"],"","","","");
+        $this->clientes = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta["number"],"","","","",0);
 
 
    
@@ -436,8 +459,10 @@ class PropostaInfo extends Component
             }
         }
         
+
+        $cliente = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta->number,"","","","",auth::user()->id_phc);
         $proposta = session()->get('proposta');
-        return view('livewire.propostas.proposta-info',["proposta" => $proposta, "arrayCart" =>$arrayCart]);
+        return view('livewire.propostas.proposta-info',["proposta" => $proposta, "arrayCart" =>$arrayCart, "cliente" => $cliente]);
 
     }
 }

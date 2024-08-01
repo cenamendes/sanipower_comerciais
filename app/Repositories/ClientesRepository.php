@@ -290,7 +290,7 @@ class ClientesRepository implements ClientesInterface
     
         return $itemsPaginate; 
     }
-    public function getListagemClienteAllFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator
+    public function getListagemClienteAllFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$idPhcUser): LengthAwarePaginator
     {
         
         if ($nomeCliente != "") {
@@ -330,7 +330,6 @@ class ClientesRepository implements ClientesInterface
         }
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
-        $idPhcUser = 0; //Acesso a todos os clientes
 
         $curl = curl_init();
 
@@ -620,7 +619,6 @@ class ClientesRepository implements ClientesInterface
 
     public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda): LengthAwarePaginator
     {
-        
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } else {
