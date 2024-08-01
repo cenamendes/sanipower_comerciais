@@ -195,9 +195,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                     
                                 @foreach ($encomendas as $enc)
-                                   
                                     <tr wire:click="checkOrder({{json_encode($enc->id)}}, {{json_encode($enc)}})">
                                         <td>{{ date('Y-m-d', strtotime($enc->date)) }}</td>
                                         <td>{{$enc->order}}</td>

@@ -4,8 +4,8 @@
     <div class="row navigationLinks">
         <div class="col">
             <ol class="breadcrumb pl-4" style="padding-left: 25px;">
-                <li class="breadcrumb-item"><a href=""><i class="ti-user"></i> Clientes</a></li>
-                <li class="breadcrumb-item">Proposta Cliente</li>
+                <li class="breadcrumb-item"><a href=""><i class="ti-wallet"></i> Proposta</a></li>
+                <li class="breadcrumb-item">Cliente</li>
                 @if(isset($nameCliente))
                     <li class="breadcrumb-item active">{{$nameCliente}}</li>
                 @else
