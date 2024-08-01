@@ -485,23 +485,63 @@
             $("#modalComentario").modal();
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const moreCommentsButton = document.getElementById('toggleMoreComments');
-            const lessCommentsButton = document.getElementById('toggleLessComments');
-            const additionalComments = document.getElementById('additionalComments');
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     const moreCommentsButton = document.getElementById('toggleMoreComments');
+        //     const lessCommentsButton = document.getElementById('toggleLessComments');
+        //     const additionalComments = document.getElementById('additionalComments');
 
-            moreCommentsButton.addEventListener('click', function () {
-                additionalComments.style.display = 'block';
-                moreCommentsButton.classList.add('d-none');
-                lessCommentsButton.classList.remove('d-none');
-            });
+        //     moreCommentsButton.addEventListener('click', function () {
+        //         additionalComments.style.display = 'block';
+        //         moreCommentsButton.classList.add('d-none');
+        //         lessCommentsButton.classList.remove('d-none');
+        //     });
 
-            lessCommentsButton.addEventListener('click', function () {
-                additionalComments.style.display = 'none';
-                lessCommentsButton.classList.add('d-none');
-                moreCommentsButton.classList.remove('d-none');
+        //     lessCommentsButton.addEventListener('click', function () {
+        //         additionalComments.style.display = 'none';
+        //         lessCommentsButton.classList.add('d-none');
+        //         moreCommentsButton.classList.remove('d-none');
+        //     });
+        // });
+
+        document.addEventListener('livewire:load', function () {
+            function moreComments()
+            {
+                const moreCommentsButton = document.getElementById('toggleMoreComments');
+                const lessCommentsButton = document.getElementById('toggleLessComments');
+                const additionalComments = document.getElementById('additionalComments');
+
+                
+                if (moreCommentsButton && lessCommentsButton && additionalComments) {
+                    // Remove existing event listeners by cloning and replacing nodes
+                    const newMoreCommentsButton = moreCommentsButton.cloneNode(true);
+                    const newLessCommentsButton = lessCommentsButton.cloneNode(true);
+                    moreCommentsButton.parentNode.replaceChild(newMoreCommentsButton, moreCommentsButton);
+                    lessCommentsButton.parentNode.replaceChild(newLessCommentsButton, lessCommentsButton);
+
+                    // Add event listeners to the new buttons
+                    newMoreCommentsButton.addEventListener('click', function () {
+                        additionalComments.style.display = 'block';
+                        newMoreCommentsButton.classList.add('d-none');
+                        newLessCommentsButton.classList.remove('d-none');
+                    });
+
+                    newLessCommentsButton.addEventListener('click', function () {
+                        additionalComments.style.display = 'none';
+                        newLessCommentsButton.classList.add('d-none');
+                        newMoreCommentsButton.classList.remove('d-none');
+                    });
+                }
+            }
+
+            moreComments();
+
+            // Add events on every Livewire update
+            Livewire.hook('message.processed', (message, component) => {
+                moreComments();
             });
         });
+
+
     </script>
 </div>
 

@@ -286,27 +286,26 @@
                                             @if(count($restanteComentarios) > 0)
                                           
                                                 <div id="additionalComments" class="timeline-wrapper" style="display: none;margin:0;">
-                                                @foreach ($restanteComentarios as $comentarioApi)
-                                                    @php
-                                                        $date = $comentarioApi->date;
-                                                        $hour = $comentarioApi->hour;
-                                                        $dataFormatada = date('Y-m-d', strtotime($date));
-                                                        $horaCorrigida = rtrim($hour, ':') . ':00';
-                                                        $horaFormatada = date('H:i', strtotime($horaCorrigida));
-                                                    @endphp
-                                                    <div class="timeline-item" data-date="{{ $dataFormatada }} {{$horaFormatada}} &#8594; {{ $comentarioApi->user }}">
-                                                        <p>{{ $comentarioApi->comment }}</p>
-                                                    </div>
-                                                @endforeach
-
-                                                     
-                                                
+                                                    @foreach ($restanteComentarios as $comentarioApi)
+                                                        @php
+                                                            $date = $comentarioApi->date;
+                                                            $hour = $comentarioApi->hour;
+                                                            $dataFormatada = date('Y-m-d', strtotime($date));
+                                                            $horaCorrigida = rtrim($hour, ':') . ':00';
+                                                            $horaFormatada = date('H:i', strtotime($horaCorrigida));
+                                                        @endphp
+                                                        <div class="timeline-item" data-date="{{ $dataFormatada }} {{$horaFormatada}} &#8594; {{ $comentarioApi->user }}">
+                                                            <p>{{ $comentarioApi->comment }}</p>
+                                                        </div>
+                                                    @endforeach
+                                                    
                                                 </div>
 
                                                
 
                                                 <!-- Botão "Mostrar Mais" para Expandir/Contrair a Seção Adicional -->
                                                 <div class="row mt-3">
+
                                                     <div class="card-body" style="margin-left:15px;margin-right:15px;">
                                                         <button type="button" class="btn btn-outline-primary" id="toggleMoreComments">
                                                             Mostrar mais
@@ -315,17 +314,11 @@
                                                             Mostrar menos
                                                         </button>
                                                         
-                                                      
-                                                        {{-- <button type="button" class="btn btn-outline-primary" id="toggleMoreComments">
-                                                            Mostrar mais
-                                                        </button>
-                                                        <button type="button" class="btn btn-outline-primary d-none" id="toggleLessComments">
-                                                            Mostrar menos
-                                                        </button> --}}
                                                        
                                                     </div>
                                                 </div>
                                             @endif
+
                                             <hr>
 
                                             <button type="button" class="btn btn-outline-success mt-2" wire:click="openComentario({{ json_encode($proposta->id) }})">
@@ -567,6 +560,8 @@
     </div>
 
     <script>
+
+       
         window.addEventListener('chooseEmail', function(e) {
             $("#emailCheckBox").prop('checked', false);
             $("#modalProposta").modal();
@@ -577,48 +572,49 @@
             $("#modalComentario").modal();
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const moreCommentsButton = document.getElementById('toggleMoreComments');
-            const lessCommentsButton = document.getElementById('toggleLessComments');
-            const additionalComments = document.getElementById('additionalComments');
-
-            moreCommentsButton.addEventListener('click', function () {
-                additionalComments.style.display = 'block';
-                moreCommentsButton.classList.add('d-none');
-                lessCommentsButton.classList.remove('d-none');
-            });
-
-            lessCommentsButton.addEventListener('click', function () {
-                additionalComments.style.display = 'none';
-                lessCommentsButton.classList.add('d-none');
-                moreCommentsButton.classList.remove('d-none');
-            });
-            
-        });
        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Função para sincronizar os checkboxes
-            function syncCheckboxes() {
-                var isChecked = document.querySelector('.checkboxAll').checked;
-                document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
-                    checkbox.checked = isChecked;
-                });
+        document.addEventListener('livewire:load', function () {
+            function moreComments()
+            {
+                const moreCommentsButton = document.getElementById('toggleMoreComments');
+                const lessCommentsButton = document.getElementById('toggleLessComments');
+                const additionalComments = document.getElementById('additionalComments');
+
+                
+                if (moreCommentsButton && lessCommentsButton && additionalComments) {
+                    // Remove existing event listeners by cloning and replacing nodes
+                    const newMoreCommentsButton = moreCommentsButton.cloneNode(true);
+                    const newLessCommentsButton = lessCommentsButton.cloneNode(true);
+                    moreCommentsButton.parentNode.replaceChild(newMoreCommentsButton, moreCommentsButton);
+                    lessCommentsButton.parentNode.replaceChild(newLessCommentsButton, lessCommentsButton);
+
+                    // Add event listeners to the new buttons
+                    newMoreCommentsButton.addEventListener('click', function () {
+                        additionalComments.style.display = 'block';
+                        newMoreCommentsButton.classList.add('d-none');
+                        newLessCommentsButton.classList.remove('d-none');
+                    });
+
+                    newLessCommentsButton.addEventListener('click', function () {
+                        additionalComments.style.display = 'none';
+                        newLessCommentsButton.classList.add('d-none');
+                        newMoreCommentsButton.classList.remove('d-none');
+                    });
+                }
             }
 
-            document.querySelector('.checkboxAll').addEventListener('click', function() {
-                syncCheckboxes();
-            });
-            document.addEventListener('livewire:load', function() {
+            moreComments();
 
-                Livewire.on('syncCheckbox', (checkBoxTrue) => {
-                    document.querySelector('.checkboxAll').checked = checkBoxTrue;
-                    document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
-                        checkbox.checked = checkBoxTrue;
-                    });
-                });
-                syncCheckboxes();
+            // Add events on every Livewire update
+            Livewire.hook('message.processed', (message, component) => {
+                moreComments();
             });
         });
+       
+        
+            
+        
+        
     </script>
     
 
