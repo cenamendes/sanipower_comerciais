@@ -134,7 +134,8 @@ class DetalheEncomenda extends Component
     }
     public function rechargeFamily($id)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
@@ -169,7 +170,8 @@ class DetalheEncomenda extends Component
         session(['subFamily' => $idSubFamily]);
         session(['productNumber' => $productNumber]);
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
@@ -196,7 +198,8 @@ class DetalheEncomenda extends Component
 
         session(['searchSubFamily' => $this->searchSubFamily]);
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
@@ -205,7 +208,8 @@ class DetalheEncomenda extends Component
     }
     public function adicionarProduto($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber, $productName)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
@@ -244,7 +248,8 @@ class DetalheEncomenda extends Component
         $this->tabDetalhesCampanhas = "";
         $this->tabFinalizar = "";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
@@ -280,7 +285,8 @@ class DetalheEncomenda extends Component
 
     public function deletartodos()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)->delete();
 
         $this->dispatchBrowserEvent('itemDeletar');
@@ -291,7 +297,8 @@ class DetalheEncomenda extends Component
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
         $this->getCategories = $this->encomendasRepository->getCategoriasSearched($this->getCategoriesAll->category[$idCategory - 1]->id, $idFamily);
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
@@ -318,7 +325,8 @@ class DetalheEncomenda extends Component
 
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
         $this->searchSubFamily = $this->encomendasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);
@@ -383,7 +391,8 @@ class DetalheEncomenda extends Component
 
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->searchProduct != "") {
             $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily, $this->searchProduct);
@@ -411,7 +420,8 @@ class DetalheEncomenda extends Component
     {
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->familyInfo = false;
 
@@ -970,7 +980,10 @@ class DetalheEncomenda extends Component
     
     public function render()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        // $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
+
 
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();

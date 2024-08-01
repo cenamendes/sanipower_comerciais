@@ -26,7 +26,8 @@ class VisitasController extends Controller
 
     public function showDetail($id)
     {
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
+        $detailsClientes = $arrayCliente["object"];
         return view('visitas.details',["idVisita" => 0, "idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "2"]); // adicionar
     }
 
@@ -34,7 +35,8 @@ class VisitasController extends Controller
     {
         $visitaAgendada = VisitasAgendadas::where('id',$id)->first();
 
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
+        $detailsClientes = $arrayCliente["object"];
         return view('visitas.details',["idVisita" => $id, "idCliente" => $visitaAgendada->client_id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "1"]); //finalizar
     }
 
@@ -50,8 +52,9 @@ class VisitasController extends Controller
         
         Session::put('rota','visitas');
           
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
+        $detailsClientes = $arrayCliente["object"];
         
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
         return view('visitas.details',["idVisita" => $id, "idCliente" => $visitaAgendada->client_id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "1"]);
     }
 }

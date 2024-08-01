@@ -28,7 +28,7 @@ interface ClientesInterface
 
     //** DETLAHES CLIENTE */
 
-    public function getDetalhesCliente($id_cliente): object;
+    public function getDetalhesCliente($id_cliente): array;
 
     public function getListagemAnalisesCliente($perPage,$page,$idCliente):LengthAwarePaginator;
 
@@ -37,17 +37,17 @@ interface ClientesInterface
 
 
     //DETALHES CLIENTE -> ABA ENCOMENDAS **/
-    public function getEncomendasCliente($perPage,$page,$nomeCliente): LengthAwarePaginator;
+    public function getEncomendasCliente($perPage,$page,$nomeCliente): array;
 
     public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array;
 
-    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda): LengthAwarePaginator;
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda): array;
 
     public function getNumberOfPagesEncomendasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda): array;
 
     //DETALHES CLIENTE -> ABA PROPOSTAS **/
 
-    public function getPropostasCliente($perPage,$page,$nomeCliente): LengthAwarePaginator;
+    public function getPropostasCliente($perPage,$page,$nomeCliente): array;
 
     public function getNumberOfPagesPropostasCliente($perPage,$idCliente): array;
 

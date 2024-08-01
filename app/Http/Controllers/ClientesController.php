@@ -20,7 +20,9 @@ class ClientesController extends Controller
 
     public function showDetail($id)
     {
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
+        // $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
+        $detailsClientes = $arrayCliente["object"];
         return view('clientes.details',["idCliente" => $id ,"nameCliente" => $detailsClientes->customers[0]->name]);
     }
 }

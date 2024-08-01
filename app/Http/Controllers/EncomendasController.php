@@ -26,7 +26,8 @@ class EncomendasController extends Controller
     {
         Session::put('rota','encomendas.nova');
         
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
+        $detailsClientes = $arrayCliente["object"];
      
         $checkCarrinho = Carrinho::where("id_user", Auth::user()->id)
                         ->where('id_cliente',$detailsClientes->customers[0]->no)

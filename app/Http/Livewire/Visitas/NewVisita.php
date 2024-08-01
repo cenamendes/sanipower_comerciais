@@ -46,7 +46,8 @@ class NewVisita extends Component
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
         
         $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
@@ -59,7 +60,8 @@ class NewVisita extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
     
         $this->tabDetail = "";
@@ -69,7 +71,8 @@ class NewVisita extends Component
    
     public function previousPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
@@ -85,7 +88,8 @@ class NewVisita extends Component
 
     public function nextPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
@@ -120,7 +124,8 @@ class NewVisita extends Component
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
