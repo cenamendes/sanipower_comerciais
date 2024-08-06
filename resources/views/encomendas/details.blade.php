@@ -20,7 +20,7 @@
         @if($encomenda != null)
             @livewire('encomendas.encomenda-info',["encomenda" => $encomenda])
         @else
-            @livewire('encomendas.detalhe-encomenda',["cliente" => $idCliente , "codEncomenda" => $codEncomenda])
+            @livewire('encomendas.detalhe-encomenda',["codvisita"=> $codvisita, "cliente" => $idCliente , "codEncomenda" => $codEncomenda])
         @endif
     </div>
 

@@ -842,12 +842,12 @@ class ClientesRepository implements ClientesInterface
         
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        if($response_decoded != null)
+        if($response_decoded != null && $response_decoded->budgets != null)
         {
             $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
-
+            
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
-
+            
         }
         else {
 
@@ -975,8 +975,8 @@ class ClientesRepository implements ClientesInterface
 
         $response = curl_exec($curl);
         curl_close($curl);
-     
         $response_decoded = json_decode($response);
+        
        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
        

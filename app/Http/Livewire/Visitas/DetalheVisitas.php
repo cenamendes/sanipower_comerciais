@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Visitas;
 
 use App\Models\Visitas;
 use Livewire\Component;
+use App\Models\Carrinho;
 use Livewire\WithPagination;
 use App\Models\VisitasAgendadas;
 use Illuminate\Support\Facades\Auth;
@@ -148,6 +149,7 @@ class DetalheVisitas extends Component
         } else {
             $this->checkStatus = 0;
             $this->tipoVisitaSelect = 1;
+            $this->idVisita = 0;
         }
 
        
@@ -693,6 +695,46 @@ class DetalheVisitas extends Component
 
         
         }
+    }
+    public function openEncomenda($idcliente, $idVisita)
+    {
+        if($this->idVisita == 0)
+            {
+
+                $agenda = VisitasAgendadas::create([
+                    "client_id" => $this->detailsClientes->customers[0]->id,
+                    "cliente" => $this->detailsClientes->customers[0]->name,
+                    "assunto_text" => $this->assunto,
+                    "data_inicial" => date('Y-m-d'),
+                    "hora_inicial" => date('H:i'),
+                    "data_final" => date('Y-m-d'),
+                    "hora_final" => date('H:i'),
+                    "user_id" => Auth::user()->id,
+                    "finalizado" => "1",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+    
+                
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $agenda->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+                $idVisita = $agenda->id;
+            }
+        return redirect()->route('encomendas.detail.visitas', [$idcliente, $idVisita]);
+    }
+    public function openProposta($idcliente)
+    {
+        dd($idcliente);
     }
     public function render()
     {

@@ -34,6 +34,8 @@ class DetalheEncomenda extends Component
     public ?string $searchTextCategory = "";
     public bool $filter;
     public bool $familyInfo = false;
+    public $codvisita = null;
+
 
     public bool $showLoaderPrincipal = true;
 
@@ -121,12 +123,12 @@ class DetalheEncomenda extends Component
         
     }
 
-    public function mount($cliente, $codEncomenda)
+    public function mount($codvisita, $cliente, $codEncomenda)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
         $this->codEncomenda = $codEncomenda;
-
+        $this->codvisita = $codvisita;
 
         $this->specificProduct = 0;
         $this->filter = false;
@@ -493,7 +495,7 @@ class DetalheEncomenda extends Component
             return false;
         }
 
-        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda");
+        $response = $this->encomendasRepository->addProductToDatabase($this->codvisita, $this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda");
 
         $responseArray = $response->getData(true);
 
@@ -576,7 +578,7 @@ class DetalheEncomenda extends Component
             return false;
         }
 
-        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta, "proposta");
+        $response = $this->encomendasRepository->addProductToDatabase($this->codvisita, $this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta, "proposta");
 
         $responseArray = $response->getData(true);
 
@@ -659,13 +661,14 @@ class DetalheEncomenda extends Component
 
         // foreach($productChosen as $prodId){
             
+
         //     $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "encomenda");
         
         
         // }
 
         foreach($productChosen as $prodId){
-            $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "encomenda");
+            $response = $this->encomendasRepository->addProductToDatabase($this->codvisita,$this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "encomenda");
             
             $responseArray = $response->getData(true);
 
@@ -676,6 +679,7 @@ class DetalheEncomenda extends Component
                     $response = $this->encomendasRepository->addCommentToDatabase($responseArray["data"]["id"], $this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $comeProd["comentario"]);
                 }
             }
+
 
         }
 

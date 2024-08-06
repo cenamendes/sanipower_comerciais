@@ -16,6 +16,7 @@ class Carrinho extends Model
         'id_proposta',
         'id_cliente',
         'id_user',
+        'id_visita',
         'referencia',
         'designacao',
         'pvp',
