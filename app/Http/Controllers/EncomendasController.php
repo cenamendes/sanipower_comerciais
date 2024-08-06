@@ -83,7 +83,7 @@ class EncomendasController extends Controller
          
             return view('encomendas.details',["idCliente" => "", "codEncomenda" => "","encomenda" => $encomenda]);
         }
-       
+
     }
 
     public function encomendasList()

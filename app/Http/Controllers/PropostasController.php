@@ -34,17 +34,33 @@ class PropostasController extends Controller
                         ->where('id_cliente',$detailsClientes->customers[0]->no)
                         ->where('id_proposta','!=','')->first();
         if(empty($checkCarrinho)){
-
             $codEncomenda = $detailsClientes->customers[0]->no;
-
-            $randomChar = Str::random(1);
+            $randomChar =  mt_rand(1000000, 9999999);
             $codEncomenda .= $randomChar;
         }else{
             $codEncomenda = $checkCarrinho->id_proposta;
         }
-        return view('propostas.details',["idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda, "proposta" => null]);
+        return view('propostas.details',["codvisita" => null,"idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda, "proposta" => null]);
     }
+    public function showDetailVisitas($id,$idVisita)
+    {
+        Session::put('rota','propostas.nova');
 
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
+        $detailsClientes = $arrayCliente["object"];
+        
+        $checkCarrinho = Carrinho::where("id_user", Auth::user()->id)
+                        ->where('id_cliente',$detailsClientes->customers[0]->no)
+                        ->where('id_proposta','!=','')->first();
+        if(empty($checkCarrinho)){
+            $codEncomenda = $detailsClientes->customers[0]->no;
+            $randomChar =  mt_rand(1000000, 9999999);
+            $codEncomenda .= $randomChar;
+        }else{
+            $codEncomenda = $checkCarrinho->id_proposta;
+        }
+        return view('propostas.details',["codvisita"=>$idVisita,"idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda, "proposta" => null]);
+    }
 
 
     public function showDetailProposta($idProposta)

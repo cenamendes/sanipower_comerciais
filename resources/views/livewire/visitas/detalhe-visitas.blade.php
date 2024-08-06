@@ -25,7 +25,7 @@
                 @endif
             @endif
             <a href="javascript:void(0);" wire:click="openEncomenda({{ json_encode($detalhesCliente->customers[0]->id)}}, {{$idVisita}})" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
-            <a href="javascript:void(0);" wire:click="openProposta({{  json_encode($detalhesCliente->customers[0]->id) }})" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a>
+            <a href="javascript:void(0);" wire:click="openProposta({{  json_encode($detalhesCliente->customers[0]->id) }}, {{$idVisita}})" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a>
         
             {{-- <a href="{{ route('encomendas.detail.visitas', [$detalhesCliente->customers[0]->id, $idVisita]) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
             <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a> --}}
