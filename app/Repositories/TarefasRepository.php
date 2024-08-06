@@ -110,7 +110,7 @@ class TarefasRepository implements TarefasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage=10000&Page=1&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?perPage=10000&Page=1&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -137,7 +137,7 @@ class TarefasRepository implements TarefasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?id='.$id,
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?id='.$id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

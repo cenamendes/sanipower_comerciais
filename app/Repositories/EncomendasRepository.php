@@ -20,7 +20,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/categories',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/products/categories',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -48,7 +48,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -76,7 +76,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -112,7 +112,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&product_number='.$productNumber.'&customer_number='.$idCustomer.'&img=false',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'&product_number='.$productNumber.'&customer_number='.$idCustomer.'&img=false',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -147,7 +147,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/categories',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/products/categories',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -251,12 +251,12 @@ class EncomendasRepository implements EncomendasInterface
             "referencia" => $qtd["product"]->referense,
             "designacao" => $nameProduct,
             "pvp" => $qtd["product"]->pvp,
-            "discount" => $qtd["product"]->discount,
+            "discount" => $qtd["product"]->discount1,
             "discount2" => $qtd["product"]->discount2,
             "price" => $qtd["product"]->price,
             "model" => $qtd["product"]->model,
             "qtd" => intval($qtd["quantidade"]),
-            "iva" => 12,
+            "iva" => $qtd["product"]->tax,
             "image_ref" => $ref,
         ]);
 
@@ -284,7 +284,7 @@ class EncomendasRepository implements EncomendasInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/stores',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/products/stores',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

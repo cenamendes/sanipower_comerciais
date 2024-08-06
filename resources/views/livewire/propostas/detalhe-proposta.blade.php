@@ -1411,6 +1411,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @if (!empty($quickBuyProducts))
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
