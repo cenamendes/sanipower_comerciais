@@ -10,6 +10,7 @@ use App\Models\ComentariosProdutos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 use App\Interfaces\EncomendasInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -232,9 +233,9 @@ class EncomendasRepository implements EncomendasInterface
     }
 
 
-    public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
-    {
-
+    public function addProductToDatabase($codvisita,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
+    {   
+ 
         if($type == "encomenda") {
             $idencomenda = $codType;
             $idproposta = "";
@@ -247,6 +248,7 @@ class EncomendasRepository implements EncomendasInterface
             "id_encomenda" => $idencomenda,
             "id_proposta" => $idproposta,
             "id_cliente" => $no,
+            "id_visita" => $codvisita ,
             "id_user" => Auth::user()->id,
             "referencia" => $qtd["product"]->referense,
             "designacao" => $nameProduct,

@@ -45,6 +45,8 @@ class PropostasController extends Controller
         return view('propostas.details',["idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda, "proposta" => null]);
     }
 
+
+
     public function showDetailProposta($idProposta)
     {
         if($idProposta == "nova")
