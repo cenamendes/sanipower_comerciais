@@ -860,9 +860,8 @@ class DetalheEncomenda extends Component
 
         $response_decoded = json_decode($response);
 
-        $responseArray = $response_decoded->getData(true);
-
-        if ($responseArray["success"] == true) {
+       
+        if ($response_decoded["success"] == true) {
 
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Encomenda finalizada com sucesso", "status" => "success"]);
         }
