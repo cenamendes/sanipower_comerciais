@@ -15,7 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientesRepository implements ClientesInterface
 {
-    public function getListagemClientes($perPage,$page): LengthAwarePaginator
+    public function getListagemClientes($perPage,$page): array
     {
         $nomeCliente = '&Name=';
         $numeroCliente = '&Customer_number=0';
@@ -66,8 +66,8 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+        $arrayInfo = ["paginator" => $itemsPaginate, "nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+        return $arrayInfo; 
 
     }
 
@@ -110,7 +110,7 @@ class ClientesRepository implements ClientesInterface
 
     }
 
-    public function getListagemAnalisesCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getListagemAnalisesCliente($perPage,$page,$idCliente): array
     {
         $nomeCliente = '&Name=';
         $numeroCliente = '&Customer_number=0';
@@ -146,7 +146,7 @@ class ClientesRepository implements ClientesInterface
     
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
  
-        if($response_decoded != null)
+        if($response_decoded->orders != null)
         {   
             $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
             
@@ -160,8 +160,13 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
  
+        $arrayAnalysis = [
+            "paginator" => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
    
-        return $itemsPaginate;
+        return $arrayAnalysis;
     }
 
     public function getNumberOfPages($perPage): array
@@ -207,7 +212,7 @@ class ClientesRepository implements ClientesInterface
 
     /*** FILTROS ***/
 
-    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator
+    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array
     {
         
         if ($nomeCliente != "") {
@@ -287,8 +292,8 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+        $arrayInfo = ["paginator" => $itemsPaginate,"nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+        return $arrayInfo; 
     }
     public function getListagemClienteAllFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$idPhcUser): LengthAwarePaginator
     {
@@ -523,7 +528,7 @@ class ClientesRepository implements ClientesInterface
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        if($response_decoded != null)
+        if($response_decoded->orders != null)
         {
             $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
 

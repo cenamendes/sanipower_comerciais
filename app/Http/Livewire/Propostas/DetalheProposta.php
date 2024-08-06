@@ -735,7 +735,7 @@ class DetalheProposta extends Component
                 "design" => $prod->designacao,
                 "qtt" => $prod->qtd,
                 "iva" => $prod->iva,
-                "ivaincl" => "",
+                "ivaincl" => false,
                 "edebito" => "",
                 "desconto" => $prod->discount,
                 "desc2" => "",
@@ -906,7 +906,55 @@ class DetalheProposta extends Component
 
     public function finalizarproposta()
     {
-    
+        $count = 0;
+        $valorTotal = 0;
+        $valorTotalComIva = 0;
+
+        foreach($this->carrinhoCompras as $prod)
+        {
+            $count++;
+
+            $totalItem = $prod->price * $prod->qtd;
+            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+            $valorTotal += $totalItem;
+            $valorTotalComIva += $totalItemComIva;
+
+
+
+
+            // $arrayProdutos[$count] = [
+            //     "id" => $count,
+            //     "reference" => $prod->referencia,
+            //     "description" => $prod->designacao,
+            //     "quantity" => $prod->qtd,
+            //     "tax" => $prod->iva,
+            //     "tax_included" => "true",
+            //     "discount1" => $prod->discount,
+            //     "discount2" => $prod->discount2,
+            //     "discount3" => 0,
+            //     "total" => $totalItemComIva,
+            //     "notes" => "",
+            //     "visit_id" => "sample string 12"
+            //     "budgets_id"
+            // ];
+        }
+
+        dd($arrayProdutos);
+
+        $array = [
+                    "data" => date('Y-m-d'), 
+                    "no" => $this->carrinhoCompras[0]->id_encomenda,
+                    "etotal_siva" => number_format($valorTotal, 2, ',', '.'),
+                    "etotal" => number_format($valorTotalComIva, 2, ',', '.'),
+                    "referencia" => $this->referenciaFinalizar,
+                    "observacoes" => $this->observacaoFinalizar,
+                    "entrega" => "sample string 9",
+                    "loja" => "sample string 10",
+                    "pagamento" => "sample string 11",
+                    "vendedor_id" =>  Auth::user()->id_phc, 
+                    "produtos" => $arrayProdutos
+        ];
+
         if($this->enviarCliente == true)
         {
             //envia email

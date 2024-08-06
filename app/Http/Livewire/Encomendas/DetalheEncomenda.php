@@ -129,7 +129,7 @@ class DetalheEncomenda extends Component
 
         $this->specificProduct = 0;
         $this->filter = false;
-
+ 
         $this->showLoaderPrincipal = true;
     }
     public function rechargeFamily($id)
@@ -208,11 +208,11 @@ class DetalheEncomenda extends Component
     }
     public function adicionarProduto($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber, $productName)
     {
-        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->detailsClientes = $arrayCliente["object"];
-        $this->getCategories = $this->encomendasRepository->getCategorias();
-        $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-
+        // $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        // $this->detailsClientes = $arrayCliente["object"];
+        // $this->getCategories = $this->encomendasRepository->getCategorias();
+        // $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
+       
         $this->quickBuyProducts = $this->encomendasRepository->getProdutos($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber);
 
         $this->tabDetail = "";
@@ -1069,6 +1069,7 @@ class DetalheEncomenda extends Component
                 }
             }
         }
+        
         $this->lojas = $this->encomendasRepository->getLojas();
         return view('livewire.encomendas.detalhe-encomenda',["onkit" => $onkit, "allkit" => $allkit,"detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 

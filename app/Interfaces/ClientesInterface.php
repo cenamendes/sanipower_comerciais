@@ -9,7 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ClientesInterface
 {
-    public function getListagemClientes($perPage,$page): LengthAwarePaginator;
+    public function getListagemClientes($perPage,$page): array;
 
     public function getAllListagemClientesObject(): object;
 
@@ -18,7 +18,7 @@ interface ClientesInterface
 
     /** FILTRO POR CLIENTE */
 
-    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator;
+    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array;
     public function getListagemClienteAllFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$idPhcUser): LengthAwarePaginator;
 
 
@@ -30,7 +30,7 @@ interface ClientesInterface
 
     public function getDetalhesCliente($id_cliente): array;
 
-    public function getListagemAnalisesCliente($perPage,$page,$idCliente):LengthAwarePaginator;
+    public function getListagemAnalisesCliente($perPage,$page,$idCliente):array;
 
     public function getNumberOfPagesAnalisesCliente($perPage,$idCliente): array;
 

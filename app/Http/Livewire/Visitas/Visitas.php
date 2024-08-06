@@ -113,40 +113,51 @@ class Visitas extends Component
 
     public function updatedNomeCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $arrayClientes["paginator"];
 
         Session::put('nomeClienteVisitas', $this->nomeCliente);
     }
 
     public function updatedNumeroCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $arrayClientes["paginator"];
+
         Session::put('numeroClienteVisitas', $this->numeroCliente);
         
     }
 
     public function updatedZonaCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $arrayClientes["paginator"];
+        
         Session::put('zonaClienteVisitas', $this->zonaCliente);
     }
 
     public function updatedNifCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $arrayClientes["paginator"];
+        
         Session::put('nifClienteVisitas', $this->nifCliente);
     }
 
     public function updatedTelemovelCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $arrayClientes["paginator"];
+        
         Session::put('telemovelClienteVisitas', $this->telemovelCliente);
     
     }
 
     public function updatedEmailCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(99999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro(9999999,1,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        $this->clientes = $arrayClientes["paginator"];
+        
         Session::put('emailClienteVisitas', $this->emailCliente);
     }
     public function updatedEstadoVisita()
@@ -192,7 +203,8 @@ class Visitas extends Component
 
         $this->tipoVisita = TiposVisitas::all();
 
-        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+        $arrayClientes = $this->clientesRepository->getListagemClientes(9999999,1);
+        $this->clientesListagem = [$arrayClientes["paginator"]];
 
         $this->dispatchBrowserEvent('modalAgendar');
     }
@@ -201,7 +213,8 @@ class Visitas extends Component
     {
         $this->initProperties();
 
-        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+        $arrayClientes = $this->clientesRepository->getListagemClientes(9999999,1);
+        $this->clientesListagem = [$arrayClientes["paginator"]];
 
         $this->clientID = $clientID;
 
@@ -213,7 +226,8 @@ class Visitas extends Component
     {
         $this->initProperties();
 
-        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+        $arrayClientes = $this->clientesRepository->getListagemClientes(9999999,1);
+        $this->clientesListagem = [$arrayClientes["paginator"]];
     
         if($this->clienteVisitaID == "" ||$this->dataInicial == "" ||$this->horaInicial == "" || $this->horaFinal == "" || $this->tipoVisitaEscolhido == "" || $this->assuntoText == "" )
         {
@@ -252,7 +266,9 @@ class Visitas extends Component
 
         $this->emit('reloadNotification');
 
-        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+        $arrayClientes = $this->clientesRepository->getListagemClientes(9999999,1);
+        $this->clientesListagem = [$arrayClientes["paginator"]];
+
         $this->initProperties();
         $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($cliente->customers[0]->id),"visitaName" =>$cliente->customers[0]->name,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicial), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicial), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinal), "tipoVisita" => $this->tipoVisitaEscolhido, "assunto" => $this->assuntoText, "email" => Auth::user()->email, "organizer" => Auth::user()->name ]);
         $this->dispatchBrowserEvent('openToastMessage', ["message" => $message, "status" => $status]);
@@ -399,7 +415,8 @@ class Visitas extends Component
         $this->pageChosen = $this->visitas->currentPage();
         $this->numberMaxPages = $this->visitas->lastPage();
 
-        $this->clientesListagem = [$this->clientesRepository->getListagemClientes(9999999,1)];
+        $arrayClientes = $this->clientesRepository->getListagemClientes(9999999,1);
+        $this->clientesListagem = [$arrayClientes["paginator"]];
         
         Session::put('activeModalFinalizado', '');
         return view('livewire.visitas.visitas',["visitas" => $this->visitas, "clientesListagem" => $this->clientesListagem]);

@@ -94,7 +94,7 @@
                         {{-- <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
                             Ver Proposta</a> --}}
-                        <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Proposta</a>
+                        {{-- <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Proposta</a> --}}
                         <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary"> Voltar atrás</a>
                         <a href="javascript:void(0);" wire:click="cancelarProposta" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>

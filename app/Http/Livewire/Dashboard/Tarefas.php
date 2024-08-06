@@ -98,7 +98,10 @@ class Tarefas extends Component
             $status = "error";
         }
      
-        $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+        $this->originalData();
+        //$this->dispatchBrowserEvent('updateList', ["message" => $message, "status" => $status]);
+         $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+         
     }
 
     public function getTarefaInfo($idTarefa)
