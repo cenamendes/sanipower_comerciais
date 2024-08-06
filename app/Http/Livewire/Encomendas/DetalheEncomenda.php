@@ -4,14 +4,15 @@ namespace App\Http\Livewire\Encomendas;
 
 use Livewire\Component;
 use App\Models\Carrinho;
-use App\Models\ComentariosProdutos;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use App\Models\ComentariosProdutos;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
-use App\Interfaces\EncomendasInterface;
-use App\Interfaces\PropostasInterface;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Http\RedirectResponse;
+use App\Interfaces\PropostasInterface;
+use App\Interfaces\EncomendasInterface;
+use Illuminate\Support\Facades\Session;
 
 class DetalheEncomenda extends Component
 {
@@ -583,7 +584,7 @@ class DetalheEncomenda extends Component
 
         if ($responseArray["success"] == true) {
             if($this->produtosComment){
-                $response = $this->propostasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta,"proposta", $productChosenComment["comentario"]);
+                $response = $this->propostasRepository->addCommentToDatabase($responseArray["data"]["id"],$this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta,"proposta", $productChosenComment["comentario"]);
                 $this->produtosComment = [];
             }
             if($responseArray["encomenda"] != "") {
@@ -655,14 +656,36 @@ class DetalheEncomenda extends Component
             }
         }
         $response = [];
-        foreach($productChosen as $prodId){
+
+       
+
+        // foreach($productChosen as $prodId){
             
+
+        //     $response = $this->encomendasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "encomenda");
+        
+        
+        // }
+
+        foreach($productChosen as $prodId){
             $response = $this->encomendasRepository->addProductToDatabase($this->codvisita,$this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "encomenda");
+            
+            $responseArray = $response->getData(true);
+
+            foreach($productChosenComment as $comeProd){
+               
+                if(($prodId["product"]->referense == $comeProd["product"]->referense) && ($prodId["product"]->model == $comeProd["product"]->model) && ($prodId["product"]->price == $comeProd["product"]->price))
+                {
+                    $response = $this->encomendasRepository->addCommentToDatabase($responseArray["data"]["id"], $this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $comeProd["comentario"]);
+                }
+            }
+
+
         }
 
-        foreach($productChosenComment as $prodId){
-            $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $prodId["comentario"]);
-        }
+        // foreach($productChosenComment as $prodId){
+        //     $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $prodId["comentario"]);
+        // }
         
         $responseArray = $response->getData(true);
 
@@ -693,30 +716,7 @@ class DetalheEncomenda extends Component
 
     public function finalizarencomenda()
     {
-    
-        // Outros métodos e propriedades
-        // dd( $this->lojaFinalizar);
-    
- 
-        //     $properties = [
-        //         'transportadora' => $this->transportadora,
-        //         'viaturaSanipower' => $this->viaturaSanipower,
-        //         'levantamentoLoja' => $this->levantamentoLoja,
-        //         'observacaoFinalizar' => $this->observacaoFinalizar,
-        //         'referenciaFinalizar' => $this->referenciaFinalizar,
-        //         'lojaFinalizar' => $this->lojaFinalizar,
-        //         'condicoesFinalizar' => $this->condicoesFinalizar,
-        //         'chequeFinalizar' => $this->chequeFinalizar,
-        //         'pagamentoFinalizar' => $this->pagamentoFinalizar,
-        //         'transferenciaFinalizar' => $this->transferenciaFinalizar,
-        //     ];
-        //     dd( $properties);
-        //     foreach ($properties as $property => $value) {
-        //         if (is_null($value)) {
-        //             return "A propriedade '$property' não está definida ou é nula.";
-        //         }
-        //     }
-            
+           
         $propertiesLoja = [
             'levantamentoLoja' => $this->levantamentoLoja,
             'viaturaSanipower' => $this->viaturaSanipower,
@@ -749,84 +749,93 @@ class DetalheEncomenda extends Component
         if(empty($resultPagamento)){
             $resultPagamento[0] = "";
         }
-        //FAZER VALIDAÇÃO PARA ESTES AQUI DE CIMA
+            
 
-        // Inicializar variáveis
         $count = 0;
         $valorTotal = 0;
         $valorTotalComIva = 0;
-        $arrayProdutos = [];
-        $uniqueProducts = [];
-        foreach ($this->carrinhoCompras as $prod) {
-            $nota = ComentariosProdutos::where('reference', $prod->referencia)
-                        ->where('id_encomenda', $prod->id_encomenda)
-                        ->first();
+       
 
-            if (is_null($nota)) {
-                $notaComentario = "";
+        $idCliente = "";
+
+        foreach($this->carrinhoCompras as $prod)
+        {
+            $count++;
+
+            $idCliente = $prod->id_cliente;
+
+
+            $totalItem = $prod->price * $prod->qtd;
+            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+            $valorTotal += $totalItem;
+            $valorTotalComIva += $totalItemComIva;
+
+            $comentarioCheck = ComentariosProdutos::where('id_encomenda', $this->codEncomenda)
+            ->where('tipo','encomenda')
+            ->where('id_carrinho_compras', $prod->id)
+            ->first();
+
+            if(empty($comentarioCheck))
+            {
+                $comentario = "";
             } else {
-                $notaComentario = $nota->comentario;
+                $comentario = $comentarioCheck->comentario;
             }
 
-            $uniqueIdentifier = $prod->referencia . '-' . $prod->id_cliente . '-' . $prod->price. '-' . $prod->discount;;
-        
-            if (isset($uniqueProducts[$uniqueIdentifier])) {
-                $index = $uniqueProducts[$uniqueIdentifier];
-                $arrayProdutos[$index]['qtt'] += $prod->qtd;
-                $totalItem = $prod->price * $prod->qtd;
-                $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
-                $valorTotal += $totalItem;
-                $valorTotalComIva += $totalItemComIva;
-            } else {
-                $count++;
-                $totalItem = $prod->price * $prod->qtd;
-                $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
-                $valorTotal += $totalItem;
-                $valorTotalComIva += $totalItemComIva;
-        
-                $arrayProdutos[$count] = [
-                    "linha_id" => $count,
-                    "ref" => $prod->referencia,
-                    "design" => $prod->designacao,
-                    "qtt" => $prod->qtd,
-                    "iva" => $prod->iva,
-                    "ivaincl" => "",
-                    "edebito" => "",
-                    "desconto" => $prod->discount,
-                    "desc2" => "",
-                    "desc3" => "",
-                    "ettdeb" => "",
-                    "notas" => $notaComentario
-                ];
-        
-                $uniqueProducts[$uniqueIdentifier] = $count;
-            }
+            $arrayProdutos[$count] = [
+                "id" => $count,
+                "reference" => $prod->referencia,
+                "description" => $prod->designacao,
+                "quantity" => $prod->qtd,
+                "tax" => $prod->iva,
+                "tax_included" => false,
+                "price" => $prod->price,
+                "discount1" => $prod->discount,
+                "discount2" => $prod->discount2,
+                "discount3" => 0,
+                "total" => $totalItem,
+                "notes" => $comentario,
+                "visit_id" => 0, // ou tenho de trazer da base de dados
+                "budgets_id" => ""
+            ];
         }
+
+       
+        $randomChar = Str::random(9);
+
+        if($this->transferenciaFinalizar == true)
+        {
+            $condicaoPagamento = "Transferência Bancária";
+        }
+        if($this->pagamentoFinalizar == true)
+        {
+            $condicaoPagamento = "Pronto Pagamento";
+        }
+        if($this->chequeFinalizar == true)
+        {
+            $condicaoPagamento = "Cheque a 30 dias";
+        }
+        if($this->condicoesFinalizar == true)
+        {
+            $condicaoPagamento = "Condições acordadas";
+        }
+
         $array = [
-            "bistamp" => "",
-            "obrano" => null,
-            "data" => date('Y-m-d'),
-            "no" => intval($prod->id_cliente),
-            "etotal_siva" => number_format($valorTotal, 2, ',', '.'),
-            "etotal" => number_format($valorTotalComIva, 2, ',', '.'),
-            "referencia" => $this->referenciaFinalizar,
-            "observacoes" => $this->observacaoFinalizar,
-            "entrega" => $resultLoja[0],
-            "loja" => $this->lojaFinalizar,
-            "pagamento" => $resultPagamento[0],
-            "vendedor_id" => intval(Auth::user()->id_phc),
-            "encomendano" => intval($this->codEncomenda),
-            "visita_id" => 0,
-            "proposta_id" => "",
-            "tipo" => "Encomenda",
-            "encomenda_vendedor_no" => intval(Auth::user()->id_phc),
-            "produtos" => array_values($arrayProdutos),
+            "id" => $randomChar,
+            "date" => date('Y-m-d').'T'.date('H:i:s'), 
+            "customer_number" => $idCliente,
+            "total_without_tax" => number_format($valorTotal, 2, ',', '.'),
+            "total" => number_format($valorTotalComIva, 2, ',', '.'),
+            "reference" => $this->referenciaFinalizar,
+            "comments" => $this->observacaoFinalizar,
+            "delivery" => $resultLoja[0],
+            "store" => json_decode($this->lojaFinalizar),
+            "payment_conditions" => $condicaoPagamento,
+            "salesman_number" => Auth::user()->id_phc,
+            "type" => "order",
+            "produtos" => $arrayProdutos
         ];
 
-        $encoded_finalizar = json_encode($array);
-
-
-        // dd($encoded_finalizar);
 
         $curl = curl_init();
 
@@ -839,7 +848,7 @@ class DetalheEncomenda extends Component
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => $encoded_finalizar,
+            CURLOPT_POSTFIELDS => json_encode($array),
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json'
             ),
@@ -851,7 +860,15 @@ class DetalheEncomenda extends Component
 
         $response_decoded = json_decode($response);
 
-        dd($encoded_finalizar);
+        $responseArray = $response_decoded->getData(true);
+
+        if ($responseArray["success"] == true) {
+
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Encomenda finalizada com sucesso", "status" => "success"]);
+        }
+        else {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "A encomenda não foi finalizada", "status" => "error"]);
+        }
 
     }
     

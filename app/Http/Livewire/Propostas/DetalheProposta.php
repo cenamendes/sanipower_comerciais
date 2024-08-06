@@ -5,8 +5,9 @@ namespace App\Http\Livewire\Propostas;
 use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\ComentariosProdutos;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
@@ -504,7 +505,7 @@ class DetalheProposta extends Component
 
         if ($responseArray["success"] == true) {
             if($this->produtosComment){
-                $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $productChosenComment["comentario"]);
+                $response = $this->encomendasRepository->addCommentToDatabase($responseArray["data"]["id"],$this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $productChosenComment["comentario"]);
                 $this->produtosComment = [];
             }
             if($responseArray["encomenda"] != "") {
@@ -585,7 +586,7 @@ class DetalheProposta extends Component
 
         if ($responseArray["success"] == true) {
             if($this->produtosComment){
-                $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta,"proposta", $productChosenComment["comentario"]);
+                $response = $this->PropostasRepository->addCommentToDatabase($responseArray["data"]["id"],$this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta,"proposta", $productChosenComment["comentario"]);
                 $this->produtosComment = [];
             }
             if($responseArray["encomenda"] != "") {
@@ -660,13 +661,27 @@ class DetalheProposta extends Component
         }
 
         $response = [];
+
+
         foreach($productChosen as $prodId){
             $response = $this->PropostasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "proposta");
+            
+            $responseArray = $response->getData(true);
+
+            foreach($productChosenComment as $comeProd){
+               
+                if(($prodId["product"]->referense == $comeProd["product"]->referense) && ($prodId["product"]->model == $comeProd["product"]->model) && ($prodId["product"]->price == $comeProd["product"]->price))
+                {
+                    $response = $this->PropostasRepository->addCommentToDatabase($responseArray["data"]["id"], $this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $comeProd["comentario"]);
+                }
+            }
+          
+
         }
 
-        foreach($productChosenComment as $prodId){
-            $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $prodId["comentario"]);
-        }
+        // foreach($productChosenComment as $prodId){
+        //     $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $prodId["comentario"]);
+        // }
 
         $responseArray = $response->getData(true);
 
@@ -909,51 +924,110 @@ class DetalheProposta extends Component
         $count = 0;
         $valorTotal = 0;
         $valorTotalComIva = 0;
+       
+
+        $idCliente = "";
 
         foreach($this->carrinhoCompras as $prod)
         {
             $count++;
+
+            $idCliente = $prod->id_cliente;
+
 
             $totalItem = $prod->price * $prod->qtd;
             $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
             $valorTotal += $totalItem;
             $valorTotalComIva += $totalItemComIva;
 
+            $comentarioCheck = ComentariosProdutos::where('id_proposta', $this->codEncomenda)
+            ->where('tipo','proposta')
+            ->where('id_carrinho_compras', $prod->id)
+            ->first();
 
+            if(empty($comentarioCheck))
+            {
+                $comentario = "";
+            } else {
+                $comentario = $comentarioCheck->comentario;
+            }
 
-
-            // $arrayProdutos[$count] = [
-            //     "id" => $count,
-            //     "reference" => $prod->referencia,
-            //     "description" => $prod->designacao,
-            //     "quantity" => $prod->qtd,
-            //     "tax" => $prod->iva,
-            //     "tax_included" => "true",
-            //     "discount1" => $prod->discount,
-            //     "discount2" => $prod->discount2,
-            //     "discount3" => 0,
-            //     "total" => $totalItemComIva,
-            //     "notes" => "",
-            //     "visit_id" => "sample string 12"
-            //     "budgets_id"
-            // ];
+            $arrayProdutos[$count] = [
+                "id" => $count,
+                "reference" => $prod->referencia,
+                "description" => $prod->designacao,
+                "quantity" => $prod->qtd,
+                "tax" => $prod->iva,
+                "tax_included" => false,
+                "price" => $prod->price,
+                "discount1" => $prod->discount,
+                "discount2" => $prod->discount2,
+                "discount3" => 0,
+                "total" => $totalItem,
+                "notes" => $comentario,
+                "visit_id" => 0, // ou tenho de trazer da base de dados
+                "budgets_id" => ""
+            ];
         }
 
-        dd($arrayProdutos);
+       
+        $randomChar = Str::random(9);
+
+        if($this->transferenciaFinalizar == true)
+        {
+            $condicaoPagamento = "Transferência Bancária";
+        }
+        if($this->pagamentoFinalizar == true)
+        {
+            $condicaoPagamento = "Pronto Pagamento";
+        }
+        if($this->chequeFinalizar == true)
+        {
+            $condicaoPagamento = "Cheque a 30 dias";
+        }
+        if($this->condicoesFinalizar == true)
+        {
+            $condicaoPagamento = "Condições acordadas";
+        }
 
         $array = [
-                    "data" => date('Y-m-d'), 
-                    "no" => $this->carrinhoCompras[0]->id_encomenda,
-                    "etotal_siva" => number_format($valorTotal, 2, ',', '.'),
-                    "etotal" => number_format($valorTotalComIva, 2, ',', '.'),
-                    "referencia" => $this->referenciaFinalizar,
-                    "observacoes" => $this->observacaoFinalizar,
-                    "entrega" => "sample string 9",
-                    "loja" => "sample string 10",
-                    "pagamento" => "sample string 11",
-                    "vendedor_id" =>  Auth::user()->id_phc, 
-                    "produtos" => $arrayProdutos
+            "id" => $randomChar,
+            "date" => date('Y-m-d').'T'.date('H:i:s'), 
+            "customer_number" => $idCliente,
+            "total_without_tax" => number_format($valorTotal, 2, ',', '.'),
+            "total" => number_format($valorTotalComIva, 2, ',', '.'),
+            "reference" => $this->referenciaFinalizar,
+            "comments" => $this->observacaoFinalizar,
+            "payment_conditions" => $condicaoPagamento,
+            "salesman_number" => Auth::user()->id_phc,
+            "type" => "budget",
+            "produtos" => $arrayProdutos
         ];
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($array),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
 
         if($this->enviarCliente == true)
         {
@@ -962,34 +1036,7 @@ class DetalheProposta extends Component
             //so enviar depois do return do post
             //do post tenho de conseguir a proposta_id
         }
-        else
-        {
-            //Nao envia
-
-            // $curl = curl_init();
-
-            // curl_setopt_array($curl, array(
-            //     CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets',
-            //     CURLOPT_RETURNTRANSFER => true,
-            //     CURLOPT_ENCODING => '',
-            //     CURLOPT_MAXREDIRS => 10,
-            //     CURLOPT_TIMEOUT => 0,
-            //     CURLOPT_FOLLOWLOCATION => true,
-            //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            //     CURLOPT_CUSTOMREQUEST => 'POST',
-            //     CURLOPT_POSTFIELDS => $encoded_finalizar,
-            //     CURLOPT_HTTPHEADER => array(
-            //         'Content-Type: application/json'
-            //     ),
-            // ));
-    
-            // $response = curl_exec($curl);
-    
-            // curl_close($curl);
-    
-            // $response_decoded = json_decode($response);
-        }
-       
+        
     
     }
 

@@ -1029,7 +1029,7 @@
                          <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar" style="display:none;">
                             @foreach ($lojas as $loja )
                               @foreach ($loja->stores as $store )
-                                <option value="{{$store->id}}">{{$store->name}}</option>
+                                <option value="{{json_encode($store->name)}}">{{$store->name}}</option>
                               @endforeach
                             @endforeach
                          </select>
