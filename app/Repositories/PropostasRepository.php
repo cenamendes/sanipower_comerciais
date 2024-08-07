@@ -232,9 +232,8 @@ class PropostasRepository implements PropostasInterface
             ], 500);
         }
     }
-    public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
+    public function addProductToDatabase($codvisita,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
     {
-
         if($type == "proposta") {
             $idencomenda ="" ;
             $idproposta = $codType;
@@ -247,6 +246,7 @@ class PropostasRepository implements PropostasInterface
             "id_encomenda" => $idencomenda,
             "id_proposta" => $idproposta,
             "id_cliente" => $no,
+            "id_visita" => $codvisita,
             "id_user" => Auth::user()->id,
             "referencia" => $qtd["product"]->referense,
             "designacao" => $nameProduct,

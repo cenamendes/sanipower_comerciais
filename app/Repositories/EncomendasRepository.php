@@ -67,7 +67,6 @@ class EncomendasRepository implements EncomendasInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-    
         return $response_decoded; 
     }
 
