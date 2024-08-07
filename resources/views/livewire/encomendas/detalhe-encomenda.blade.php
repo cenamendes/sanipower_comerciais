@@ -812,8 +812,9 @@
                                                     </label>
                                                 </div>
                                             </td> --}}
+                                          
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small></td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
                                             <td style="text-align: right; white-space: nowrap;"></td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;"></td>
                                             <td style=" text-align: right; white-space: nowrap;"></td>
@@ -856,7 +857,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small></td>
+                                            <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>

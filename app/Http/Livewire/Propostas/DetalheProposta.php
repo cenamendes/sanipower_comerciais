@@ -5,11 +5,13 @@ namespace App\Http\Livewire\Propostas;
 use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
+use App\Mail\SendProposta;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\ComentariosProdutos;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\PropostasInterface;
 use App\Interfaces\EncomendasInterface;
@@ -954,6 +956,14 @@ class DetalheProposta extends Component
                 $comentario = $comentarioCheck->comentario;
             }
 
+            if($prod->id_visita == null)
+            {
+                $visitaCheck = 0;
+            } 
+            else {
+                $visitaCheck = $prod->id_visita;
+            }
+
             $arrayProdutos[$count] = [
                 "id" => $count,
                 "reference" => $prod->referencia,
@@ -967,13 +977,19 @@ class DetalheProposta extends Component
                 "discount3" => 0,
                 "total" => $totalItem,
                 "notes" => $comentario,
-                "visit_id" => 0, // ou tenho de trazer da base de dados
+                "visit_id" => $visitaCheck, // ou tenho de trazer da base de dados
                 "budgets_id" => ""
             ];
         }
 
        
-        $randomChar = Str::random(9);
+        $randomNumber = '';
+        for ($i = 0; $i < 8; $i++) {
+            $randomNumber .= rand(0, 9);
+        }
+
+
+        $condicaoPagamento = "";
 
         if($this->transferenciaFinalizar == true)
         {
@@ -991,9 +1007,17 @@ class DetalheProposta extends Component
         {
             $condicaoPagamento = "Condições acordadas";
         }
+       
 
+        if($condicaoPagamento == "")
+        {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma condição de pagamento", "status" => "error"]);
+            return false;
+        }
+
+       
         $array = [
-            "id" => $randomChar,
+            "id" => $randomNumber,
             "date" => date('Y-m-d').'T'.date('H:i:s'), 
             "customer_number" => $idCliente,
             "total_without_tax" => number_format($valorTotal, 2, ',', '.'),
@@ -1003,7 +1027,8 @@ class DetalheProposta extends Component
             "payment_conditions" => $condicaoPagamento,
             "salesman_number" => Auth::user()->id_phc,
             "type" => "budget",
-            "produtos" => $arrayProdutos
+            "validity" => $this->validadeProposta.'T'.date('H:i:s'),
+            "lines" => array_values($arrayProdutos)
         ];
 
 
@@ -1033,13 +1058,50 @@ class DetalheProposta extends Component
 
         if($this->enviarCliente == true)
         {
-            //envia email
 
-            //so enviar depois do return do post
-            //do post tenho de conseguir a proposta_id
+            if ($response_decoded->success == true) {
+
+                $proposta = $this->clientesRepository->getPropostaID($response_decoded->id_document);
+
+
+                $pdf = new Dompdf();
+                $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta->budgets[0])]);
+            
+                $pdf->render();
+            
+                $pdfContent = $pdf->output();
+            
+                $emailCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+               
+                $emailArray = explode("; ", $emailCliente["object"]->customers[0]->email);
+
+               
+                foreach($emailArray as $i => $email)
+                {
+                    Mail::to($email)->send(new SendProposta($pdfContent));
+                }
+                   
+            }
+          
+            
+        }
+
+        if ($response_decoded->success == true) {
+           
+            $getEncomenda = Carrinho::where('id_proposta','!=', "")->where('id_cliente',$idCliente)->first();
+
+
+            ComentariosProdutos::where('id_proposta', $getEncomenda->id_proposta)->delete();
+            Carrinho::where('id_proposta', $getEncomenda->id_proposta)->delete();
+
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Proposta finalizada com sucesso", "status" => "success"]);
+        }
+        else {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "A proposta não foi finalizada", "status" => "error"]);
         }
         
-    
+        return redirect()->route('dashboard');
+
     }
 
     public function render()
