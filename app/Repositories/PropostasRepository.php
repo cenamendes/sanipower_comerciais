@@ -234,7 +234,6 @@ class PropostasRepository implements PropostasInterface
     }
     public function addProductToDatabase($codvisita,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
     {
-        dd($codvisita);
         if($type == "proposta") {
             $idencomenda ="" ;
             $idproposta = $codType;
