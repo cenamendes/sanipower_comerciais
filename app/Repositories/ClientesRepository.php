@@ -947,14 +947,14 @@ class ClientesRepository implements ClientesInterface
             $nifCliente = '&Nif=';
         }
        
-        if ($estadoProposta != "0") {
+        if ($estadoProposta != "0" && $estadoProposta != "") {
             $commentCliente = '&Comments='.urlencode($estadoProposta);
         } else {
             $commentCliente = '&Comments=0';
         }
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
-
+       
 
         $curl = curl_init();
 
@@ -979,19 +979,29 @@ class ClientesRepository implements ClientesInterface
         
        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-       
-        if($response_decoded != null && $response_decoded->budgets != null)
+
+
+        if(isset($response_decoded->budgets))
         {
-            $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
+                if($response_decoded != null && $response_decoded->budgets != null)
+                {
+                    $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
 
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
-        }
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+                else {
+
+                    $currentItems = [];
+
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+        } 
         else {
-
             $currentItems = [];
 
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+            $itemsPaginate = new LengthAwarePaginator($currentItems, 0 ,$perPage);
         }
+       
 
         return [
             'paginator' => $itemsPaginate,
