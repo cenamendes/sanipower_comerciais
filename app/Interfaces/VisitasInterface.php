@@ -66,5 +66,9 @@ interface VisitasInterface
     public function sendVisitaToPhc($id,$customer_id,$subject,$report,$type_of_visit,$pending_next_visit,$comment_orders,$comment_budget,$comment_financial,$comments_occurrences,$end_date): JsonResponse;
 
     /******** */
+    /*** APANHAR FINANCEIRO NAS VISITAS ***/
 
+    public function getFinanceiroCliente($perPage,$page,$idCliente): array;
+    public function getVisitasCliente($perPage,$page,$idCliente): array;
+    /******** */
 }
