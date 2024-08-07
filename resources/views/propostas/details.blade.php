@@ -19,7 +19,7 @@
         @if($proposta != null)
             @livewire('propostas.proposta-info',["proposta" => $proposta])
         @else
-            @livewire('propostas.detalhe-proposta',["cliente" => $idCliente, "codEncomenda" => $codEncomenda])
+            @livewire('propostas.detalhe-proposta',["codvisita"=> $codvisita, "cliente" => $idCliente, "codEncomenda" => $codEncomenda])
         @endif
     </div>
     

@@ -338,7 +338,6 @@ class DetalheEncomenda extends Component
         $this->actualFamily = $idFamily;
         $this->actualSubFamily = $idSubFamily;
 
-
         session(['searchSubFamily' => $this->searchSubFamily]);
         // dd($this->getCategories->category[]);
         foreach ($this->getCategories->category as $index => $idCtgry) {
@@ -1037,7 +1036,7 @@ class DetalheEncomenda extends Component
         // $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
-       
+
 
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
@@ -1067,6 +1066,7 @@ class DetalheEncomenda extends Component
             session(['searchNameSubFamily' => $firstSubFamily->name]);
 
             $this->searchSubFamily = $this->encomendasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
+          
             session(['searchSubFamily' => $this->searchSubFamily]);
         }
 
