@@ -340,10 +340,8 @@ class Propostas extends Component
     
         $pdfContent = $pdf->output();
     
-        // $fileName = 'proposta_' . time() . '.pdf';  // Método para guerdar pdf no local Storage
-        // $filePath = 'public/propostas/' . $fileName;
-    
-        // Storage::put($filePath, $pdfContent);
+       
+        dd("Erro"); 
     
         try {
              Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));

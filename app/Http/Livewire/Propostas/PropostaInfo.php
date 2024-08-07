@@ -187,7 +187,7 @@ class PropostaInfo extends Component
     
         $pdfContent = $pdf->output();
     
-   
+        dd("Erro"); 
         foreach($this->emailArray as $i => $email)
         {
             if(isset($this->emailSend[$i]))
