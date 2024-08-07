@@ -498,13 +498,13 @@
 
                 <div class="tab-pane fade {{$tabFinanceiro}}" id="tab9">
 
-                    {{-- <p class="card-text">
+                    <p class="card-text">
 
-                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id, "visita" => $idVisita])
+                        @livewire('visitas.financeiro',["idCliente" => $detalhesCliente->customers[0]->id])
 
-                    </p> --}}
+                    </p>
                 </div>
-
+                
                 <div class="tab-pane fade {{$tabOcorrencia}}" id="tab10">
 
                     <p class="card-text">
@@ -513,7 +513,13 @@
 
                     </p>
                 </div>
+                <div class="tab-pane fade {{$tabVisitas}}" id="tab11">
+                    <p class="card-text">
 
+                        @livewire('visitas.cliente-visitas',["idCliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
 
 
             </div>
