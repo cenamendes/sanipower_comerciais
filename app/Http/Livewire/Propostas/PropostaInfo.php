@@ -239,8 +239,6 @@ class PropostaInfo extends Component
 
     public function adjudicarProposta($proposta)
     {
-        dd($this->selectedItemsAdjudicar);       
-       
         $flag = false;
 
         foreach($this->selectedItemsAdjudicar as $item)
