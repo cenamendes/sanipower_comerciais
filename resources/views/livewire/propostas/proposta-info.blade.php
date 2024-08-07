@@ -352,8 +352,9 @@
                         <table class="table table-hover init-datatable">
                             <thead class="thead-light">
                                 <tr>
-                                    @if($check == null)
-                                        @if($cliente[0])
+                                  
+                                    {{-- @if($check == null)
+                                        @if($cliente[0]) --}}
                                             <th style="width: 0;">
                                                 <div class="form-checkbox">
                                                     <label>
@@ -363,9 +364,9 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                        @endif
+                                        {{-- @endif
 
-                                    @endif
+                                    @endif --}}
 
 
                                     <th style="width: 0;">Referência</th>
@@ -395,7 +396,7 @@
                                                                     $designacaoCorrigida = str_replace('.', '£', $description);
                                                                 @endphp
                                                                 <input type="checkbox" class="checkboxItem" data-id="{{ $prod->id }}"
-                                                                    wire:model.defer="selectedItemsAdjudicar.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                                    wire:model.defer="selectedItemsAdjudicar.{{ $prod->id }}">
                                                                 <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
                                                             </label>
                                                         </div>
@@ -559,6 +560,7 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
     <script>
 
        
@@ -610,30 +612,38 @@
                 moreComments();
             });
         });
-       
-        document.addEventListener('DOMContentLoaded', function() {
-            // Função para sincronizar os checkboxes
-            function syncCheckboxes() {
-                var isChecked = document.querySelector('.checkboxAll').checked;
-                document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
-                    checkbox.checked = isChecked;
-                });
-            }
 
-            document.querySelector('.checkboxAll').addEventListener('click', function() {
-                syncCheckboxes();
-            });
-            document.addEventListener('livewire:load', function() {
-
-                Livewire.on('syncCheckbox', (checkBoxTrue) => {
-                    document.querySelector('.checkboxAll').checked = checkBoxTrue;
-                    document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
-                        checkbox.checked = checkBoxTrue;
-                    });
-                });
-                syncCheckboxes();
+        jQuery(document).ready(function() {
+            jQuery('.checkboxItem').each(function() {
+                jQuery(this).prop('checked', true);
             });
         });
+       
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     // Função para sincronizar os checkboxes
+    
+        //     function syncCheckboxes() {
+        //         var isChecked = document.querySelector('.checkboxAll').checked;
+        //         document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
+        //             checkbox.checked = isChecked;
+        //         });
+        //     }
+
+        //     document.querySelector('.checkboxAll').addEventListener('click', function() {
+        //         syncCheckboxes();
+        //     });
+
+        //     document.addEventListener('livewire:load', function() {
+
+        //         Livewire.on('syncCheckbox', (checkBoxTrue) => {
+        //             document.querySelector('.checkboxAll').checked = checkBoxTrue;
+        //             document.querySelectorAll('.checkboxItem').forEach(function(checkbox) {
+        //                 checkbox.checked = checkBoxTrue;
+        //             });
+        //         });
+        //         syncCheckboxes();
+        //     });
+        // });
 
     </script>
     

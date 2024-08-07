@@ -1031,7 +1031,7 @@ class DetalheProposta extends Component
             "lines" => array_values($arrayProdutos)
         ];
 
-
+        
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

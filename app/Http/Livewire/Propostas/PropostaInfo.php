@@ -70,7 +70,7 @@ class PropostaInfo extends Component
 
     protected ?object $quickBuyProducts = null;
     public $iterationQuickBuy = 0;
-    public $checkBoxTrue = True;
+    public $checkBoxTrue = true;
 
 
     private ?object $detailProduto = null;
@@ -152,6 +152,10 @@ class PropostaInfo extends Component
         $this->filter = false;
 
         $this->showLoaderPrincipal = true;
+      
+        foreach ($proposta->lines as $prod) {
+            $this->selectedItemsAdjudicar[$prod->id] = true;
+        }
     }
     public function enviarEmail($proposta)
     {
@@ -216,100 +220,55 @@ class PropostaInfo extends Component
     }
     public function checkBoxTrue()
     {
-        $this->checkBoxTrue = !$this->checkBoxTrue;
+        
+        if($this->checkBoxTrue == true)
+        {
+            $this->checkBoxTrue = false;
+        } else {
+            $this->checkBoxTrue = true;
+        }
 
-        $this->tabDetail = "";
+        foreach($this->selectedItemsAdjudicar as $i => $item)
+        {
+            $this->selectedItemsAdjudicar[$i] = $this->checkBoxTrue;
+        }
+
         $this->tabDetalhesPropostas = "show active";
-
-        $this->emit('syncCheckbox', $this->checkBoxTrue);
+        $this->tabDetail = "";
     }
 
     public function adjudicarProposta($proposta)
     {
-        //Carrinho::where('id_cliente', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
-        //ComentariosProdutos::where('no', $proposta["number"])->where("id_user", Auth::user()->id)->delete();
-        $selectedProductIds = array_keys(array_filter($this->selectedItemsAdjudicar)); // true
-        
-        
-        $selectedProductIdsfalse = array_keys(array_filter($this->selectedItemsAdjudicar, function($value) {  // false
-            return $value === false;
-        }));
-        //$changedItems = array_diff_key($this->selectedItemsAdjudicar);  retorna todos
-      
-        if($this->checkBoxTrue)
-        {   
-            
-            foreach($proposta["lines"] as $prop)
-        
+        dd($this->selectedItemsAdjudicar);       
+       
+        $flag = false;
+
+        foreach($this->selectedItemsAdjudicar as $item)
+        {
+            if($item == true)
             {
-                if($selectedProductIdsfalse){
-                    foreach ($selectedProductIdsfalse as $itemId) {
-                    
-                        $selectedItemsArray = json_decode($itemId, false);
-                        $designacao = $selectedItemsArray[2];
-                        $designacao = str_replace('£', '.', $designacao);
-                        
-                        $referencia = $selectedItemsArray[1];
-                        $referencia = str_replace('£', '.', $referencia);
-                        
-                        if($prop["reference"] != $referencia && $prop["description"] != $designacao)
-                        {
-                            Carrinho::create([
-                                "id_proposta" => "",
-                                "id_encomenda" => $proposta["id"],
-                                "id_cliente" => $proposta["number"],
-                                "id_user" => Auth::user()->id,
-                                "referencia" => $prop["reference"],
-                                "designacao" => $prop["description"],
-                                "price" => $prop["price"],
-                                "discount" => $prop["discount1"],
-                                "discount2" => $prop["discount2"],
-                                "qtd" => $prop["quantity"],
-                                "iva" => $prop["tax"],
-                                "pvp" => $prop["pvp"],
-                                "model" => $prop["model"],
-                                "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
-                                "proposta_info" => $proposta["budget"],
-                            ]);
-                        } 
-                    }
-                }else{
-                    Carrinho::create([
-                        "id_proposta" => "",
-                        "id_encomenda" => $proposta["id"],
-                        "id_cliente" => $proposta["number"],
-                        "id_user" => Auth::user()->id,
-                        "referencia" => $prop["reference"],
-                        "designacao" => $prop["description"],
-                        "price" => $prop["price"],
-                        "discount" => $prop["discount1"],
-                        "discount2" => $prop["discount2"],
-                        "qtd" => $prop["quantity"],
-                        "iva" => $prop["tax"],
-                        "pvp" => $prop["pvp"],
-                        "model" => $prop["model"],
-                        "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
-                        "proposta_info" => $proposta["budget"],
-                    ]);
-                }
-                
+                $flag = true;
             }
         }
-        else
+
+
+       
+        if($flag == false)
         {
-            foreach($proposta["lines"] as $prop)
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar pelo menos um artigo", "status" => "error"]);
+            $this->tabDetalhesPropostas = "show active";
+            $this->tabDetail = "";
+            return false;
+        }
+
+
+        foreach($this->selectedItemsAdjudicar as $id => $item)
+        {
+            if($item == true)
             {
-            
-                foreach ($selectedProductIds as $itemId) {
-                
-                    $selectedItemsArray = json_decode($itemId, true);
-                    $designacao = $selectedItemsArray[2];
-                    $designacao = str_replace('£', '.', $designacao);
-                    
-                    $referencia = $selectedItemsArray[1];
-                    $referencia = str_replace('£', '.', $referencia);
-                
-                    if($prop["reference"] == $referencia && $prop["description"] == $designacao)
+                foreach($proposta["lines"] as $prop)
+                {
+                    if($id == $prop["id"])
                     {
                         Carrinho::create([
                             "id_proposta" => "",
@@ -319,7 +278,7 @@ class PropostaInfo extends Component
                             "referencia" => $prop["reference"],
                             "designacao" => $prop["description"],
                             "price" => $prop["price"],
-                            "discount" => $prop["discount1"],
+                            "discount" => $prop["discount"],
                             "discount2" => $prop["discount2"],
                             "qtd" => $prop["quantity"],
                             "iva" => $prop["tax"],
@@ -328,17 +287,14 @@ class PropostaInfo extends Component
                             "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
                             "proposta_info" => $proposta["budget"],
                         ]);
-                    
-                    } 
+                    }
                 }
             }
         }
-        
-
-        
-        // $this->clientes = $this->clientesRepository->getListagemClienteFiltro(10,1,"",$proposta["number"],"","","","");
+       
+          
+    
         $this->clientes = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta["number"],"","","","",0);
-
 
    
         session()->flash("success", "Proposta adjudicada com sucesso");
