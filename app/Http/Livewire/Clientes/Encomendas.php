@@ -287,7 +287,7 @@ class Encomendas extends Component
 
     public function enviarEmail($detalheEncomenda,$encomendaID)
     {
-        dd("Erro");
+     
         foreach($detalheEncomenda["data"] as $pr)
         {
             if($encomendaID == $pr["id"])

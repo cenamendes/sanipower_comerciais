@@ -318,7 +318,7 @@ class Propostas extends Component
 
     public function enviarEmail($detalheProposta,$propostaID)
     {
-        dd("Erro");
+     
         foreach($detalheProposta["data"] as $pr)
         {
             if($propostaID == $pr["id"])

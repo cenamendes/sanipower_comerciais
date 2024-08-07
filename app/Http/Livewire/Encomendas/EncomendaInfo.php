@@ -196,8 +196,7 @@ class EncomendaInfo extends Component
     public function enviarEmail($encomenda)
     {
 
-        dd("Erro");
-
+        
 
         $emailArray = explode("; ", $encomenda["email"]);
 
