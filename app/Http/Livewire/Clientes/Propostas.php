@@ -346,7 +346,7 @@ class Propostas extends Component
         // Storage::put($filePath, $pdfContent);
     
         try {
-            // Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
+             Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
