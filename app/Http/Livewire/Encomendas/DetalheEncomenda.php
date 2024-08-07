@@ -716,7 +716,7 @@ class DetalheEncomenda extends Component
 
     public function finalizarencomenda()
     {
-           
+          dd($this);
         $propertiesLoja = [
             'levantamentoLoja' => $this->levantamentoLoja,
             'viaturaSanipower' => $this->viaturaSanipower,
@@ -748,6 +748,13 @@ class DetalheEncomenda extends Component
         }
         if(empty($resultPagamento)){
             $resultPagamento[0] = "";
+        }
+
+
+        if($resultPagamento[0] == "" || $resultLoja[0] == "")
+        {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar um dado logistico e um tipo de pagamento", "status" => "error"]);
+            return false;
         }
             
 
@@ -782,6 +789,14 @@ class DetalheEncomenda extends Component
                 $comentario = $comentarioCheck->comentario;
             }
 
+            if($prod->id_visita == null)
+            {
+                $visitaCheck = 0;
+            } 
+            else {
+                $visitaCheck = $prod->id_visita;
+            }
+
             $arrayProdutos[$count] = [
                 "id" => $count,
                 "reference" => $prod->referencia,
@@ -795,13 +810,16 @@ class DetalheEncomenda extends Component
                 "discount3" => 0,
                 "total" => $totalItem,
                 "notes" => $comentario,
-                "visit_id" => 0, // ou tenho de trazer da base de dados
+                "visit_id" => $visitaCheck, // ou tenho de trazer da base de dados
                 "budgets_id" => ""
             ];
         }
 
        
-        $randomChar = Str::random(9);
+        $randomNumber = '';
+        for ($i = 0; $i < 8; $i++) {
+            $randomNumber .= rand(0, 9);
+        }
 
         if($this->transferenciaFinalizar == true)
         {
@@ -820,22 +838,31 @@ class DetalheEncomenda extends Component
             $condicaoPagamento = "Condições acordadas";
         }
 
+        if(json_decode($this->lojaFinalizar) == null)
+        {
+            $loja = "";
+        } 
+        else {
+            $loja = json_decode($this->lojaFinalizar);
+        }
+        
+
         $array = [
-            "id" => $randomChar,
+            "id" => $randomNumber,
             "date" => date('Y-m-d').'T'.date('H:i:s'), 
             "customer_number" => $idCliente,
-            "total_without_tax" => number_format($valorTotal, 2, ',', '.'),
-            "total" => number_format($valorTotalComIva, 2, ',', '.'),
+            "total_without_tax" => number_format($valorTotal, 2, '.', '.'),
+            "total" => number_format($valorTotalComIva, 2, '.', '.'),
             "reference" => $this->referenciaFinalizar,
             "comments" => $this->observacaoFinalizar,
             "delivery" => $resultLoja[0],
-            "store" => json_decode($this->lojaFinalizar),
+            "store" => $loja,
             "payment_conditions" => $condicaoPagamento,
             "salesman_number" => Auth::user()->id_phc,
             "type" => "order",
-            "produtos" => $arrayProdutos
+            "lines" => array_values($arrayProdutos)
         ];
-
+       
 
         $curl = curl_init();
 
@@ -860,14 +887,23 @@ class DetalheEncomenda extends Component
 
         $response_decoded = json_decode($response);
 
-       
-        if ($response_decoded["success"] == true) {
+
+        if ($response_decoded->success == true) {
+            
+            $getEncomenda = Carrinho::where('id_encomenda','!=', "")->where('id_cliente',$idCliente)->first();
+
+
+            ComentariosProdutos::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
+            Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
+    
 
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Encomenda finalizada com sucesso", "status" => "success"]);
         }
         else {
             $this->dispatchBrowserEvent('checkToaster', ["message" => "A encomenda não foi finalizada", "status" => "error"]);
         }
+
+        return redirect()->route('dashboard');
 
     }
     
@@ -1001,11 +1037,11 @@ class DetalheEncomenda extends Component
         // $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
-
+       
 
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
-   
+
         if (session('searchSubFamily') !== null) {
             $sessao = session('searchSubFamily');
 

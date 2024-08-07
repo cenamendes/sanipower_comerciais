@@ -27,10 +27,10 @@ class EncomendasController extends Controller
     public function showDetail($id)
     {
         Session::put('rota','encomendas.nova');
-
+     
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
         $detailsClientes = $arrayCliente["object"];
-     
+  
         $checkCarrinho = Carrinho::where("id_user", Auth::user()->id)
                     ->where('id_cliente',$detailsClientes->customers[0]->no)
                     ->first();
