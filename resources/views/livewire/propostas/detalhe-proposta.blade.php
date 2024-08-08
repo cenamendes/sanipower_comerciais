@@ -1043,6 +1043,7 @@
                              
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
+                                    <th>Comentário</th>
                                     <th style="text-align: right;width: 0%;">PVP</th>
                                     <th style="text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
                                     <th style="text-align: right;width: 0%;">P(c/desc.)</th>
@@ -1084,6 +1085,16 @@
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
+                                            <td style="white-space: nowrap;">
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                @if(isset($comentarios))
+                                                    @if($comentarios != null)
+                                                        {{$comentarios->comentario}}
+                                                    @endif
+                                                @endif
+                                            </td>
                                             <td style="text-align: right; white-space: nowrap;"></td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;"></td>
                                             <td style=" text-align: right; white-space: nowrap;"></td>
@@ -1126,6 +1137,16 @@
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->designacao }}@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
+                                            <td style="white-space: nowrap;">
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                 @if(isset($comentarios))
+                                                    @if($comentarios != null)
+                                                        {{$comentarios->comentario}}
+                                                    @endif
+                                                @endif
+                                            </td>
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
