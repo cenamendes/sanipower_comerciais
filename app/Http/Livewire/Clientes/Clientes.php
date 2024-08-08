@@ -78,7 +78,7 @@ class Clientes extends Component
         $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         
         $this->clientes = $arrayClientes["paginator"];
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"] + 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
 
     }
@@ -89,7 +89,7 @@ class Clientes extends Component
         $this->clientes = $arrayClientes["paginator"];
      
 
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
 
 
@@ -102,7 +102,7 @@ class Clientes extends Component
         $this->clientes = $arrayClientes["paginator"];
      
 
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
     
         $camposPreenchidos = !empty($this->criarnomeCliente) && !empty($this->criarnumeroCliente) && !empty($this->criarzonaCliente) && !empty($this->criarnumContribuinte);
@@ -143,7 +143,7 @@ class Clientes extends Component
         $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         
         $this->clientes = $arrayClientes["paginator"];
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
@@ -153,7 +153,7 @@ class Clientes extends Component
         $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         
         $this->clientes = $arrayClientes["paginator"];
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
@@ -163,7 +163,7 @@ class Clientes extends Component
         $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         
         $this->clientes = $arrayClientes["paginator"];
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
@@ -173,7 +173,7 @@ class Clientes extends Component
         $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         
         $this->clientes = $arrayClientes["paginator"];
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
@@ -183,7 +183,7 @@ class Clientes extends Component
         $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
         
         $this->clientes = $arrayClientes["paginator"];
-        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
         $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
@@ -266,14 +266,14 @@ class Clientes extends Component
             $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             $this->clientes = $arrayClientes["paginator"];
 
-            $this->numberMaxPages = $arrayClientes["nr_paginas"];
+            $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
             $this->totalRecords = $arrayClientes["nr_registos"];
         } else {
             $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
             $this->clientes = $arrayClientes["paginator"];
         
 
-            $this->numberMaxPages = $arrayClientes["nr_paginas"];
+            $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
             $this->totalRecords = $arrayClientes["nr_registos"];
         }
 
