@@ -98,22 +98,28 @@
                                     <th>Ocorrência</th>
                                     <th>status</th>
                                     <th>total</th>
-
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($detailsAssistencias as $details)
-                                    <tr>
-                                        <td>{{ date('Y-m-d', strtotime($details->date))}}</td>
-                                        <td>{{ $details->occurrence }}</td>
-                                        <td>{{ $details->status }}</td>
-                                        <td>{{ $details->total }}</td>
-                                    </tr>
-                                @endforeach
+                            @foreach ($detailsAssistencias as $details)
+                                <tr>
+                                    <td>{{ date('Y-m-d', strtotime($details->date))}}</td>
+                                    <td>{{ $details->occurrence }}</td>
+                                    <td>{{ $details->status }}</td>
+                                    <td>{{ $details->total }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary" wire:click="detalheAssistencias({{ json_encode($details) }})">
+                                            <i class="fas fa-info"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
                     {{ $detailsAssistencias->links() }}
+
                 </div>
             </div>
         </div>
@@ -124,8 +130,66 @@
 
 
     <!-- MODALS -->
+    <div class="modal fade" id="detalheAssistenciasModal" tabindex="-1" role="dialog" aria-labelledby="detalheAssistenciasModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalheAssistenciasModalLabel">Detalhes da Assistências</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Referencia</th>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                                <th>Preço</th>
+                                <th>Desconto</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if($detailsLine)
+                                @foreach ($detailsLine['lines'] as $prod)
+                                    <tr>
+                                        <td>{{ $prod['reference'] }}</td>
+                                        <td>{{ $prod['description'] }}</td>
+                                        <td>{{ $prod['quantity'] }}</td>
+                                        <td>{{ $prod['price'] }} €</td>
+                                        <td>{{ $prod['discount'] }}</td>
+                                        <td>{{ $prod['total'] }} €</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6">Não foram encontrados registos para exibir.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
 
+        document.addEventListener('openDetalheAssistenciasModal', function() {
+            $('#detalheAssistenciasModal').modal('show');
+        });
 
+        document.addEventListener('DOMContentLoaded', function () {
+            window.addEventListener('checkToaster', event => {
+            
+                $('#detalheAssistenciasModal').modal('hide');
+            });
+        });
+        window.addEventListener('checkToaster', function(e) {
+            $('#detalheAssistenciasModal').modal('hide');
+        });
+    </script>
     
 
 </div>

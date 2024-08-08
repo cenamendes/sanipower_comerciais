@@ -28,6 +28,8 @@ class Ocorrencias extends Component
 
     private ?object $detailsOcorrencias = NULL;
     public ?object $comentario = NULL;
+    public $detailsLine = NULL;
+
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -192,10 +194,10 @@ class Ocorrencias extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioOcorrencias');
     }
 
-    public function detalheOcorrenciasModal($id)
+    public function detalheOcorrenciasModal($details)
     {
-
-        $this->ocorrenciaID = $id;
+        $this->ocorrenciaID = $details['id'];
+        $this->detailsLine = $details;
 
         $this->restartDetails();
 

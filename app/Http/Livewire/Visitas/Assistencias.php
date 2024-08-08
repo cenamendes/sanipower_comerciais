@@ -46,6 +46,8 @@ class assistencias extends Component
 
     private ?object $detailsAssistencias = NULL;
     public ?object $comentario = NULL;
+    public $detailsLine = NULL;
+
 
     public $estadoProposta = "";
 
@@ -146,6 +148,13 @@ class assistencias extends Component
     public function paginationView()
     {
         return 'livewire.pagination';
+    }
+    public function detalheAssistencias($details)
+    {
+        $this->detailsLine = $details;
+        $this->restartDetails();
+        $this->dispatchBrowserEvent('openDetalheAssistenciasModal');
+        return false;
     }
     public function render()
     {
