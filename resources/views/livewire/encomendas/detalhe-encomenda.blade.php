@@ -679,15 +679,15 @@
                                                                         <div class="row">
                                                                          
                                                                             <div class="col-4">
-                                                                                <img src="https://www.sanipower.pt/img/cx-pequena.svg" alt="Caixa Pequena" data-pagespeed-url-hash="2664735804" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                <img src="https://www.sanipower.pt/img/cx-pequena.svg" alt="Caixa Pequena">
                                                                                 {{$prod->quantity_box->small}}
                                                                             </div>
                                                                             <div class="col-4">
-                                                                                <img src="https://www.sanipower.pt/img/cx-grande.svg" alt="Caixa Grande" data-pagespeed-url-hash="2489183380" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                <img src="https://www.sanipower.pt/img/cx-grande.svg" alt="Caixa Grande">
                                                                                 {{$prod->quantity_box->big}}
                                                                             </div>
                                                                             <div class="col-4">
-                                                                                <img src="https://www.sanipower.pt/img/palete.svg" alt="Palete" data-pagespeed-url-hash="608911280" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                <img src="https://www.sanipower.pt/img/palete.svg" alt="Palete">
                                                                                 {{$prod->quantity_box->pallet}}
                                                                             </div>
                                                                          

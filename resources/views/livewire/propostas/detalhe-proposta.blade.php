@@ -949,15 +949,15 @@
                                                                                                         <div class="row">
                                                                                                          
                                                                                                             <div class="col-4">
-                                                                                                                <img src="https://www.sanipower.pt/img/cx-pequena.svg" alt="Caixa Pequena" data-pagespeed-url-hash="2664735804" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                                                <img src="https://www.sanipower.pt/img/cx-pequena.svg" alt="Caixa Pequena">
                                                                                                                 {{$prod->quantity_box->small}}
                                                                                                             </div>
                                                                                                             <div class="col-4">
-                                                                                                                <img src="https://www.sanipower.pt/img/cx-grande.svg" alt="Caixa Grande" data-pagespeed-url-hash="2489183380" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                                                <img src="https://www.sanipower.pt/img/cx-grande.svg" alt="Caixa Grande" >
                                                                                                                 {{$prod->quantity_box->big}}
                                                                                                             </div>
                                                                                                             <div class="col-4">
-                                                                                                                <img src="https://www.sanipower.pt/img/palete.svg" alt="Palete" data-pagespeed-url-hash="608911280" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+                                                                                                                <img src="https://www.sanipower.pt/img/palete.svg" alt="Palete"  >
                                                                                                                 {{$prod->quantity_box->pallet}}
                                                                                                             </div>
                                                                                                          
@@ -1615,30 +1615,30 @@
                 toggleDropdown(dropdownBtn);
             }
         });
-        document.addEventListener('livewire:load', function() {
-            const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
 
-            textareas.forEach(textarea => {
-                const id = textarea.id.replace('addTextosEncomenda', '');
-                const commentButton = document.getElementById('addCommentEncomenda' + id);
-
-                textarea.addEventListener('input', function() {
-                    if (textarea.value.trim() !== "") {
-                        commentButton.removeAttribute('disabled');
-                    } else {
-                        commentButton.setAttribute('disabled', 'disabled');
-                    }
-                });
-
-                commentButton.addEventListener('click', function() {
-                    $('#addProductEncomenda'+id).removeAttr('disabled');
-                    $('#addProductProposta'+id).removeAttr('disabled');
-                });
-            });
-        });
-
+        
     });
 
+    function attachLoader() {
+        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
+        textareas.forEach(textarea => {
+            const id = textarea.id.replace('addTextosEncomenda', '');
+            const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+            textarea.addEventListener('input', function() {
+                if (textarea.value.trim() !== "") {
+                    commentButton.removeAttribute('disabled');
+                } else {
+                    commentButton.setAttribute('disabled', 'disabled');
+                }
+            });
+
+            commentButton.addEventListener('click', function() {
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            });
+        });
+    }
     const checkbox = document.getElementById('checkbox');
 
     const sidebar = document.getElementById('sidebarProd');
@@ -1658,7 +1658,6 @@
     });
 
     $(document).ready(function() {
-
         $.fn.datepicker.dates['pt-BR'] = {
                             days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
                             daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
@@ -1688,7 +1687,6 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-
 
         function attachHandlers() {
 
@@ -1915,6 +1913,7 @@
 
             }
         } else {}
+        attachLoader()
     });
 
     jQuery('body').on('click', '.checkboxSidbar', function() {

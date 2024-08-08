@@ -1039,7 +1039,7 @@ class DetalheProposta extends Component
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets',
+            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1079,7 +1079,7 @@ class DetalheProposta extends Component
                
                 $emailArray = explode("; ", $emailCliente["object"]->customers[0]->email);
 
-                
+                dd("Erro"); 
                 foreach($emailArray as $i => $email)
                 {
                     Mail::to($email)->send(new SendProposta($pdfContent));
