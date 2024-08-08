@@ -275,11 +275,13 @@ class DetalheEncomenda extends Component
 
     }
 
-    public function deletar($referencia, $designacao)
+    public function deletar($referencia, $designacao, $model, $price)
     {
         Carrinho::where('id_encomenda', $this->codEncomenda)
                 ->where('referencia', $referencia)
                 ->where('designacao', $designacao)
+                ->where('model', $model)
+                ->where('price', $price)
         ->delete();
 
 
@@ -1115,7 +1117,7 @@ class DetalheEncomenda extends Component
                 if ($img == $cart->image_ref) {
                     $found = false;
                     foreach ($arrayCart[$img] as &$item) {
-                        if ($item->referencia == $cart->referencia) {
+                        if (($item->referencia == $cart->referencia) && ($item->designacao == $cart->designacao) && ($item->price == $cart->price) && ($item->model == $cart->model)) {
                             if(isset($cart->qtd)) {
                                 if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
                                     $item->qtd += $cart->qtd;
