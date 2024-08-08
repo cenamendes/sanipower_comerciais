@@ -98,9 +98,7 @@
                                     <th>Data</th>
                                     <th>Encomenda</th>
                                     <th>Total</th>
-                                    <th>Estado</th>
-                                    <th>Ações</th>
-                                    <th>Detalhe Encomenda</th>
+                                    <th>Estado</th>                                  
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,26 +108,7 @@
                                         <td>{{ $detalhe->occurrence }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
-                                        <td><button type="button" class="btn btn-primary"
-                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->occurrence) }})"><i
-                                                    class="ti ti-plus"></i> Comentário</button>
-                                            @php
-                                                $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
-                                                    ->where('tipo', 'ocorrencias')
-                                                    ->get();
-                                            @endphp
-                                            @if ($cmt->count() > 0)
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Comentários
-                                                </button>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" wire:click="detalheOcorrenciasModal({{ json_encode($detalhe->id) }})">
-                                                <i class="ti ti-plus"></i> Ver Ocorrências
-                                            </button>
-                                        </td>
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>
