@@ -1594,26 +1594,28 @@
                 toggleDropdown(dropdownBtn);
             }
         });
+        document.addEventListener('livewire:load', function() {
+            const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
 
-        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
+            textareas.forEach(textarea => {
+                const id = textarea.id.replace('addTextosEncomenda', '');
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
 
-        textareas.forEach(textarea => {
-            const id = textarea.id.replace('addTextosEncomenda', '');
-            const commentButton = document.getElementById('addCommentEncomenda' + id);
+                textarea.addEventListener('input', function() {
+                    if (textarea.value.trim() !== "") {
+                        commentButton.removeAttribute('disabled');
+                    } else {
+                        commentButton.setAttribute('disabled', 'disabled');
+                    }
+                });
 
-            textarea.addEventListener('input', function() {
-                if (textarea.value.trim() !== "") {
-                    commentButton.removeAttribute('disabled');
-                } else {
-                    commentButton.setAttribute('disabled', 'disabled');
-                }
-            });
-
-            commentButton.addEventListener('click', function() {
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
+                commentButton.addEventListener('click', function() {
+                    $('#addProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductProposta'+id).removeAttr('disabled');
+                });
             });
         });
+
     });
 
     const checkbox = document.getElementById('checkbox');
