@@ -79,8 +79,7 @@ class ClienteVisitas extends Component
     {
         $this->pageChosen = $page;
         $financeiroArray = $this->visitasRepository->getVisitasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-
-        $this->detailsPropostas = $financeiroArray["paginator"];
+        $this->detailsVisitasCliente = $financeiroArray["object"];
     }
 
 
@@ -89,12 +88,12 @@ class ClienteVisitas extends Component
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
             $financeiroArray = $this->visitasRepository->getVisitasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-            $this->detailsPropostas = $financeiroArray["paginator"];
+            $this->detailsVisitasCliente = $financeiroArray["object"];
         }
         else if($this->pageChosen == 1){
             $financeiroArray = $this->visitasRepository->getVisitasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-            $this->detailsPropostas = $financeiroArray["paginator"];
+            $this->detailsVisitasCliente = $financeiroArray["object"];
         }
 
     }
@@ -106,7 +105,7 @@ class ClienteVisitas extends Component
 
             $financeiroArray = $this->visitasRepository->getVisitasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-            $this->detailsPropostas = $financeiroArray["paginator"];
+            $this->detailsVisitasCliente = $financeiroArray["object"];
         }
     }
 
@@ -131,7 +130,7 @@ class ClienteVisitas extends Component
         $financeiroArray = $this->visitasRepository->getVisitasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
 
-        $this->numberMaxPages = $financeiroArray["nr_paginas"];
+        $this->numberMaxPages = $financeiroArray["nr_paginas"] + 1;
         $this->totalRecords = $financeiroArray["nr_registos"];
         $this->detailsVisitasCliente = $financeiroArray["object"];
     }
