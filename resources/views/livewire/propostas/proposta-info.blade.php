@@ -424,7 +424,7 @@
                                                     </label>
                                                 </div>
                                             </td> --}}
-
+                                        
                                             <td>{{ $prod->reference }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->description }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ $prod->quantity }}</td>
