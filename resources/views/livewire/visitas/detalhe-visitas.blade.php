@@ -509,7 +509,7 @@
 
                     <p class="card-text">
 
-                        @livewire('visitas.ocorrencias',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('clientes.ocorrencias',["cliente" => $detalhesCliente->customers[0]->id])
 
                     </p>
                 </div>

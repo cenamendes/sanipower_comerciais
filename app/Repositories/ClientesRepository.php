@@ -1204,7 +1204,7 @@ class ClientesRepository implements ClientesInterface
         return $response_decoded;
     }
 
-    public function getOcorrenciasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getOcorrenciasCliente($perPage,$page,$idCliente): array
     {
         $curl = curl_init();
 
@@ -1231,19 +1231,34 @@ class ClientesRepository implements ClientesInterface
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        if($response_decoded != null)
+
+        if(isset($response_decoded->occurrences))
         {
-            $currentItems = array_slice($response_decoded->occurrences, $perPage * ($currentPage - 1), $perPage);
+                if($response_decoded != null && $response_decoded->occurrences != null)
+                {
+                    $currentItems = array_slice($response_decoded->occurrences, $perPage * ($currentPage - 1), $perPage);
 
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+                else {
 
-        }
+                    $currentItems = [];
+
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+        } 
         else {
-
             $currentItems = [];
 
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+            $itemsPaginate = new LengthAwarePaginator($currentItems, 0 ,$perPage);
         }
+       
+
+        return [
+            'object' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
 
     
         return $itemsPaginate; 

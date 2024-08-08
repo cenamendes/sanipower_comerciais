@@ -61,7 +61,11 @@ class Ocorrencias extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+        $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+        $this->detailsOcorrencias = $ocorrenciasArray["object"];
     }
 
 
@@ -69,10 +73,15 @@ class Ocorrencias extends Component
     {
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
-            $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->detailsOcorrencias = $ocorrenciasArray["object"];
         }
         else if($this->pageChosen == 1){
-            $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->detailsOcorrencias = $ocorrenciasArray["object"];
         }
 
     }
@@ -82,7 +91,9 @@ class Ocorrencias extends Component
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
 
-            $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->detailsOcorrencias = $ocorrenciasArray["object"];
         }
     }
 
@@ -115,11 +126,12 @@ class Ocorrencias extends Component
 
     public function restartDetails()
     {
-        $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesOcorrenciasCliente($this->perPage,$this->idCliente);
+        $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->detailsOcorrencias = $ocorrenciasArray["object"];
+
+        $this->numberMaxPages = $ocorrenciasArray["nr_paginas"] + 1;
+        $this->totalRecords = $ocorrenciasArray["nr_registos"];
 
     }
 
