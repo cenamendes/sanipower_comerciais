@@ -381,6 +381,14 @@
 
                     </p>
                 </div>
+                 <div class="tab-pane fade {{$tabAssistencias}}" id="tab11">
+
+                    <p class="card-text">
+
+                        @livewire('visitas.assistencias',["idCliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
                 <div class="tab-pane fade {{$tabCampanhas}}" id="tab12">
 
                     <p class="card-text">

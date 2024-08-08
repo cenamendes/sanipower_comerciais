@@ -66,7 +66,7 @@
                     <div class="row">
                         <div class="col-xl-8 col-xs-12">
                             <div class="caption uppercase">
-                                <i class="ti-stats-up"></i> Visitas
+                                <i class="ti-stats-up"></i> Assistências
                             </div>
                         </div>
 
@@ -95,33 +95,25 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Data</th>
-                                    <th>Assunto</th>
-                                    <th>Relatório</th>
-                                    <th>Tipo de visita</th>
-                                    <th>Pendente visita</th>
-                                    <th>Comentario Encomenda</th>
-                                    <th>Comentario Proposta</th>
-                                    <th>Comentario Financeiro</th>
+                                    <th>Ocorrência</th>
+                                    <th>status</th>
+                                    <th>total</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($detailsVisitasCliente as $details)
+                                @foreach ($detailsAssistencias as $details)
                                     <tr>
-                                        <td>{{ date('Y-m-d', strtotime($details->end_date))}}</td>
-                                        <td>{{ $details->subject }}</td>
-                                        <td>{{ $details->report }}</td>
-                                        <td>{{ $details->typeof_visit }}</td>
-                                        <td>{{ $details->pending_next_visit }}</td>
-                                        <td>{{ $details->comment_orders }}</td>
-                                        <td>{{ $details->comment_budget }}</td>
-                                        <td>{{ $details->comment_financial }}</td>
+                                        <td>{{ date('Y-m-d', strtotime($details->date))}}</td>
+                                        <td>{{ $details->occurrence }}</td>
+                                        <td>{{ $details->status }}</td>
+                                        <td>{{ $details->total }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    {{ $detailsVisitasCliente->links() }}
+                    {{ $detailsAssistencias->links() }}
                 </div>
             </div>
         </div>
