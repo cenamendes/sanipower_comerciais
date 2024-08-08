@@ -686,8 +686,12 @@ class DetalheProposta extends Component
         // foreach($productChosenComment as $prodId){
         //     $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $prodId["comentario"]);
         // }
-
-        $responseArray = $response->getData(true);
+        if($response){
+            $responseArray = $response->getData(true);
+        }else{
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+            return false;
+        }
 
         if ($responseArray["success"] == true) {
             $message = "Produto adicionado á proposta!";
