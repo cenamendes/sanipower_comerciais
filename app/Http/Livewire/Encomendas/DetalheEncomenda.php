@@ -686,7 +686,13 @@ class DetalheEncomenda extends Component
         //     $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $prodId["comentario"]);
         // }
         
-        $responseArray = $response->getData(true);
+        if($response){
+            $responseArray = $response->getData(true);
+        }else{
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+            return false;
+        }
+
 
         if ($responseArray["success"] == true) {
             $message = "Produto adicionado á encomenda!";
