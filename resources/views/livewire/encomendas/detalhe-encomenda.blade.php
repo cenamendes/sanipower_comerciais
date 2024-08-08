@@ -728,23 +728,28 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="container-buttons-produtos">
-                        <div>
-                            <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
+                    <div style="display: flex;justify-content: space-between;width: 100%;">
+                        <div class="container-buttons-produtos">
+                            <div>
+                                <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
+                            </div>
+                            <div>
+                                <button class="btn btn-md btn-primary"><i class="ti-info"></i> Descrição Produto</button>
+                            </div>
+                            <div>
+                                <button class="btn btn-md btn-primary"><i class="ti-file"></i> Manuais Certificados</button>
+                            </div>
                         </div>
-                        <div>
-                            <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
-                        </div>
-                        <div>
-                            <button class="btn btn-md btn-primary" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
-                        </div>
-                        <div>
-                            <button class="btn btn-md btn-primary"><i class="ti-info"></i> Descrição Produto</button>
-                        </div>
-                        <div>
-                            <button class="btn btn-md btn-primary"><i class="ti-file"></i> Manuais Certificados</button>
+                        <div class="container-buttons-produtos">
+                            <div>
+                                <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
+                            </div>
+                            <div>
+                                <button class="btn btn-md btn-success" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
