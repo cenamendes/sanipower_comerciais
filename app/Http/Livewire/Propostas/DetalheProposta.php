@@ -283,14 +283,15 @@ class DetalheProposta extends Component
 
     }
 
-    public function deletar($itemReference)
+    public function deletar($referencia,$designacao)
     {
 
-        Carrinho::where('id_proposta', $this->codEncomenda)
-        ->where('referencia', $itemReference)
+        Carrinho::where('id_encomenda', $this->codEncomenda)
+                ->where('referencia', $referencia)
+                ->where('designacao', $designacao)
         ->delete();
 
-        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $itemReference]);
+        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $referencia]);
 
     }
 
@@ -1156,6 +1157,7 @@ class DetalheProposta extends Component
         $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)
             ->where('id_user',Auth::user()->id)
             ->where('id_proposta', '!=', '')
+            ->where('id_proposta', $this->codEncomenda)
             ->orderBy('inkit', 'desc')
             ->get();
 

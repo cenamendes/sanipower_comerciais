@@ -275,14 +275,15 @@ class DetalheEncomenda extends Component
 
     }
 
-    public function deletar($itemReference)
+    public function deletar($referencia, $designacao)
     {
         Carrinho::where('id_encomenda', $this->codEncomenda)
-        ->where('referencia', $itemReference)
+                ->where('referencia', $referencia)
+                ->where('designacao', $designacao)
         ->delete();
 
 
-        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $itemReference]);
+        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $referencia]);
     }
 
 
@@ -1085,7 +1086,10 @@ class DetalheEncomenda extends Component
 
         }
 
-        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)
+        $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)
+                ->where('id_user',Auth::user()->id)
+                ->where('id_encomenda',$this->codEncomenda)
+
         ->orderBy('inkit', 'desc')
         ->get();
 
@@ -1129,7 +1133,6 @@ class DetalheEncomenda extends Component
                 }
             }
         }
-        
         $this->lojas = $this->encomendasRepository->getLojas();
         return view('livewire.encomendas.detalhe-encomenda',["onkit" => $onkit, "allkit" => $allkit,"detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
