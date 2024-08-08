@@ -219,7 +219,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="detalheEncomendaModal" tabindex="-1" role="dialog" aria-labelledby="detalheEncomendaModalLabel" aria-hidden="true">
+        <div class="modal fade" id="detalheEncomendaModal" tabindex="-1" role="dialog" aria-labelledby="detalheEncomendaModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
