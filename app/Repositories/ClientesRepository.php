@@ -29,7 +29,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.$string.'&Salesman_number='.Auth::user()->id_phc,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.$string.'&Salesman_number='.Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -86,7 +86,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?perPage=99999999&Page=1'.$string.'&Salesman_number='.Auth::user()->id_phc,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage=99999999&Page=1'.$string.'&Salesman_number='.Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -125,7 +125,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
  
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -184,7 +184,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?perPage='.$perPage.$string.'&Page=1&Salesman_number='.Auth::user()->id_phc,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.$string.'&Page=1&Salesman_number='.Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -257,7 +257,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -339,7 +339,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.$idPhcUser.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.$idPhcUser.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -422,7 +422,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page=1&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page=1&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -459,7 +459,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/customers/GetCustomers?id='.$id,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?id='.$id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -507,7 +507,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
       
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -564,7 +564,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -606,7 +606,7 @@ class ClientesRepository implements ClientesInterface
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -682,7 +682,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -775,7 +775,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -821,7 +821,7 @@ class ClientesRepository implements ClientesInterface
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -881,7 +881,7 @@ class ClientesRepository implements ClientesInterface
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -959,7 +959,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1061,7 +1061,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1095,7 +1095,7 @@ class ClientesRepository implements ClientesInterface
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders?order_id='.$encomendaID,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?order_id='.$encomendaID,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1124,7 +1124,7 @@ class ClientesRepository implements ClientesInterface
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budget?budget_id='.$propostaID,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budget?budget_id='.$propostaID,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1167,7 +1167,7 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/comments',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/comments',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1210,7 +1210,7 @@ class ClientesRepository implements ClientesInterface
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/occurrences?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1255,7 +1255,7 @@ class ClientesRepository implements ClientesInterface
 
         curl_setopt_array($curl, array(
 
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/occurrences?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

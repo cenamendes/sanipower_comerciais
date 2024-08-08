@@ -359,8 +359,7 @@ class Propostas extends Component
     
         $pdfContent = $pdf->output();
     
-       
-        dd("Erro"); 
+       ; 
     
         try {
              Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));

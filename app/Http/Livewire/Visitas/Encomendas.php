@@ -316,7 +316,7 @@ class Encomendas extends Component
     
         $pdfContent = $pdf->output();
     
-        dd("Erro"); 
+      
         try {
              Mail::to(Auth::user()->email)->send(new SendEncomenda($pdfContent));
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);

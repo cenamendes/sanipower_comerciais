@@ -353,8 +353,8 @@
                             <thead class="thead-light">
                                 <tr>
                                   
-                                    {{-- @if($check == null)
-                                        @if($cliente[0]) --}}
+                                    @if($check == null)
+                                        @if($cliente[0])
                                             <th style="width: 0;">
                                                 <div class="form-checkbox">
                                                     <label>
@@ -364,9 +364,9 @@
                                                     </label>
                                                 </div>
                                             </th>
-                                        {{-- @endif
+                                        @endif
 
-                                    @endif --}}
+                                    @endif
 
 
                                     <th style="width: 0;">Referência</th>
@@ -424,7 +424,7 @@
                                                     </label>
                                                 </div>
                                             </td> --}}
-
+                                        
                                             <td>{{ $prod->reference }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->description }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ $prod->quantity }}</td>

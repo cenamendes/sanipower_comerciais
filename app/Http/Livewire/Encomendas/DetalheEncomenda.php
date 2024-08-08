@@ -866,7 +866,7 @@ class DetalheEncomenda extends Component
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/orders',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

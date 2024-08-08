@@ -224,7 +224,7 @@ class EncomendaInfo extends Component
     
         $pdfContent = $pdf->output();
     
-        dd("Erro"); 
+        
    
         foreach($this->emailArray as $i => $email)
         {
