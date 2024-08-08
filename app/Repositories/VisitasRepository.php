@@ -15,6 +15,51 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class VisitasRepository implements VisitasInterface
 {
+    public function getAssistencias($perPage,$page,$idCliente): array
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/assists?perPage=' . $perPage . '&Page=' . $page . '&customer_id=' . $idCliente . '&Salesman_number='.Auth::user()->id_phc,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+        $response_decoded = json_decode($response);
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        if($response_decoded != null)
+        {
+        
+
+            $currentItems = array_slice($response_decoded->assists, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+
+        }
+        else {
+
+            $currentItems = [];
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records ,"object" => $itemsPaginate  ];
+        return $arrayInfo;
+    }
 
     public function getVisitasCliente($perPage,$page,$idCliente): array
     {

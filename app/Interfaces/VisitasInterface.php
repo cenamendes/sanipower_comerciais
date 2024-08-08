@@ -70,5 +70,7 @@ interface VisitasInterface
 
     public function getFinanceiroCliente($perPage,$page,$idCliente): array;
     public function getVisitasCliente($perPage,$page,$idCliente): array;
+    public function getAssistencias($perPage,$page,$idCliente): array;
+
     /******** */
 }
