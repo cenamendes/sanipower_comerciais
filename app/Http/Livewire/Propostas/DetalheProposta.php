@@ -1075,7 +1075,7 @@ class DetalheProposta extends Component
                
                 $emailArray = explode("; ", $emailCliente["object"]->customers[0]->email);
 
-               
+                dd("Erro"); 
                 foreach($emailArray as $i => $email)
                 {
                     Mail::to($email)->send(new SendProposta($pdfContent));
