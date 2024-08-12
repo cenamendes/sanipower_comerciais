@@ -556,8 +556,9 @@
                                                 </div>
                                                 @php
                                                     $searchSubFamily = session('searchSubFamily');
+                                                    
                                                 @endphp
-                                                @if ($searchSubFamily)
+                                                @if($searchSubFamily != null)
                                                     @foreach ($searchSubFamily->product as $prodt)
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                             <div class="card card-decoration card-outline-primary border border-2">
@@ -890,7 +891,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @if (!empty($detailProduto) && isset($quickBuyProducts->product))
+                                                                @if (!empty($detailProduto) || isset($quickBuyProducts->product))
                                                                     @foreach ($detailProduto->product as $i => $prod)
                                                                         <tr style="background-color:{{ $prod->color }}">
                                                                             <td>{{ $prod->referense }}</td>
@@ -1440,7 +1441,7 @@
                                 </thead>
                                 <tbody>
 
-                                    @if (!empty($quickBuyProducts) && isset($quickBuyProducts->product))
+                                    @if (!empty($quickBuyProducts) || isset($quickBuyProducts->product))
 
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >

@@ -419,6 +419,7 @@ class DetalheProposta extends Component
 
             //unset($_SESSION['searchProduct']);
             session()->forget('searchProduct');
+
         }
 
         $this->showLoaderPrincipal = false;
@@ -479,11 +480,11 @@ class DetalheProposta extends Component
                             break;
                         } else {
 
-                            if ($prod->in_stock == false) {
-                                $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
-                                $flag = 1;
-                                break;
-                            }
+                            // if ($prod->in_stock == false) {
+                            //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
+                            //     $flag = 1;
+                            //     break;
+                            // }
                             $productChosen = ["product" => $prod, "quantidade" => $prodRap];
                         }
                     }
@@ -560,11 +561,11 @@ class DetalheProposta extends Component
                             break;
                         } else {
 
-                            if ($prod->in_stock == false) {
-                                $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
-                                $flag = 1;
-                                break;
-                            }
+                            // if ($prod->in_stock == false) {
+                            //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
+                            //     $flag = 1;
+                            //     break;
+                            // }
                             $productChosen = ["product" => $prod, "quantidade" => $prodRap];
                         }
                     }
@@ -635,14 +636,14 @@ class DetalheProposta extends Component
             foreach ($this->produtosRapida as $j => $prodRap) {
                 if ($i == $j) {
                     if ($prodRap != "0" && $prodRap != "") {
-                        if ($prod->in_stock == true) {
+                        // if ($prod->in_stock == true) {
                             $productChosen[$count] = [
                                 "product" => $prod,
                                 "quantidade" => $prodRap,
                             ];
 
                             $count++;
-                        }
+                        // }
 
                     }else  if ($prodRap == "0") {
                         $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
@@ -1121,14 +1122,17 @@ class DetalheProposta extends Component
 
         if (session('searchSubFamily') !== null) {
             $sessao = session('searchSubFamily');
-
-            foreach ($sessao->product as $prod) {
-                $this->actualCategory = $prod->category_number;
-                $this->actualFamily = $prod->family_number;
-                $this->actualSubFamily = $prod->subfamily_number;
+                if(isset($sessao->product)){
+                foreach ($sessao->product as $prod) {
+                    $this->actualCategory = $prod->category_number;
+                    $this->actualFamily = $prod->family_number;
+                    $this->actualSubFamily = $prod->subfamily_number;
 
                 break;
+                }
+                
             }
+            
 
             $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
         } else {
@@ -1144,6 +1148,7 @@ class DetalheProposta extends Component
             session(['searchNameSubFamily' => $firstSubFamily->name]);
 
             $this->searchSubFamily = $this->PropostasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
+            
             session(['searchSubFamily' => $this->searchSubFamily]);
         }
 

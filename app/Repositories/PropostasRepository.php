@@ -38,13 +38,23 @@ class PropostasRepository implements PropostasInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-    
+        // dd( $response_decoded);
         return $response_decoded; 
 
     }
 
     public function getSubFamily($idCategory, $idFamily, $idSubFamily): object
     {
+        if($idCategory == ""){
+            $idCategory = 1;
+        }
+        if($idFamily == ""){
+            $idFamily = 1;
+        }
+        if($idSubFamily == ""){
+            $idSubFamily = 1;
+        }
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -64,9 +74,9 @@ class PropostasRepository implements PropostasInterface
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+        
         $response_decoded = json_decode($response);
-    
+
         return $response_decoded; 
     }
 
