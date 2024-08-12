@@ -95,6 +95,8 @@
                                 class="ti-eye"></i>
                             Ver Proposta</a> --}}
                         {{-- <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Proposta</a> --}}
+                        <a href="javascript:void(0);" wire:click="Limpar" class="btn btn-sm btn-secondary"> Limpar proposta</a>
+                        
                         <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary"> Voltar atrás</a>
                         <a href="javascript:void(0);" wire:click="cancelarProposta" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>
@@ -560,6 +562,7 @@
                                                 @endphp
                                                 @if($searchSubFamily != null)
                                                     @foreach ($searchSubFamily->product as $prodt)
+
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                             <div class="card card-decoration card-outline-primary border border-2">
                                                                 <a href="javascript:void(0)"
@@ -1374,11 +1377,11 @@
  
                  <div class="row p-4">
                      <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                         <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                         {{-- <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
                          <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarproposta"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                      </div>
                      <div class="col-12 pb-3 p-0 d-md-none text-center">
-                         <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                         {{-- <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
                          <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarproposta"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                      </div>
                  </div>

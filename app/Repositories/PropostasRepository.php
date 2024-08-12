@@ -76,7 +76,6 @@ class PropostasRepository implements PropostasInterface
         curl_close($curl);
         
         $response_decoded = json_decode($response);
-
         return $response_decoded; 
     }
 
@@ -148,7 +147,7 @@ class PropostasRepository implements PropostasInterface
     
         //     $response_decoded->product = array_values($filtered_products);
         // }
-    
+        // dd($response_decoded);
         return $response_decoded; 
     }
     

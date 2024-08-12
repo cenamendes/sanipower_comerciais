@@ -171,7 +171,7 @@ class DetalheProposta extends Component
         $this->idSubFamilyRecuar = $idSubFamily;
 
         $this->detailProduto = $this->PropostasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
-
+    
         session(['quickBuyProducts' => $this->detailProduto]);
 
         session(['detailProduto' => $this->detailProduto]);
@@ -266,6 +266,17 @@ class DetalheProposta extends Component
 
         // Disparar evento para o navegador
         $this->dispatchBrowserEvent('encomendaAtual');
+    }
+    public function Limpar()
+    {
+        Carrinho::where('id_proposta', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+        ComentariosProdutos::where('id_proposta', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
     }
     public function cancelarProposta()
     {
@@ -1121,7 +1132,7 @@ class DetalheProposta extends Component
         if (!isset($quickBuyProducts->product)){
             session()->forget('quickBuyProducts');
         }
-
+        // dd($detailProduto );
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
 

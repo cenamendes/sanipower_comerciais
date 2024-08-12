@@ -259,6 +259,17 @@ class DetalheEncomenda extends Component
         // Disparar evento para o navegador
         $this->dispatchBrowserEvent('encomendaAtual');
     }
+    public function Limpar()
+    {
+        Carrinho::where('id_encomenda', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+        ComentariosProdutos::where('id_encomenda', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesEncomendas = "show active";
+        $this->tabDetalhesCampanhas = "";
+        $this->tabFinalizar = "";
+    }
     public function cancelarEncomenda()
     {
         Carrinho::where('id_encomenda', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
