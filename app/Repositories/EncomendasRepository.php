@@ -109,6 +109,7 @@ class EncomendasRepository implements EncomendasInterface
 
     public function getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer): object
     {
+        // dd($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

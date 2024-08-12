@@ -340,10 +340,13 @@
                                             <a href="javascript:void(0)" class="buttonGoback"><i
                                                     class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                             <h2>{{ $cat->name }}</h2>
+
                                             <div class="row">
                                             @foreach ($cat->family as $family)
                                             @if ($familyInfo == true)
                                                 @if ($idFamilyInfo == $family->id)
+                                                
+
                                                     <div class="col-12">
                                                         <div class="row mb-2">
                                                             <a href="javascript:void(0)" wire:click="resetFilter({{ $contaCat }})" class="mb-3 ml-4">
@@ -1191,7 +1194,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!empty($quickBuyProducts))
+                                    {{-- adicionar o codigo abaixo quando conseguir repetir o erro --}}
+                                    @if (!empty($quickBuyProducts) && isset($quickBuyProducts->product))
+
+                                    {{-- @if (!empty($quickBuyProducts)) --}}
+                                        {{-- {{dd($quickBuyProducts)}} --}}
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
                                                 <td>{{ $prod->referense }}</td>
@@ -1434,7 +1441,7 @@
                 if(parseInt(valor) >= parseInt(qtdMin)){
                     $('#addProductEncomenda'+id).removeAttr('disabled');
                     $('#addProductProposta'+id).removeAttr('disabled');
-                    $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                    // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
 
                 }else if(parseInt(valor) < parseInt(qtdMin)){
 
@@ -1442,9 +1449,9 @@
                         $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                         $('#addProductProposta'+id).attr('disabled', 'disabled');
 
-                        $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                        // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
                     }else{
-                        $('#commentProductEncomenda'+id).removeAttr('disabled');
+                        // $('#commentProductEncomenda'+id).removeAttr('disabled');
                         $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                         $('#addProductProposta'+id).attr('disabled', 'disabled');
                     }

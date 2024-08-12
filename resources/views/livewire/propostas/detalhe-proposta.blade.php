@@ -1439,8 +1439,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                
+                                    @if (!empty($quickBuyProducts) && isset($quickBuyProducts->product))
 
-                                    @if (!empty($quickBuyProducts))
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
                                                 <td>{{ $prod->referense }}</td>
@@ -1704,7 +1705,7 @@
                 if(parseInt(valor) >= parseInt(qtdMin)){
                     $('#addProductEncomenda'+id).removeAttr('disabled');
                     $('#addProductProposta'+id).removeAttr('disabled');
-                    $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                    // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
 
                 }else if(parseInt(valor) < parseInt(qtdMin)){
 
@@ -1712,9 +1713,9 @@
                         $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                         $('#addProductProposta'+id).attr('disabled', 'disabled');
 
-                        $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                       // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
                     }else{
-                        $('#commentProductEncomenda'+id).removeAttr('disabled');
+                        // $('#commentProductEncomenda'+id).removeAttr('disabled');
                         $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                         $('#addProductProposta'+id).attr('disabled', 'disabled');
                     }
