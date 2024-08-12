@@ -4298,3 +4298,4 @@ Account{name=..., path=..., type=PREDICT}
 2024-08-12 12:34:27.174 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Repositories)
 2024-08-12 12:34:34.640 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/resources/views/livewire/encomendas)
 2024-08-12 12:34:39.161 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/resources/views/livewire/propostas)
+2024-08-12 12:35:44.225 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/.git)
