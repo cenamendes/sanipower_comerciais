@@ -1195,7 +1195,7 @@
                                 </thead>
                                 <tbody>
                                     {{-- adicionar o codigo abaixo quando conseguir repetir o erro --}}
-                                    @if (!empty($quickBuyProducts) && isset($quickBuyProducts->product))
+                                    @if (!empty($quickBuyProducts) || isset($quickBuyProducts->product))
 
                                     {{-- @if (!empty($quickBuyProducts)) --}}
                                         {{-- {{dd($quickBuyProducts)}} --}}

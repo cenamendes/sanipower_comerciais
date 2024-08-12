@@ -1042,6 +1042,16 @@ class DetalheEncomenda extends Component
     
     public function render()
     {
+        $detailProduto = session('detailProduto');
+        if (!isset($detailProduto->product)){
+
+            session()->forget('detailProduto');
+        }
+        $quickBuyProducts = session('quickBuyProducts');
+        if (!isset($quickBuyProducts->product)){
+            session()->forget('quickBuyProducts');
+        }
+        
         // $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];

@@ -172,7 +172,6 @@ class DetalheProposta extends Component
 
         $this->detailProduto = $this->PropostasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
 
-
         session(['quickBuyProducts' => $this->detailProduto]);
 
         session(['detailProduto' => $this->detailProduto]);
@@ -234,7 +233,7 @@ class DetalheProposta extends Component
         $this->tabDetalhesCampanhas = "";
 
         $this->specificProduct = 0;
-
+        // dd( $this->quickBuyProducts);
         session(['quickBuyProducts' => $this->quickBuyProducts]);
         session(['productName' => $productName]);
 
@@ -940,7 +939,7 @@ class DetalheProposta extends Component
        
 
         $idCliente = "";
-
+        // dd($this->carrinhoCompras);
         foreach($this->carrinhoCompras as $prod)
         {
             $count++;
@@ -972,7 +971,7 @@ class DetalheProposta extends Component
             else {
                 $visitaCheck = $prod->id_visita;
             }
-
+            // dd( $prod);
             $arrayProdutos[$count] = [
                 "id" => $count,
                 "reference" => $prod->referencia,
@@ -981,7 +980,7 @@ class DetalheProposta extends Component
                 "tax" => $prod->iva,
                 "tax_included" => false,
                 "price" => $prod->price,
-                "discount1" => $prod->discount,
+                "discount1" => $prod->discount, // passar como inteiro 
                 "discount2" => $prod->discount2,
                 "discount3" => 0,
                 "total" => $totalItem,
@@ -990,7 +989,7 @@ class DetalheProposta extends Component
                 "budgets_id" => ""
             ];
         }
-
+        // dd( $arrayProdutos);
        
         $randomNumber = '';
         for ($i = 0; $i < 8; $i++) {
@@ -1029,8 +1028,8 @@ class DetalheProposta extends Component
             "id" => $randomNumber,
             "date" => date('Y-m-d').'T'.date('H:i:s'), 
             "customer_number" => $idCliente,
-            "total_without_tax" => number_format($valorTotal, 2, ',', '.'),
-            "total" => number_format($valorTotalComIva, 2, ',', '.'),
+            "total_without_tax" => $valorTotal,
+            "total" => $valorTotalComIva,
             "reference" => $this->referenciaFinalizar,
             "comments" => $this->observacaoFinalizar,
             "payment_conditions" => $condicaoPagamento,
@@ -1039,11 +1038,11 @@ class DetalheProposta extends Component
             "validity" => $this->validadeProposta.'T'.date('H:i:s'),
             "lines" => array_values($arrayProdutos)
         ];
-        
+        // dd($array, $valorTotal,number_format($valorTotal, 2, ',', '.'));
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL').'/api/documents/budgets',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -1114,6 +1113,15 @@ class DetalheProposta extends Component
 
     public function render()
     {
+        $detailProduto = session('detailProduto');
+        if (!isset($detailProduto->product)){
+            session()->forget('detailProduto');
+        }
+        $quickBuyProducts = session('quickBuyProducts');
+        if (!isset($quickBuyProducts->product)){
+            session()->forget('quickBuyProducts');
+        }
+
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
 

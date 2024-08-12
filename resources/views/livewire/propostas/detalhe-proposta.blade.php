@@ -1440,9 +1440,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    {{-- {{dd($quickBuyProducts)}} --}}
                                     @if (!empty($quickBuyProducts) || isset($quickBuyProducts->product))
-
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
                                                 <td>{{ $prod->referense }}</td>
