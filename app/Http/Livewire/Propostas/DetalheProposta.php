@@ -1038,7 +1038,6 @@ class DetalheProposta extends Component
             "validity" => $this->validadeProposta.'T'.date('H:i:s'),
             "lines" => array_values($arrayProdutos)
         ];
-
         
         $curl = curl_init();
 

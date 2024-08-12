@@ -890,7 +890,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @if (!empty($detailProduto))
+                                                                @if (!empty($detailProduto) && isset($quickBuyProducts->product))
                                                                     @foreach ($detailProduto->product as $i => $prod)
                                                                         <tr style="background-color:{{ $prod->color }}">
                                                                             <td>{{ $prod->referense }}</td>
@@ -1439,7 +1439,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                
+
                                     @if (!empty($quickBuyProducts) && isset($quickBuyProducts->product))
 
                                         @foreach ($quickBuyProducts->product as $i => $prod)

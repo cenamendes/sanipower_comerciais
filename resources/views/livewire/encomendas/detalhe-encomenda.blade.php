@@ -621,7 +621,7 @@
                             </thead>
                             <tbody>
                              
-                                @if (!empty($detailProduto))
+                                @if (!empty($detailProduto) && isset($detailProduto->product))
                              
                                     @foreach ($detailProduto->product as $i => $prod)
                                         <tr style="background-color:{{ $prod->color }}">
