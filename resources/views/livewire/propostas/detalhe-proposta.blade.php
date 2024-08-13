@@ -1095,7 +1095,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
                                             <td style="white-space: nowrap;">
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
@@ -1147,7 +1147,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }} {{ $prod->model }}@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
                                             <td style="white-space: nowrap;">
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
@@ -1238,7 +1238,6 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-
                                 <td >Total c/IVA</td>
                                 <td style="width: 10%;white-space: nowrap;" class="bold">{{ number_format($ValorTotalComIva, 2, ',', '.') }} €</td>
                             </tr>

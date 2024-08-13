@@ -61,14 +61,15 @@ class PropostasAdicionar extends Component
     public function mount()
     {
         $this->initProperties();
-
         // Session::forget('AdiPropostaPaginator');
         // dd(session('AdiPropostaPaginator'));
         if(session('AdiPropostaPaginator')){
             $this->clientes = session('AdiPropostaPaginator');
-
-            if(session('AdiPropostaNr_paginas') == 0 || session('verPropostaNr_paginas')){
+            
+            if(session('AdiPropostaNr_paginas') == 0 || session('AdiPropostaNr_paginas')){
+                
                 $this->numberMaxPages = session('AdiPropostaNr_paginas');
+                
             }
             if(session('AdiPropostaNr_registos')){
                 $this->totalRecords = session('AdiPropostaNr_registos');
@@ -81,10 +82,14 @@ class PropostasAdicionar extends Component
             Session::put('AdiPropostaPaginator', $arrayClientes["paginator"]);
             Session::put('AdiPropostaNr_paginas', $arrayClientes["nr_paginas"]);
             Session::put('AdiPropostaNr_registos', $arrayClientes["nr_registos"]);
+            
     
+
             $this->clientes = session('AdiPropostaPaginator');
             $this->numberMaxPages = session('AdiPropostaNr_paginas');
             $this->totalRecords = session('AdiPropostaNr_registos');
+
+
             // $this->clientes = $arrayClientes["paginator"];
             // $this->numberMaxPages = $arrayClientes["nr_paginas"];
             // $this->totalRecords = $arrayClientes["nr_registos"];

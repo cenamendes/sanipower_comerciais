@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Visitas;
 
 use Dompdf\Dompdf;
 use Livewire\Component;
+use App\Models\Visitas;
 use App\Mail\SendEncomenda;
 use App\Models\Comentarios;
 use Livewire\WithPagination;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
 use Illuminate\Support\Facades\Session;
+use App\Models\VisitasAgendadas;
 
 class Encomendas extends Component
 {
@@ -38,6 +40,18 @@ class Encomendas extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
+
+
+    private ?object $detailsClientes = NULL;
+    public string $assunto = "";
+    public string $relatorio = "";
+    public string $pendentes = "";
+    public string $comentario_encomendas = "";
+    public string $comentario_propostas = "";
+    public string $comentario_financeiro = "";
+    public string $comentario_occorencias = "";
+    public int $tipoVisitaSelect;
+
 
     public ?string $comentarioEncomenda = "";
 
@@ -80,8 +94,6 @@ class Encomendas extends Component
     {
         $this->pageChosen = $page;
         $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-        
-
         $this->detailsEncomenda = $encomendasArray["paginator"];
     }
 
@@ -246,10 +258,205 @@ class Encomendas extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentario');
     }
 
+    public function guardarVisita()
+    {
+        if(session('visitasPropostasAssunto')){
+            $this->assunto = session('visitasPropostasAssunto');
+        }
+        if(session('visitasPropostasRelatorio')){
+            $this->relatorio = session('visitasPropostasRelatorio');
+        }
+        if(session('visitasPropostasPendentes')){
+            $this->pendentes = session('visitasPropostasPendentes');
+        }
+        if(session('visitasPropostasComentario_encomendas')){
+            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        }
+        if( session('visitasPropostasComentario_propostas')){
+            $this->comentario_propostas = session('visitasPropostasComentario_propostas');
 
+        }
+        if(session('visitasPropostasComentario_financeiro')){
+            $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
+        }
+        if(session('visitasPropostasComentario_occorencias')){
+            $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
+        }
+        if(session('visitasPropostastipoVisitaSelect')){
+            $this->tipoVisitaSelect = session('visitasPropostastipoVisitaSelect');
+        }
+        // dd($this->assunto, $this->relatorio, $this->pendentes, $this->comentario_encomendas, $this->comentario_propostas,  $this->comentario_financeiro, $this->comentario_occorencias,$this->tipoVisitaSelect);
+
+
+
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
+        $visitas = Visitas::where('id_visita_agendada',intval($this->idVisita))->first();
+
+        if($visitas != null)
+        {
+            if($visitas->count() > 0)
+            {
+                
+                $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                    "finalizado" => "2",
+                    "assunto_text" => $this->assunto,
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+
+                $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+
+            
+                $visitaCreate = Visitas::where('id_visita_agendada',$this->idVisita)->update([
+                    "id_visita_agendada" => $getId->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+
+
+                if(!empty($visitaCreate)) {
+                    session()->flash('success', "Visita atualizada com sucesso");
+                    return redirect()->route('visitas.info',["id" => $this->idVisita]);
+        
+                } else {
+                    session()->flash('warning', "Não foi possivel alterar a visita!");
+                    return redirect()->route('visitas.info',["id" => $this->idVisita]);
+                }
+
+            } 
+            else 
+            {
+
+                $agenda = VisitasAgendadas::create([
+                    "client_id" => $this->detailsClientes->customers[0]->id,
+                    "cliente" => $this->detailsClientes->customers[0]->name,
+                    "data_inicial" => date('Y-m-d'),
+                    "hora_inicial" => date('H:i'),
+                    "user_id" => Auth::user()->id,
+                    "assunto_text" => $this->assunto,
+                    "finalizado" => "2",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+
+
+
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $agenda->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+                if(!empty($visitaCreate)) {
+                    session()->flash('success', "Visita registada com sucesso");
+                    return redirect()->route('visitas.info',["id" => $agenda->id]);
+        
+                } else {
+                    session()->flash('warning', "Não foi possivel adicionar visita!");
+                    return redirect()->route('visitas.info',["id" => $agenda->id]);
+                }
+
+            }
+        }
+        else 
+        {
+          
+            if($this->idVisita == 0)
+            {
+                $agenda = VisitasAgendadas::create([
+                    "client_id" => $this->detailsClientes->customers[0]->id,
+                    "cliente" => $this->detailsClientes->customers[0]->name,
+                    "assunto_text" => $this->assunto,
+                    "data_inicial" => date('Y-m-d'),
+                    "hora_inicial" => date('H:i'),
+                    "user_id" => Auth::user()->id,
+                    "finalizado" => "2",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+
+
+                $getId = VisitasAgendadas::where('id',$agenda->id)->first();
+    
+                    
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $agenda->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+            }
+            else 
+            {
+                $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                    "assunto_text" => $this->assunto,
+                    "finalizado" => "2",
+                    "id_tipo_visita" => $this->tipoVisitaSelect
+                ]);
+    
+                $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+    
+                $visitaCreate = Visitas::create([
+                    "id_visita_agendada" => $getId->id,
+                    "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                    "assunto" => $this->assunto,
+                    "relatorio" => $this->relatorio,
+                    "pendentes_proxima_visita" => $this->pendentes,
+                    "comentario_encomendas" => $this->comentario_encomendas,
+                    "comentario_propostas" => $this->comentario_propostas,
+                    "comentario_financeiro" => $this->comentario_financeiro,
+                    "comentario_ocorrencias" => $this->comentario_occorencias,
+                    "data" => date('Y-m-d'),
+                    "user_id" => Auth::user()->id
+                ]);
+            }
+           
+           
+            if(!empty($visitaCreate)) {
+                session()->flash('success', "Visita registada com sucesso");
+                return redirect()->route('visitas.info',["id" => $getId->id]);
+    
+            } else {
+                session()->flash('warning', "Não foi possivel adicionar visita!");
+                return redirect()->route('visitas.info',["id" => $getId->id]);
+            }
+
+        }
+
+        session()->forget('visitasPropostasAssunto');
+        session()->forget('visitasPropostasRelatorio');
+        session()->forget('visitasPropostasPendentes');
+        session()->forget('visitasPropostasComentario_encomendas');
+        session()->forget('visitasPropostasComentario_propostas');
+        session()->forget('visitasPropostasComentario_financeiro');
+        session()->forget('visitasPropostasComentario_occorencias');
+        session()->forget('visitasPropostastipoVisitaSelect');
+        $this->restartDetails();
+
+    }
     public function detalheEncomendaModal($encomenda)
     {
-        
+        $this->guardarVisita();
         if($this->idVisita == 0)
         {
 

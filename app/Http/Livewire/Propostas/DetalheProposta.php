@@ -1103,7 +1103,6 @@ class DetalheProposta extends Component
           
             
         }
-
         if ($response_decoded->success == true) {
            
             $getEncomenda = Carrinho::where('id_proposta','!=', "")->where('id_cliente',$idCliente)->first();
