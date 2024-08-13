@@ -49,12 +49,20 @@ class Encomendas extends Component
             $this->perPage = 10;
         }
 
-        $this->nomeCliente = '';
-        $this->numeroCliente = '';
-        $this->zonaCliente = '';
-        $this->telemovelCliente = '';
-        $this->emailCliente = '';
-        $this->nifCliente = '';
+        // $this->nomeCliente = '';
+        // $this->numeroCliente = '';
+        // $this->zonaCliente = '';
+        // $this->telemovelCliente = '';
+        // $this->emailCliente = '';
+        // $this->nifCliente = '';
+
+        $this->nomeCliente = session('verEncomendaNomeCliente');
+        $this->numeroCliente = session('verEncomendaNumeroCliente');
+        $this->zonaCliente = session('verEncomendaZonaCliente');
+        $this->telemovelCliente = session('verEncomendaTelemovelCliente');
+        $this->emailCliente = session('verEncomendaEmailCliente');
+        $this->nifCliente = session('verEncomendaNifCliente');
+
 
         $this->idCliente = '';
 
@@ -64,74 +72,144 @@ class Encomendas extends Component
     {
         $this->initProperties();
 
-        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        // $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
         
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
-
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
         
-
-
+        if(session('verEncoemendaPaginator')){
+            $this->encomendas = session('verEncoemendaPaginator');
+            if(session('verEncoemendaNr_paginas') == 0 || session('verEncoemendaNr_paginas')){
+                $this->numberMaxPages = session('verEncoemendaNr_paginas');
+            }
+            if(session('verEncoemendaNr_registos')){
+                $this->totalRecords = session('verEncoemendaNr_registos');
+            }
+            if(session('verEncomendaPageChosen')){
+                $this->pageChosen = session('verEncomendaPageChosen');
+            }
+        }else{
+            $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+            // $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+            // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+            Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+            Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+            Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+            
+            $this->encomendas = session('verEncoemendaPaginator');
+            $this->numberMaxPages = session('verEncoemendaNr_paginas');
+            $this->totalRecords = session('verEncoemendaNr_registos');
+        }
     }
 
    
     public function updatedNomeCliente()
     {
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-       
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        Session::put('verEncomendaNomeCliente',$this->nomeCliente);
+
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
     }
 
     public function updatedNumeroCliente()
     {
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-       
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        Session::put('verEncomendaNumeroCliente',$this->numeroCliente);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
     public function updatedZonaCliente()
     {
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-       
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        Session::put('verEncomendaZonaCliente',$this->zonaCliente);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
     public function updatedNifCliente()
     {
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-       
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        Session::put('verEncomendaNifCliente',$this->nifCliente);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
     public function updatedTelemovelCliente()
     {
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-       
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        Session::put('telemovelCliente',$this->telemovelCliente);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
@@ -139,12 +217,22 @@ class Encomendas extends Component
     public function updatedEmailCliente()
     {
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-       
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        Session::put('verEncomendaEmailCliente',$this->emailCliente);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
     }
 
     public function updatedEstadoEncomenda()
@@ -152,23 +240,39 @@ class Encomendas extends Component
         $this->pageChosen = 1;
         $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
        
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
-        $this->encomendas = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
-        $this->totalRecords = $encomendasArray["nr_registos"];
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
 
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
+        // dd($this->pageChosen);
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
  
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
             $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-            $this->encomendas = $encomendasArray["paginator"];
+            Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+            $this->encomendas = session('verEncoemendaPaginator');
+
+            // $this->encomendas = $encomendasArray["paginator"];
         } else {
             $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-            $this->encomendas = $encomendasArray["paginator"];
+
+            Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+            $this->encomendas = session('verEncoemendaPaginator');
+
+            // $this->encomendas = $encomendasArray["paginator"];
         }
         
     }
@@ -178,37 +282,59 @@ class Encomendas extends Component
     {
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
+            Session::put('verEncomendaPageChosen', $this->pageChosen);
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
                 $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-                $this->encomendas = $encomendasArray["paginator"];
+                Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+                $this->encomendas = session('verEncoemendaPaginator');
+
+                // $this->encomendas = $encomendasArray["paginator"];
             } else {
                 $encomendasArray =  $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-                $this->encomendas = $encomendasArray["paginator"];
+                Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+                $this->encomendas = session('verEncoemendaPaginator');
+
+                // $this->encomendas = $encomendasArray["paginator"];
             }
-        }
-        else if($this->pageChosen == 1){
-            if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-                $encomendasArray =  $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-                $this->encomendas = $encomendasArray["paginator"];
-            } else {
-                $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-                $this->encomendas = $encomendasArray["paginator"];
             }
-        }
+            else if($this->pageChosen == 1){
+                // Session::put('verEncomendaPageChosen', $this->pageChosen);
+
+                if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
+                    $encomendasArray =  $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                    Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+                    $this->encomendas = session('verEncoemendaPaginator');
+
+                    // $this->encomendas = $encomendasArray["paginator"];
+                } else {
+                    $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+                    Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+                    $this->encomendas = session('verEncoemendaPaginator');
+
+                    // $this->encomendas = $encomendasArray["paginator"];
+                }
+            }
     }
 
     public function nextPage()
     {
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
+            Session::put('verEncomendaPageChosen', $this->pageChosen);
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
                 $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
-                $this->encomendas = $encomendasArray["paginator"];
+                Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+                $this->encomendas = session('verEncoemendaPaginator');
+
+                // $this->encomendas = $encomendasArray["paginator"];
             } else {
                 $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
-                $this->encomendas = $encomendasArray["paginator"];
+                Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+                $this->encomendas = session('verEncoemendaPaginator');
+
+                // $this->encomendas = $encomendasArray["paginator"];
             }
         }
     }

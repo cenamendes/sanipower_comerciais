@@ -33,7 +33,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Nome do Cliente" wire:model.lazy="nomeCliente">
+                                    <input type="text" class="form-control" placeholder="Nome do Clientess" wire:model.lazy="nomeCliente">
                                 </div>
                             </div>
 
