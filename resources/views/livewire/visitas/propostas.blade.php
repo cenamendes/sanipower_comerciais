@@ -119,18 +119,18 @@
                                 @foreach ($detalhesPropostas as $detalhe)
                                
                                 <tr>
-                                            <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                            <td>{{ $detalhe->budget }}</td>
-                                            <td>{{ $detalhe->total }}</td>
-                                            <td>{{ $detalhe->status }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe) }})">
-                                                    <i class="ti ti-plus"></i> Ver Proposta
-                                                </button>
-                                                {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Comentários
-                                                </button> --}}
-                                            </td>
+                                    <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
+                                    <td>{{ $detalhe->budget }}</td>
+                                    <td>{{ $detalhe->total }}</td>
+                                    <td>{{ $detalhe->status }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe) }})">
+                                            <i class="ti ti-plus"></i> Ver Proposta
+                                        </button>
+                                        {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                            Comentários
+                                        </button> --}}
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

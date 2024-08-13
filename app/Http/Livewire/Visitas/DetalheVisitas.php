@@ -39,16 +39,17 @@ class DetalheVisitas extends Component
     public string $tabFinanceiro = "";
     public string $tabOcorrencia = "";
     public string $tabVisitas = "";
-    public string $tabAssistencias = "";
+    public ?string $tabAssistencias = "";
 
     //FORM
-    public string $assunto = "";
+    public ?string $assunto = "";
     public string $relatorio = "";
     public string $pendentes = "";
     public string $comentario_encomendas = "";
     public string $comentario_propostas = "";
     public string $comentario_financeiro = "";
     public string $comentario_occorencias = "";
+
     public int $checkStatus;
 
     private ?object $encomendasDetail = NULL;
@@ -81,6 +82,7 @@ class DetalheVisitas extends Component
 
     public function mount($cliente, $idVisita = null, $tst)
     {
+        
         $this->initProperties();
         $this->idCliente = $cliente;
 
@@ -89,7 +91,6 @@ class DetalheVisitas extends Component
             
             $visita = Visitas::where('id_visita_agendada',$idVisita)->first();
             $visitaAgendada = VisitasAgendadas::where('id', $idVisita)->first();
-
 
             if(isset($visita->assunto))
             {
@@ -152,14 +153,59 @@ class DetalheVisitas extends Component
             $this->idVisita = 0;
         }
 
-       
-
         $this->activeFinalizado = $tst;
+        Session::put('visitasPropostasAssunto', $this->assunto );
+        Session::put('visitasPropostasRelatorio', $this->relatorio );
+        Session::put('visitasPropostasPendentes', $this->pendentes );
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
+        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
+        Session::put('visitasPropostastipoVisitaSelect', $this->tipoVisitaSelect);
+
         $this->restartDetails();
 
     }
 
+    public function addSessionDetalhesRelatorio($pagerange){
+        Session::put('visitasPropostasAssunto', $this->assunto );
+        Session::put('visitasPropostasRelatorio', $this->relatorio );
+        Session::put('visitasPropostasPendentes', $this->pendentes );
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
+        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
+        Session::put('visitasPropostastipoVisitaSelect', $this->tipoVisitaSelect);
 
+        $this->tabRelatorio = "";
+        $this->tabDetail = "";
+        $this->tabAnalysis = "";
+        $this->tabEncomendas = "";
+        $this->tabPropostas = "";
+        $this->tabFinanceiro = "";
+        $this->tabOcorrencia = "";
+        $this->tabVisitas = "";
+        $this->tabAssistencias = "";
+
+        if($pagerange == "tabPropostas"){
+            $this->tabPropostas = "show active";
+        }else if($pagerange == "tabDetail"){
+            $this->tabDetail = "show active";
+        }else if($pagerange == "tabAnalysis"){
+            $this->tabAnalysis = "show active";
+        }else if($pagerange == "tabEncomendas"){
+            $this->tabEncomendas = "show active";
+        }else if($pagerange == "tabFinanceiro"){
+            $this->tabFinanceiro = "show active";
+        }else if($pagerange == "tabOcorrencia"){
+            $this->tabOcorrencia = "show active";
+        }else if($pagerange == "tabVisitas"){
+            $this->tabVisitas = "show active";
+        }else if($pagerange == "tabAssistencias"){
+            $this->tabAssistencias = "show active";
+        }
+        $this->restartDetails();
+    }
     public function gotoPage($page)
     {
         $this->pageChosen = $page;

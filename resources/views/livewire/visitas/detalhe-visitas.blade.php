@@ -39,28 +39,28 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes</a>
+                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}" wire:click="addSessionDetalhesRelatorio('tabDetail')">Detalhes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises De Vendas</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{$tabAnalysis}}" wire:click="addSessionDetalhesRelatorio('tabAnalysis')">Análises De Vendas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab7" data-toggle="tab" class="nav-link {{$tabEncomendas}}">Encomendas</a>
+                    <a href="#tab7" data-toggle="tab" class="nav-link {{$tabEncomendas}}" wire:click="addSessionDetalhesRelatorio('tabEncomendas')">Encomendas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab8" data-toggle="tab" class="nav-link {{$tabPropostas}}">Propostas</a>
+                    <a href="#tab8" data-toggle="tab" class="nav-link {{$tabPropostas}}" wire:click="addSessionDetalhesRelatorio('tabPropostas')">Propostas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab9" data-toggle="tab" class="nav-link {{$tabFinanceiro}}">Financeiro</a>
+                    <a href="#tab9" data-toggle="tab" class="nav-link {{$tabFinanceiro}}" wire:click="addSessionDetalhesRelatorio('tabFinanceiro')">Financeiro</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab10" data-toggle="tab" class="nav-link {{$tabOcorrencia}}">Ocorrências</a>
+                    <a href="#tab10" data-toggle="tab" class="nav-link {{$tabOcorrencia}}" wire:click="addSessionDetalhesRelatorio('tabOcorrencia')">Ocorrências</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab11" data-toggle="tab" class="nav-link {{$tabVisitas}}">Visitas</a>
+                    <a href="#tab11" data-toggle="tab" class="nav-link {{$tabVisitas}}" wire:click="addSessionDetalhesRelatorio('tabVisitas')">Visitas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab12" data-toggle="tab" class="nav-link {{$tabAssistencias}}">Assistências</a>
+                    <a href="#tab12" data-toggle="tab" class="nav-link {{$tabAssistencias}}" wire:click="addSessionDetalhesRelatorio('tabAssistencias')">Assistências</a>
                 </li>
             </ul>
         </div>
