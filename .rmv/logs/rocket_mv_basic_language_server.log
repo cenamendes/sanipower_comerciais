@@ -46,3 +46,6 @@
 2024-08-13 09:47:42.337 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/.git)
 2024-08-13 09:47:44.438 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais)
 2024-08-13 09:48:58.857 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais)
+2024-08-13 09:49:09.341 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais)
+2024-08-13 09:49:48.611 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais)
+2024-08-13 09:50:35.161 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais)
