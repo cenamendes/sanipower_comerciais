@@ -17,10 +17,10 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{ $tabDetail }}">Detalhes</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
+                    <a href="#tab4" data-toggle="tab" class="nav-link {{ $tabDetail }}">Detalhes</a>
                 </li>
             </ul>
 
@@ -315,7 +315,7 @@
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
            
                 {{-- @forelse ($arrayCart as $img => $item) --}}
-                
+                <h4 class="card-title" style="margin-left: 0px;margin-top: -10px;">{{ $encomenda->order }} - {{ $encomenda->name }}</h4>
                 <div class="row" style="align-items: center;">
                     {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                         <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">

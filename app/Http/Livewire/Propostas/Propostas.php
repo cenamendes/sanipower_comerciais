@@ -439,13 +439,13 @@ class Propostas extends Component
         //     dD($enc);
         //     if($enc->id == $idProposta)
         //     {
-          $json = json_encode($proposta);
-          $object = json_decode($json, false);
+        $json = json_encode($proposta);
+        $object = json_decode($json, false);
 
-      
-                Session::put('proposta', $object);
-                Session::put('rota','propostas');
-                return redirect()->route('propostas.proposta', ['idProposta' => $idProposta]);
+
+        Session::put('proposta', $object);
+        Session::put('rota','propostas');
+        return redirect()->route('propostas.proposta', ['idProposta' => $idProposta]);
         //     }
         // }
     }

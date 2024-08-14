@@ -20,11 +20,12 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{ $tabDetail }}">Detalhes</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">Artigos</a>
+                    
                 </li>
               
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">Artigos</a>
+                   <a href="#tab4" data-toggle="tab" class="nav-link {{ $tabDetail }}">Detalhes</a>
                 </li>
             </ul>
 
@@ -32,7 +33,7 @@
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
                         @php
-                            $check = \App\Models\Carrinho::where('id_encomenda',$proposta->id)->first();
+                            $check = \App\Models\Carrinho::where('id_proposta',$proposta->id)->first();
                         @endphp
    
                         @if($check == null)
@@ -346,10 +347,13 @@
                 
                 {{-- @forelse ($arrayCart as $img => $item) --}}
                 
+                <h4 class="card-title" style="margin-left: 0px;margin-top: -10px;">{{ $proposta->budget }} - {{ $proposta->name }} </h4>
+                
                 <div class="row" style="align-items: center;">
                     {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                         <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
                     </div> --}}
+                      
                     <div class="col-md-12 p-0">
                         <table class="table table-hover init-datatable">
                             <thead class="thead-light">

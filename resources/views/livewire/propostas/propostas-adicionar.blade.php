@@ -181,6 +181,8 @@
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
                                         <td>
+                                        {{-- {{dd($clt)}} --}}
+
                                             <a href="{{route('propostas.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-plus"></i> Nova Proposta
                                             </a>

@@ -65,8 +65,18 @@ class DetalheProposta extends Component
     public ?string $actualFamily = "";
     public ?string $actualSubFamily = "";
 
+
+    public ?string $nomeCliente = '';
+    public ?string $numeroCliente = '';
+    public ?string $zonaCliente = '';
+    public ?string $telemovelCliente = '';
+    public ?string $emailCliente = '';
+    public ?string $nifCliente = '';
+
     protected ?object $quickBuyProducts = null;
     public $iterationQuickBuy = 0;
+
+    public int $quantidadeLines = 0;
 
     private ?object $detailProduto = null;
 
@@ -277,6 +287,8 @@ class DetalheProposta extends Component
         $this->tabDetalhesPropostas = "show active";
         $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
+
+        $this->quantidadeLines = 0;
     }
     public function cancelarProposta()
     {
@@ -1000,39 +1012,42 @@ class DetalheProposta extends Component
                 "budgets_id" => ""
             ];
         }
-        // dd( $arrayProdutos);
+        if ($count <= 0){
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Não foi selecionado artigos!", "status" => "error"]);
+            return false;
+        }
        
         $randomNumber = '';
         for ($i = 0; $i < 8; $i++) {
             $randomNumber .= rand(0, 9);
         }
 
-
+        // dd($arrayProdutos, $randomNumber);
         $condicaoPagamento = "";
 
-        if($this->transferenciaFinalizar == true)
-        {
-            $condicaoPagamento = "Transferência Bancária";
-        }
-        if($this->pagamentoFinalizar == true)
-        {
-            $condicaoPagamento = "Pronto Pagamento";
-        }
-        if($this->chequeFinalizar == true)
-        {
-            $condicaoPagamento = "Cheque a 30 dias";
-        }
-        if($this->condicoesFinalizar == true)
-        {
-            $condicaoPagamento = "Condições acordadas";
-        }
+        // if($this->transferenciaFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Transferência Bancária";
+        // }
+        // if($this->pagamentoFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Pronto Pagamento";
+        // }
+        // if($this->chequeFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Cheque a 30 dias";
+        // }
+        // if($this->condicoesFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Condições acordadas";
+        // }
        
 
-        if($condicaoPagamento == "")
-        {
-            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma condição de pagamento", "status" => "error"]);
-            return false;
-        }
+        // if($condicaoPagamento == "")
+        // {
+        //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma condição de pagamento", "status" => "error"]);
+        //     return false;
+        // }
 
        
         $array = [
@@ -1043,15 +1058,14 @@ class DetalheProposta extends Component
             "total" => $valorTotalComIva,
             "reference" => $this->referenciaFinalizar,
             "comments" => $this->observacaoFinalizar,
-            "payment_conditions" => $condicaoPagamento,
+            "payment_conditions" => "",
             "salesman_number" => Auth::user()->id_phc,
             "type" => "budget",
             "validity" => $this->validadeProposta.'T'.date('H:i:s'),
             "lines" => array_values($arrayProdutos)
         ];
-        // dd($array, $valorTotal,number_format($valorTotal, 2, ',', '.'));
+        // dd($array);
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets',
             CURLOPT_RETURNTRANSFER => true,
@@ -1072,7 +1086,7 @@ class DetalheProposta extends Component
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-
+        // dd($response_decoded);
 
         if($this->enviarCliente == true)
         {
@@ -1110,15 +1124,31 @@ class DetalheProposta extends Component
 
             ComentariosProdutos::where('id_proposta', $getEncomenda->id_proposta)->delete();
             Carrinho::where('id_proposta', $getEncomenda->id_proposta)->delete();
+    
+            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0");
+            
+            foreach($propostasArray["paginator"] as $proposta){
+                $resultadoBudget = str_replace(' Nº', '', $proposta->budget);
+                // dd($proposta->budget, $resultadoBudget, $response_decoded->document);
+                if($resultadoBudget == $response_decoded->document){
+
+                    $json = json_encode($proposta);
+                    $object = json_decode($json, false);
+                    Session::put('proposta', $object);
+                    Session::put('rota','propostas');
+
+                    $this->dispatchBrowserEvent('checkToaster', ["message" => "Proposta finalizada com sucesso", "status" => "success"]);
+                    return redirect()->route('propostas.proposta', ['idProposta' => $response_decoded->id_document]);
+                }
+                
+            }
 
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Proposta finalizada com sucesso", "status" => "success"]);
         }
         else {
             $this->dispatchBrowserEvent('checkToaster', ["message" => "A proposta não foi finalizada", "status" => "error"]);
         }
-        
-        return redirect()->route('dashboard');
-
+        return false;
     }
 
     public function render()
@@ -1223,6 +1253,7 @@ class DetalheProposta extends Component
                     }
                     if (!$found) {
                         array_push($arrayCart[$img], $cart);
+                        $this->quantidadeLines ++;
                     }
                 }
             }

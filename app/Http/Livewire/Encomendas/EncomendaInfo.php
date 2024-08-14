@@ -41,8 +41,8 @@ class EncomendaInfo extends Component
 
     public bool $showLoaderPrincipal = true;
 
-    public string $tabDetail = "show active";
-    public string $tabDetalhesEncomendas = "";
+    public string $tabDetail = "";
+    public string $tabDetalhesEncomendas = "show active";
     
 
     public int $specificProduct = 0;

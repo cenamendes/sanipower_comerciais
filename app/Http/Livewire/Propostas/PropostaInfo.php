@@ -49,9 +49,9 @@ class PropostaInfo extends Component
 
     public bool $showLoaderPrincipal = true;
 
-    public string $tabDetail = "show active";
+    public string $tabDetail = "";
     public string $tabProdutos = "";
-    public string $tabDetalhesPropostas = "";
+    public string $tabDetalhesPropostas = "show active";
     public string $tabFinalizar = "";
     public string $tabDetalhesCampanhas = "";
 
@@ -258,7 +258,16 @@ class PropostaInfo extends Component
             $this->tabDetail = "";
             return false;
         }
-
+        $encomenda = Carrinho::where("id_encomenda","!=","")
+            ->where("id_cliente",$proposta["number"])        
+            ->get();
+        $idEncomenda = "";
+        if (!empty($encomenda) && !empty($encomenda[0]->id_encomenda)) {
+            $idEncomenda = $encomenda[0]->id_encomenda;
+        }else{
+            $idEncomenda = $proposta["id"];
+        }
+        
 
         foreach($this->selectedItemsAdjudicar as $id => $item)
         {
@@ -269,8 +278,8 @@ class PropostaInfo extends Component
                     if($id == $prop["id"])
                     {
                         Carrinho::create([
-                            "id_proposta" => "",
-                            "id_encomenda" => $proposta["id"],
+                            "id_proposta" => $proposta["id"],
+                            "id_encomenda" => $idEncomenda,
                             "id_cliente" => $proposta["number"],
                             "id_user" => Auth::user()->id,
                             "referencia" => $prop["reference"],

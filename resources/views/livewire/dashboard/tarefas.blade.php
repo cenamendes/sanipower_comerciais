@@ -486,7 +486,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtnEdita" wire:click="editarVisitaDireito">Editar</button>
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtnEdita" wire:click="editarVisitaDireito">Gravar</button>
                 </div>
             </div>
         </div>

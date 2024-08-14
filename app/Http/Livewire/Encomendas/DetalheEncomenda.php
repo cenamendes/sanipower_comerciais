@@ -48,6 +48,8 @@ class DetalheEncomenda extends Component
     public string $tabDetalhesEncomendas = "";
     public string $tabFinalizar = "";
     public string $tabDetalhesCampanhas = "";
+    
+    public int $quantidadeLines = 0;
 
     public int $specificProduct = 0;
     public string $idFamilyInfo = "";
@@ -61,6 +63,13 @@ class DetalheEncomenda extends Component
     public ?string $actualCategory = "";
     public ?string $actualFamily = "";
     public ?string $actualSubFamily = "";
+
+    public ?string $nomeCliente = '';
+    public ?string $numeroCliente = '';
+    public ?string $zonaCliente = '';
+    public ?string $telemovelCliente = '';
+    public ?string $emailCliente = '';
+    public ?string $nifCliente = '';
 
     protected ?object $quickBuyProducts = null;
     public $iterationQuickBuy = 0;
@@ -269,6 +278,9 @@ class DetalheEncomenda extends Component
         $this->tabDetalhesEncomendas = "show active";
         $this->tabDetalhesCampanhas = "";
         $this->tabFinalizar = "";
+
+        $this->quantidadeLines = 0;
+
     }
     public function cancelarEncomenda()
     {
@@ -735,7 +747,7 @@ class DetalheEncomenda extends Component
 
     public function finalizarencomenda()
     {
-        
+
         $propertiesLoja = [
             'levantamentoLoja' => $this->levantamentoLoja,
             'viaturaSanipower' => $this->viaturaSanipower,
@@ -834,7 +846,11 @@ class DetalheEncomenda extends Component
             ];
         }
 
-       
+        if ($count <= 0){
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Não foi selecionado artigos!", "status" => "error"]);
+            return false;
+        }
+
         $randomNumber = '';
         for ($i = 0; $i < 8; $i++) {
             $randomNumber .= rand(0, 9);
@@ -915,14 +931,31 @@ class DetalheEncomenda extends Component
             ComentariosProdutos::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
             Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
     
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0");
+            
 
+            foreach($encomendasArray["paginator"] as $encomenda){
+                $resultadoBudget = str_replace(' Nº', '', $encomenda->order);
+                // dd($proposta->budget, $resultadoBudget, $response_decoded->document);
+                if($resultadoBudget == $response_decoded->document){
+
+                    $json = json_encode($encomenda);
+                    $object = json_decode($json, false);
+                    Session::put('rota','encomendas');
+                    Session::put('encomenda', $object);
+
+                    $this->dispatchBrowserEvent('checkToaster', ["message" => "Encomenda finalizada com sucesso", "status" => "success"]);
+                    return redirect()->route('encomendas.encomenda', ['idEncomenda' => $response_decoded->id_document]);
+                }
+                
+            }
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Encomenda finalizada com sucesso", "status" => "success"]);
         }
         else {
             $this->dispatchBrowserEvent('checkToaster', ["message" => "A encomenda não foi finalizada", "status" => "error"]);
         }
 
-        return redirect()->route('dashboard');
+        return false;
 
     }
     
@@ -1126,6 +1159,7 @@ class DetalheEncomenda extends Component
         $arrayCart = [];
         $onkit = 0;
         $allkit = 0;
+        $this->quantidadeLines = 0;
         foreach ($iamgens_unique as $img) {
             $arrayCart[$img] = [];
             foreach ($this->carrinhoCompras as $cart) {
@@ -1152,6 +1186,7 @@ class DetalheEncomenda extends Component
                     }
                     if (!$found) {
                         array_push($arrayCart[$img], $cart);
+                        $this->quantidadeLines ++;
                     }
                 }
             }

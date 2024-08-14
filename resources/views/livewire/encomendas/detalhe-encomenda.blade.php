@@ -48,7 +48,12 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link {{ $tabProdutos }}">Produtos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">
+                        @if($quantidadeLines > 0)
+                            <span>({{$quantidadeLines}}) </span>
+                        @endif
+                        Artigos
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab7" data-toggle="tab" class="nav-link {{ $tabFinalizar }}">Finalizar</a>
@@ -783,7 +788,6 @@
                              
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
-                                    <th>Comentário</th>
                                     <th style=" text-align: right;width: 0%;">PVP</th>
                                     <th style=" text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
                                     <th style=" text-align: right;width: 0%;">P(c/desc.)</th>
@@ -878,8 +882,21 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
-                                            <td>
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                            @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                  @if(isset($comentarios))
+                                                  @if($comentarios != null)
+                                                    <br>
+                                                    <small style="color:#afba17;">
+                                                        {{$comentarios->comentario}}
+                                                    </small>
+                                                  @endif
+                                                @endif
+                                            
+                                            <br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
+                                            {{-- <td>
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -888,7 +905,7 @@
                                                       {{$comentarios->comentario}}
                                                   @endif
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>

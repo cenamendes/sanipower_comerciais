@@ -81,7 +81,12 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link {{ $tabProdutos }}">Produtos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">Artigos</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">
+                        @if($quantidadeLines > 0)
+                            <span>({{$quantidadeLines}}) </span>
+                        @endif
+                        Artigos
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab7" data-toggle="tab" class="nav-link {{ $tabFinalizar }}">Finalizar</a>
@@ -1053,7 +1058,6 @@
                              
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
-                                    <th>Comentário</th>
                                     <th style="text-align: right;width: 0%;">PVP</th>
                                     <th style="text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
                                     <th style="text-align: right;width: 0%;">P(c/desc.)</th>
@@ -1095,7 +1099,21 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                 @if(isset($comentarios))
+                                                    @if($comentarios != null)
+                                                    <br/>
+                                                        <small style="color:#afba17;">
+                                                            {{$comentarios->comentario}} 
+                                                        </small>
+                                                    <br/>
+                                                    @endif
+                                                @endif
+                                            
+                                            <br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
                                             <td style="white-space: nowrap;">
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
@@ -1147,8 +1165,21 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }} {{ $prod->model }}@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
-                                            <td style="white-space: nowrap;">
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                 @if(isset($comentarios))
+                                                    @if($comentarios != null)
+                                                    <br/>
+                                                        <small style="color:#afba17;">
+                                                            {{$comentarios->comentario}} 
+                                                        </small>
+                                                    <br/>
+                                                    @endif
+                                                @endif
+                                                @if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
+                                            {{-- <td style="white-space: nowrap;">
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1157,7 +1188,7 @@
                                                         {{$comentarios->comentario}}
                                                     @endif
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
@@ -1301,7 +1332,7 @@
  
                  
  
-                 <div class="row form-group mt-4">
+                 {{-- <div class="row form-group mt-4">
                      <div class="col-xl-12 col-xs-12">
                          <h5 style="border-bottom:1px solid;padding-bottom:10px;">Tipo de pagamento</h5>
                      </div>
@@ -1349,26 +1380,25 @@
                              </div>
                          </div>
  
-                     </div>
+                     </div> --}}
  
                                        
-                 </div>
+                 {{-- </div> --}}
 
                  <div class="row form-group mt-4">
                    
-                    <div class="col-xl-12 col-xs-12">
+                    {{-- <div class="col-xl-12 col-xs-12">
                         <h5 style="border-bottom:1px solid;padding-bottom:10px;">Adicionais</h5>
-                    </div>
+                    </div> --}}
                     <div class="col-xl-12 col-xs-12 mt-2">
                         <div class="col-xl-12 col-xs-12">
                             <div class="form-checkbox">
                                 <label>
                                     <input type="checkbox" id="enviarCliente" class="enviarCliente" wire:model.defer="enviarCliente">
                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                    Enviar Cliente?
+                                    Enviar Cliente ?
                                 </label>
                             </div>
-                            
                         </div>   
                     </div>          
 

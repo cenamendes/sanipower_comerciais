@@ -185,6 +185,7 @@
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
                                         <td>
+                                        {{-- {{dd($clt)}} --}}
                                             <a href="{{route('encomendas.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-plus"></i> Nova Encomenda
                                             </a>
