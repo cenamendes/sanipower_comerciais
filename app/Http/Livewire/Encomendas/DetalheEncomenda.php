@@ -141,6 +141,9 @@ class DetalheEncomenda extends Component
 
         $this->specificProduct = 0;
         $this->filter = false;
+
+        // dd(session('searchSubFamily'));
+        // session(['searchSubFamily' => $this->searchSubFamily]);
  
         $this->showLoaderPrincipal = true;
     }

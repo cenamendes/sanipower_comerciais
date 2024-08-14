@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Interfaces\ClientesInterface;
 use Illuminate\Support\Facades\Session;
+use App\Interfaces\EncomendasInterface;
 
 class EncomendasAdicionar extends Component
 {
@@ -16,6 +17,8 @@ class EncomendasAdicionar extends Component
     public int $numberMaxPages;
     public int $totalRecords = 0;
     private ?object $clientesRepository = NULL;
+    private ?object $encomendasRepository = NULL;
+
     protected ?object $clientes = NULL;
 
     public ?string $nomeCliente = '';
@@ -26,9 +29,11 @@ class EncomendasAdicionar extends Component
     public ?string $nifCliente = '';
     
 
-    public function boot(ClientesInterface $clientesRepository)
+    public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository)
     {
         $this->clientesRepository = $clientesRepository;
+        $this->encomendasRepository = $encomendasRepository;
+
     }
 
     private function initProperties(): void
@@ -96,7 +101,28 @@ class EncomendasAdicionar extends Component
             // $this->numberMaxPages = $arrayClientes["nr_paginas"];
             // $this->totalRecords = $arrayClientes["nr_registos"];
         }
+    }
 
+
+    public function rotaDetailEncomendas($id){
+
+        $getCategories = $this->encomendasRepository->getCategorias();
+
+        $firstCategories = $getCategories->category[0];
+        session(['searchNameCategory' => $firstCategories->name]);
+
+        $firstFamily = $firstCategories->family[0];
+        session(['searchNameFamily' => $firstFamily->name]);
+
+        $firstSubFamily = $firstFamily->subfamily[0];
+        session(['searchNameSubFamily' => $firstSubFamily->name]);
+
+        $searchSubFamily = $this->encomendasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
+
+        session(['searchSubFamily' => $searchSubFamily]);
+        session()->forget('searchSubFamily');
+        $this->clientes = session('AdiEncomendaPaginator');
+        return redirect()->route('encomendas.detail', ['id' => $id]);
 
     }
 

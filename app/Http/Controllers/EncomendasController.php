@@ -15,6 +15,7 @@ class EncomendasController extends Controller
 {
     
     private ?object $clientesRepository = NULL;
+
     public function __construct(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;

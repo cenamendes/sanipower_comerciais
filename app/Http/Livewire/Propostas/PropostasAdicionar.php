@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Interfaces\ClientesInterface;
 use Illuminate\Support\Facades\Session;
+use App\Interfaces\PropostasInterface;
 
 
 class PropostasAdicionar extends Component
@@ -17,6 +18,7 @@ class PropostasAdicionar extends Component
     public int $numberMaxPages;
     public int $totalRecords = 0;
     private ?object $clientesRepository = NULL;
+    private ?object $PropostasRepository = null;
     protected ?object $clientes = NULL;
 
     public ?string $nomeCliente = '';
@@ -27,9 +29,11 @@ class PropostasAdicionar extends Component
     public ?string $nifCliente = '';
     
 
-    public function boot(ClientesInterface $clientesRepository)
+    public function boot(ClientesInterface $clientesRepository, PropostasInterface $PropostasRepository)
     {
         $this->clientesRepository = $clientesRepository;
+        $this->PropostasRepository = $PropostasRepository;
+
     }
 
     private function initProperties(): void
@@ -95,6 +99,29 @@ class PropostasAdicionar extends Component
             // $this->totalRecords = $arrayClientes["nr_registos"];
         }
         
+    }
+
+    
+    public function rotaDetailPropostas($id){
+
+        $getCategories = $this->PropostasRepository->getCategorias();
+        
+        $firstCategories = $getCategories->category[0];
+        session(['searchNameCategory' => $firstCategories->name]);
+
+        $firstFamily = $firstCategories->family[0];
+        session(['searchNameFamily' => $firstFamily->name]);
+
+        $firstSubFamily = $firstFamily->subfamily[0];
+        session(['searchNameSubFamily' => $firstSubFamily->name]);
+
+        $searchSubFamily = $this->PropostasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
+
+        session(['searchSubFamily' => $searchSubFamily]);
+        session()->forget('searchSubFamily');
+        $this->clientes = session('AdiPropostaPaginator');
+        return redirect()->route('propostas.detail', ['id' => $id]);
+
     }
 
     public function updatedNomeCliente()
