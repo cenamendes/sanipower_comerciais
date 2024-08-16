@@ -154,6 +154,9 @@ class DetalheVisitas extends Component
         }
 
         $this->activeFinalizado = $tst;
+        
+
+
         Session::put('visitasPropostasAssunto', $this->assunto );
         Session::put('visitasPropostasRelatorio', $this->relatorio );
         Session::put('visitasPropostasPendentes', $this->pendentes );
@@ -863,11 +866,13 @@ class DetalheVisitas extends Component
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
 
+        Session::put('visitasPropostasCheckStatus', $this->checkStatus);
+
         Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
         Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
         Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
         Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
-        
+
         $this->tiposVisitaCollection = TiposVisitas::all();
         
         $getVisitaID = VisitasAgendadas::where('id',$this->idVisita)->first();

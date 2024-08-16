@@ -99,6 +99,9 @@ class Propostas extends Component
         if(session('visitasPropostasComentario_occorencias')){
             $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
         }
+        if(session('visitasPropostasCheckStatus')){
+            $this->checkStatus = session('visitasPropostasCheckStatus');
+        }
         $this->restartDetails();
 
     }

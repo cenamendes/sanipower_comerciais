@@ -83,6 +83,9 @@ class Financeiro extends Component
         if(session('visitasPropostasComentario_financeiro')){
             $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
         }
+        if(session('visitasPropostasCheckStatus')){
+            $this->checkStatus = session('visitasPropostasCheckStatus');
+        }
 
         $this->restartDetails();
     }

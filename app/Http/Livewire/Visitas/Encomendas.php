@@ -50,6 +50,7 @@ class Encomendas extends Component
     public string $comentario_financeiro = "";
     public string $comentario_occorencias = "";
     public int $tipoVisitaSelect;
+    public int $checkStatus;
 
 
     public ?string $comentarioEncomenda = "";
@@ -96,7 +97,9 @@ class Encomendas extends Component
         if(session('visitasPropostasComentario_occorencias')){
             $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
         }
-
+        if(session('visitasPropostasCheckStatus')){
+            $this->checkStatus = session('visitasPropostasCheckStatus');
+        }
         
         $this->restartDetails();
     }
