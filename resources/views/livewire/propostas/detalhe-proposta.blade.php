@@ -1658,7 +1658,7 @@
                textareas.forEach(textarea => {
             const classListArray = Array.from(textarea.classList);
 
-            const hasColorClass = classListArray.some(className => className.includes('428bca'));
+            const hasColorClass = classListArray.some(className => className.includes('41c6a0'));
             const id = textarea.id.replace('addTextosEncomenda', '');
 
             if (!hasColorClass) { 

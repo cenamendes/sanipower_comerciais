@@ -60,7 +60,7 @@ class DetalheCliente extends Component
         $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
         
         $this->analysisClientes = $arrayAna["paginator"];
-        $this->numberMaxPages = $arrayAna["nr_paginas"];
+        $this->numberMaxPages = $arrayAna["nr_paginas"] + 1;
         $this->totalRecords = $arrayAna["nr_registos"];
     }
 
@@ -172,7 +172,7 @@ class DetalheCliente extends Component
         $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $this->analysisClientes = $arrayAna["paginator"];
 
-        $this->numberMaxPages = $arrayAna["nr_paginas"];
+        $this->numberMaxPages = $arrayAna["nr_paginas"]  + 1;
         $this->totalRecords = $arrayAna["nr_registos"];
     }
 
