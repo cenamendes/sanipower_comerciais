@@ -87,6 +87,18 @@ class Propostas extends Component
         $this->idVisita = $visita;
         //$this->idCliente = "AJ19073058355,4450000-1";
 
+        if(session('visitasPropostasComentario_encomendas')){
+            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        }
+        if( session('visitasPropostasComentario_propostas')){
+            $this->comentario_propostas = session('visitasPropostasComentario_propostas');
+        }
+        if(session('visitasPropostasComentario_financeiro')){
+            $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
+        }
+        if(session('visitasPropostasComentario_occorencias')){
+            $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
+        }
         $this->restartDetails();
 
     }
@@ -261,6 +273,7 @@ class Propostas extends Component
     }
     public function guardarVisita()
     {
+
         if(session('visitasPropostasAssunto')){
             $this->assunto = session('visitasPropostasAssunto');
         }
@@ -275,7 +288,6 @@ class Propostas extends Component
         }
         if( session('visitasPropostasComentario_propostas')){
             $this->comentario_propostas = session('visitasPropostasComentario_propostas');
-
         }
         if(session('visitasPropostasComentario_financeiro')){
             $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
@@ -286,6 +298,10 @@ class Propostas extends Component
         if(session('visitasPropostastipoVisitaSelect')){
             $this->tipoVisitaSelect = session('visitasPropostastipoVisitaSelect');
         }
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
+        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
         // dd($this->assunto, $this->relatorio, $this->pendentes, $this->comentario_encomendas, $this->comentario_propostas,  $this->comentario_financeiro, $this->comentario_occorencias,$this->tipoVisitaSelect);
 
 
@@ -583,6 +599,13 @@ class Propostas extends Component
 
     public function render()
     {
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->detailsPropostas = $propostasArray["paginator"];
+
+        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas);
+        if(session('visitasPropostasComentario_encomendas')){
+            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        }
         return view('livewire.visitas.propostas',["detalhesPropostas" => $this->detailsPropostas]);
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Visitas;
 
 use Dompdf\Dompdf;
 use Livewire\Component;
-use App\Models\Visitas;
 use App\Mail\SendEncomenda;
 use App\Models\Comentarios;
 use Livewire\WithPagination;
@@ -85,8 +84,21 @@ class Encomendas extends Component
         $this->idVisita = $visita;
         //$this->idCliente = "AJ19073058355,4450000-1";
 
-        $this->restartDetails();
+        if(session('visitasPropostasComentario_encomendas')){
+            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        }
+        if( session('visitasPropostasComentario_propostas')){
+            $this->comentario_propostas = session('visitasPropostasComentario_propostas');
+        }
+        if(session('visitasPropostasComentario_financeiro')){
+            $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
+        }
+        if(session('visitasPropostasComentario_occorencias')){
+            $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
+        }
 
+        
+        $this->restartDetails();
     }
 
 
@@ -260,6 +272,7 @@ class Encomendas extends Component
 
     public function guardarVisita()
     {
+
         if(session('visitasPropostasAssunto')){
             $this->assunto = session('visitasPropostasAssunto');
         }
@@ -274,7 +287,6 @@ class Encomendas extends Component
         }
         if( session('visitasPropostasComentario_propostas')){
             $this->comentario_propostas = session('visitasPropostasComentario_propostas');
-
         }
         if(session('visitasPropostasComentario_financeiro')){
             $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
@@ -285,6 +297,11 @@ class Encomendas extends Component
         if(session('visitasPropostastipoVisitaSelect')){
             $this->tipoVisitaSelect = session('visitasPropostastipoVisitaSelect');
         }
+
+        // Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
+        // Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+        // Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+        // Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
         // dd($this->assunto, $this->relatorio, $this->pendentes, $this->comentario_encomendas, $this->comentario_propostas,  $this->comentario_financeiro, $this->comentario_occorencias,$this->tipoVisitaSelect);
 
 
@@ -538,6 +555,12 @@ class Encomendas extends Component
 
     public function render()
     {
+        $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        $this->detailsEncomenda = $encomendasArray["paginator"];
+
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas);
+
+        
         return view('livewire.visitas.encomendas',["detalhesEncomenda" => $this->detailsEncomenda]);
     }
 }

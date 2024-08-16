@@ -168,11 +168,27 @@ class DetalheVisitas extends Component
     }
 
     public function addSessionDetalhesRelatorio($pagerange){
+
+
+        if(session('visitasPropostasComentario_encomendas')){
+            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        }
+        if( session('visitasPropostasComentario_propostas')){
+            $this->comentario_propostas = session('visitasPropostasComentario_propostas');
+        }
+        if(session('visitasPropostasComentario_financeiro')){
+            $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
+        }
+        if(session('visitasPropostasComentario_occorencias')){
+            $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
+        }
+
         Session::put('visitasPropostasAssunto', $this->assunto );
         Session::put('visitasPropostasRelatorio', $this->relatorio );
         Session::put('visitasPropostasPendentes', $this->pendentes );
         Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
         Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+        
         Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
         Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
         Session::put('visitasPropostastipoVisitaSelect', $this->tipoVisitaSelect);
@@ -204,6 +220,7 @@ class DetalheVisitas extends Component
         }else if($pagerange == "tabAssistencias"){
             $this->tabAssistencias = "show active";
         }
+
         $this->restartDetails();
     }
     public function gotoPage($page)
@@ -327,6 +344,21 @@ class DetalheVisitas extends Component
 
     public function guardarVisita()
     {
+
+        if(session('visitasPropostasComentario_encomendas')){
+            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        }
+        if( session('visitasPropostasComentario_propostas')){
+            $this->comentario_propostas = session('visitasPropostasComentario_propostas');
+        }
+        if(session('visitasPropostasComentario_financeiro')){
+            $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
+        }
+        if(session('visitasPropostasComentario_occorencias')){
+            $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
+        }
+
+
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
         $this->detailsClientes = $arrayCliente["object"];
@@ -785,6 +817,9 @@ class DetalheVisitas extends Component
     }
     public function openProposta($idcliente, $idVisita)
     {
+
+
+
         if($this->idVisita == 0)
         {
 
@@ -825,6 +860,14 @@ class DetalheVisitas extends Component
     }
     public function render()
     {
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
+
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
+        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
+        
         $this->tiposVisitaCollection = TiposVisitas::all();
         
         $getVisitaID = VisitasAgendadas::where('id',$this->idVisita)->first();

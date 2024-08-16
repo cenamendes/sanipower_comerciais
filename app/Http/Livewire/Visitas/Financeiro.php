@@ -42,6 +42,15 @@ class Financeiro extends Component
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
 
+    public string $assunto = "";
+    public string $relatorio = "";
+    public string $pendentes = "";
+    public string $comentario_encomendas = "";
+    public string $comentario_propostas = "";
+    public string $comentario_financeiro = "";
+    public string $comentario_occorencias = "";
+    public int $tipoVisitaSelect;
+
     public ?string $comentarioProposta = "";
 
     private ?object $detailsfinanceiro = NULL;
@@ -71,6 +80,10 @@ class Financeiro extends Component
         $this->initProperties();
         $this->idCliente = $idCliente;
         
+        if(session('visitasPropostasComentario_financeiro')){
+            $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
+        }
+
         $this->restartDetails();
     }
 
@@ -151,7 +164,11 @@ class Financeiro extends Component
     }
     public function render()
     {
-        
+        $financeiroArray = $this->visitasRepository->getFinanceiroCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->detailsfinanceiro = $financeiroArray["object"];
+
+        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+
         return view('livewire.visitas.financeiro', ["detailsfinanceiro" => $this->detailsfinanceiro]);
     }
 }

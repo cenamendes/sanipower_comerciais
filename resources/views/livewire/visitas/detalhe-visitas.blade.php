@@ -363,28 +363,28 @@
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre encomendas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_encomendas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_encomendas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre propostas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_propostas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_propostas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre financeiro</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_financeiro" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_financeiro" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre ocorrências</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_occorencias" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_occorencias" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
@@ -508,8 +508,7 @@
                 <div class="tab-pane fade {{$tabOcorrencia}}" id="tab10">
 
                     <p class="card-text">
-
-                        @livewire('clientes.ocorrencias',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('visitas.ocorrencias',["cliente" => $detalhesCliente->customers[0]->id])
 
                     </p>
                 </div>

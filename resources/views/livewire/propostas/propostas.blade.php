@@ -70,6 +70,37 @@
                                         </select>
                                     </div>
                             </div>
+                            <div class="col-lg-2">
+                                <label class="mt-2">Data Inicial</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                    </div>
+                                    <input type="time" class="form-control" placeholder="Data Inicial" >
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <label class="mt-2">Data Final</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                    </div>
+                                    <input type="time" class="form-control" placeholder="Data Final" >
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="mt-2">Estádo da Proposta</label>
+                                <div class="input-group">
+                                    <select name="perPage" class="form-control">
+                                        <option value="0" selected>Todas</option>
+                                        <option value="1">Aberto</option>
+                                        <option value="2">Finalizada</option>
+                                        <option value="2">Proposta Comercial</option>
+
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row ml-0 mr-0 mt-4 d-block">
@@ -195,7 +226,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- {{dd($propostas)}} --}}
                                 @foreach ($propostas as $pro )
                                     <tr>
                                         <td>{{ date('Y-m-d', strtotime($pro->date)) }}</td>

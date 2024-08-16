@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
 use App\Models\Comentarios;
+use Illuminate\Support\Facades\Session;
 
 class Ocorrencias extends Component
 {
@@ -28,6 +29,8 @@ class Ocorrencias extends Component
 
     private ?object $detailsOcorrencias = NULL;
     public ?object $comentario = NULL;
+    public $detailsLine = NULL;
+
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -53,6 +56,10 @@ class Ocorrencias extends Component
 
         //$this->idCliente = "AJ19073058355,4450000-1";
 
+        if(session('visitasPropostasComentario_occorencias')){
+            $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
+        }
+
         $this->restartDetails();
 
     }
@@ -61,7 +68,11 @@ class Ocorrencias extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+        $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+        $this->detailsOcorrencias = $ocorrenciasArray["object"];
     }
 
 
@@ -69,10 +80,15 @@ class Ocorrencias extends Component
     {
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
-            $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->detailsOcorrencias = $ocorrenciasArray["object"];
         }
         else if($this->pageChosen == 1){
-            $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->detailsOcorrencias = $ocorrenciasArray["object"];
         }
 
     }
@@ -82,7 +98,9 @@ class Ocorrencias extends Component
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
 
-            $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->detailsOcorrencias = $ocorrenciasArray["object"];
         }
     }
 
@@ -115,11 +133,12 @@ class Ocorrencias extends Component
 
     public function restartDetails()
     {
-        $this->detailsOcorrencias = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesOcorrenciasCliente($this->perPage,$this->idCliente);
+        $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->detailsOcorrencias = $ocorrenciasArray["object"];
+
+        $this->numberMaxPages = $ocorrenciasArray["nr_paginas"] + 1;
+        $this->totalRecords = $ocorrenciasArray["nr_registos"];
 
     }
 
@@ -180,20 +199,22 @@ class Ocorrencias extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioOcorrencias');
     }
 
-    public function detalheOcorrenciasModal($id)
+    public function detalheOcorrenciasModal($details)
     {
-
-        $this->ocorrenciaID = $id;
+        $this->ocorrenciaID = $details['id'];
+        $this->detailsLine = $details;
 
         $this->restartDetails();
 
         $this->dispatchBrowserEvent('openDetalheOcorrenciasModal');
         
     }
-
-
     public function render()
     {
+        $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->detailsOcorrencias = $ocorrenciasArray["object"];
+
+        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
         return view('livewire.visitas.ocorrencias',["detalhesOcorrencias" => $this->detailsOcorrencias]);
     }
 }
