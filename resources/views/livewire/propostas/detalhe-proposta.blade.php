@@ -989,7 +989,7 @@
                                                                                                         <i class="ti-check"></i>
                                                                                                     </button>
                                                                                                 </h6>
-                                                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
+                                                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
                                                                                             </li>
                                                                                         </div>
                                                                                     </div>
@@ -1532,7 +1532,7 @@
                                                                         <i class="ti-check"></i>
                                                                     </button>
                                                                 </h6>
-                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
+                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
                                                                     wire:model.defer="produtosComment.{{$i}}">
                                                                 </textarea>
                                                             </li>
@@ -1655,22 +1655,45 @@
 
     function attachLoader() {
         const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
-        textareas.forEach(textarea => {
+               textareas.forEach(textarea => {
+            const classListArray = Array.from(textarea.classList);
+
+            const hasColorClass = classListArray.some(className => className.includes('428bca'));
             const id = textarea.id.replace('addTextosEncomenda', '');
-            const commentButton = document.getElementById('addCommentEncomenda' + id);
 
-            textarea.addEventListener('input', function() {
-                if (textarea.value.trim() !== "") {
-                    commentButton.removeAttribute('disabled');
-                } else {
-                    commentButton.setAttribute('disabled', 'disabled');
+            if (!hasColorClass) { 
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+                        
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+
+                    commentButton.addEventListener('click', function() {
+                        $('#addProductEncomenda'+id).removeAttr('disabled');
+                        $('#addProductProposta'+id).removeAttr('disabled');
+                    });
                 }
-            });
+            }else{
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
 
-            commentButton.addEventListener('click', function() {
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
-            });
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+                   
+                }
+            }
         });
     }
     const checkbox = document.getElementById('checkbox');
