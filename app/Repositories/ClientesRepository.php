@@ -251,7 +251,7 @@ class ClientesRepository implements ClientesInterface
         }
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
-        // dd($string);
+        // dd( env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -270,11 +270,11 @@ class ClientesRepository implements ClientesInterface
 
 
         $response = curl_exec($curl);
-        // dd($response);
+        
         curl_close($curl);
-     
+        
         $response_decoded = json_decode($response);
-       
+
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         if($response_decoded != null)
@@ -500,7 +500,12 @@ class ClientesRepository implements ClientesInterface
         $nifCliente = '&Nif=';
         $commentCliente = '&Comments=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
+        $startDate = '&start_date=1900-01-01';
+        $endDate = '&end_date=2900-12-31';
+        $statusEncomenda = '&status=0';
+        
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
       
@@ -523,7 +528,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-
+        // dd($response_decoded);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
        
         if($response_decoded->orders != null)
@@ -688,7 +693,7 @@ class ClientesRepository implements ClientesInterface
         if ($statusEncomenda != "") {
             $statusEncomenda = '&status='.urlencode($statusEncomenda);
         } else {
-            $statusEncomenda = '&status=';
+            $statusEncomenda = '&status=0';
         }
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
@@ -783,8 +788,7 @@ class ClientesRepository implements ClientesInterface
             $commentCliente = '&Comments=0';
         }
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
-
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente; 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -828,7 +832,11 @@ class ClientesRepository implements ClientesInterface
         $nifCliente = '&Nif=';
         $commentCliente = '&Comments=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
+        $startDate = '&start_date=1900-01-01';
+        $endDate = '&end_date=2900-12-31';
+        $statusEncomenda = '&status=0';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
 
@@ -852,7 +860,6 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
     
         $response_decoded = json_decode($response);
-        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         if($response_decoded != null && $response_decoded->budgets != null)
@@ -921,9 +928,8 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
-    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): array
+    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$startDate,$endDate,$statusProsposta): array
     {
-        
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } else {
@@ -965,8 +971,23 @@ class ClientesRepository implements ClientesInterface
         } else {
             $commentCliente = '&Comments=0';
         }
+        if ($startDate != "") {
+            $startDate = '&start_date='.urlencode($startDate);
+        } else {
+            $startDate = '&start_date=1900-01-01';
+        }
+        if ($endDate != "") {
+            $endDate = '&end_date='.urlencode($endDate);
+        } else {
+            $endDate = '&end_date=2900-12-31';
+        }
+        if ($statusProsposta != "") {
+            $statusProsposta = '&status='.urlencode($statusProsposta);
+        } else {
+            $statusProsposta = '&status=';
+        }
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusProsposta;
        
 
         $curl = curl_init();
@@ -989,7 +1010,6 @@ class ClientesRepository implements ClientesInterface
         $response = curl_exec($curl);
         curl_close($curl);
         $response_decoded = json_decode($response);
-        
        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
@@ -1015,7 +1035,6 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, 0 ,$perPage);
         }
        
-
         return [
             'paginator' => $itemsPaginate,
             "nr_paginas" => $response_decoded->total_pages, 

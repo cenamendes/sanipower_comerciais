@@ -76,7 +76,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-calendar"></i></span>
                                     </div>
-                                    <input type="date" class="form-control" placeholder="Data Inicial" >
+                                    <input type="date" class="form-control" placeholder="Data Inicial" wire:model.lazy="startDate">
                                 </div>
                             </div>
 
@@ -86,13 +86,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-calendar"></i></span>
                                     </div>
-                                    <input type="date" class="form-control" placeholder="Data Final" >
+                                    <input type="date" class="form-control" placeholder="Data Final" wire:model.lazy="endDate">
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <label class="mt-2">Estádo da Proposta</label>
                                 <div class="input-group">
-                                    <select name="perPage" class="form-control">
+                                    <select name="perPage" class="form-control" wire:model.lazy="statusProsposta">
                                         <option value="0" selected>Todas</option>
                                         <option value="1">Abertas</option>
                                         <option value="2">Fechadas</option>
@@ -233,12 +233,12 @@
                                         <td>{{$pro->status}}</td>
                                         <td>
                                         {{-- {{dd($pro)}} --}}
-                                            <a wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})" style="color:white!important;" class="btn btn-primary">
+                                            <a wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-eye"></i> Ver Proposta
                                             </a>
-                                             {{-- <a href="{{route('propostas.detail',$pro->id)}}" class="btn btn-primary">
+                                             <a href="{{route('propostas.detail',$pro->customer_id)}}" class="btn btn-sm btn-primary">
                                                 <i class="ti-plus"></i> Nova Proposta
-                                            </a> --}}
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

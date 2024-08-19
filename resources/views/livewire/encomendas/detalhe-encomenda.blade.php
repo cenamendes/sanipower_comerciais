@@ -971,7 +971,7 @@
                                                 @endif
                                             </td> --}}
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
-                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->iva }} %</td>

@@ -234,13 +234,13 @@
                                         <td>{{$enc->total}}</td>
                                         <td>{{$enc->status}}</td>
                                         <td>
-                                            <a wire:click="checkOrder({{json_encode($enc->id)}}, {{json_encode($enc)}})" style="color:white!important;" class="btn btn-primary">
+                                        {{-- {{dd($enc)}} --}}
+                                            <a wire:click="checkOrder({{json_encode($enc->id)}}, {{json_encode($enc)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-eye"></i> Ver Encomenda
                                             </a>
-                                            {{-- {{dd($enc)}} --}}
-                                            {{-- <a href="{{route('encomendas.detail',$enc->id)}}" class="btn btn-primary">
+                                            <a href="{{route('encomendas.detail',$enc->customer_id)}}" class="btn btn-sm btn-primary">
                                                 <i class="ti-plus"></i> Nova Encomenda
-                                            </a> --}}
+                                            </a>
                                         </td>
                                     </tr>                              
 

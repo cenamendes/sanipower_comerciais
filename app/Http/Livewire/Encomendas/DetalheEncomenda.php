@@ -70,6 +70,9 @@ class DetalheEncomenda extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
+    public $startDate = '';
+    public $endDate = '';
+    public int $statusEncomenda = 0;
 
     protected ?object $quickBuyProducts = null;
     public $iterationQuickBuy = 0;
@@ -750,7 +753,6 @@ class DetalheEncomenda extends Component
 
     public function finalizarencomenda()
     {
-
         $propertiesLoja = [
             'levantamentoLoja' => $this->levantamentoLoja,
             'viaturaSanipower' => $this->viaturaSanipower,
@@ -848,7 +850,7 @@ class DetalheEncomenda extends Component
                 "budgets_id" => ""
             ];
         }
-
+        // dd($arrayProdutos);
         if ($count <= 0){
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Não foi selecionado artigos!", "status" => "error"]);
             return false;
@@ -933,8 +935,8 @@ class DetalheEncomenda extends Component
 
             ComentariosProdutos::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
             Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
-    
-            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0");
+   
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0",$this->startDate,$this->endDate,$this->statusEncomenda);
             
 
             foreach($encomendasArray["paginator"] as $encomenda){
@@ -1089,6 +1091,8 @@ class DetalheEncomenda extends Component
     
     public function render()
     {
+        $this->quantidadeLines = 0;
+
         $detailProduto = session('detailProduto');
         if (!isset($detailProduto->product)){
 

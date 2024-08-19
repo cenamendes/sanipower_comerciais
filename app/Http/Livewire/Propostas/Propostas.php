@@ -28,6 +28,11 @@ class Propostas extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
+    public $startDate = '';
+    public $endDate = '';
+    public int $statusProsposta = 0;
+
+
 
     public $idCliente;
 
@@ -62,7 +67,15 @@ class Propostas extends Component
         $this->telemovelCliente = session('verPropostaTelemovelCliente');
         $this->emailCliente = session('verPropostaEmailCliente');
         $this->nifCliente = session('verPropostaNifCliente');
-
+        if(session('verPropostaStartDate')){
+            $this->startDate = session('verPropostaStartDate');
+        }
+        if(session('verPropostaEndDate')){
+            $this->endDate = session('verPropostaEndDate');
+        }
+        if(session('verPropostaStatusProsposta')){
+            $this->statusProsposta = session('verPropostaStatusProsposta');
+        }
 
 
         $this->idCliente = '';
@@ -102,7 +115,7 @@ class Propostas extends Component
             // $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
             // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
             Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-            Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+            Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
             Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
             
             $this->propostas = session('verPropostaPaginator');
@@ -118,13 +131,13 @@ class Propostas extends Component
         $this->pageChosen = 1;
         Session::put('verPropostaPageChosen', $this->pageChosen);
 
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
         // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         Session::put('verPropostaNomeCliente',$this->nomeCliente);
 
         Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
         Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
 
 
@@ -142,13 +155,13 @@ class Propostas extends Component
         $this->pageChosen = 1;
         Session::put('verPropostaPageChosen', $this->pageChosen);
 
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
         // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         Session::put('verPropostaNumeroCliente',$this->numeroCliente);
 
         Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
         Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
 
 
@@ -166,13 +179,13 @@ class Propostas extends Component
         $this->pageChosen = 1;
         Session::put('verPropostaPageChosen', $this->pageChosen);
 
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
         // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         Session::put('verPropostaZonaCliente',$this->zonaCliente);
 
         Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
         Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
 
 
@@ -190,14 +203,14 @@ class Propostas extends Component
         $this->pageChosen = 1;
         Session::put('verPropostaPageChosen', $this->pageChosen);
 
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
         // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
 
         Session::put('verPropostaNifCliente',$this->nifCliente);
 
         Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
         Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
 
 
@@ -215,13 +228,13 @@ class Propostas extends Component
         $this->pageChosen = 1;
         Session::put('verPropostaPageChosen', $this->pageChosen);
 
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
         // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         Session::put('verPropostaTelemovelCliente',$this->telemovelCliente);
 
         Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
         Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
 
 
@@ -239,13 +252,13 @@ class Propostas extends Component
         $this->pageChosen = 1;
         Session::put('verPropostaPageChosen', $this->pageChosen);
 
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
         // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         Session::put('verPropostaEmailCliente',$this->emailCliente);
 
         Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
         Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
 
 
@@ -263,12 +276,73 @@ class Propostas extends Component
         $this->pageChosen = 1;
         Session::put('verPropostaPageChosen', $this->pageChosen);
 
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
         // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
         
         Session::put('verPropostaPaginator', $propostasArray["paginator"]);
-        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
+        Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
+
+        $this->propostas = session('verPropostaPaginator');
+        $this->numberMaxPages = session('verPropostaNr_paginas');
+        $this->totalRecords = session('verPropostaNr_registos');
+    
+    }
+
+    public function updatedStartDate()
+    {
+        $this->pageChosen = 1;
+        Session::put('verPropostaPageChosen', $this->pageChosen);
+
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
+        // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        Session::put('verPropostaStartDate',$this->startDate);
+        
+
+        Session::put('verPropostaPaginator', $propostasArray["paginator"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
+        Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
+
+        $this->propostas = session('verPropostaPaginator');
+        $this->numberMaxPages = session('verPropostaNr_paginas');
+        $this->totalRecords = session('verPropostaNr_registos');
+    
+    }
+    public function updatedEndDate()
+    {
+        $this->pageChosen = 1;
+        Session::put('verPropostaPageChosen', $this->pageChosen);
+
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
+        // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        Session::put('verPropostaEndDate',$this->endDate);
+        
+
+        Session::put('verPropostaPaginator', $propostasArray["paginator"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
+        Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
+
+        $this->propostas = session('verPropostaPaginator');
+        $this->numberMaxPages = session('verPropostaNr_paginas');
+        $this->totalRecords = session('verPropostaNr_registos');
+    
+    }
+    public function updatedStatusProsposta()
+    {
+        $this->pageChosen = 1;
+        Session::put('verPropostaPageChosen', $this->pageChosen);
+
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
+        // $this->propostas = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasFiltro($this->perPage,1,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        Session::put('verPropostaStatusProsposta',$this->statusProsposta);
+        
+
+        Session::put('verPropostaPaginator', $propostasArray["paginator"]);
+        Session::put('verPropostaNr_paginas', $propostasArray["nr_paginas"] + 1);
         Session::put('verPropostaNr_registos', $propostasArray["nr_registos"]);
 
         $this->propostas = session('verPropostaPaginator');
@@ -283,7 +357,7 @@ class Propostas extends Component
         Session::put('verPropostaPageChosen', $this->pageChosen);
         
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoProposta != "0"){
-            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
             
             Session::put('verPropostaPaginator', $propostasArray["paginator"]);
             $this->propostas = session('verPropostaPaginator');
@@ -308,7 +382,7 @@ class Propostas extends Component
             Session::put('verPropostaPageChosen', $this->pageChosen);
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoProposta != "0"){
-                $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+                $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
                 
                 Session::put('verPropostaPaginator', $propostasArray["paginator"]);
                 $this->propostas = session('verPropostaPaginator');
@@ -326,7 +400,7 @@ class Propostas extends Component
         else if($this->pageChosen == 1){
             Session::put('verEncomendaPageChosen', $this->pageChosen);
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoProposta != "0"){
-                $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+                $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
                 
                 Session::put('verPropostaPaginator', $propostasArray["paginator"]);
                 $this->propostas = session('verPropostaPaginator');
@@ -350,7 +424,7 @@ class Propostas extends Component
             Session::put('verPropostaPageChosen', $this->pageChosen);
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoProposta != "0"){
-                $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+                $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
                                 
                 Session::put('verPropostaPaginator', $propostasArray["paginator"]);
                 $this->propostas = session('verPropostaPaginator');
@@ -395,16 +469,16 @@ class Propostas extends Component
             // $this->numberMaxPages = $getInfoClientes["nr_paginas"];
             // $this->totalRecords = $getInfoClientes["nr_registos"];
 
-            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->startDate,$this->endDate,$this->statusProsposta);
           
             $this->propostas = $propostasArray["paginator"];
-            $this->numberMaxPages = $propostasArray["nr_paginas"];
+            $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
             $this->totalRecords = $propostasArray["nr_registos"];
         } else {
             $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
            
             $this->propostas = $propostasArray["paginator"];
-            $this->numberMaxPages = $propostasArray["nr_paginas"];
+            $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
             $this->totalRecords = $propostasArray["nr_registos"];
            
             // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);

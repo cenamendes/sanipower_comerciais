@@ -90,7 +90,7 @@ class EncomendasAdicionar extends Component
             $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
 
             Session::put('AdiEncomendaPaginator', $arrayClientes["paginator"]);
-            Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"]);
+            Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"] + 1);
             Session::put('AdiEncomendaNr_registos', $arrayClientes["nr_registos"]);
     
             $this->clientes = session('AdiEncomendaPaginator');
@@ -134,7 +134,7 @@ class EncomendasAdicionar extends Component
         Session::put('AdiEncomendaNomeCliente',$this->nomeCliente);
 
         Session::put('AdiEncomendaPaginator', $arrayClientes["paginator"]);
-        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"]);
+        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"] + 1);
         Session::put('AdiEncomendaNr_registos', $arrayClientes["nr_registos"]);
 
         $this->clientes = session('AdiEncomendaPaginator');
@@ -155,7 +155,7 @@ class EncomendasAdicionar extends Component
 
 
         Session::put('AdiEncomendaPaginator', $arrayClientes["paginator"]);
-        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"]);
+        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"] + 1);
         Session::put('AdiEncomendaNr_registos', $arrayClientes["nr_registos"]);
 
 
@@ -177,7 +177,7 @@ class EncomendasAdicionar extends Component
         Session::put('AdiEncomendaZonaCliente',$this->zonaCliente);
 
         Session::put('AdiEncomendaPaginator', $arrayClientes["paginator"]);
-        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"]);
+        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"] + 1);
         Session::put('AdiEncomendaNr_registos', $arrayClientes["nr_registos"]);
 
 
@@ -198,7 +198,7 @@ class EncomendasAdicionar extends Component
         Session::put('AdiEncomendaNifCliente',$this->nifCliente);
 
         Session::put('AdiEncomendaPaginator', $arrayClientes["paginator"]);
-        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"]);
+        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"] + 1);
         Session::put('AdiEncomendaNr_registos', $arrayClientes["nr_registos"]);
 
 
@@ -219,7 +219,7 @@ class EncomendasAdicionar extends Component
         Session::put('AdiEncomendaTelemovelCliente',$this->telemovelCliente);
 
         Session::put('AdiEncomendaPaginator', $arrayClientes["paginator"]);
-        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"]);
+        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"] + 1);
         Session::put('AdiEncomendaNr_registos', $arrayClientes["nr_registos"]);
 
 
@@ -240,7 +240,7 @@ class EncomendasAdicionar extends Component
         Session::put('AdiEncomendaEmailCliente',$this->emailCliente);
 
         Session::put('AdiEncomendaPaginator', $arrayClientes["paginator"]);
-        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"]);
+        Session::put('AdiEncomendaNr_paginas', $arrayClientes["nr_paginas"] + 1);
         Session::put('AdiEncomendaNr_registos', $arrayClientes["nr_registos"]);
 
 
@@ -364,14 +364,14 @@ class EncomendasAdicionar extends Component
             $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
             $this->clientes = $arrayClientes["paginator"];
 
-            $this->numberMaxPages = $arrayClientes["nr_paginas"];
+            $this->numberMaxPages = $arrayClientes["nr_paginas"] + 1;
             $this->totalRecords = $arrayClientes["nr_registos"];
         } else {
             $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
             $this->clientes = $arrayClientes["paginator"];
         
 
-            $this->numberMaxPages = $arrayClientes["nr_paginas"];
+            $this->numberMaxPages = $arrayClientes["nr_paginas"] + 1;
             $this->totalRecords = $arrayClientes["nr_registos"];
         }
 
