@@ -58,6 +58,7 @@ class Financeiro extends Component
 
     public $estadoProposta = "";
 
+    protected $listeners = ['atualizarFinanceiro' => 'render'];
 
     public function boot( VisitasInterface $visitasRepository)
     {
@@ -165,13 +166,18 @@ class Financeiro extends Component
     {
         return 'livewire.pagination';
     }
+    public function updatedComentarioFinanceiro()
+    {
+        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+    }
     public function render()
     {
         $financeiroArray = $this->visitasRepository->getFinanceiroCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $this->detailsfinanceiro = $financeiroArray["object"];
 
-        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
-
+        if(session('visitasPropostasComentario_financeiro')){
+            $this->comentario_financeiro = session('visitasPropostasComentario_financeiro');
+        }
         return view('livewire.visitas.financeiro', ["detailsfinanceiro" => $this->detailsfinanceiro]);
     }
 }

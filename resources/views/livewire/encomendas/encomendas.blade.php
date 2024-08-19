@@ -226,6 +226,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{-- {{dd($encomendas )}} --}}
                                 @foreach ($encomendas as $enc)
                                     <tr>
                                         <td>{{ date('Y-m-d', strtotime($enc->date)) }}</td>

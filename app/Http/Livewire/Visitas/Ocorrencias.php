@@ -41,6 +41,7 @@ class Ocorrencias extends Component
     private ?object $detailsOcorrencias = NULL;
     public ?object $comentario = NULL;
     public $detailsLine = NULL;
+    protected $listeners = ['atualizarOccorencias' => 'render'];
 
 
     public function boot(ClientesInterface $clientesRepository)
@@ -223,12 +224,18 @@ class Ocorrencias extends Component
         $this->dispatchBrowserEvent('openDetalheOcorrenciasModal');
         
     }
+    public function updatedComentarioOccorencias()
+    {
+        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
+    }
     public function render()
     {
         $ocorrenciasArray = $this->clientesRepository->getOcorrenciasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $this->detailsOcorrencias = $ocorrenciasArray["object"];
 
-        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
+        if(session('visitasPropostasComentario_occorencias')){
+            $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
+        }
         return view('livewire.visitas.ocorrencias',["detalhesOcorrencias" => $this->detailsOcorrencias]);
     }
 }

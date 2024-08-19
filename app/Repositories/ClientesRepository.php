@@ -528,7 +528,6 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-        // dd($response_decoded);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
        
         if($response_decoded->orders != null)
@@ -604,7 +603,6 @@ class ClientesRepository implements ClientesInterface
         $commentCliente = '&Comments=0';
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -698,7 +696,6 @@ class ClientesRepository implements ClientesInterface
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
 
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -720,6 +717,8 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
         
         $response_decoded = json_decode($response);
+        // dd($response_decoded);
+
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         if($response_decoded != null && $response_decoded->orders != null)

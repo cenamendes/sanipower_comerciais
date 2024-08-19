@@ -80,8 +80,7 @@ class EncomendasController extends Controller
         } 
         else
         {
-            $encomenda = Session::get('encomenda');            
-         
+            $encomenda = Session::get('encomenda');   
             return view('encomendas.details',["idCliente" => "", "codEncomenda" => "","encomenda" => $encomenda]);
         }
 

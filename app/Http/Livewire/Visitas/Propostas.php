@@ -62,7 +62,7 @@ class Propostas extends Component
 
     public $estadoProposta = "";
 
-
+    protected $listeners = ['atualizarPropostas' => 'render'];
     public function boot(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -599,15 +599,17 @@ class Propostas extends Component
 
         $this->restartDetails();
     }
-
+    public function updatedComentarioPropostas()
+    {
+        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+    }
     public function render()
     {
         $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $this->detailsPropostas = $propostasArray["paginator"];
 
-        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas);
-        if(session('visitasPropostasComentario_encomendas')){
-            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        if( session('visitasPropostasComentario_propostas')){
+            $this->comentario_propostas = session('visitasPropostasComentario_propostas');
         }
         return view('livewire.visitas.propostas',["detalhesPropostas" => $this->detailsPropostas]);
     }

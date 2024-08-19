@@ -59,7 +59,7 @@ class Encomendas extends Component
     public ?object $comentario = NULL;
 
     public $estadoEncomenda = "";
-
+    protected $listeners = ['atualizarEncomendas' => 'render'];
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -554,16 +554,22 @@ class Encomendas extends Component
         $this->restartDetails();
     }
 
-
-
+    public function updatedComentarioEncomendas()
+    {
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
+    }
+   
     public function render()
     {
         $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
         $this->detailsEncomenda = $encomendasArray["paginator"];
+        // dd( $this->comentario_encomendas);
 
-        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas);
-
-        
+        // Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas);
+        if(session('visitasPropostasComentario_encomendas')){
+            $this->comentario_encomendas = session('visitasPropostasComentario_encomendas');
+        }
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
         return view('livewire.visitas.encomendas',["detalhesEncomenda" => $this->detailsEncomenda]);
     }
 }

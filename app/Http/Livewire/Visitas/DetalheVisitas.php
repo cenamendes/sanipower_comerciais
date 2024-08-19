@@ -861,17 +861,36 @@ class DetalheVisitas extends Component
 
         return redirect()->route('propostas.detail.visitas', [$idcliente, $idVisita]);
     }
+    public function updatedComentarioEncomendas()
+    {
+        $this->emit('atualizarEncomendas');
+        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
+    }
+    public function updatedComentarioPropostas()
+    {
+        $this->emit('atualizarPropostas');
+        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
+    }
+    public function updatedComentarioFinanceiro()
+    {
+        $this->emit('atualizarFinanceiro');
+        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
+    }
+    public function updatedComentarioOccorencias()
+    {
+        $this->emit('atualizarOccorencias');
+        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
+    }
     public function render()
     {
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
 
+
+
         Session::put('visitasPropostasCheckStatus', $this->checkStatus);
 
-        Session::put('visitasPropostasComentario_encomendas', $this->comentario_encomendas );
-        Session::put('visitasPropostasComentario_propostas', $this->comentario_propostas );
-        Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
-        Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
+        
 
         $this->tiposVisitaCollection = TiposVisitas::all();
         

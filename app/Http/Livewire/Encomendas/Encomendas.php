@@ -115,7 +115,7 @@ class Encomendas extends Component
             $this->totalRecords = session('verEncoemendaNr_registos');
         }
     }
-
+    
    
     public function updatedNomeCliente()
     {
