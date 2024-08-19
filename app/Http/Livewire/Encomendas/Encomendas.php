@@ -29,6 +29,11 @@ class Encomendas extends Component
     public ?string $telemovelCliente = '';
     public ?string $emailCliente = '';
     public ?string $nifCliente = '';
+    public $startDate = '';
+    public $endDate = '';
+    public int $statusEncomenda = 0;
+
+
     
     public $idCliente;
 
@@ -62,8 +67,16 @@ class Encomendas extends Component
         $this->telemovelCliente = session('verEncomendaTelemovelCliente');
         $this->emailCliente = session('verEncomendaEmailCliente');
         $this->nifCliente = session('verEncomendaNifCliente');
-
-
+        if(session('verEncomendaStartDate')){
+            $this->startDate = session('verEncomendaStartDate');
+        }
+        if(session('verEncomendaEndDate')){
+            $this->endDate = session('verEncomendaEndDate');
+        }
+        if(session('verEncomendaStatusEncomenda')){
+            $this->statusEncomenda = session('verEncomendaStatusEncomenda');
+        }
+        
         $this->idCliente = '';
 
     }
@@ -109,7 +122,7 @@ class Encomendas extends Component
         $this->pageChosen = 1;
         Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
         Session::put('verEncomendaNomeCliente',$this->nomeCliente);
 
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
@@ -130,7 +143,7 @@ class Encomendas extends Component
         $this->pageChosen = 1;
         Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
         Session::put('verEncomendaNumeroCliente',$this->numeroCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
@@ -152,7 +165,7 @@ class Encomendas extends Component
         $this->pageChosen = 1;
         Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
         Session::put('verEncomendaZonaCliente',$this->zonaCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
@@ -174,7 +187,7 @@ class Encomendas extends Component
         $this->pageChosen = 1;
         Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
         Session::put('verEncomendaNifCliente',$this->nifCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
@@ -196,7 +209,7 @@ class Encomendas extends Component
         $this->pageChosen = 1;
         Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
         Session::put('telemovelCliente',$this->telemovelCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
@@ -219,7 +232,7 @@ class Encomendas extends Component
         $this->pageChosen = 1;
         Session::put('verEncomendaPageChosen', $this->pageChosen);
 
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
         Session::put('verEncomendaEmailCliente',$this->emailCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
@@ -238,7 +251,7 @@ class Encomendas extends Component
     public function updatedEstadoEncomenda()
     {
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
         Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
@@ -253,7 +266,69 @@ class Encomendas extends Component
         // $this->totalRecords = $encomendasArray["nr_registos"];
 
     }
+    public function updatedStartDate()
+    {
+        $this->pageChosen = 1;
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
 
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
+        Session::put('verEncomendaStartDate',$this->startDate);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
+
+    }
+    public function updatedEndDate()
+    {
+        $this->pageChosen = 1;
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
+
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
+        Session::put('verEncomendaEndDate',$this->endDate);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
+
+    }
+    public function updatedStatusEncomenda()
+    {
+        $this->pageChosen = 1;
+        Session::put('verEncomendaPageChosen', $this->pageChosen);
+
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
+        Session::put('verEncomendaStatusEncomenda',$this->statusEncomenda);
+       
+        Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
+
+        $this->encomendas = session('verEncoemendaPaginator');
+        $this->numberMaxPages = session('verEncoemendaNr_paginas');
+        $this->totalRecords = session('verEncoemendaNr_registos');
+
+        // $this->encomendas = $encomendasArray["paginator"];
+        // $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        // $this->totalRecords = $encomendasArray["nr_registos"];
+
+    }
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
@@ -261,7 +336,7 @@ class Encomendas extends Component
         Session::put('verEncomendaPageChosen', $this->pageChosen);
  
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
             Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
             $this->encomendas = session('verEncoemendaPaginator');
 
@@ -285,7 +360,7 @@ class Encomendas extends Component
             Session::put('verEncomendaPageChosen', $this->pageChosen);
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-                $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
                 Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
                 $this->encomendas = session('verEncoemendaPaginator');
 
@@ -302,7 +377,7 @@ class Encomendas extends Component
                 // Session::put('verEncomendaPageChosen', $this->pageChosen);
 
                 if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-                    $encomendasArray =  $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                    $encomendasArray =  $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
                     Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
                     $this->encomendas = session('verEncoemendaPaginator');
 
@@ -324,7 +399,7 @@ class Encomendas extends Component
             Session::put('verEncomendaPageChosen', $this->pageChosen);
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-                $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+                $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
                 Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
                 $this->encomendas = session('verEncoemendaPaginator');
 
@@ -361,7 +436,7 @@ class Encomendas extends Component
         session()->put('perPage', $this->perPage);
 
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != "" || $this->estadoEncomenda != "0"){
-            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
        
 
             $this->encomendas = $encomendasArray["paginator"];

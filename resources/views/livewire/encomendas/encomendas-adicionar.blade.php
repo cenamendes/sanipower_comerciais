@@ -177,7 +177,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($clientes as $clt )
                                     <tr >
                                         <td>{{$clt->name}}</td>

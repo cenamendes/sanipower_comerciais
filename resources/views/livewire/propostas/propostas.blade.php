@@ -76,7 +76,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-calendar"></i></span>
                                     </div>
-                                    <input type="time" class="form-control" placeholder="Data Inicial" >
+                                    <input type="date" class="form-control" placeholder="Data Inicial" >
                                 </div>
                             </div>
 
@@ -86,7 +86,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-calendar"></i></span>
                                     </div>
-                                    <input type="time" class="form-control" placeholder="Data Final" >
+                                    <input type="date" class="form-control" placeholder="Data Final" >
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -94,10 +94,8 @@
                                 <div class="input-group">
                                     <select name="perPage" class="form-control">
                                         <option value="0" selected>Todas</option>
-                                        <option value="1">Aberto</option>
-                                        <option value="2">Finalizada</option>
-                                        <option value="2">Proposta Comercial</option>
-
+                                        <option value="1">Abertas</option>
+                                        <option value="2">Fechadas</option>
                                     </select>
                                 </div>
                             </div>

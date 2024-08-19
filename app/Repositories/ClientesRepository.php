@@ -43,7 +43,6 @@ class ClientesRepository implements ClientesInterface
         ));
       
         $response = curl_exec($curl);
-       
         curl_close($curl);
 
         $response_decoded = json_decode($response);
@@ -214,9 +213,9 @@ class ClientesRepository implements ClientesInterface
 
     public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array
     {
-        
+        // dd($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente);
         if ($nomeCliente != "") {
-            $nomeCliente = '&Name='.urlencode($nomeCliente);
+            $nomeCliente = '&Name='.$nomeCliente;
         } else {
             $nomeCliente = '&Name=';
         }
@@ -252,8 +251,7 @@ class ClientesRepository implements ClientesInterface
         }
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
-
-
+        // dd($string);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -272,7 +270,7 @@ class ClientesRepository implements ClientesInterface
 
 
         $response = curl_exec($curl);
-
+        // dd($response);
         curl_close($curl);
      
         $response_decoded = json_decode($response);
@@ -632,8 +630,9 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
-    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda): array
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$startDate,$endDate,$statusEncomenda): array
     {
+        // dd($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$startDate,$endDate,$statusEncomenda);
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } else {
@@ -676,7 +675,23 @@ class ClientesRepository implements ClientesInterface
             $commentCliente = '&Comments=0';
         }
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
+        if ($startDate != "") {
+            $startDate = '&start_date='.urlencode($startDate);
+        } else {
+            $startDate = '&start_date=1900-01-01';
+        }
+        if ($endDate != "") {
+            $endDate = '&end_date='.urlencode($endDate);
+        } else {
+            $endDate = '&end_date=2900-12-31';
+        }
+        if ($statusEncomenda != "") {
+            $statusEncomenda = '&status='.urlencode($statusEncomenda);
+        } else {
+            $statusEncomenda = '&status=';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
 
 
         $curl = curl_init();
@@ -695,13 +710,11 @@ class ClientesRepository implements ClientesInterface
             ),
         ));
 
-
         $response = curl_exec($curl);
 
         curl_close($curl);
         
         $response_decoded = json_decode($response);
-       
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
         if($response_decoded != null && $response_decoded->orders != null)
