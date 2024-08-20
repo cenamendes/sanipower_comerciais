@@ -121,6 +121,10 @@ class EncomendasAdicionar extends Component
 
         session(['searchSubFamily' => $searchSubFamily]);
         session()->forget('searchSubFamily');
+
+        session(['rota' => "encomendas.nova"]);
+        session(['parametro' => ""]);
+
         $this->clientes = session('AdiEncomendaPaginator');
         return redirect()->route('encomendas.detail', ['id' => $id]);
 

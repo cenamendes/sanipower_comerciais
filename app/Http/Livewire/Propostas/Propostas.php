@@ -489,7 +489,13 @@ class Propostas extends Component
         
 
     }
+    public function redirectNewProposta($id)
+    {
+        session(['rota' => "propostas"]);
+        session(['parametro' => ""]);
 
+        return redirect()->route('propostas.detail', ['id' => $id]);
+    }
     public function adicionarProposta()
     {
         Session::forget('proposta');

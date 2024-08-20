@@ -119,6 +119,10 @@ class PropostasAdicionar extends Component
 
         session(['searchSubFamily' => $searchSubFamily]);
         session()->forget('searchSubFamily');
+
+        session(['rota' => "propostas.nova"]);
+        session(['parametro' => ""]);
+
         $this->clientes = session('AdiPropostaPaginator');
         return redirect()->route('propostas.detail', ['id' => $id]);
 

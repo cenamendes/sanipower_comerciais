@@ -27,7 +27,7 @@ class EncomendasController extends Controller
 
     public function showDetail($id)
     {
-        Session::put('rota','encomendas.nova');
+        // Session::put('rota','encomendas.nova');
 
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
         $detailsClientes = $arrayCliente["object"];
@@ -50,7 +50,7 @@ class EncomendasController extends Controller
 
     public function showDetailVisitas($id,$idVisita)
     {
-        Session::put('rota','encomendas.nova');
+        // Session::put('rota','encomendas.nova');
 
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
         $detailsClientes = $arrayCliente["object"];

@@ -779,12 +779,11 @@ class DetalheVisitas extends Component
     }
     public function openEncomenda($idcliente, $idVisita)
     {
-        
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
+
         if($this->idVisita == 0)
         {
-
-            $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-            $this->detailsClientes = $arrayCliente["object"];
 
             $agenda = VisitasAgendadas::create([
                 "client_id" => $this->detailsClientes->customers[0]->id,
@@ -814,20 +813,46 @@ class DetalheVisitas extends Component
                 "user_id" => Auth::user()->id
             ]);
             $idVisita = $agenda->id;
+            $this->idVisita = $idVisita;
+        }else{
+            $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                "assunto_text" => $this->assunto,
+                "finalizado" => "2",
+                "id_tipo_visita" => $this->tipoVisitaSelect
+            ]);
+
+            $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+
+            $visitaCreate = Visitas::where('id_visita_agendada',$this->idVisita)->update([
+                "id_visita_agendada" => $getId->id,
+                "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                "assunto" => $this->assunto,
+                "relatorio" => $this->relatorio,
+                "pendentes_proxima_visita" => $this->pendentes,
+                "comentario_encomendas" => $this->comentario_encomendas,
+                "comentario_propostas" => $this->comentario_propostas,
+                "comentario_financeiro" => $this->comentario_financeiro,
+                "comentario_ocorrencias" => $this->comentario_occorencias,
+                "data" => date('Y-m-d'),
+                "user_id" => Auth::user()->id
+            ]);
         }
+
+        session(['rota' => "visitas.info"]);
+        session(['parametro' => $this->idVisita]);
 
         return redirect()->route('encomendas.detail.visitas', [$idcliente, $idVisita]);
     }
     public function openProposta($idcliente, $idVisita)
     {
 
-
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if($this->idVisita == 0)
         {
 
-            $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-            $this->detailsClientes = $arrayCliente["object"];
+            
 
             $agenda = VisitasAgendadas::create([
                 "client_id" => $this->detailsClientes->customers[0]->id,
@@ -857,7 +882,33 @@ class DetalheVisitas extends Component
                 "user_id" => Auth::user()->id
             ]);
             $idVisita = $agenda->id;
+            $this->idVisita = $idVisita;
+
+        }else{
+            $agenda = VisitasAgendadas::where('id',$this->idVisita)->update([
+                "assunto_text" => $this->assunto,
+                "finalizado" => "2",
+                "id_tipo_visita" => $this->tipoVisitaSelect
+            ]);
+
+            $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
+
+            $visitaCreate = Visitas::where('id_visita_agendada',$this->idVisita)->update([
+                "id_visita_agendada" => $getId->id,
+                "numero_cliente" => $this->detailsClientes->customers[0]->no,
+                "assunto" => $this->assunto,
+                "relatorio" => $this->relatorio,
+                "pendentes_proxima_visita" => $this->pendentes,
+                "comentario_encomendas" => $this->comentario_encomendas,
+                "comentario_propostas" => $this->comentario_propostas,
+                "comentario_financeiro" => $this->comentario_financeiro,
+                "comentario_ocorrencias" => $this->comentario_occorencias,
+                "data" => date('Y-m-d'),
+                "user_id" => Auth::user()->id
+            ]);
         }
+        session(['rota' => "visitas.info"]);
+        session(['parametro' => $this->idVisita]);
 
         return redirect()->route('propostas.detail.visitas', [$idcliente, $idVisita]);
     }

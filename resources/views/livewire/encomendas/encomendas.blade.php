@@ -239,7 +239,7 @@
                                             <a wire:click="checkOrder({{json_encode($enc->id)}}, {{json_encode($enc)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-eye"></i> Ver Encomenda
                                             </a>
-                                            <a href="{{route('encomendas.detail',$enc->customer_id)}}" class="btn btn-sm btn-primary">
+                                            <a wire:click="redirectNewEncomenda({{json_encode($enc->customer_id)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-plus"></i> Nova Encomenda
                                             </a>
                                         </td>

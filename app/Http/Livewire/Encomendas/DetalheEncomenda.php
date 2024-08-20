@@ -1079,9 +1079,7 @@ class DetalheEncomenda extends Component
         // $this->dispatchBrowserEvent('changeRoute');
         
         $rota = Session::get('rota');
-
         $parametro = Session::get('parametro');
-     
         if($rota != "")
         {
             

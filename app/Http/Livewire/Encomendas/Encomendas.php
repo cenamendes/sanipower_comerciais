@@ -470,6 +470,8 @@ class Encomendas extends Component
         //     if($enc->id == $idEncomenda)
         //     {
 
+  
+
         $json = json_encode($encomenda);
         $object = json_decode($json, false);
 
@@ -479,7 +481,13 @@ class Encomendas extends Component
         //     }
         // }
     }
+    public function redirectNewEncomenda($id)
+    {
+        session(['rota' => "encomendas"]);
+        session(['parametro' => ""]);
 
+        return redirect()->route('encomendas.detail', ['id' => $id]);
+    }
     public function adicionarEncomenda()
     {
         Session::forget('encomenda');
