@@ -303,6 +303,7 @@ class PropostaInfo extends Component
     
         $this->clientes = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta["number"],"","","","",0);
 
+        session(['OpenTabAdjudicarda' => "OpentabArtigos"]);
    
         session()->flash("success", "Proposta adjudicada com sucesso");
         return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);

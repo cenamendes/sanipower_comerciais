@@ -254,7 +254,10 @@ class Tarefas extends Component
         $this->dispatchBrowserEvent('openVisitaModal');
         
     }
-
+    public function openVisita()
+    {
+        return redirect()->route('visitas.info', $this->visitaIDDireito);
+    }
     public function editarVisitaDireito()
     {
         
@@ -471,7 +474,6 @@ class Tarefas extends Component
     public function render()
     {
         $this->clientes = [$this->clientesRepository->getAllListagemClientesObject()];
-    
         $this->tipoVisita = TiposVisitas::all();
         return view('livewire.dashboard.tarefas');
     }

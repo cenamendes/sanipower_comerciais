@@ -145,9 +145,17 @@ class DetalheEncomenda extends Component
         $this->specificProduct = 0;
         $this->filter = false;
 
+        if(session('OpenTabAdjudicarda') == "OpentabArtigos"){
+            $this->tabDetail = "";
+            $this->tabProdutos = "";
+            $this->tabDetalhesEncomendas = "show active";
+            $this->tabFinalizar = "";
+            Session::forget('OpenTabAdjudicarda');
+        }
+
         // dd(session('searchSubFamily'));
         // session(['searchSubFamily' => $this->searchSubFamily]);
- 
+
         $this->showLoaderPrincipal = true;
     }
     public function rechargeFamily($id)

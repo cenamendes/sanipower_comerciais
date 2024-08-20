@@ -485,6 +485,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" wire:click="openVisita"><i class="ti-search"></i>Visualizar</button>
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtnEdita" wire:click="editarVisitaDireito">Gravar</button>
                 </div>
@@ -760,11 +761,11 @@
                             estado = "agendada";
                             cor = "blue";
                         }
-
+                        console.log(arg.event.extendedProps);
                         customDiv.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>` + arg.event.title + `<br><small style="color:` + cor + `; font-weight:bolder;">` + estado + `</small></div>
-                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.idTarefa + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
+                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.extendedProps.visitaID + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
                             </div>
                         `;
                     } else {
@@ -896,7 +897,7 @@
                         $('#horaInicialVisitaDireito').val(info.event.extendedProps.horaInicial);
                         $('#horaFinalVisitaDireito').val(info.event.extendedProps.horaFinal);
                         $('#assunto_textDireito').val(info.event.extendedProps.assunto);             
-                        $('#tipovisitaselectDireito').val(info.event.extendedProps.idTipoVisita);  
+                        $('#tipovisitaselectDireito').val(info.event.extendedProps.idTipoVisita);
                         $('#visitaIDDireito').val(info.event.extendedProps.visitaID);  
 
                     

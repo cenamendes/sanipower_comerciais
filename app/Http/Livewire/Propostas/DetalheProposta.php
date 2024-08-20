@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Propostas;
 
+use DateTime;
 use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
@@ -92,8 +93,8 @@ class DetalheProposta extends Component
     public $transportadora;
     public $viaturaSanipower;
     public $levantamentoLoja;
-    public $observacaoFinalizar;
-    public $referenciaFinalizar;
+    public $observacaoFinalizar = "";
+    public $referenciaFinalizar = "";
     public $validadeProposta;
 
     public $lojaFinalizar;
@@ -152,6 +153,12 @@ class DetalheProposta extends Component
         $this->specificProduct = 0;
         $this->filter = false;
 
+        if($this->validadeProposta == null){
+            $dataIndicada = new DateTime();
+            $this->validadeProposta = $dataIndicada->modify('+8 days');
+            $this->validadeProposta = $dataIndicada->format('d-m-Y');
+        }
+        
         $this->showLoaderPrincipal = true;
     }
 
@@ -988,7 +995,7 @@ class DetalheProposta extends Component
             } else {
                 $comentario = $comentarioCheck->comentario;
             }
-
+            
             if($prod->id_visita == null)
             {
                 $visitaCheck = 0;
@@ -1050,8 +1057,26 @@ class DetalheProposta extends Component
         //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma condição de pagamento", "status" => "error"]);
         //     return false;
         // }
+        if($this->validadeProposta == null){
 
-       
+            $this->tabDetail = "";
+            $this->tabProdutos = "";
+            $this->tabDetalhesPropostas = "";
+            $this->tabFinalizar = "show active";
+            $this->tabDetalhesCampanhas = "";
+    
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Campo Validade da Proposta está vazio!", "status" => "error"]);
+            return false;
+        }else{
+            if (DateTime::createFromFormat('Y-m-d', $this->validadeProposta) === false) {
+                $this->validadeProposta = DateTime::createFromFormat('d-m-Y', $this->validadeProposta);
+                
+                if ($this->validadeProposta) {
+                    $this->validadeProposta = $this->validadeProposta->format('Y-m-d');
+                } 
+            }
+        }
+        
         $array = [
             "id" => $randomNumber,
             "date" => date('Y-m-d').'T'.date('H:i:s'), 
@@ -1148,6 +1173,11 @@ class DetalheProposta extends Component
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Proposta finalizada com sucesso", "status" => "success"]);
         }
         else {
+            $this->tabDetail = "";
+            $this->tabProdutos = "";
+            $this->tabDetalhesPropostas = "";
+            $this->tabFinalizar = "show active";
+            $this->tabDetalhesCampanhas = "";
             $this->dispatchBrowserEvent('checkToaster', ["message" => "A proposta não foi finalizada", "status" => "error"]);
         }
         return false;
