@@ -146,6 +146,9 @@ class EncomendaInfo extends Component
     {
         $this->encomendaComentarioId = $idEncomenda;
 
+        $this->tabDetail = "show active";
+        $this->tabDetalhesEncomendas = "";
+
         $this->dispatchBrowserEvent('openComentario');
     }
 

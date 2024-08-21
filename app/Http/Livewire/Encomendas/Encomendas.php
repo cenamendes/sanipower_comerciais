@@ -107,7 +107,7 @@ class Encomendas extends Component
             // $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
             // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
             Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-            Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+            Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
             Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
             
             $this->encomendas = session('verEncoemendaPaginator');
@@ -126,7 +126,7 @@ class Encomendas extends Component
         Session::put('verEncomendaNomeCliente',$this->nomeCliente);
 
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -147,7 +147,7 @@ class Encomendas extends Component
         Session::put('verEncomendaNumeroCliente',$this->numeroCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -169,7 +169,7 @@ class Encomendas extends Component
         Session::put('verEncomendaZonaCliente',$this->zonaCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -191,7 +191,7 @@ class Encomendas extends Component
         Session::put('verEncomendaNifCliente',$this->nifCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -213,7 +213,7 @@ class Encomendas extends Component
         Session::put('telemovelCliente',$this->telemovelCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -236,7 +236,7 @@ class Encomendas extends Component
         Session::put('verEncomendaEmailCliente',$this->emailCliente);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -254,7 +254,7 @@ class Encomendas extends Component
         $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->startDate,$this->endDate,$this->statusEncomenda);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -275,7 +275,7 @@ class Encomendas extends Component
         Session::put('verEncomendaStartDate',$this->startDate);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -296,7 +296,7 @@ class Encomendas extends Component
         Session::put('verEncomendaEndDate',$this->endDate);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -317,7 +317,7 @@ class Encomendas extends Component
         Session::put('verEncomendaStatusEncomenda',$this->statusEncomenda);
        
         Session::put('verEncoemendaPaginator', $encomendasArray["paginator"]);
-        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"]);
+        Session::put('verEncoemendaNr_paginas', $encomendasArray["nr_paginas"] + 1);
         Session::put('verEncoemendaNr_registos', $encomendasArray["nr_registos"]);
 
         $this->encomendas = session('verEncoemendaPaginator');
@@ -440,14 +440,14 @@ class Encomendas extends Component
        
 
             $this->encomendas = $encomendasArray["paginator"];
-            $this->numberMaxPages = $encomendasArray["nr_paginas"];
+            $this->numberMaxPages = $encomendasArray["nr_paginas"] + 1;
             $this->totalRecords = $encomendasArray["nr_registos"];
         } else {
             
             $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
         
             $this->encomendas = $encomendasArray["paginator"];
-            $this->numberMaxPages = $encomendasArray["nr_paginas"];
+            $this->numberMaxPages = $encomendasArray["nr_paginas"] + 1;
             $this->totalRecords = $encomendasArray["nr_registos"];
         }
         

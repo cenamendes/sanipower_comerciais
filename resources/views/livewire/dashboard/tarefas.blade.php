@@ -407,7 +407,7 @@
                            
                                     <select class="form-control" id="clienteVisitaIDDireito" wire:model.defer="clienteVisitaIDDireito" readonly disabled>
                                         @isset($clientes)
-                             
+                                            
                                             @foreach ($clientes as $clt)
     
                                               @foreach($clt->customers as $cst)

@@ -50,7 +50,6 @@ class VisitasController extends Controller
         $visitaAgendada = VisitasAgendadas::where('id',$id)->first();
 
         
-        Session::put('rota','visitas');
           
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
         $detailsClientes = $arrayCliente["object"];

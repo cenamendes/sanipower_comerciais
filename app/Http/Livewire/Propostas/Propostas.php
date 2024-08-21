@@ -504,6 +504,7 @@ class Propostas extends Component
 
     public function checkOrder($idProposta, $proposta)
     {
+        // dd($idProposta);
         // if($this->estadoProposta != "0")
         // {
         //     $this->propostas = $this->clientesRepository->getPropostasCliente(999999,$this->pageChosen,"");

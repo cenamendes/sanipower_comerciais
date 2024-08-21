@@ -118,8 +118,12 @@ class ClientesRepository implements ClientesInterface
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
         $commentCliente = '&Comments=0';
+        
+        $startDate = '&start_date=1900-01-01';
+        $endDate = '&end_date=2900-12-31';
+        $statusEncomenda = '&status=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
  
@@ -144,7 +148,6 @@ class ClientesRepository implements ClientesInterface
         $response_decoded = json_decode($response);
     
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
- 
         if($response_decoded->orders != null)
         {   
             $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
@@ -276,7 +279,6 @@ class ClientesRepository implements ClientesInterface
         $response_decoded = json_decode($response);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
         if($response_decoded != null)
         {
             $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
@@ -287,7 +289,7 @@ class ClientesRepository implements ClientesInterface
 
             $currentItems = [];
 
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages, $perPage);
         }
 
         $arrayInfo = ["paginator" => $itemsPaginate,"nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];

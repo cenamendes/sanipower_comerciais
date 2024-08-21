@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Interfaces\ClientesInterface;
 use Livewire\Component;
 use App\Jobs\OfficeRequest;
 use App\Models\TiposVisitas;
@@ -10,6 +9,8 @@ use App\Models\VisitasAgendadas;
 use App\Interfaces\TarefasInterface;
 use App\Interfaces\VisitasInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 use App\Models\Tarefas as TarefasModels;
 
 class Tarefas extends Component
@@ -256,6 +257,8 @@ class Tarefas extends Component
     }
     public function openVisita()
     {
+        Session::put('rota','dashboard');
+        Session::put('parametro',"");
         return redirect()->route('visitas.info', $this->visitaIDDireito);
     }
     public function editarVisitaDireito()

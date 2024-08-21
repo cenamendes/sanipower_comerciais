@@ -763,15 +763,20 @@ class DetalheVisitas extends Component
         $rota = Session::get('rota');
 
         $parametro = Session::get('parametro');
-     
+        
+        if($rota == "visitas.info"){
+            $rota = "visitas";
+            $parametro = "";
+        }
+
         if($rota != "")
         {
             
             if($parametro != "")
             {
+                
                 return redirect()->route($rota,$parametro);
             }
-
             return redirect()->route($rota);
 
         

@@ -263,22 +263,19 @@
 
                     <div class="row form-group">
                         <div class="col-xl-4">
-
                             <div class="form-group">
-                                <label>Nº Ocorrências em aberto</label>
+                                <label>Email do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-carolina"><i
-                                                class="ti-light-bulb text-light"></i></span>
+                                                class="ti-credit-card text-light"></i></span>
                                     </div>
                                     <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                        value="{{ $detalhesCliente->customers[0]->email }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-xl-4">
-
                             <div class="form-group">
                                 <label>Saldo em Aberto</label>
                                 <div class="input-group">
@@ -290,10 +287,8 @@
                                         value="{{ $detalhesCliente->customers[0]->current_account }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-xl-4">
-
                             <div class="form-group">
                                 <label>Cheques em carteira</label>
                                 <div class="input-group">
@@ -312,6 +307,20 @@
                         <div class="col-xl-4">
 
                             <div class="form-group">
+                                <label>Nº Ocorrências em aberto</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-carolina"><i
+                                                class="ti-light-bulb text-light"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control"
+                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+
+                            <div class="form-group">
                                 <label>Pontos</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -322,7 +331,6 @@
                                         value="{{ $detalhesCliente->customers[0]->balance_points }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-xl-4">
 
@@ -337,7 +345,6 @@
                                         value="{{ $detalhesCliente->customers[0]->payment_conditions }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -345,12 +352,9 @@
                     </p>
                 </div>
                 <div class="tab-pane fade {{ $tabProdutos }}" id="tab5">
-
                     @if ($specificProduct == 0)
                         <div class="row tab-encomenda-produto">
-
                             <div class="col" wire:key="select-field-model-version-{{ $iteration }}">
-
                                 <div>
 
                                     @php

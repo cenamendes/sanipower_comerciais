@@ -304,7 +304,10 @@ class PropostaInfo extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta["number"],"","","","",0);
 
         session(['OpenTabAdjudicarda' => "OpentabArtigos"]);
-   
+
+        session(['rota' => "propostas.proposta"]);
+        session(['parametro' => $proposta["id"]]);
+        
         session()->flash("success", "Proposta adjudicada com sucesso");
         return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);
       
@@ -314,6 +317,9 @@ class PropostaInfo extends Component
     public function openComentario($idProposta)
     {
         $this->propostaComentarioId = $idProposta;
+
+        $this->tabDetail = "show active";
+        $this->tabDetalhesPropostas = "";
 
         $this->dispatchBrowserEvent('openComentario');
     }
@@ -353,9 +359,13 @@ class PropostaInfo extends Component
     public function goBack()
     {
         $rota = Session::get('rota');
-
         $parametro = Session::get('parametro');
-     
+        
+        if($rota == "propostas.proposta"){
+            $rota = "propostas";
+            $parametro = "";
+        }
+        
         if($rota != "")
         {
             

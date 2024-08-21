@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Clientes;
 
 use Livewire\Component;
-use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
+
 
 class DetalheCliente extends Component
 {
@@ -176,7 +178,33 @@ class DetalheCliente extends Component
         $this->totalRecords = $arrayAna["nr_registos"];
     }
 
-  
+    public function voltarAtras()
+    {
+        // $this->dispatchBrowserEvent('changeRoute');
+        // $this->skipRender();
+
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+        
+        if($rota == "clientes.detail"){
+            $rota = "clientes";
+            $parametro = "" ;
+        }
+
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                
+                return redirect()->route($rota,$parametro);
+            }
+            return redirect()->route($rota);
+
+        
+        }
+    }
     
     public function paginationView()
     {

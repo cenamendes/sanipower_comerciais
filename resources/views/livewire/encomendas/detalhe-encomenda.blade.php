@@ -232,14 +232,14 @@
                         <div class="col-xl-4">
 
                             <div class="form-group">
-                                <label>Nº Ocorrências em aberto</label>
+                                <label>Email do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-carolina"><i
                                                 class="ti-light-bulb text-light"></i></span>
                                     </div>
                                     <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                        value="{{ $detalhesCliente->customers[0]->email }}" readonly>
                                 </div>
                             </div>
 
@@ -276,6 +276,20 @@
                     </div>
 
                     <div class="row form-group">
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>Nº Ocorrências em aberto</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-carolina"><i
+                                                class="ti-light-bulb text-light"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control"
+                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="col-xl-4">
 
                             <div class="form-group">

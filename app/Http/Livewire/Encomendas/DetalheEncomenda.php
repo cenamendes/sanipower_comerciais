@@ -808,7 +808,6 @@ class DetalheEncomenda extends Component
        
 
         $idCliente = "";
-
         foreach($this->carrinhoCompras as $prod)
         {
             $count++;
@@ -840,7 +839,11 @@ class DetalheEncomenda extends Component
             else {
                 $visitaCheck = $prod->id_visita;
             }
-
+            if($prod->id_proposta == null){
+                $id_proposta = "";
+            }else{
+                $id_proposta = $prod->id_proposta;
+            }
             $arrayProdutos[$count] = [
                 "id" => $count,
                 "reference" => $prod->referencia,
@@ -855,7 +858,7 @@ class DetalheEncomenda extends Component
                 "total" => $totalItem,
                 "notes" => $comentario,
                 "visit_id" => $visitaCheck, // ou tenho de trazer da base de dados
-                "budgets_id" => ""
+                "budgets_id" => $id_proposta,
             ];
         }
         // dd($arrayProdutos);

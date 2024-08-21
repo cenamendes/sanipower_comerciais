@@ -236,7 +236,7 @@
                                             <a wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-eye"></i> Ver Proposta
                                             </a>
-                                             <a  wire:click="redirectNewProposta({{json_encode($pro->customer_id)}})" style="color:white!important;" class="btn btn-sm btn-primary">
+                                             <a wire:click="redirectNewProposta({{json_encode($pro->customer_id)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-plus"></i> Nova Proposta
                                             </a>
                                         </td>
