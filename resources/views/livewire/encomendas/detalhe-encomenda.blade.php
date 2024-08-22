@@ -337,13 +337,12 @@
                                     @php
                                         $contaCat = 0;
                                     @endphp
-                                  
                                     @foreach ($getCategories->category as $i => $cat)
                                         @php
                                             $contaCat++;
                                         @endphp
-                                        <div class="subsidebarProd overflow-y-auto"
-                                            id="subItemInput{{ $contaCat }}">
+                                        <div class="subsidebarProd overflow-y-auto" id="subItemInput{{ $contaCat }}">
+
                                             <div wire:loading wire:target="searchCategory">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
@@ -351,7 +350,7 @@
                                                 </div>
                                             </div>
 
-                                            <div wire:loading wire:target="resetFilter">
+                                            <div wire:loading wire:target="resetFilterEncomenda">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
                                                     </div>
@@ -360,17 +359,19 @@
 
                                             <a href="javascript:void(0)" class="buttonGoback"><i
                                                     class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                              
                                             <h2>{{ $cat->name }}</h2>
-
+                                            
                                             <div class="row">
+                                            
+
                                             @foreach ($cat->family as $family)
                                             @if ($familyInfo == true)
                                                 @if ($idFamilyInfo == $family->id)
-                                                
-
+                                                {{-- {{dd($familyInfo)}} --}}
                                                     <div class="col-12">
                                                         <div class="row mb-2">
-                                                            <a href="javascript:void(0)" wire:click="resetFilter({{ $contaCat }})" class="mb-3 ml-4">
+                                                            <a wire:click="resetFilterEncomenda({{ $contaCat }})" class="mb-3 ml-4">
                                                                 <i class="ti-angle-left"></i> Atrás
                                                             </a>
                                                         </div>
@@ -401,9 +402,30 @@
                                                             @endforeach
                                                         </div>
                                                     </div>
-                                                    @else
-                                                    
+                                                @else
+                                                    @if ($idCategoryInfo != $cat->id)
+                                                        <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                            <div class="card card-decoration card-outline-primary border border-2">
+                                                                <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                                    style="pointer-events: auto">
+                                                                    <div class="mb-1">
+                                                                        @php
+                                                                            $familyId = $family->id;
+                                                                            $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                            $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                        @endphp
+                                                                        <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                            class="card-img-top" alt="...">
 
+                                                                        <div class="body-decoration">
+                                                                            <h5 class="title-description">{{ $family->name }}</h5>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
 
                                                     {{-- <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                         <div class="card card-decoration card-outline-primary border border-2">
@@ -426,8 +448,6 @@
                                                             </a>
                                                         </div>
                                                     </div> --}}
-
-
 
                                                     {{-- <div class="col-4">
                                                         <a href="javascript:void(0);" class="familyHREF{{ $contaCat }}" data-id={{$contaCat}} wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
@@ -472,7 +492,7 @@
                                         </div>
                                     @endforeach
                                     <div class="sidebarProd" id="sidebarProd" wire:ignore>
-                                        <label for="checkbox" style="width: 180%;">
+                                        <label for="checkbox" style="width: 100%;">
                                             <div class="input-group input-group-config-Goback input-config-produtos"
                                                 id="checkboxSidbar" style="padding: 0;">
                                                 <label><i class="ti-menu"></i>
@@ -730,10 +750,12 @@
                                                                 @foreach ($prod->stocks as $stock)
                                                                     <li>
                                                                         {{ $stock->warehouse_description }}
-                                                                        @if ($stock->stock == true)
-                                                                            <i class="ti-check text-lg text-forest"></i>
+                                                                       @if ($stock->stock == true)
+                                                                            ({{ intval($stock->qtt) }})
+                                                                            {{-- <i class="ti-check text-lg text-forest"></i> --}}
                                                                         @else
-                                                                            <i class="ti-close text-lg text-chili"></i>
+                                                                            (0)
+                                                                            {{-- <i class="ti-close text-lg text-chili"></i> --}}
                                                                         @endif
                                                                     </li>
                                                                 @endforeach
@@ -1319,9 +1341,11 @@
                                                                         <li>
                                                                             {{ $stock->warehouse_description }}
                                                                             @if ($stock->stock == true)
-                                                                                <i class="ti-check text-lg text-forest"></i>
+                                                                            ({{ intval($stock->qtt) }})
+                                                                                {{-- <i class="ti-check text-lg text-forest"></i> --}}
                                                                             @else
-                                                                                <i class="ti-close text-lg text-chili"></i>
+                                                                                (0)
+                                                                                {{-- <i class="ti-close text-lg text-chili"></i> --}}
                                                                             @endif
                                                                         </li>
                                                                     @endforeach
@@ -1648,21 +1672,21 @@
     });
     
 
-    window.addEventListener('refreshComponent2', function(e) {
+    window.addEventListener('refreshComponentEncomenda2', function(e) {
 
-        // console.log(check);
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
-
             item.style.display = 'none';
         });
 
-        jQuery("#subItemInput" + e.detail.id).css("display", "block");
+        const subItem = document.querySelector("#subItemInput" + e.detail.id);
+        if (subItem) {
+            subItem.style.display = 'block';
+        }
     });
 
     window.addEventListener('refreshComponent', function(e) {
-         var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
-
-        // console.log(check);
+        //window.location.reload();
+        var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
 
         document.querySelectorAll('.familyHREF'+check).forEach(function(item) {
        
@@ -1694,18 +1718,12 @@
         });
     });
 
-
- 
-    
-
-
     const inputGroups = document.querySelectorAll('.input-group-config');
     let currentSubItem = null;
 
     inputGroups.forEach(function(inputGroup) {
         inputGroup.addEventListener('click', function() {
             
-
             const id = this.id;
             const subItemId = 'subItemInput' + id.slice(-1);
             const InputId = 'input' + id.slice(-1);
@@ -1713,9 +1731,9 @@
 
             const subItem = document.getElementById(subItemId);
             const Input = document.getElementById(InputId);
-
+            //jQuery("#subItemInput" + InputId).css("display", "none");
          
-          
+            
 
 
             const subbars = document.querySelectorAll('.subsidebarProd');
@@ -1732,7 +1750,6 @@
                 } else {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
-                       
                     });
 
                                        
@@ -1772,7 +1789,6 @@
                 if (clickedOutsideSubbars) {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
-                
                     });
 
                     checkbox.checked = true;
@@ -1867,14 +1883,19 @@
     }
 
     document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
+        Livewire.hook('message.sent', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'block';
-            });
+            }
+        });
 
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
+        // Oculta o loader quando o Livewire terminar de carregar
+        // nada aqui
+        Livewire.hook('message.processed', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'none';
-            });
+            }
+        });
 
     });
 
@@ -1973,7 +1994,7 @@
         const buttonContainer = document.querySelector('.btn-remove-itens-kit');
         
         const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        console.log(anyChecked);
+        // console.log(anyChecked);
         if (anyChecked) {
             buttonContainer.style.display = 'block';
         } else {

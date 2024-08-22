@@ -378,7 +378,7 @@
                                     <th style="text-align: right;width: 0%;">Quantidade</th>
                                     <th style="text-align: right;width: 0%;">Preço</th>
                                     <th style="text-align: right;width: 0%;">Desconto</th>
-                                    {{-- <th>Desconto 2</th> --}}
+                                    <th style="text-align: right;width: 7%;">Iva</th>
                                     <th style="text-align: right;" >Total</th>
                                 </tr>
                             </thead>
@@ -428,12 +428,12 @@
                                                     </label>
                                                 </div>
                                             </td> --}}
-                                        
                                             <td>{{ $prod->reference }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->description }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ $prod->quantity }}</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>
+                                            <td style=" width: 0; text-align: right; white-space: nowrap;">{{ $prod->tax }}%</td>
                                             <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($prod->total, 2, ',', '.') }} €</td>
                                         </tr>
                                         {{-- <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">

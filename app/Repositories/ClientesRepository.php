@@ -218,7 +218,8 @@ class ClientesRepository implements ClientesInterface
     {
         // dd($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente);
         if ($nomeCliente != "") {
-            $nomeCliente = '&Name='.$nomeCliente;
+            $nomeCorrigido = str_replace(' ', '%20', $nomeCliente);
+            $nomeCliente = '&Name='.$nomeCorrigido;
         } else {
             $nomeCliente = '&Name=';
         }
@@ -277,7 +278,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
         
         $response_decoded = json_decode($response);
-
+        // dd($response);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         if($response_decoded != null)
         {

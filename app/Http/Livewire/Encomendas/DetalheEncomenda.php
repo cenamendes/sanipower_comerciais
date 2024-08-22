@@ -53,6 +53,8 @@ class DetalheEncomenda extends Component
 
     public int $specificProduct = 0;
     public string $idFamilyInfo = "";
+    public string $idCategoryInfo = "";
+
 
     public string $idSubFamilyRecuar = "";
     public string $idFamilyRecuar = "";
@@ -113,7 +115,7 @@ class DetalheEncomenda extends Component
     public ?object $encomenda = NULL;
 
     public int $perPage = 10;
-    protected $listeners = ["rechargeFamily" => "rechargeFamily", "cleanModal" => "cleanModal" ,'campoAlterado' =>'campoAlterado', 'addProductCommentEncomenda'=>'addProductCommentEncomenda'];
+    protected $listeners = ["callInputGroup","rechargeFamily" => "rechargeFamily", "cleanModal" => "cleanModal" ,'campoAlterado' =>'campoAlterado', 'addProductCommentEncomenda'=>'addProductCommentEncomenda'];
 
     public function boot(ClientesInterface $clientesRepository, EncomendasInterface $encomendasRepository, PropostasInterface $propostasRepository)
     {
@@ -356,6 +358,7 @@ class DetalheEncomenda extends Component
         $this->filter = true;
         $this->familyInfo = true;
         $this->idFamilyInfo = $idFamily;
+        $this->idCategoryInfo = $idCategory;
 
         $this->showLoaderPrincipal = false;
 
@@ -415,6 +418,8 @@ class DetalheEncomenda extends Component
         $this->familyInfo = true;
 
         $this->idFamilyInfo = "";
+        $this->idCategoryInfo = "";
+
 
         $this->showLoaderPrincipal = false;
 
@@ -458,7 +463,7 @@ class DetalheEncomenda extends Component
 
     }
 
-    public function resetFilter($idCategory)
+    public function resetFilterEncomenda($idCategory)
     {
         $this->getCategories = $this->encomendasRepository->getCategorias();
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
@@ -476,8 +481,7 @@ class DetalheEncomenda extends Component
         $this->specificProduct = 0;
 
         $this->showLoaderPrincipal = false;
-
-        $this->dispatchBrowserEvent('refreshComponent2', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
+        $this->dispatchBrowserEvent('refreshComponentEncomenda2', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
     public function addProductQuickBuyEncomenda($prodID, $nameProduct, $no, $ref, $codEncomenda)
     {
@@ -1118,6 +1122,7 @@ class DetalheEncomenda extends Component
 
 
         $this->getCategories = $this->encomendasRepository->getCategorias();
+        
         $this->getCategoriesAll = $this->encomendasRepository->getCategorias();
 
         if (session('searchSubFamily') !== null) {
@@ -1207,6 +1212,7 @@ class DetalheEncomenda extends Component
                 }
             }
         }
+        // dd($this->getCategoriesAll);
         $this->lojas = $this->encomendasRepository->getLojas();
         return view('livewire.encomendas.detalhe-encomenda',["onkit" => $onkit, "allkit" => $allkit,"detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 

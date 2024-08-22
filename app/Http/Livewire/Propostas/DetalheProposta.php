@@ -55,6 +55,8 @@ class DetalheProposta extends Component
 
     public int $specificProduct = 0;
     public string $idFamilyInfo = "";
+    public string $idCategoryInfo = "";
+
 
     public string $idSubFamilyRecuar = "";
     public string $idFamilyRecuar = "";
@@ -360,6 +362,8 @@ class DetalheProposta extends Component
         $this->filter = true;
         $this->familyInfo = true;
         $this->idFamilyInfo = $idFamily;
+        $this->idCategoryInfo = $idCategory;
+
 
         $this->showLoaderPrincipal = false;
 
@@ -419,6 +423,8 @@ class DetalheProposta extends Component
         $this->familyInfo = true;
 
         $this->idFamilyInfo = "";
+        $this->idCategoryInfo = "";
+
 
         $this->showLoaderPrincipal = false;
 

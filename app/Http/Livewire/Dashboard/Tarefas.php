@@ -65,7 +65,7 @@ class Tarefas extends Component
 
        public $comercialPicked;
 
-    protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
+        protected $listeners = ['callAddVisita',"changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
 
     public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository, ClientesInterface $clientesInterface)
     {
@@ -224,6 +224,11 @@ class Tarefas extends Component
         //continuar o insert
     }
 
+    public function callAddVisita()
+    {
+        $this->addVisita();
+    }
+
     public function addVisita()
     {
         $this->tipoVisita = TiposVisitas::all();
@@ -266,7 +271,10 @@ class Tarefas extends Component
         
         if($this->dataInicialVisitaDireito == "" ||$this->horaInicialVisitaDireito == "" || $this->horaFinalVisitaDireito == "" || $this->tipoVisitaEscolhidoDireito == "" || $this->assuntoTextVisitaDireito == "" )
         {
+            
             $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
+            
+
             return false;
         }
 
@@ -317,7 +325,6 @@ class Tarefas extends Component
 
     public function agendaVisita()
     {
-       
         if($this->clienteVisitaID == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
         {
             $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);

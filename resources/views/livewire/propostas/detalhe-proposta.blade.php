@@ -395,28 +395,93 @@
                                                         </div>
                                                         <div class="row">
                                                             @foreach ($family->subfamily as $subfamily)
-                                                                <div class="col-4">
+
+                                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                                        <a href="javascript:void(0);" class="title-description-family" data-id={{$contaCat}} wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})"
+                                                                            style="pointer-events: auto">
+                                                                            <div class="mb-1">
+                                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $family->id }}/{{ $subfamily->id }}.jpg"
+                                                                                    class="card-img-top" alt="...">
+
+                                                                                <div class="body-decoration">
+                                                                                    <h5 class="title-description">{{ $subfamily->name }}</h5>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                {{-- <div class="col-4">
                                                                     <h5 class="title-description-family"
                                                                         wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})">
                                                                         {{ $subfamily->name }}
                                                                     </h5>
-                                                                </div>
+                                                                </div> --}}
                                                             @endforeach
                                                         </div>
                                                     </div>
                                                     @else
-                                                    <div class="col-4">
+                                                        @if ($idCategoryInfo != $cat->id)
+                                                            <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                                <div class="card card-decoration card-outline-primary border border-2">
+                                                                    <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                                        style="pointer-events: auto">
+                                                                        <div class="mb-1">
+                                                                            @php
+                                                                                $familyId = $family->id;
+                                                                                $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                                $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                            @endphp
+                                                                            <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                                class="card-img-top" alt="...">
+
+                                                                            <div class="body-decoration">
+                                                                                <h5 class="title-description">{{ $family->name }}</h5>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    {{-- <div class="col-4">
                                                         <a href="javascript:void(0);" class="familyHREF{{ $contaCat }}" data-id={{$contaCat}} wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
                                                             <h5 class="family_title">{{ $family->name }}</h5>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                 @endif
                                             @else
-                                                <div class="col-4">
+                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                        <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                        style="pointer-events: auto">
+                                                            <div class="mb-1">
+                                                                @php
+                                                                    $familyId = $family->id;
+                                                                    $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                    $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                @endphp
+                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                    class="card-img-top" alt="...">
+                                                                {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
+
+                                                                <div class="body-decoration">
+                                                                    <h5 class="title-description">{{ $family->name }}</h5>
+                                                                </div>
+
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="col-4">
                                                     <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
                                                         <h5 class="family_title">{{ $family->name }}</h5>
                                                     </a>
-                                                </div>
+                                                </div> --}}
                                             @endif
                                         @endforeach
 
@@ -424,7 +489,7 @@
                                         </div>
                                     @endforeach
                                     <div class="sidebarProd" id="sidebarProd" wire:ignore>
-                                        <label for="checkbox" style="width: 180%;">
+                                        <label for="checkbox" style="width: 100%;">
                                             <div class="input-group input-group-config-Goback input-config-produtos"
                                                 id="checkboxSidbar" style="padding: 0;">
                                                 <label><i class="ti-menu"></i>
@@ -927,9 +992,11 @@
                                                                                                     <li>
                                                                                                         {{ $stock->warehouse_description }}
                                                                                                         @if ($stock->stock == true)
-                                                                                                            <i class="ti-check text-lg text-forest"></i>
+                                                                                                            ({{ intval($stock->qtt) }})
+                                                                                                            {{-- <i class="ti-check text-lg text-forest"></i> --}}
                                                                                                         @else
-                                                                                                            <i class="ti-close text-lg text-chili"></i>
+                                                                                                            (0)
+                                                                                                            {{-- <i class="ti-close text-lg text-chili"></i> --}}
                                                                                                         @endif
                                                                                                     </li>
                                                                                                 @endforeach
@@ -1503,9 +1570,11 @@
                                                                         <li>
                                                                             {{ $stock->warehouse_description }}
                                                                             @if ($stock->stock == true)
-                                                                                <i class="ti-check text-lg text-forest"></i>
+                                                                                ({{ intval($stock->qtt) }})
+                                                                                {{-- <i class="ti-check text-lg text-forest"></i> --}}
                                                                             @else
-                                                                                <i class="ti-close text-lg text-chili"></i>
+                                                                                (0)
+                                                                                {{-- <i class="ti-close text-lg text-chili"></i> --}}
                                                                             @endif
                                                                         </li>
                                                                     @endforeach
@@ -2057,14 +2126,18 @@
     }
 
     document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
+        Livewire.hook('message.sent', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'block';
-            });
+            }
+        });
 
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
+        // Oculta o loader quando o Livewire terminar de carregar
+        Livewire.hook('message.processed', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'none';
-            });
+            }
+        });
 
     });
 

@@ -761,7 +761,6 @@
                             estado = "agendada";
                             cor = "blue";
                         }
-                        console.log(arg.event.extendedProps);
                         customDiv.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>` + arg.event.title + `<br><small style="color:` + cor + `; font-weight:bolder;">` + estado + `</small></div>
@@ -973,25 +972,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             startCalendar();
         });
-
+       
         window.addEventListener('sendToaster', function(e) {
-
-            if (e.detail.status == "success") {
-                toastr.success(e.detail.message);
-            }
-
-            if (e.detail.status == "error") {
-                toastr.warning(e.detail.message);
-            }
-
-
+            
             $("#modalTarefas").modal('hide');
             $("#modalAddTarefa").modal('hide');
             $("#agendarVisita").modal('hide');
             $("#modalInformacaoTarefa").modal('hide');
-
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+           
+            if (e.detail.status == "error") {
+                toastr.warning(e.detail.message);
+                Livewire.emit('callAddVisita');
+            }
         });
-
+        
         window.addEventListener('updateList', function(e) {
 
             $("#modalTarefas").modal('hide');
@@ -1009,8 +1006,7 @@
         });
 
         window.addEventListener('openVisitaModal', function(e) {
-
-            $("#agendarVisita").modal();
+            $("#agendarVisita").modal('show');
 
             $('#clienteVisitaIDD').select2();
 
