@@ -825,9 +825,9 @@ class DetalheEncomenda extends Component
             $valorTotalComIva += $totalItemComIva;
 
             $comentarioCheck = ComentariosProdutos::where('id_encomenda', $this->codEncomenda)
-            ->where('tipo','encomenda')
-            ->where('id_carrinho_compras', $prod->id)
-            ->first();
+                ->where('tipo','encomenda')
+                ->where('id_carrinho_compras', $prod->id)
+                ->first();
 
             if(empty($comentarioCheck))
             {

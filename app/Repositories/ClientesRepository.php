@@ -361,7 +361,6 @@ class ClientesRepository implements ClientesInterface
         $response_decoded = json_decode($response);
        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
         if($response_decoded != null)
         {
             $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);

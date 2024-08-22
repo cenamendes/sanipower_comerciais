@@ -7,6 +7,7 @@ use App\Models\Comentarios;
 use Livewire\WithPagination;
 use App\Interfaces\ClientesInterface;
 use Illuminate\Support\Facades\Route;
+use App\Interfaces\PropostasInterface;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -19,6 +20,7 @@ class Propostas extends Component
     public int $numberMaxPages;
     public int $totalRecords = 0;
     private ?object $clientesRepository = NULL;
+
     protected ?object $clientes = NULL;
     protected $propostas = NULL;
 
@@ -491,6 +493,8 @@ class Propostas extends Component
     }
     public function redirectNewProposta($id)
     {
+        session()->forget('searchSubFamily');
+
         session(['rota' => "propostas"]);
         session(['parametro' => ""]);
 

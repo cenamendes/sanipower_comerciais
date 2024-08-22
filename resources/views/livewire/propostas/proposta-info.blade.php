@@ -33,10 +33,12 @@
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
                         @php
-                            $check = \App\Models\Carrinho::where('id_proposta',$proposta->id)->first();
+                            //$check = \App\Models\Carrinho::where('id_proposta',$proposta->id)->first();
+                            $check = $proposta->awarded;
+
                         @endphp
    
-                        @if($check == null)
+                        @if($check == false)
                             @if($cliente[0])
                                 <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
                                 <i class="ti-shopping-cart"></i>
@@ -357,7 +359,7 @@
                             <thead class="thead-light">
                                 <tr>
                                   
-                                    @if($check == null)
+                                    @if($check == false)
                                         @if($cliente[0])
                                             <th style="width: 0;">
                                                 <div class="form-checkbox">
@@ -386,7 +388,7 @@
                                 @forelse ($arrayCart as $img => $item)
                                     @forelse ($item as $prod)
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            @if($check == null)
+                                            @if($check == false)
                                                 @if($cliente[0])
                                                     <td>
                                                         <div class="form-checkbox">
