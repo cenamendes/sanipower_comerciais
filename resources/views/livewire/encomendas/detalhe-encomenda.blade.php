@@ -1854,6 +1854,7 @@
         Livewire.hook('message.sent', () => {
             if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'block';
+                
             }
         });
 

@@ -483,9 +483,10 @@ class Encomendas extends Component
     }
     public function redirectNewEncomenda($id)
     {
+        session()->forget('searchSubFamily');
+
         session(['rota' => "encomendas"]);
         session(['parametro' => ""]);
-
         return redirect()->route('encomendas.detail', ['id' => $id]);
     }
     public function adicionarEncomenda()

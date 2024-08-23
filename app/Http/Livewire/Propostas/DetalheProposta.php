@@ -332,7 +332,7 @@ class DetalheProposta extends Component
         $this->idCategoryInfo = $idCategory;
 
 
-        $this->showLoaderPrincipal = false;
+        $this->showLoaderPrincipal = true;
 
         $this->specificProduct = 0;
 
