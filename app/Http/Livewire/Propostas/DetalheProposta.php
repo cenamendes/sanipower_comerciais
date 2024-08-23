@@ -160,7 +160,7 @@ class DetalheProposta extends Component
             $this->validadeProposta = $dataIndicada->modify('+8 days');
             $this->validadeProposta = $dataIndicada->format('d-m-Y');
         }
-        
+
         $this->showLoaderPrincipal = true;
     }
 
@@ -178,7 +178,6 @@ class DetalheProposta extends Component
 
     public function openDetailProduto($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer, $productName)
     {
-        // dd($idCategory, $idFamily, $idSubFamily, $idCustomer);
         $this->specificProduct = 1;
 
         $this->tabDetail = "";
@@ -202,49 +201,15 @@ class DetalheProposta extends Component
         session(['subFamily' => $idSubFamily]);
         session(['productNumber' => $productNumber]);
 
-        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->detailsClientes = $arrayCliente["object"];
-        $this->getCategories = $this->PropostasRepository->getCategorias();
-        $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-
         $this->filter = false;
     }
 
-    public function recuarLista($id)
+    public function recuarLista()
     {
-        $this->specificProduct = 0;
-
-        $this->tabDetail = "";
-        $this->tabProdutos = "show active";
-        $this->tabDetalhesPropostas = "";
-        $this->tabFinalizar = "";
-        $this->tabDetalhesCampanhas = "";
-
-        if ($this->searchProduct != "") {
-            $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar, $this->searchProduct);
-            session(['searchProduct' => $this->searchProduct]);
-        } else {
-            $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar);
-            Session::forget('searchProduct');
-        }
-
-        session(['searchSubFamily' => $this->searchSubFamily]);
-
-        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->detailsClientes = $arrayCliente["object"];
-        $this->getCategories = $this->PropostasRepository->getCategorias();
-        $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-
         return redirect()->route('propostas.detail', ['id' => $this->idCliente]);
-
     }
     public function adicionarProduto($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber, $productName)
     {
-        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->detailsClientes = $arrayCliente["object"];
-        $this->getCategories = $this->PropostasRepository->getCategorias();
-        $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-
         $this->quickBuyProducts = $this->PropostasRepository->getProdutos($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber);
 
         $this->tabDetail = "";
@@ -254,7 +219,7 @@ class DetalheProposta extends Component
         $this->tabDetalhesCampanhas = "";
 
         $this->specificProduct = 0;
-        // dd( $this->quickBuyProducts);
+
         session(['quickBuyProducts' => $this->quickBuyProducts]);
         session(['productName' => $productName]);
 
@@ -268,7 +233,6 @@ class DetalheProposta extends Component
         $this->produtosRapida = [];
 
         $this->dispatchBrowserEvent('compraRapida');
-
     }
 
     public function verEncomenda()
@@ -318,17 +282,17 @@ class DetalheProposta extends Component
 
     public function deletar($referencia,$designacao, $model, $price)
     {
-
         Carrinho::where('id_proposta', $this->codEncomenda)
                 ->where('referencia', $referencia)
                 ->where('designacao', $designacao)
                 ->where('model', $model)
                 ->where('price', $price)
-                
         ->delete();
 
-        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $referencia]);
-
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
     }
 
 
@@ -338,7 +302,10 @@ class DetalheProposta extends Component
         $this->detailsClientes = $arrayCliente["object"];
         Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)->delete();
 
-        $this->dispatchBrowserEvent('itemDeletar');
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
     }
 
     public function searchCategory($idCategory, $idFamily)
@@ -426,14 +393,14 @@ class DetalheProposta extends Component
         $this->idCategoryInfo = "";
 
 
-        $this->showLoaderPrincipal = false;
+        $this->showLoaderPrincipal = true;
 
         $this->specificProduct = 0;
 
         $this->iteration++;
 
-        $this->dispatchBrowserEvent('refreshPage');
-        // $this->dispatchBrowserEvent('refreshAllComponent');
+        // $this->dispatchBrowserEvent('refreshPage');
+        $this->dispatchBrowserEvent('refreshAllComponent');
 
     }
 
@@ -1217,13 +1184,10 @@ class DetalheProposta extends Component
 
                 break;
                 }
-                
             }
-            
-
             $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
         } else {
-            $this->getCategories = $this->PropostasRepository->getCategorias();
+            // $this->getCategories = $this->PropostasRepository->getCategorias();
 
             $firstCategories = $this->getCategories->category[0];
             session(['searchNameCategory' => $firstCategories->name]);
@@ -1238,7 +1202,6 @@ class DetalheProposta extends Component
             
             session(['searchSubFamily' => $this->searchSubFamily]);
         }
-
         if (session('searchProduct') !== null) {
             $this->searchProduct = session('searchProduct');
 
@@ -1247,60 +1210,47 @@ class DetalheProposta extends Component
             }
 
         }
-
         $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)
-            ->where('id_user',Auth::user()->id)
+            ->where('id_user', Auth::user()->id)
             ->where('id_proposta', '!=', '')
             ->where('id_proposta', $this->codEncomenda)
             ->orderBy('inkit', 'desc')
             ->get();
 
-        $imagens = [];
+        $arrayCart = [];
+        $onkit = 0;
+        $allkit = 0;
 
-        foreach($this->carrinhoCompras as $carrinho){
-            array_push($imagens,$carrinho->image_ref);
-        }
-
-        $iamgens_unique = array_unique($imagens);
-
-       $arrayCart = [];
-       $onkit = 0;
-       $allkit = 0;
-        foreach ($iamgens_unique as $img) {
-            $arrayCart[$img] = [];
+        if($this->carrinhoCompras->count() > 0) {
             foreach ($this->carrinhoCompras as $cart) {
-                if($cart->inkit){
-                    $onkit = $cart->inkit ;
+                if ($cart->inkit) {
+                    $onkit = $cart->inkit;
                 }
-                if($cart->inkit == 0){
+                if ($cart->inkit == 0) {
                     $allkit = 1;
                 }
-                if ($img == $cart->image_ref) {
-                    $found = false;
-                    foreach ($arrayCart[$img] as &$item) {
-                        if (($item->referencia == $cart->referencia) && ($item->designacao == $cart->designacao) && ($item->price == $cart->price) && ($item->model == $cart->model)) {
-                            if(isset($cart->qtd)) {
-                                if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
-                                    $item->qtd += $cart->qtd;
-                                } else {
-                                    break;
-                                }
-                                $found = true;
+
+                $found = false;
+                foreach ($arrayCart as &$item) {
+                    if (($item->referencia == $cart->referencia) && ($item->designacao == $cart->designacao) && ($item->price == $cart->price) && ($item->model == $cart->model)) {
+                        if (isset($cart->qtd)) {
+                            if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
+                                $item->qtd += $cart->qtd;
+                            } else {
                                 break;
                             }
+                            $found = true;
+                            break;
                         }
                     }
-                    if (!$found) {
-                        array_push($arrayCart[$img], $cart);
-                        $this->quantidadeLines ++;
-                    }
+                }
+                if (!$found) {
+                    array_push($arrayCart, $cart);
+                    $this->quantidadeLines++;
                 }
             }
         }
-
-        $this->lojas = $this->encomendasRepository->getLojas();
-
-   
+        // dd($arrayCart);
         return view('livewire.propostas.detalhe-proposta',["onkit" => $onkit, "allkit" => $allkit, "detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
     }

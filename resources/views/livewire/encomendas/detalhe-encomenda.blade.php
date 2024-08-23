@@ -20,7 +20,6 @@
     @if ($showLoaderPrincipal == true)
         <div id="loader" style="display: none;">
             <div class="loader" role="status">
-
             </div>
         </div>
     @endif
@@ -674,7 +673,7 @@
                         @else
                             <div class="tab-encomenda-produto">
                                 <div class="row mb-2 border-bottom">
-                                    <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
+                                    <a href="javascript:void(0)" wire:click="recuarLista" class="mb-3 ml-4"><i
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
                                 @php
@@ -704,7 +703,6 @@
                                 <div class="col">
                                     <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -734,7 +732,6 @@
                                             <td>{{ $prod->model }}</td>
                                             <td>{{ $prod->pvp }}</td>
                                             <td>{{ $prod->discount }}</td>
-                                            {{-- <td>{{ $prod->discount2 }}</td> --}}
                                             <td>{{ $prod->price }}</td>
                                             <td>{{ $prod->quantity }}</td>
                                             <td style="text-align:center;font-size:large;">
@@ -750,13 +747,6 @@
                                                                 @foreach ($prod->stocks as $stock)
                                                                     <li>
                                                                         {{ $stock->warehouse_description }}
-                                                                       @if ($stock->stock == true)
-                                                                            ({{ intval($stock->qtt) }})
-                                                                            {{-- <i class="ti-check text-lg text-forest"></i> --}}
-                                                                        @else
-                                                                            (0)
-                                                                            {{-- <i class="ti-close text-lg text-chili"></i> --}}
-                                                                        @endif
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -873,11 +863,8 @@
                 $ValorTotal = 0;
                 $ValorTotalComIva = 0;
             @endphp
-            {{-- @forelse ($arrayCart as $img => $item) --}}
                 <div class="row" style="align-items: center;">
-                    {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 9rem; height:auto;">
-                    </div> --}}
+                   
                     @if($allkit)
                     <div class="col-md-12 p-0">
                     
@@ -898,9 +885,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @forelse ($arrayCart as $img => $item)
+                            @forelse ($arrayCart as $img => $prod)
 
-                                @forelse ($item as $prod)
                                 @if($prod->inkit == 1)
 
                                         @php
@@ -1015,11 +1001,7 @@
                                             <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($totalItem, 2, ',', '.') }} €</td>
                                         </tr>
                                     @endif
-                                @empty
-                                    <tr>
-                                        <td colspan="8" style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c !important; text-align:center;">Nenhum produto no carrinho</td>
-                                    </tr>
-                                @endforelse
+                               
                             @empty
                                 <tr>
                                     <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
@@ -1048,15 +1030,7 @@
                     @endif
       
                 </div>
-               
-            {{-- @empty
-                <tr>
-                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                </tr>
-            @endforelse --}}
             <div class="row">
-                {{-- <div class="col-md-2 d-flex p-0">
-                </div> --}}
                 <div class="col-md-12 p-0 text-right" style="border-bottom: none;padding: 0;">
                  
                
@@ -1340,13 +1314,6 @@
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
                                                                             {{ $stock->warehouse_description }}
-                                                                            @if ($stock->stock == true)
-                                                                            ({{ intval($stock->qtt) }})
-                                                                                {{-- <i class="ti-check text-lg text-forest"></i> --}}
-                                                                            @else
-                                                                                (0)
-                                                                                {{-- <i class="ti-close text-lg text-chili"></i> --}}
-                                                                            @endif
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -1665,6 +1632,7 @@
                 }
             });
         }
+        
     });
 
     window.addEventListener('refreshPage', function(e) {
@@ -1889,8 +1857,6 @@
             }
         });
 
-        // Oculta o loader quando o Livewire terminar de carregar
-        // nada aqui
         Livewire.hook('message.processed', () => {
             if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'none';
@@ -1946,15 +1912,7 @@
         jQuery('#modalEncomenda').modal('show');
     });
 
-    document.addEventListener('itemDeletar', function (event) {
-        // Mudar para a aba #tab6
-        var tab = document.querySelector('a[href="#tab6"]');
-        if (tab) {
-            tab.click();
-        }
-    });
-
-    document.addEventListener('compraRapida', function(e) {
+    document.addEventListener('compraRapida', function() {
         jQuery('#modalProdutos').modal();
     });
 

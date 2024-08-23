@@ -81,7 +81,6 @@ class ClientesRepository implements ClientesInterface
         $nifCliente = '&Nif=';
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -103,7 +102,6 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-     
      
         return $response_decoded; 
 
