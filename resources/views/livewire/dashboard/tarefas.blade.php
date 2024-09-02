@@ -334,7 +334,7 @@
                             <div class="form-group row ml-0">
                                 <label>Hora Inícial</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control horaInicialVisita" id="horaInicialVisita" wire:model.defer="horaInicialVisita">
+                                <input type="text" class="form-control horaInicialVisita" id="horaInicialVisita" wire:model.defer="horaInicialVisita" value="09:00">
                                     <div class="input-group-append timepicker-btn">
                                         <span class="input-group-text">
                                             <i class="ti-time"></i>
@@ -438,7 +438,7 @@
                             <div class="form-group row ml-0">
                                 <label>Hora Inícial</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control horaInicialVisitaDireito" id="horaInicialVisitaDireito" wire:model.defer="horaInicialVisitaDireito">
+                                    <input type="text" class="form-control horaInicialVisitaDireito" id="horaInicialVisitaDireito" value="09:00" wire:model.defer="horaInicialVisitaDireito">
                                     <div class="input-group-append timepicker-btn">
                                         <span class="input-group-text">
                                             <i class="ti-time"></i>
@@ -964,10 +964,7 @@
           
                 calendar.gotoDate(mesEsc+'-01');
             }
-
-            //
         }
-
 
         document.addEventListener('DOMContentLoaded', function() {
             startCalendar();
@@ -979,6 +976,7 @@
             $("#modalAddTarefa").modal('hide');
             $("#agendarVisita").modal('hide');
             $("#modalInformacaoTarefa").modal('hide');
+
             if (e.detail.status == "success") {
                 toastr.success(e.detail.message);
             }
@@ -1062,7 +1060,6 @@
 
             });
 
-
             @this.set('horaFinalVisita', '10:00', true);
             $('.horaFinalVisita').timepicker({
                 minuteStep: 5,
@@ -1080,7 +1077,6 @@
                 @this.set('horaFinalVisita', formattedDate, true);
 
             });
-
 
             window.addEventListener('sendToTeams', function(e) {
 
@@ -1108,8 +1104,6 @@
                 }, 2500);
             });
 
-
-
         });
 
         window.addEventListener('openModalAddTarefa', function(e) {
@@ -1119,7 +1113,6 @@
             $('#clienteNameTarefa').select2({}).on('change', function(e) {
                 @this.set('clienteNameTarefa', e.target.value, true);
             });
-
 
             $.fn.datepicker.dates['pt-BR'] = {
                 days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
@@ -1134,7 +1127,6 @@
                 /* Leverages same syntax as 'format' */
                 weekStart: 0
             };
-
 
             $('#dataInicialTarefa').datepicker({
                 format: 'dd/mm/yyyy',
@@ -1166,7 +1158,6 @@
 
             });
 
-
             @this.set('horaFinalTarefa', '10:00', true);
             $('.horaFinalTarefa').timepicker({
                 minuteStep: 5,
@@ -1182,14 +1173,7 @@
                 var formattedDate = moment(e.date).format('HH:ii');
 
                 @this.set('horaFinalTarefa', formattedDate, true);
-
             });
-
-
         });
-
-      
-        
     </script>
-
 </div>

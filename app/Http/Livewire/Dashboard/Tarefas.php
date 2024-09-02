@@ -233,11 +233,7 @@ class Tarefas extends Component
     {
         $this->tipoVisita = TiposVisitas::all();
 
-        $this->dataInicialVisita = ""; 
-        $this->horaInicialVisita = ""; 
-        $this->horaFinalVisita = ""; 
-        $this->tipoVisitaEscolhidoVisita = "";  
-        $this->assuntoTextVisita = "";
+
 
         $collectionClientes = $this->tarefasRepository->getListagemCliente(10000);
 
@@ -254,7 +250,7 @@ class Tarefas extends Component
         if(isset($this->clientes[0]["id"]))
         {
             $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
-        }       
+        }
         
 
         $this->dispatchBrowserEvent('openVisitaModal');
@@ -271,10 +267,7 @@ class Tarefas extends Component
         
         if($this->dataInicialVisitaDireito == "" ||$this->horaInicialVisitaDireito == "" || $this->horaFinalVisitaDireito == "" || $this->tipoVisitaEscolhidoDireito == "" || $this->assuntoTextVisitaDireito == "" )
         {
-            
             $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
-            
-
             return false;
         }
 

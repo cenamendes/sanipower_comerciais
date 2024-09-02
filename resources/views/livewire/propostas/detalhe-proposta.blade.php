@@ -1602,8 +1602,26 @@
 
     
     window.addEventListener('refreshComponent2', function(e) {
+        console.log("hello");
+        var accordions2 = document.getElementsByClassName("accordion2");
 
-        // console.log(check);
+        // Add click event listener to each accordion button
+        for (var i = 0; i < accordions2.length; i++) {
+            accordions2[i].addEventListener("click", function() {
+                // Toggle active class to button
+                this.classList.toggle("active");
+
+                // Toggle the panel visibility
+                var panel2 = this.nextElementSibling;
+                if (panel2.style.maxHeight) {
+                    panel2.style.maxHeight = null;
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
+                } else {
+                    panel2.style.maxHeight = panel2.scrollHeight + "%";
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
+                }
+            });
+        }
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
 
             item.style.display = 'none';
@@ -1795,10 +1813,10 @@
             var panel2 = this.nextElementSibling;
             if (panel2.style.maxHeight) {
                 panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
             } else {
                 panel2.style.maxHeight = panel2.scrollHeight + "%";
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
             }
         });
     }
@@ -1816,7 +1834,6 @@
                 document.getElementById('loader').style.display = 'none';
             }
         });
-
     });
 
 
@@ -1880,45 +1897,5 @@
             checkbox.checked = false;
         });
     });
-
-    {{-- document.addEventListener('livewire:load', function() {
-
-        function checkCheckboxes() {
-        const checkboxes = document.querySelectorAll('.checkboxAddKit');
-        const buttonContainer = document.querySelector('.btn-Add-itens-kit');
-        
-        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        if (anyChecked) {
-            buttonContainer.style.display = 'block';
-        } else {
-            buttonContainer.style.display = 'none';
-        }
-        }
-
-        document.querySelectorAll('.checkboxAddKit').forEach(checkbox => {
-        checkbox.addEventListener('change', checkCheckboxes);
-        });
-        checkCheckboxes();
-
-
-        function checkCheckboxesRemove() {
-        const checkboxes = document.querySelectorAll('.checkboxRemoveKit');
-        const buttonContainer = document.querySelector('.btn-remove-itens-kit');
-        
-        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        console.log(anyChecked);
-        if (anyChecked) {
-            buttonContainer.style.display = 'block';
-        } else {
-            buttonContainer.style.display = 'none';
-        }
-        }
-
-        document.querySelectorAll('.checkboxRemoveKit').forEach(checkbox => {
-        checkbox.addEventListener('change', checkCheckboxesRemove);
-        });
-        checkCheckboxesRemove();
-    }); --}}
-
 </script>
 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Visitas;
 
 use Dompdf\Dompdf;
 use Livewire\Component;
+use App\Models\Visitas;
 use App\Mail\SendEncomenda;
 use App\Models\Comentarios;
 use Livewire\WithPagination;
@@ -311,8 +312,9 @@ class Encomendas extends Component
 
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
+        
+        
         $visitas = Visitas::where('id_visita_agendada',intval($this->idVisita))->first();
-
         if($visitas != null)
         {
             if($visitas->count() > 0)

@@ -452,7 +452,7 @@ class DetalheProposta extends Component
 
         $this->specificProduct = 0;
 
-        $this->showLoaderPrincipal = false;
+        $this->showLoaderPrincipal = true;
 
         $this->dispatchBrowserEvent('refreshComponent2', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }

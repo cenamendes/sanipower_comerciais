@@ -1642,6 +1642,23 @@
 
     window.addEventListener('refreshComponentEncomenda2', function(e) {
 
+        var accordions2 = document.getElementsByClassName("accordion2");
+
+        for (var i = 0; i < accordions2.length; i++) {
+            accordions2[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+
+                var panel2 = this.nextElementSibling;
+                if (panel2.style.maxHeight) {
+                    panel2.style.maxHeight = null;
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+                } else {
+                    panel2.style.maxHeight = panel2.scrollHeight + "%";
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                }
+            });
+        }
+
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
             item.style.display = 'none';
         });

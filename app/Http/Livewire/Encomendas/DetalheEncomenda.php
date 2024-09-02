@@ -449,7 +449,7 @@ class DetalheEncomenda extends Component
 
         $this->specificProduct = 0;
 
-        $this->showLoaderPrincipal = false;
+        $this->showLoaderPrincipal = true;
         $this->dispatchBrowserEvent('refreshComponentEncomenda2', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
     public function addProductQuickBuyEncomenda($prodID, $nameProduct, $no, $ref, $codEncomenda)
