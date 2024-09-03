@@ -1030,6 +1030,18 @@ class DetalheProposta extends Component
         //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma condição de pagamento", "status" => "error"]);
         //     return false;
         // }
+        if (new DateTime($this->validadeProposta) < new DateTime('today')) {
+            $this->tabDetail = "";
+            $this->tabProdutos = "";
+            $this->tabDetalhesPropostas = "";
+            $this->tabFinalizar = "show active";
+            $this->tabDetalhesCampanhas = "";
+        
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "A data de validade da proposta deve ser igual ou superior à data atual!", "status" => "error"]);
+            return false;
+        }
+        
+
         if($this->validadeProposta == null){
 
             $this->tabDetail = "";
