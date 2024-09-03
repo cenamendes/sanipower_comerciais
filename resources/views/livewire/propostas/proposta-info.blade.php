@@ -20,11 +20,12 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{ $tabDetail }}">Detalhes</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">Artigos</a>
+                    
                 </li>
               
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">Artigos</a>
+                   <a href="#tab4" data-toggle="tab" class="nav-link {{ $tabDetail }}">Detalhes</a>
                 </li>
             </ul>
 
@@ -32,10 +33,12 @@
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
                         @php
-                            $check = \App\Models\Carrinho::where('id_encomenda',$proposta->id)->first();
+                            //$check = \App\Models\Carrinho::where('id_proposta',$proposta->id)->first();
+                            $check = $proposta->awarded;
+
                         @endphp
    
-                        @if($check == null)
+                        @if($check == false)
                             @if($cliente[0])
                                 <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
                                 <i class="ti-shopping-cart"></i>
@@ -344,16 +347,19 @@
                 
                 {{-- @forelse ($arrayCart as $img => $item) --}}
                 
+                <h4 class="card-title" style="margin-left: 0px;margin-top: -10px;">{{ $proposta->budget }} - {{ $proposta->name }} </h4>
+                
                 <div class="row" style="align-items: center;">
                     {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
                         <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
                     </div> --}}
+                      
                     <div class="col-md-12 p-0">
                         <table class="table table-hover init-datatable">
                             <thead class="thead-light">
                                 <tr>
                                   
-                                    @if($check == null)
+                                    @if($check == false)
                                         @if($cliente[0])
                                             <th style="width: 0;">
                                                 <div class="form-checkbox">
@@ -374,7 +380,7 @@
                                     <th style="text-align: right;width: 0%;">Quantidade</th>
                                     <th style="text-align: right;width: 0%;">Preço</th>
                                     <th style="text-align: right;width: 0%;">Desconto</th>
-                                    {{-- <th>Desconto 2</th> --}}
+                                    <th style="text-align: right;width: 7%;">Iva</th>
                                     <th style="text-align: right;" >Total</th>
                                 </tr>
                             </thead>
@@ -382,7 +388,7 @@
                                 @forelse ($arrayCart as $img => $item)
                                     @forelse ($item as $prod)
                                         <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
-                                            @if($check == null)
+                                            @if($check == false)
                                                 @if($cliente[0])
                                                     <td>
                                                         <div class="form-checkbox">
@@ -424,12 +430,12 @@
                                                     </label>
                                                 </div>
                                             </td> --}}
-                                        
                                             <td>{{ $prod->reference }}</td>
                                             <td style="white-space: nowrap;">{{ $prod->description }}</td>
                                             <td style="text-align: right; white-space: nowrap;">{{ $prod->quantity }}</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
-                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>
+                                            <td style=" width: 0; text-align: right; white-space: nowrap;">{{ $prod->tax }}%</td>
                                             <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($prod->total, 2, ',', '.') }} €</td>
                                         </tr>
                                         {{-- <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">

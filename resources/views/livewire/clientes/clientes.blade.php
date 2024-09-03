@@ -204,7 +204,7 @@
                                         <td>{{ $clt->zone }}</td>
                                         <td>{{ $clt->nif }}</td>
                                         <td>
-                                            <a href="{{ route('clientes.detail', $clt->id) }}"
+                                            <a wire:click="openDetailCliente({{ json_encode($clt->id)}})" style="color: white;"
                                                 class="btn btn-primary">
                                                 <i class="ti-search"></i>
                                             </a>

@@ -46,12 +46,17 @@
         
         document.addEventListener('livewire:load', function() {
             Livewire.hook('message.sent', () => {
-                document.getElementById('loader').style.display = 'block';
+                if(document.getElementById('loader') != null){
+                    document.getElementById('loader').style.display = 'block';
+                }
             });
 
             // Oculta o loader quando o Livewire terminar de carregar
+            // Erro pode ser aqui
             Livewire.hook('message.processed', () => {
-                document.getElementById('loader').style.display = 'none';
+                if(document.getElementById('loader') != null){
+                    document.getElementById('loader').style.display = 'none';
+                }
             });
         });
 

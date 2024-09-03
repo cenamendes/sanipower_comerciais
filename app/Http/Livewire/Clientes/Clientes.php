@@ -121,7 +121,7 @@ class Clientes extends Component
             // Mail::to($user->email)->send(new CriarCliente($this->criarnomeCliente, $this->criarnumeroCliente, $this->criarzonaCliente, $this->criarnumContribuinte));
     
             $this->limparCampos();
-            dd("Email nao enviado ao cliente.");
+            dd("Email nao enviado ao utilizador.");
         } else {
             $this->dispatchBrowserEvent('checkToaster', ['status' => 'error', 'message' => 'Por favor, preencha todos os campos corretamente!']);
         }
@@ -276,6 +276,14 @@ class Clientes extends Component
             $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
             $this->totalRecords = $arrayClientes["nr_registos"];
         }
+
+    }
+    public function openDetailCliente($id)
+    {
+        session(['rota' => "clientes"]);
+        session(['parametro' => ""]);
+
+        return redirect()->route('clientes.detail',["id" => $id]);
 
     }
 

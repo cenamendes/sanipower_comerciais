@@ -119,15 +119,6 @@
                         </table>
                     </div>
                     {{ $detailsfinanceiro->links() }}
-                    <hr/>
-                    <div class="form-group">
-                        <div class="col-xs-12 col-xl-4">
-                            <label>Comentário</label>
-                            <div class="input-group">
-                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_financeiro" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

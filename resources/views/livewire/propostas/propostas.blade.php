@@ -33,7 +33,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Nome do Cliente" wire:model.lazy="nomeCliente">
+                                    <input type="text" class="form-control" placeholder="Nome do Clientes" wire:model.lazy="nomeCliente">
                                 </div>
                             </div>
 
@@ -69,6 +69,35 @@
                                             <option value="2">Sem comentário</option>
                                         </select>
                                     </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <label class="mt-2">Data Inicial</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                    </div>
+                                    <input type="date" class="form-control" placeholder="Data Inicial" wire:model.lazy="startDate">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <label class="mt-2">Data Final</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                    </div>
+                                    <input type="date" class="form-control" placeholder="Data Final" wire:model.lazy="endDate">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="mt-2">Estádo da Proposta</label>
+                                <div class="input-group">
+                                    <select name="perPage" class="form-control" wire:model.lazy="statusProsposta">
+                                        <option value="0" selected>Todas</option>
+                                        <option value="1">Abertas</option>
+                                        <option value="2">Fechadas</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -196,15 +225,19 @@
                             </thead>
                             <tbody>
                                 @foreach ($propostas as $pro )
-                                    <tr wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})">
+                                    <tr>
                                         <td>{{ date('Y-m-d', strtotime($pro->date)) }}</td>
                                         <td>{{$pro->budget}}</td>
                                         <td>{{$pro->name}}</td>
                                         <td>{{$pro->total}}</td>
                                         <td>{{$pro->status}}</td>
                                         <td>
-                                            <a wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})" style="color:white!important;" class="btn btn-primary">
+                                        {{-- {{dd($pro)}} --}}
+                                            <a wire:click="checkOrder({{json_encode($pro->id)}}, {{json_encode($pro)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-eye"></i> Ver Proposta
+                                            </a>
+                                             <a wire:click="redirectNewProposta({{json_encode($pro->customer_id)}})" style="color:white!important;" class="btn btn-sm btn-primary">
+                                                <i class="ti-plus"></i> Nova Proposta
                                             </a>
                                         </td>
                                     </tr>

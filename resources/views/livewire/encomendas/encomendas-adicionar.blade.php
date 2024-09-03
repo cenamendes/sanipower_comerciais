@@ -177,17 +177,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($clientes as $clt )
-                                    <tr data-href="{{route('encomendas.detail',$clt->id)}}">
+                                    <tr >
                                         <td>{{$clt->name}}</td>
                                         <td>{{$clt->no}}</td>
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
                                         <td>
-                                            <a href="{{route('encomendas.detail',$clt->id)}}" class="btn btn-primary">
+                                        {{-- {{dd($clt)}} --}}
+                                            <button wire:click="rotaDetailEncomendas('{{  $clt->id }}')" class="btn btn-primary">
                                                 <i class="ti-plus"></i> Nova Encomenda
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach

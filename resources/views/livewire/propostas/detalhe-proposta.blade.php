@@ -81,7 +81,12 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link {{ $tabProdutos }}">Produtos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">Artigos</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesPropostas }}">
+                        @if($quantidadeLines > 0)
+                            <span>({{$quantidadeLines}}) </span>
+                        @endif
+                        Artigos
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab7" data-toggle="tab" class="nav-link {{ $tabFinalizar }}">Finalizar</a>
@@ -95,6 +100,8 @@
                                 class="ti-eye"></i>
                             Ver Proposta</a> --}}
                         {{-- <a href="javascript:void(0);" wire:click="finalizarproposta" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Proposta</a> --}}
+                        <a href="javascript:void(0);" wire:click="Limpar" class="btn btn-sm btn-secondary"> Limpar proposta</a>
+                        
                         <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary"> Voltar atrás</a>
                         <a href="javascript:void(0);" wire:click="cancelarProposta" class="btn btn-sm btn-secondary"> Cancelar</a>
                     </div>
@@ -256,22 +263,19 @@
 
                     <div class="row form-group">
                         <div class="col-xl-4">
-
                             <div class="form-group">
-                                <label>Nº Ocorrências em aberto</label>
+                                <label>Email do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-carolina"><i
-                                                class="ti-light-bulb text-light"></i></span>
+                                                class="ti-credit-card text-light"></i></span>
                                     </div>
                                     <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                        value="{{ $detalhesCliente->customers[0]->email }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-xl-4">
-
                             <div class="form-group">
                                 <label>Saldo em Aberto</label>
                                 <div class="input-group">
@@ -283,10 +287,8 @@
                                         value="{{ $detalhesCliente->customers[0]->current_account }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-xl-4">
-
                             <div class="form-group">
                                 <label>Cheques em carteira</label>
                                 <div class="input-group">
@@ -305,6 +307,20 @@
                         <div class="col-xl-4">
 
                             <div class="form-group">
+                                <label>Nº Ocorrências em aberto</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-carolina"><i
+                                                class="ti-light-bulb text-light"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control"
+                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+
+                            <div class="form-group">
                                 <label>Pontos</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -315,7 +331,6 @@
                                         value="{{ $detalhesCliente->customers[0]->balance_points }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-xl-4">
 
@@ -330,7 +345,6 @@
                                         value="{{ $detalhesCliente->customers[0]->payment_conditions }}" readonly>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -338,12 +352,9 @@
                     </p>
                 </div>
                 <div class="tab-pane fade {{ $tabProdutos }}" id="tab5">
-
                     @if ($specificProduct == 0)
                         <div class="row tab-encomenda-produto">
-
                             <div class="col" wire:key="select-field-model-version-{{ $iteration }}">
-
                                 <div>
 
                                     @php
@@ -384,28 +395,93 @@
                                                         </div>
                                                         <div class="row">
                                                             @foreach ($family->subfamily as $subfamily)
-                                                                <div class="col-4">
+
+                                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                                        <a href="javascript:void(0);" class="title-description-family" data-id={{$contaCat}} wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})"
+                                                                            style="pointer-events: auto">
+                                                                            <div class="mb-1">
+                                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $family->id }}/{{ $subfamily->id }}.jpg"
+                                                                                    class="card-img-top" alt="...">
+
+                                                                                <div class="body-decoration">
+                                                                                    <h5 class="title-description">{{ $subfamily->name }}</h5>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                {{-- <div class="col-4">
                                                                     <h5 class="title-description-family"
                                                                         wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})">
                                                                         {{ $subfamily->name }}
                                                                     </h5>
-                                                                </div>
+                                                                </div> --}}
                                                             @endforeach
                                                         </div>
                                                     </div>
                                                     @else
-                                                    <div class="col-4">
+                                                        @if ($idCategoryInfo != $cat->id)
+                                                            <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                                <div class="card card-decoration card-outline-primary border border-2">
+                                                                    <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                                        style="pointer-events: auto">
+                                                                        <div class="mb-1">
+                                                                            @php
+                                                                                $familyId = $family->id;
+                                                                                $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                                $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                            @endphp
+                                                                            <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                                class="card-img-top" alt="...">
+
+                                                                            <div class="body-decoration">
+                                                                                <h5 class="title-description">{{ $family->name }}</h5>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    {{-- <div class="col-4">
                                                         <a href="javascript:void(0);" class="familyHREF{{ $contaCat }}" data-id={{$contaCat}} wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
                                                             <h5 class="family_title">{{ $family->name }}</h5>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                 @endif
                                             @else
-                                                <div class="col-4">
+                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                        <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                        style="pointer-events: auto">
+                                                            <div class="mb-1">
+                                                                @php
+                                                                    $familyId = $family->id;
+                                                                    $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                    $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                @endphp
+                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                    class="card-img-top" alt="...">
+                                                                {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
+
+                                                                <div class="body-decoration">
+                                                                    <h5 class="title-description">{{ $family->name }}</h5>
+                                                                </div>
+
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="col-4">
                                                     <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
                                                         <h5 class="family_title">{{ $family->name }}</h5>
                                                     </a>
-                                                </div>
+                                                </div> --}}
                                             @endif
                                         @endforeach
 
@@ -413,7 +489,7 @@
                                         </div>
                                     @endforeach
                                     <div class="sidebarProd" id="sidebarProd" wire:ignore>
-                                        <label for="checkbox" style="width: 180%;">
+                                        <label for="checkbox" style="width: 100%;">
                                             <div class="input-group input-group-config-Goback input-config-produtos"
                                                 id="checkboxSidbar" style="padding: 0;">
                                                 <label><i class="ti-menu"></i>
@@ -556,9 +632,11 @@
                                                 </div>
                                                 @php
                                                     $searchSubFamily = session('searchSubFamily');
+                                                    
                                                 @endphp
-                                                @if ($searchSubFamily)
+                                                @if($searchSubFamily != null)
                                                     @foreach ($searchSubFamily->product as $prodt)
+
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                             <div class="card card-decoration card-outline-primary border border-2">
                                                                 <a href="javascript:void(0)"
@@ -588,257 +666,11 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                {{-- <div>
-
-                                    @php
-                                        $contaCat = 0;
-                                    @endphp
-                                    @foreach ($getCategories->category as $i => $cat)
-                                        @php
-                                            $contaCat++;
-                                        @endphp
-                                        <div class="subsidebarProd overflow-y-auto"
-                                            id="subItemInput{{ $contaCat }}">
-                                            <div wire:loading wire:target="searchCategory">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div wire:loading wire:target="resetFilter">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <a href="javascript:void(0)" class="buttonGoback"><i
-                                                    class="ti ti-arrow-left IconGoback"></i>Produtos</a>
-                                            <h2>{{ $cat->name }}</h2>
-                                            <div class="row">
-                                                @foreach ($cat->family as $family)
-                                                    <div class="col-4">
-                                                        <a href="javascript:void(0);"
-                                                            wire:click="searchCategory({{ $contaCat }},{{ json_encode($family->id) }})">
-                                                            <h5 class="family_title">{{ $family->name }}</h5>
-                                                        </a>
-                                                    </div>
-                                                    @if ($familyInfo == true)
-                                                        @if ($idFamilyInfo == $family->id)
-                                                            <div class="col-12">
-                                                             
-                                                                <div class="row mb-2">
-                                                                    <a href="javascript:void(0)"
-                                                                        wire:click="resetFilter({{ $contaCat }})"
-                                                                        class="mb-3 ml-4"><i
-                                                                        class="ti-angle-left"></i> Atrás</a>
-                                                                </div>
-                                                            
-                                                                <div class="row">
-                                                                    @foreach ($family->subfamily as $subfamily)
-                                                                        <div class="col-4">
-                                                                            <h5 class="title-description-family"
-                                                                                wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})">
-                                                                                {{ $subfamily->name }}
-                                                                            </h5>
-                                                                        </div>
-                                                                    @endforeach
-                                                                </div>
-                                                            </div>
-                                                        @endif
-                                                    @else
-                                                        <div class="col-4">
-                                                            <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
-                                                                <h5 class="family_title">{{ $family->name }}</h5>
-                                                            </a>
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    <div class="sidebarProd" id="sidebarProd" wire:ignore>
-                                        <label for="checkbox" style="width: 180%;">
-                                            <div class="input-group input-group-config-Goback input-config-produtos"
-                                                id="checkboxSidbar" style="padding: 0;">
-                                                <label><i class="ti-menu"></i>
-                                                    <p>PRODUTOS</p>
-                                                </label>
-                                            </div>
-                                        </label>
-                                        @php
-                                            $conta = 0;
-                                        @endphp
-                                        @foreach ($getCategoriesAll->category as $i => $category)
-                                            @php
-                                                $conta++;
-                                            @endphp
-                                            @if (!empty($category->family))
-                                                <!-- <div class="input-group d-flex input-group-config justify-content-between" wire:click="rechargeFamilys({{ $conta }})" id="input{{ $conta }}" > -->
-                                                <div class="input-group d-flex input-group-config justify-content-between"
-                                                    id="input{{ $conta }}"
-                                                    @if ($category->name == 'Sistemas') style="background-color: #42c69f;"
-                                            @elseif($category->name == 'Água') style="background-color: #0179b5;"
-                                            @elseif($category->name == 'Conforto') style="background-color: #cd3d3c;"
-                                            @elseif($category->name == 'Solar') style="background-color: #cc7d3b;"
-                                            @elseif($category->name == 'Ar Condicionado') style="background-color: #9fa2a2;"
-                                            @elseif($category->name == 'Ventilação') style="background-color: #141b62;"
-                                            @elseif($category->name == 'Marcas') style="background-color: #5c2a5d;"
-                                            @elseif($category->name == 'Piscinas') style="background-color: #01cbdf;"
-                                            @elseif($category->name == 'Marcas') style="background-color: #5c2a5d;" @endif>
-                                                    <p>{{ $category->name }}</p>
-                                                    <label>></label>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                    <div class="row justify-content-between">
-                                        <div class="col-3">
-                                            <div class="input-group" id="checkboxSidbar">
-                                                <input id="checkbox" type="checkbox">
-                                                <label class="toggle" for="checkbox">
-                                                    <div id="bar1" class="bars"></div>
-                                                    <div id="bar2" class="bars"></div>
-                                                    <div id="bar3" class="bars"></div>
-                                                </label> &nbsp;<h4>Categorias</h4>
-                                            </div>
-                                            <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2"
-                                                style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
-                                                <div class="dataTables_length left" id="dataTables_length">
-                                                    <label>Mostrar
-                                                        <select name="perPage" wire:model="perPage">
-                                                            <option value="10"
-                                                                @if ($perPage == 10) selected @endif>10
-                                                            </option>
-                                                            <option value="25"
-                                                                @if ($perPage == 25) selected @endif>25
-                                                            </option>
-                                                            <option value="50"
-                                                                @if ($perPage == 50) selected @endif>50
-                                                            </option>
-                                                            <option value="100"
-                                                                @if ($perPage == 100) selected @endif>100
-                                                            </option>
-                                                        </select>
-                                                        registos</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md col-12">
-                                            @php
-                                                $searchNameCategory = session('searchNameCategory');
-                                                $searchNameFamily = session('searchNameFamily');
-                                                $searchNameSubFamily = session('searchNameSubFamily');
-                                            @endphp
-                                            <ol class="breadcrumb d-flex" style="border-bottom:none;">
-                                                @if($searchNameCategory)<li class="breadcrumb-item"><a href="">{{$searchNameCategory}}</a></li>@endif
-                                                @if($searchNameFamily)<li class="breadcrumb-item"> {{$searchNameFamily}}</li>@endif
-                                                @if($searchNameSubFamily)<li class="breadcrumb-item active">{{$searchNameSubFamily}}</li>@endif
-                                            </ol>
-                                        </div>
-                                        <div class="col-6 col-md">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text search"><i
-                                                            class="ti-search text-light"></i></span>
-                                                </div>
-                                                <input type="text" class="form-control"
-                                                    placeholder="Pesquise Produto" wire:model.debounce.800ms="searchProduct"
-                                                    @if (session('searchProduct') !== null) value="{{ session('searchProduct') }}" @endif>
-                                            </div>
-                                            <br>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="justify-content: flex-end;">
-                                    <div class="navbar2 col-3 d-none d-md-block">
-                                            @php
-                                                $contaCat = 0;
-                                            @endphp
-                                            @foreach ($getCategoriesAll->category as $i => $category)
-                                                @php
-                                                    $contaCat++;
-                                                @endphp
-                                                @if (!empty($category->family))
-                                                    <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
-                                                        {{ $category->name }}<span
-                                                            class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
-                                                    <div class="panel2">
-                                                        @foreach ($category->family as $family)
-                                                            <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
-                                                                {{ $family->name }}<span
-                                                                    class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
-                                                            <div class="panel2">
-                                                                @foreach ($family->subfamily as $subfamily)
-                                                                    <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
-                                                                        href="#">{{ $subfamily->id }} -
-                                                                        {{ $subfamily->name }}</a>
-                                                                @endforeach
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                        <div class="row col-md-9">
-                                            <div wire:loading wire:target="searchProduct">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div wire:loading wire:target="adicionarProduto">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div wire:loading wire:target="openDetailProduto">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @php
-                                                $searchSubFamily = session('searchSubFamily');
-                                            @endphp
-                                            @if ($searchSubFamily)
-                                                @foreach ($searchSubFamily->product as $prodt)
-                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                                                        <div
-                                                            class="card card-decoration card-outline-primary border border-2">
-                                                            <a href="javascript:void(0)"
-                                                                wire:click="openDetailProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"
-                                                                style="pointer-events: auto">
-                                                                <div class="mb-1">
-                                                                    <img src="https://storage.sanipower.pt/storage/produtos/{{ $prodt->family_number }}/{{ $prodt->family_number }}-{{ $prodt->subfamily_number }}-{{ $prodt->product_number }}.jpg"
-                                                                        class="card-img-top" alt="...">
-                                                                    <div class="body-decoration">
-                                                                        <h5 class="title-description">
-                                                                            {{ $prodt->product_name }}</h5>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                            <div class="card-body container-buttons"
-                                                                style="z-index:10;">
-                                                                <button class="btn btn-sm btn-primary"
-                                                                    wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"><i
-                                                                        class="ti-shopping-cart"></i><span> Compra rápida</span></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            @else
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div> --}}
                             </div>
                         @else
                             <div class="tab-encomenda-produto">
                                 <div class="row mb-2 border-bottom">
-                                    <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
+                                    <a href="javascript:void(0)" wire:click="recuarLista" class="mb-3 ml-4"><i
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
                                 @php
@@ -890,7 +722,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @if (!empty($detailProduto))
+                                                                @if (!empty($detailProduto) || isset($quickBuyProducts->product))
                                                                     @foreach ($detailProduto->product as $i => $prod)
                                                                         <tr style="background-color:{{ $prod->color }}">
                                                                             <td>{{ $prod->referense }}</td>
@@ -913,11 +745,6 @@
                                                                                                 @foreach ($prod->stocks as $stock)
                                                                                                     <li>
                                                                                                         {{ $stock->warehouse_description }}
-                                                                                                        @if ($stock->stock == true)
-                                                                                                            <i class="ti-check text-lg text-forest"></i>
-                                                                                                        @else
-                                                                                                            <i class="ti-close text-lg text-chili"></i>
-                                                                                                        @endif
                                                                                                     </li>
                                                                                                 @endforeach
                                                                                             </ul>
@@ -980,7 +807,7 @@
                                                                                                         <i class="ti-check"></i>
                                                                                                     </button>
                                                                                                 </h6>
-                                                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
+                                                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
                                                                                             </li>
                                                                                         </div>
                                                                                     </div>
@@ -1030,15 +857,12 @@
                 </div>
             </div>
             <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;min-width: 800px;">
-            @php
-                $ValorTotal = 0;
-                $ValorTotalComIva = 0;
-            @endphp
-            {{-- @forelse ($arrayCart as $img => $item) --}}
+                @php
+                    $ValorTotal = 0;
+                    $ValorTotalComIva = 0;
+                @endphp
                 <div class="row" style="align-items: center;">
-                    {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 9rem; height:auto;">
-                    </div> --}}
+                 
                     @if($allkit)
                     <div class="col-md-12 p-0">
                     
@@ -1049,7 +873,6 @@
                              
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
-                                    <th>Comentário</th>
                                     <th style="text-align: right;width: 0%;">PVP</th>
                                     <th style="text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
                                     <th style="text-align: right;width: 0%;">P(c/desc.)</th>
@@ -1060,9 +883,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @forelse ($arrayCart as $img => $item)
+                            @forelse ($arrayCart as $img => $prod)
 
-                                @forelse ($item as $prod)                                        
+                                {{-- @forelse ($item as $prod)      --}}
 
                                     @if($prod->inkit == 1)
 
@@ -1091,7 +914,21 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                 @if(isset($comentarios))
+                                                    @if($comentarios != null)
+                                                    <br/>
+                                                        <small style="color:#afba17;">
+                                                            {{$comentarios->comentario}} 
+                                                        </small>
+                                                    <br/>
+                                                    @endif
+                                                @endif
+                                            
+                                            <br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
                                             <td style="white-space: nowrap;">
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
@@ -1102,6 +939,7 @@
                                                     @endif
                                                 @endif
                                             </td>
+                                            
                                             <td style="text-align: right; white-space: nowrap;"></td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;"></td>
                                             <td style=" text-align: right; white-space: nowrap;"></td>
@@ -1143,8 +981,21 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }} {{ $prod->model }}@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
-                                            <td style="white-space: nowrap;">
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                 @if(isset($comentarios))
+                                                    @if($comentarios != null)
+                                                    <br/>
+                                                        <small style="color:#afba17;">
+                                                            {{$comentarios->comentario}} 
+                                                        </small>
+                                                    <br/>
+                                                    @endif
+                                                @endif
+                                                @if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
+                                            {{-- <td style="white-space: nowrap;">
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1153,9 +1004,10 @@
                                                         {{$comentarios->comentario}}
                                                     @endif
                                                 @endif
-                                            </td>
+                                            </td> --}}
+
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
-                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->iva }} %</td>
@@ -1163,11 +1015,11 @@
                                             <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($totalItem, 2, ',', '.') }} €</td>
                                         </tr>
                                     @endif
-                                @empty
+                                {{-- @empty
                                     <tr>
                                         <td colspan="8" style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c !important; text-align:center;">Nenhum produto no carrinho</td>
                                     </tr>
-                                @endforelse
+                                @endforelse --}}
                             @empty
                                 <tr>
                                     <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
@@ -1199,14 +1051,9 @@
       
                 </div>
                
-            {{-- @empty
-                <tr>
-                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                </tr>
-            @endforelse --}}
+         
             <div class="row">
-                {{-- <div class="col-md-2 d-flex p-0">
-                </div> --}}
+          
                 <div class="col-md-12 p-0 text-right" style="border-bottom: none;padding: 0;">
                  
                
@@ -1234,7 +1081,6 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-
                                 <td >Total c/IVA</td>
                                 <td style="width: 10%;white-space: nowrap;" class="bold">{{ number_format($ValorTotalComIva, 2, ',', '.') }} €</td>
                             </tr>
@@ -1296,76 +1142,21 @@
                   
                  </div>
  
-                 
- 
-                 <div class="row form-group mt-4">
-                     <div class="col-xl-12 col-xs-12">
-                         <h5 style="border-bottom:1px solid;padding-bottom:10px;">Tipo de pagamento</h5>
-                     </div>
- 
-                     <div class="col-xl-12 col-xs-12 mt-2">
-                         
-                         <div class="col-xl-12 col-xs-12">
-                             <div class="form-checkbox">
-                                 <label>
-                                     <input type="checkbox" id="transferencia_bancaria" class="checkPagamento" wire:model.defer="transferenciaFinalizar">
-                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                     Transferência Bancária
-                                 </label>
-                             </div>
-                            
-                         </div>
-         
-                         <div class="col-xl-12 col-xs-12">
-                             <div class="form-checkbox">
-                                 <label>
-                                     <input type="checkbox" id="pronto_pagamento" class="checkPagamento" wire:model.defer="pagamentoFinalizar">
-                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                     Pronto Pagamento
-                                 </label>
-                             </div>
-                         </div>
-     
-                         <div class="col-xl-12 col-xs-12">
-                             <div class="form-checkbox">
-                                 <label>
-                                     <input type="checkbox" id="cheque_entrega" class="checkPagamento" wire:model.defer="chequeFinalizar">
-                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                     Cheque a 30 dias contra entrega
-                                 </label>
-                             </div>
-                         </div>
- 
-                         <div class="col-xl-12 col-xs-12">
-                             <div class="form-checkbox">
-                                 <label>
-                                     <input type="checkbox" id="condicoes_pagamento" class="checkPagamento" wire:model.defer="condicoesFinalizar">
-                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                     Condições de pagamento acordadas
-                                 </label>
-                             </div>
-                         </div>
- 
-                     </div>
- 
-                                       
-                 </div>
 
                  <div class="row form-group mt-4">
                    
-                    <div class="col-xl-12 col-xs-12">
+                    {{-- <div class="col-xl-12 col-xs-12">
                         <h5 style="border-bottom:1px solid;padding-bottom:10px;">Adicionais</h5>
-                    </div>
+                    </div> --}}
                     <div class="col-xl-12 col-xs-12 mt-2">
                         <div class="col-xl-12 col-xs-12">
                             <div class="form-checkbox">
                                 <label>
                                     <input type="checkbox" id="enviarCliente" class="enviarCliente" wire:model.defer="enviarCliente">
                                     <span class="checkmark"><i class="fa fa-check pick"></i></span>
-                                    Enviar Cliente?
+                                    Enviar Cliente ?
                                 </label>
                             </div>
-                            
                         </div>   
                     </div>          
 
@@ -1373,11 +1164,11 @@
  
                  <div class="row p-4">
                      <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                         <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                         {{-- <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
                          <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarproposta"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                      </div>
                      <div class="col-12 pb-3 p-0 d-md-none text-center">
-                         <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                         {{-- <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
                          <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarproposta"><i class="las la-angle-right"></i> Finalizar Proposta</a>
                      </div>
                  </div>
@@ -1439,8 +1230,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    @if (!empty($quickBuyProducts))
+                                    {{-- {{dd($quickBuyProducts)}} --}}
+                                    @if (!empty($quickBuyProducts) || isset($quickBuyProducts->product))
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
                                                 <td>{{ $prod->referense }}</td>
@@ -1463,11 +1254,6 @@
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
                                                                             {{ $stock->warehouse_description }}
-                                                                            @if ($stock->stock == true)
-                                                                                <i class="ti-check text-lg text-forest"></i>
-                                                                            @else
-                                                                                <i class="ti-close text-lg text-chili"></i>
-                                                                            @endif
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -1499,7 +1285,7 @@
                                                                         <i class="ti-check"></i>
                                                                     </button>
                                                                 </h6>
-                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
+                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
                                                                     wire:model.defer="produtosComment.{{$i}}">
                                                                 </textarea>
                                                             </li>
@@ -1622,22 +1408,45 @@
 
     function attachLoader() {
         const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
-        textareas.forEach(textarea => {
+               textareas.forEach(textarea => {
+            const classListArray = Array.from(textarea.classList);
+
+            const hasColorClass = classListArray.some(className => className.includes('41c6a0'));
             const id = textarea.id.replace('addTextosEncomenda', '');
-            const commentButton = document.getElementById('addCommentEncomenda' + id);
 
-            textarea.addEventListener('input', function() {
-                if (textarea.value.trim() !== "") {
-                    commentButton.removeAttribute('disabled');
-                } else {
-                    commentButton.setAttribute('disabled', 'disabled');
+            if (!hasColorClass) { 
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+                        
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+
+                    commentButton.addEventListener('click', function() {
+                        $('#addProductEncomenda'+id).removeAttr('disabled');
+                        $('#addProductProposta'+id).removeAttr('disabled');
+                    });
                 }
-            });
+            }else{
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
 
-            commentButton.addEventListener('click', function() {
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
-            });
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+                   
+                }
+            }
         });
     }
     const checkbox = document.getElementById('checkbox');
@@ -1704,7 +1513,7 @@
                 if(parseInt(valor) >= parseInt(qtdMin)){
                     $('#addProductEncomenda'+id).removeAttr('disabled');
                     $('#addProductProposta'+id).removeAttr('disabled');
-                    $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                    // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
 
                 }else if(parseInt(valor) < parseInt(qtdMin)){
 
@@ -1712,9 +1521,9 @@
                         $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                         $('#addProductProposta'+id).attr('disabled', 'disabled');
 
-                        $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                       // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
                     }else{
-                        $('#commentProductEncomenda'+id).removeAttr('disabled');
+                        // $('#commentProductEncomenda'+id).removeAttr('disabled');
                         $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                         $('#addProductProposta'+id).attr('disabled', 'disabled');
                     }
@@ -1793,8 +1602,26 @@
 
     
     window.addEventListener('refreshComponent2', function(e) {
+        console.log("hello");
+        var accordions2 = document.getElementsByClassName("accordion2");
 
-        // console.log(check);
+        // Add click event listener to each accordion button
+        for (var i = 0; i < accordions2.length; i++) {
+            accordions2[i].addEventListener("click", function() {
+                // Toggle active class to button
+                this.classList.toggle("active");
+
+                // Toggle the panel visibility
+                var panel2 = this.nextElementSibling;
+                if (panel2.style.maxHeight) {
+                    panel2.style.maxHeight = null;
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
+                } else {
+                    panel2.style.maxHeight = panel2.scrollHeight + "%";
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
+                }
+            });
+        }
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
 
             item.style.display = 'none';
@@ -1986,24 +1813,27 @@
             var panel2 = this.nextElementSibling;
             if (panel2.style.maxHeight) {
                 panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
             } else {
                 panel2.style.maxHeight = panel2.scrollHeight + "%";
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
             }
         });
     }
 
     document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
+        Livewire.hook('message.sent', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'block';
-            });
+            }
+        });
 
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
+        // Oculta o loader quando o Livewire terminar de carregar
+        Livewire.hook('message.processed', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'none';
-            });
-
+            }
+        });
     });
 
 
@@ -2053,19 +1883,12 @@
         jQuery('#modalEncomenda').modal('show');
     });
 
-    document.addEventListener('itemDeletar', function (event) {
-        // Mudar para a aba #tab6
-        var tab = document.querySelector('a[href="#tab6"]');
-        if (tab) {
-            tab.click();
-        }
-    });
 
     document.addEventListener('changeRoute', function(e) {
         window.location.href = document.referrer;
     });
 
-    document.addEventListener('compraRapida', function(e) {
+    document.addEventListener('compraRapida', function() {
         jQuery('#modalProdutos').modal();
     });
     window.addEventListener('checkToaster', function(e) {
@@ -2074,45 +1897,5 @@
             checkbox.checked = false;
         });
     });
-
-    {{-- document.addEventListener('livewire:load', function() {
-
-        function checkCheckboxes() {
-        const checkboxes = document.querySelectorAll('.checkboxAddKit');
-        const buttonContainer = document.querySelector('.btn-Add-itens-kit');
-        
-        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        if (anyChecked) {
-            buttonContainer.style.display = 'block';
-        } else {
-            buttonContainer.style.display = 'none';
-        }
-        }
-
-        document.querySelectorAll('.checkboxAddKit').forEach(checkbox => {
-        checkbox.addEventListener('change', checkCheckboxes);
-        });
-        checkCheckboxes();
-
-
-        function checkCheckboxesRemove() {
-        const checkboxes = document.querySelectorAll('.checkboxRemoveKit');
-        const buttonContainer = document.querySelector('.btn-remove-itens-kit');
-        
-        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        console.log(anyChecked);
-        if (anyChecked) {
-            buttonContainer.style.display = 'block';
-        } else {
-            buttonContainer.style.display = 'none';
-        }
-        }
-
-        document.querySelectorAll('.checkboxRemoveKit').forEach(checkbox => {
-        checkbox.addEventListener('change', checkCheckboxesRemove);
-        });
-        checkCheckboxesRemove();
-    }); --}}
-
 </script>
 </div>

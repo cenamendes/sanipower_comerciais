@@ -334,7 +334,7 @@
                             <div class="form-group row ml-0">
                                 <label>Hora Inícial</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control horaInicialVisita" id="horaInicialVisita" wire:model.defer="horaInicialVisita">
+                                <input type="text" class="form-control horaInicialVisita" id="horaInicialVisita" wire:model.defer="horaInicialVisita" value="09:00">
                                     <div class="input-group-append timepicker-btn">
                                         <span class="input-group-text">
                                             <i class="ti-time"></i>
@@ -407,7 +407,7 @@
                            
                                     <select class="form-control" id="clienteVisitaIDDireito" wire:model.defer="clienteVisitaIDDireito" readonly disabled>
                                         @isset($clientes)
-                             
+                                            
                                             @foreach ($clientes as $clt)
     
                                               @foreach($clt->customers as $cst)
@@ -438,7 +438,7 @@
                             <div class="form-group row ml-0">
                                 <label>Hora Inícial</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control horaInicialVisitaDireito" id="horaInicialVisitaDireito" wire:model.defer="horaInicialVisitaDireito">
+                                    <input type="text" class="form-control horaInicialVisitaDireito" id="horaInicialVisitaDireito" value="09:00" wire:model.defer="horaInicialVisitaDireito">
                                     <div class="input-group-append timepicker-btn">
                                         <span class="input-group-text">
                                             <i class="ti-time"></i>
@@ -485,8 +485,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" wire:click="openVisita"><i class="ti-search"></i>Visualizar</button>
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtnEdita" wire:click="editarVisitaDireito">Editar</button>
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtnEdita" wire:click="editarVisitaDireito">Gravar</button>
                 </div>
             </div>
         </div>
@@ -760,11 +761,10 @@
                             estado = "agendada";
                             cor = "blue";
                         }
-
                         customDiv.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>` + arg.event.title + `<br><small style="color:` + cor + `; font-weight:bolder;">` + estado + `</small></div>
-                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.idTarefa + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
+                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.extendedProps.visitaID + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
                             </div>
                         `;
                     } else {
@@ -896,7 +896,7 @@
                         $('#horaInicialVisitaDireito').val(info.event.extendedProps.horaInicial);
                         $('#horaFinalVisitaDireito').val(info.event.extendedProps.horaFinal);
                         $('#assunto_textDireito').val(info.event.extendedProps.assunto);             
-                        $('#tipovisitaselectDireito').val(info.event.extendedProps.idTipoVisita);  
+                        $('#tipovisitaselectDireito').val(info.event.extendedProps.idTipoVisita);
                         $('#visitaIDDireito').val(info.event.extendedProps.visitaID);  
 
                     
@@ -964,33 +964,29 @@
           
                 calendar.gotoDate(mesEsc+'-01');
             }
-
-            //
         }
-
 
         document.addEventListener('DOMContentLoaded', function() {
             startCalendar();
         });
-
+       
         window.addEventListener('sendToaster', function(e) {
-
-            if (e.detail.status == "success") {
-                toastr.success(e.detail.message);
-            }
-
-            if (e.detail.status == "error") {
-                toastr.warning(e.detail.message);
-            }
-
-
+            
             $("#modalTarefas").modal('hide');
             $("#modalAddTarefa").modal('hide');
             $("#agendarVisita").modal('hide');
             $("#modalInformacaoTarefa").modal('hide');
 
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+           
+            if (e.detail.status == "error") {
+                toastr.warning(e.detail.message);
+                Livewire.emit('callAddVisita');
+            }
         });
-
+        
         window.addEventListener('updateList', function(e) {
 
             $("#modalTarefas").modal('hide');
@@ -1008,8 +1004,7 @@
         });
 
         window.addEventListener('openVisitaModal', function(e) {
-
-            $("#agendarVisita").modal();
+            $("#agendarVisita").modal('show');
 
             $('#clienteVisitaIDD').select2();
 
@@ -1065,7 +1060,6 @@
 
             });
 
-
             @this.set('horaFinalVisita', '10:00', true);
             $('.horaFinalVisita').timepicker({
                 minuteStep: 5,
@@ -1083,7 +1077,6 @@
                 @this.set('horaFinalVisita', formattedDate, true);
 
             });
-
 
             window.addEventListener('sendToTeams', function(e) {
 
@@ -1111,8 +1104,6 @@
                 }, 2500);
             });
 
-
-
         });
 
         window.addEventListener('openModalAddTarefa', function(e) {
@@ -1122,7 +1113,6 @@
             $('#clienteNameTarefa').select2({}).on('change', function(e) {
                 @this.set('clienteNameTarefa', e.target.value, true);
             });
-
 
             $.fn.datepicker.dates['pt-BR'] = {
                 days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
@@ -1137,7 +1127,6 @@
                 /* Leverages same syntax as 'format' */
                 weekStart: 0
             };
-
 
             $('#dataInicialTarefa').datepicker({
                 format: 'dd/mm/yyyy',
@@ -1169,7 +1158,6 @@
 
             });
 
-
             @this.set('horaFinalTarefa', '10:00', true);
             $('.horaFinalTarefa').timepicker({
                 minuteStep: 5,
@@ -1185,14 +1173,7 @@
                 var formattedDate = moment(e.date).format('HH:ii');
 
                 @this.set('horaFinalTarefa', formattedDate, true);
-
             });
-
-
         });
-
-      
-        
     </script>
-
 </div>

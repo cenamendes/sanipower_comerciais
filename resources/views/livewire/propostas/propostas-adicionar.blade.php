@@ -181,9 +181,15 @@
                                         <td>{{$clt->zone}}</td>
                                         <td>{{$clt->nif}}</td>
                                         <td>
-                                            <a href="{{route('propostas.detail',$clt->id)}}" class="btn btn-primary">
+                                        {{-- {{dd($clt)}} --}}
+
+                                            {{-- <a href="{{route('propostas.detail',$clt->id)}}" class="btn btn-primary">
                                                 <i class="ti-plus"></i> Nova Proposta
-                                            </a>
+                                            </a> --}}
+
+                                            <button wire:click="rotaDetailPropostas('{{  $clt->id }}')" class="btn btn-primary">
+                                                <i class="ti-plus"></i> Nova Proposta
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
