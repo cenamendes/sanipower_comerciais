@@ -180,8 +180,15 @@ class EncomendaInfo extends Component
             }
         }
         $encomendas = $this->clientesRepository->getEncomendaID($idEncomenda);
-
-        Session::put('encomendaINFO',$encomendas->orders[0]);
+        // Session::put('encomendaINFO',$encomendas->orders[0]);
+        if (property_exists($encomendas, 'orders') && isset($encomendas->orders[0])) {
+            Session::put('encomendaINFO', $encomendas->orders[0]);
+        } else {
+            $message = "Comentário não salvo, Encomenda está fechada!";
+            $status = "error";
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+            return;
+        }
         // Reinicia os detalhes da encomenda
         $this->comentarioEncomenda = "";
         // Exibe a mensagem usando o evento do navegador

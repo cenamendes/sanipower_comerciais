@@ -147,8 +147,9 @@ class PropostaInfo extends Component
         $this->initProperties();
         $this->proposta = $proposta;
         $propostas = $this->clientesRepository->getPropostaID($proposta->id);
+       
 
-        if(property_exists($propostas, 'orders') && isset($propostas->budgets[0])){
+        if(property_exists($propostas, 'budgets') && isset($propostas->budgets[0])){
             Session::put('proposta',$propostas->budgets[0]);
         }else{
             session()->put('proposta', $this->proposta);
@@ -351,7 +352,16 @@ class PropostaInfo extends Component
         // dd($idProposta);
         $propostas = $this->clientesRepository->getPropostaID($idProposta);
         
-        Session::put('proposta',$propostas->budgets[0]);
+        if (property_exists($propostas, 'budgets') && isset($propostas->budgets[0])) {
+            Session::put('proposta', $propostas->budgets[0]);
+        } else {
+            $message = "Comentário não salvo, Proposta está fechada!";
+            $status = "error";
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+            return;
+        }
+
+        // Session::put('proposta',$propostas->budgets[0]);
          
 
 

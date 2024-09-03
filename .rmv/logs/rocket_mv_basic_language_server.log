@@ -4215,3 +4215,53 @@
 2024-09-03 09:08:18.980 [pool-3-thread-1] INFO  com.rs.mv.mvvs.rmv.documentation.reader.SystemDocReader - [framework:30020102]system documentation path: /documentation/UNIVERSE/
 2024-09-03 09:08:18.981 [pool-3-thread-1] INFO  com.rs.mv.mvvs.rmv.documentation.reader.ProjectDocReader - [framework:30020103]project documentation brief file: custom.json
 2024-09-03 09:08:18.982 [pool-3-thread-1] INFO  com.rs.mv.mvvs.rmv.documentation.reader.UserDocReader - [framework:30020104]user documentation brief file: C:\Users\vinicios.carvalho\documentation\UNIVERSE\custom.json
+2024-09-03 09:08:21.672 [pool-3-thread-1] INFO  com.rs.mv.mvvs.rmv.documentation.BasicDocumentation - [framework:30020105]documentation load end
+2024-09-03 09:08:21.675 [pool-3-thread-1] INFO  com.rs.mv.mvvs.common.convertor.ConvertorManager - [framework:30030101]convertors for folder(*) load start
+2024-09-03 09:08:21.676 [pool-3-thread-1] INFO  com.rs.mv.mvvs.common.convertor.ConvertorManager - [framework:30030102]comment convertor load finish
+2024-09-03 09:08:21.687 [pool-3-thread-1] INFO  com.rs.mv.mvvs.common.convertor.ConvertorManager - [framework:30030103]keyword convertor load finish
+2024-09-03 09:08:21.757 [pool-3-thread-1] INFO  com.rs.mv.mvvs.common.convertor.ConvertorManager - [framework:30030104]operator convertor load finish
+2024-09-03 09:08:21.757 [pool-3-thread-1] INFO  com.rs.mv.mvvs.common.convertor.ConvertorManager - [framework:30030105]function name convertor load finish
+2024-09-03 09:08:21.758 [pool-3-thread-1] INFO  com.rs.mv.mvvs.common.convertor.ConvertorManager - [framework:30030106]atVariable convertor load finish
+2024-09-03 09:08:21.758 [pool-3-thread-1] INFO  com.rs.mv.mvvs.common.convertor.ConvertorManager - [framework:30030107]convertors for folder(*) load end
+2024-09-03 09:08:21.760 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.manager.U2CatalogManager - [client:400203]cache file auto update thread launch in ... account
+2024-09-03 09:08:21.763 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.config.DirsConfigReader - [client:400206]parse dir config information
+2024-09-03 09:08:21.763 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.config.MappingConfigReader - [client:400207]parse mapping config information
+2024-09-03 09:08:21.773 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.manager.U2CatalogManager - [client:400202]start a schedule task to get global/local catalog for ..., its period 5s 
+2024-09-03 09:08:21.780 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.account.handler.ServerAccountHandler - [client:40010104]load server account: Account{name=Cookie, path=C:/laragon/www/sanipower_comerciais/vendor/laravel/framework/src/Illuminate/Cookie, type=PREDICT}
+Account{name=voku, path=C:/laragon/www/sanipower_comerciais/vendor/voku/portable-ascii/src/voku, type=PREDICT}
+Account{name=profile, path=C:/laragon/www/sanipower_comerciais/vendor/laravel/breeze/stubs/default/resources/views/profile, type=PREDICT}
+Account{name=livewire, path=C:/laragon/www/sanipower_comerciais/vendor/laravel/breeze/stubs/livewire, type=PREDICT}
+Account{name=Http, path=C:/laragon/www/sanipower_comerciais/vendor/laravel/sanctum/src/Http, type=PREDICT}
+Account{name=parser, path=C:/laragon/www/sanipower_comerciais/node_modules/sucrase/dist/parser, type=PREDICT}
+Account{name=css-selector, path=C:/laragon/www/sanipower_comerciais/vendor/symfony/css-selector, type=PREDICT}
+Account{name=node_modules, path=C:/laragon/www/sanipower_comerciais/node_modules/@vue/compiler-dom/node_modules, type=PREDICT}
+Account{name=deep-copy, path=C:/laragon/www/sanipower_comerciais/vendor/myclabs/deep-copy, type=PREDICT}
+Account{name=dist, path=C:/laragon/www/sanipower_comerciais/node_modules/rollup/dist, type=PREDICT}
+Account{name=@vue, path=C:/laragon/www/sanipower_comerciais/node_modules/@vue, type=PREDICT}
+Account{name=Resources, path=C:/laragon/www/sanipower_comerciais/vendor/symfony/polyfill-php80/Resources, type=PREDICT}
+Account{name=.github, path=C:/laragon/www/sanipower_comerciais/node_modules/svg.js/.github, type=PREDICT}
+Account{name=reactivity, path=C:/laragon/www/sanipower_comerciais/node_modules/@vue/reactivity, type=PREDICT}
+Account{name=php-timer, path=C:/laragon/www/sanipower_comerciais/vendor/phpunit/php-timer, type=PREDICT}
+Account{name=php-parser, path=C:/laragon/www/sanipower_comerciais/vendor/nikic/php-parser, type=PREDICT}
+Account{name=plugin-vue, path=C:/laragon/www/sanipower_comerciais/node_modules/@vitejs/plugin-vue, type=PREDICT}
+Account{name=src, path=C:/laragon/www/sanipower_comerciais/vendor/psy/psysh/src, type=PREDICT}
+Account{name=stripe, path=C:/laragon/www/sanipower_comerciais/vendor/laravel-lang/lang/source/cashier/stripe, type=PREDICT}
+Account{name=complexity, path=C:/laragon/www/sanipower_comerciais/vendor/sebastian/complexity, type=PREDICT}
+Account{name=..., path=..., type=PREDICT}
+2024-09-03 09:08:21.781 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.account.AccountManager - [client:40010105]load account manager finish
+2024-09-03 09:08:21.783 [pool-3-thread-1] INFO  com.rs.mv.mvvs.instance.userspace.UserspaceManager - [framework:30010402]config file(C:\Users\vinicios.carvalho/.rmv/config) watcher launch successful
+2024-09-03 09:38:25.980 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Repositories)
+2024-09-03 09:39:06.342 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Propostas)
+2024-09-03 09:45:44.541 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Encomendas)
+2024-09-03 09:45:54.442 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Propostas)
+2024-09-03 09:45:57.161 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Encomendas)
+2024-09-03 09:47:07.400 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Propostas)
+2024-09-03 09:54:24.665 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Encomendas)
+2024-09-03 09:58:37.676 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Repositories)
+2024-09-03 09:58:43.456 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/resources/views/livewire/encomendas)
+2024-09-03 09:58:45.705 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Propostas)
+2024-09-03 10:02:09.297 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/resources/views/livewire/visitas)
+2024-09-03 10:02:11.250 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Encomendas)
+2024-09-03 10:04:54.789 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/resources/views/livewire/visitas)
+2024-09-03 10:04:57.592 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Encomendas)
+2024-09-03 10:11:39.904 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Propostas)
