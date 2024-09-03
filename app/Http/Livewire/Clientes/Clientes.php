@@ -39,7 +39,7 @@ class Clientes extends Component
     {
         $this->clientesRepository = $clientesRepository;
     }
-
+    // Teste do Git
     private function initProperties(): void
     {
         if (isset($this->perPage)) {
