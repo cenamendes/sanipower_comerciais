@@ -39,9 +39,13 @@ interface VisitasInterface
     
     public function addVisitaDatabase($clientID,$client,$dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse;
 
+    public function addVisitaIniciarDatabase($noClient,$clientID,$client,$dataInicial,$horaInicial, $horaFinal, $tipoVisitaEscolhido, $assuntoText): JsonResponse;
+
     public function getListagemVisitasAgendadas($user): object;
 
     public function getListagemVisitasAndTarefas($user): array;
+
+    public function getListagemVisitasAndTarefasWithDate($user,$date): array;
     
     /*** */
 
@@ -51,4 +55,22 @@ interface VisitasInterface
 
     /******** */
 
+    /*** APANHAR VISITAS TODAS ***/
+
+    public function getAllVisitas($perPage): LengthAwarePaginator;
+
+    /******** */
+
+    /** ENVIAR PARA O PHC */
+
+    public function sendVisitaToPhc($id,$customer_id,$subject,$report,$type_of_visit,$pending_next_visit,$comment_orders,$comment_budget,$comment_financial,$comments_occurrences,$end_date): JsonResponse;
+
+    /******** */
+    /*** APANHAR FINANCEIRO NAS VISITAS ***/
+
+    public function getFinanceiroCliente($perPage,$page,$idCliente): array;
+    public function getVisitasCliente($perPage,$page,$idCliente): array;
+    public function getAssistencias($perPage,$page,$idCliente): array;
+
+    /******** */
 }

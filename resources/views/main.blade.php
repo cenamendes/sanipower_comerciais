@@ -14,9 +14,6 @@
     <link href="{{asset('assets/css/siqtheme.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/main.css')}}" rel="stylesheet">
 
-    <link href="/your-path-to-fontawesome/css/fontawesome.css" rel="stylesheet" />
-    <link href="/your-path-to-fontawesome/css/brands.css" rel="stylesheet" />
-    <link href="/your-path-to-fontawesome/css/solid.css" rel="stylesheet" />
 
     @livewireStyles
 
@@ -38,8 +35,10 @@
             display: inline-block;
         }
 
+
+
         .dropdownIcon-menu {
-            left: -186px;
+            left: -217px;
             top: -7px;
             display: none;
             position: absolute;

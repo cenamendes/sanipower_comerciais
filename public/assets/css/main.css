@@ -291,10 +291,20 @@ body::-webkit-scrollbar {
         width: 260px;
     }
 }
+
 @media only screen and (max-width: 1200px) {
     .sidebar-responsive{
         position: absolute;
         width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+   
+
+    .profile-calendar {
+        max-height:52vh !important;
     }
 }
 /* Encomendas */
@@ -306,9 +316,9 @@ body::-webkit-scrollbar {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    position: absolute;
-    top: 0;
-    left: 0;
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
     width: 100.5%;
     height: 100.5%;
     padding: 3px 10px 10px 10px;

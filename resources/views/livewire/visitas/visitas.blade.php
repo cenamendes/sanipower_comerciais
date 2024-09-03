@@ -117,6 +117,20 @@
 
                         </div>
 
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label class="mt-2">Estado Visita</label>
+                                    <div class="input-group">
+                                        <select name="perPage" wire:model.lazy="estadoVisita" class="form-control">
+                                            <option value="" selected>Todas</option>
+                                            <option value="3">Agendadas</option>
+                                            <option value="2">Iniciadas</option>
+                                            <option value="1">Finalizadas</option>
+                                        </select>
+                                    </div>
+                            </div>
+                        </div>
+
                         <!-- PARTE DO ACCORDEON -->
                         <div class="row ml-0 mr-0 mt-4 d-block">
 
@@ -201,10 +215,18 @@
                     <div class="row">
                         <div class="col-xl-8 col-xs-12">
                             <div class="caption uppercase">
-                                <i class="ti-user"></i> Visitas (Clientes)
+                                <i class="ti-user"></i> Visitas
                             </div>
                         </div>
                         <div class="col-xl-4 col-xs-12 text-right">
+                            <div class="tools">
+                                <a href="javascript:void(0);" class="btn btn-sm btn-primary"
+                                    wire:click="agendarVisita"><i class="ti-alarm-clock"></i> Agendar Visita</a>
+
+                                    <!-- IR PARA A ROTA -->
+                                <a href="{{ route('visitas.clientes') }}" class="btn btn-sm btn-success"
+                                    ><i class="ti-agenda"></i> Adicionar Visita</a>
+                            </div>
                         </div>
                     </div>
 
@@ -232,31 +254,38 @@
                             id="tabela-cliente">
                             <thead class="thead-light">
                                 <tr>
+                                    <th>ID</th>
                                     <th>Nome do Cliente</th>
-                                    <th>Número do Cliente</th>
-                                    <th>Zona do Cliente</th>
-                                    <th>Nº Contribuinte</th>
+                                    <th>Data Inicial</th>
+                                    <th>Data Final</th>
+                                    <th>Estado</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach ($clientes as $clt)
-                                    <tr data-href="{{ route('visitas.detail', $clt->id) }}">
-                                        <td>{{ $clt->name }}</td>
-                                        <td>{{ $clt->no }}</td>
-                                        <td>{{ $clt->zone }}</td>
-                                        <td>{{ $clt->nif }}</td>
+                                @foreach ($visitas as $vst)
+                                    <tr data-href="{{ route('visitas.info', $vst->id) }}">
+                                        <td>{{ $vst->id }}</td>
+                                        <td>{{ $vst->cliente }}</td>
+                                        <td>{{ $vst->data_inicial }} / {{ $vst->hora_inicial}}</td>
+                                        <td>{{ $vst->data_final }} / {{ $vst->hora_final}}</td>
                                         <td>
-                                            <a href="javascript:;" class="btn btn-primary" data-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="ti-settings text-light"></i>
+                                         
+                                            @if($vst->finalizado == 0)
+                                              <button class="btn btn-sm btn-chili btn-round" disabled>Agendada</button>
+                                            @elseif($vst->finalizado == 2)
+                                              <button class="btn btn-sm btn-warning btn-round" disabled>Iniciada</button>
+                                            @else
+                                              <button class="btn btn-sm btn-forest btn-round" disabled>Finalizada</button>
+                                            @endif
+                              
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('visitas.info', $vst->id) }}"
+                                                class="btn btn-primary">
+                                                <i class="ti-search"></i>
                                             </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="{{ route('visitas.detail', $clt->id) }}"  class="dropdown-item">Adicionar Visita</a>
-                                                <a wire:click="agendarVisita({{json_encode($clt->id)}}, {{json_encode($clt->name)}})"  class="dropdown-item">Agendar Visita</a>
-                                                <a wire:click="finalizarVisita({{json_encode($clt->name)}})" class="dropdown-item">Finalizar Visita</a>
-                                            </div>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -264,7 +293,7 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $clientes->links() }}
+                    {{ $visitas->links() }}
                 </div>
             </div>
         </div>
@@ -280,7 +309,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="modalComentario">Agendar Visita &#8594; {{$nomeClienteVisitaTemp}}</h5>
+                    <h5 class="modal-title text-primary" id="modalComentario">Agendar Visita</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -288,6 +317,20 @@
                 <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
                     <div class="card mb-3">
                         <div class="card-body">
+
+                            <div class="form-group row ml-0">
+                                <label>Cliente</label>
+                                <div class="input-group">
+            
+                                    <select class="form-control" id="clienteVisitaID" wire:model.defer="clienteVisitaID">
+                                        @isset($clientesListagem[0])
+                                            @foreach ($clientesListagem[0] as $clt)
+                                                <option  value="{{ json_encode($clt->id) }}">{{ $clt->name }}</option>
+                                            @endforeach
+                                        @endisset
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="form-group row ml-0">
                                 <label>Data</label>
@@ -352,7 +395,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-outline-primary"
-                        wire:click="newVisita({{json_encode($idClienteVisitaTemp)}},{{json_encode($nomeClienteVisitaTemp)}})">Adicionar</button>
+                        wire:click="newVisita">Adicionar</button>
                 </div>
             </div>
         </div>
@@ -398,78 +441,22 @@
 <script>
 
     $( document ).ready(function() {
-       var clienteCheck = @this.get('clientID');
 
-       if(clienteCheck != "")
-       {
-        jQuery("#agendarVisita").modal();
+         // Obtém todas as linhas da tabela
+         const tableRows = document.querySelectorAll('tr[data-href]');
 
-        $('#agendarVisita').on('shown.bs.modal', function () {
+        // Adiciona um ouvinte de evento de clique a cada linha
+        tableRows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                // Obtém o URL de destino do atributo data-href
+                const href = row.dataset.href;
 
-            $.fn.datepicker.dates['pt-BR'] = {
-            days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
-            daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-            daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
-            months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-            monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-            today: "Hoje",
-            clear: "Limpar",
-            format: "dd/mm/yyyy",
-            titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-            weekStart: 0
-        };
-
-
-        $('#dataInicial').datepicker({
-            format: 'dd/mm/yyyy',
-            language: 'pt-BR',
-            autoclose: true
-        }).on('changeDate', function (e) {
-
-            var formattedDate = moment(e.date).format('YYYY-MM-DD');
-
-            @this.set('dataInicial', formattedDate ,true);
-
+                // Redireciona o usuário para o URL de destino
+                window.location.href = href;
+            });
         });
-
-        @this.set('horaInicial', '09:00' ,true);
-        $('.horainicial').timepicker({
-            minuteStep: 5,
-            showSeconds: false,
-            showMeridian: false,
-            defaultTime: '09:00',
-            icons: {
-                up: 'ti-angle-up',
-                down: 'ti-angle-down'
-            }
-        }).on('changeDate', function (e) {
-
-            var formattedDate = moment(e.date).format('HH:ii');
-
-            @this.set('horaInicial', formattedDate ,true);
-
-        });
-
-
-        @this.set('horaFinal', '10:00' ,true);
-        $('.horafinal').timepicker({
-            minuteStep: 5,
-            showSeconds: false,
-            showMeridian: false,
-            defaultTime: '10:00',
-            icons: {
-                up: 'ti-angle-up',
-                down: 'ti-angle-down'
-            }
-        }).on('changeDate', function (e) {
-
-            var formattedDate = moment(e.date).format('HH:ii');
-
-            @this.set('horaFinal', formattedDate ,true);
-
-        });
-
-
+      
+        
         window.addEventListener('sendToTeams', function(e) {
 
             var state = encodeURIComponent(JSON.stringify({ 
@@ -490,12 +477,16 @@
 
             var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
             novaJanela.focus();
+
+            setTimeout(function() {
+                    window.location.reload();
+            }, 2500);
         });
 
 
-        });
-       }
     });
+       
+   
 
     window.addEventListener('listagemVisitasModal', function() {
         
@@ -506,6 +497,14 @@
 
         jQuery("#agendarVisita").modal();
 
+        
+        $('#clienteVisitaID').select2();
+        @this.set('clienteVisitaID', $('#clienteVisitaID option:first').val() ,true);
+
+        $('#clienteVisitaID').select2().on('change', function(e) {
+                @this.set('clienteVisitaID', e.target.value, true);
+        });
+
         $('#agendarVisita').on('shown.bs.modal', function () {
 
             $.fn.datepicker.dates['pt-BR'] = {
@@ -572,27 +571,31 @@
         });
 
 
-        window.addEventListener('sendToTeams', function(e) {
+        // window.addEventListener('sendToTeams', function(e) {
 
-            var state = encodeURIComponent(JSON.stringify({ 
-                tenant:e.detail.tenant, 
-                clientid: e.detail.clientId, 
-                clientesecret: e.detail.clientSecret,
-                redirect: e.detail.redirect,
-                visitaid: e.detail.visitaID,
-                visitaname: e.detail.visitaName,
-                data: e.detail.data,
-                horainicial: e.detail.horaInicial,
-                horafinal: e.detail.horaFinal,
-                tipovisita: e.detail.tipoVisita, 
-                assunto: e.detail.assunto,
-                email: e.detail.email,
-                organizer: e.detail.organizer 
-            }));
+        //     var state = encodeURIComponent(JSON.stringify({ 
+        //         tenant:e.detail.tenant, 
+        //         clientid: e.detail.clientId, 
+        //         clientesecret: e.detail.clientSecret,
+        //         redirect: e.detail.redirect,
+        //         visitaid: e.detail.visitaID,
+        //         visitaname: e.detail.visitaName,
+        //         data: e.detail.data,
+        //         horainicial: e.detail.horaInicial,
+        //         horafinal: e.detail.horaFinal,
+        //         tipovisita: e.detail.tipoVisita, 
+        //         assunto: e.detail.assunto,
+        //         email: e.detail.email,
+        //         organizer: e.detail.organizer 
+        //     }));
 
-            var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
-            novaJanela.focus();
-        });
+        //     var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
+        //     novaJanela.focus();
+
+        //     setTimeout(function() {
+        //             window.location.reload();
+        //     }, 2500);
+        // });
 
 
         });

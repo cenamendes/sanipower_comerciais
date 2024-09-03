@@ -34,6 +34,13 @@
                     <i class="ti-wallet"></i>
                 </a>
             </div>
+            @if (Auth::user()->nivel == '1')
+                <div class="item-respos2">
+                    <a href="{{route('profile.create')}}" class="{{ Str::contains(request()->route()->getName(), 'profile.create') ? 'text-info' : '' }}">
+                        <i class="ti-id-badge"></i>
+                    </a>
+                </div>
+            @endif
         </div>
         <a href="#" class="slide-sidebar-btn" style="display:none;"><i class="ti-menu"></i></a>
     </div>

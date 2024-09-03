@@ -62,11 +62,12 @@ class Clientes extends Component
     public function mount()
     {
         $this->initProperties();
-        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+        $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        $this->clientes = $arrayClientes["paginator"];
+     
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"];
+        $this->totalRecords = $arrayClientes["nr_registos"];
 
 
     }
@@ -74,21 +75,22 @@ class Clientes extends Component
     public function updatedNomeCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        $this->clientes = $arrayClientes["paginator"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"] + 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
 
     }
 
     public function criarCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+        $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        $this->clientes = $arrayClientes["paginator"];
+     
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
 
 
         $this->dispatchBrowserEvent('openClienteModal');
@@ -96,11 +98,12 @@ class Clientes extends Component
 
     public function salvarCliente()
     {
-        $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
-    
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+        $this->clientes = $arrayClientes["paginator"];
+     
+
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
     
         $camposPreenchidos = !empty($this->criarnomeCliente) && !empty($this->criarnumeroCliente) && !empty($this->criarzonaCliente) && !empty($this->criarnumContribuinte);
     
@@ -114,9 +117,11 @@ class Clientes extends Component
             $user = Auth::user();
     
             // Envie o email
-            Mail::to($user->email)->send(new CriarCliente($this->criarnomeCliente, $this->criarnumeroCliente, $this->criarzonaCliente, $this->criarnumContribuinte));
+            
+            // Mail::to($user->email)->send(new CriarCliente($this->criarnomeCliente, $this->criarnumeroCliente, $this->criarzonaCliente, $this->criarnumContribuinte));
     
             $this->limparCampos();
+            dd("Email nao enviado ao utilizador.");
         } else {
             $this->dispatchBrowserEvent('checkToaster', ['status' => 'error', 'message' => 'Por favor, preencha todos os campos corretamente!']);
         }
@@ -135,51 +140,51 @@ class Clientes extends Component
     public function updatedNumeroCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        $this->clientes = $arrayClientes["paginator"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
     public function updatedZonaCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        $this->clientes = $arrayClientes["paginator"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
     public function updatedNifCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        $this->clientes = $arrayClientes["paginator"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
     public function updatedTelemovelCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        $this->clientes = $arrayClientes["paginator"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
     public function updatedEmailCliente()
     {
         $this->pageChosen = 1;
-        $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+        
+        $this->clientes = $arrayClientes["paginator"];
+        $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+        $this->totalRecords = $arrayClientes["nr_registos"];
     }
 
     public function gotoPage($page)
@@ -187,9 +192,11 @@ class Clientes extends Component
         $this->pageChosen = $page;
 
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-            $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            $this->clientes = $arrayClientes["paginator"];
         } else {
-            $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+            $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+            $this->clientes = $arrayClientes["paginator"];
         }
 
     }
@@ -201,16 +208,20 @@ class Clientes extends Component
             $this->pageChosen--;
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $this->clientes = $arrayClientes["paginator"];
             } else {
-                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+                $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+                $this->clientes = $arrayClientes["paginator"];
             }
         }
         else if($this->pageChosen == 1){
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $this->clientes = $arrayClientes["paginator"];
             } else {
-                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+                $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+                $this->clientes = $arrayClientes["paginator"];
             }
         }
     }
@@ -221,9 +232,11 @@ class Clientes extends Component
             $this->pageChosen++;
 
             if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-                $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+                $this->clientes = $arrayClientes["paginator"];
             } else {
-                $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+                $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+                $this->clientes = $arrayClientes["paginator"];
             }
         }
     }
@@ -250,18 +263,27 @@ class Clientes extends Component
         session()->put('perPage', $this->perPage);
 
         if($this->nomeCliente != "" || $this->numeroCliente != ""  || $this->zonaCliente != "" || $this->telemovelCliente != "" || $this->emailCliente != "" || $this->nifCliente != ""){
-            $this->clientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPagesClienteFiltro($this->perPage,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);
+            $this->clientes = $arrayClientes["paginator"];
 
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-            $this->totalRecords = $getInfoClientes["nr_registos"];
+            $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+            $this->totalRecords = $arrayClientes["nr_registos"];
         } else {
-            $this->clientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
-            $getInfoClientes = $this->clientesRepository->getNumberOfPages($this->perPage);
+            $arrayClientes = $this->clientesRepository->getListagemClientes($this->perPage,$this->pageChosen);
+            $this->clientes = $arrayClientes["paginator"];
+        
 
-            $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-            $this->totalRecords = $getInfoClientes["nr_registos"];
+            $this->numberMaxPages = $arrayClientes["nr_paginas"]+ 1;
+            $this->totalRecords = $arrayClientes["nr_registos"];
         }
+
+    }
+    public function openDetailCliente($id)
+    {
+        session(['rota' => "clientes"]);
+        session(['parametro' => ""]);
+
+        return redirect()->route('clientes.detail',["id" => $id]);
 
     }
 

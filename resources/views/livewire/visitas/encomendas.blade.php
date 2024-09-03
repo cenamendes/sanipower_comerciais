@@ -48,11 +48,7 @@
     </style>
     <!--  LOADING -->
 
-    <div id="loader" style="display: none;">
-        <div class="loader" role="status">
-
-        </div>
-    </div>
+    
 
     <!-- FIM LOADING -->
 
@@ -74,6 +70,19 @@
 
                 </div>
                 <div class="card-body">
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4">
+                            <label class="mt-2">Estado Encomenda</label>
+                                <div class="input-group">
+                                    <select name="perPage" wire:model.lazy="estadoEncomenda" class="form-control">
+                                        <option value="0" selected>Todas</option>
+                                        <option value="1">Com comentário</option>
+                                        <option value="2">Sem comentário</option>
+                                    </select>
+                                </div>
+                        </div>
+                    </div>
 
                     <div id="dataTables_wrapper" class="dataTables_wrapper container" style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                         <div class="left">
@@ -100,7 +109,7 @@
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
-                                    <th>Detalhe Encomenda</th>
+                                    {{-- <th>Detalhe Encomenda</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,29 +119,31 @@
                                     <td>{{ $detalhe->order }}</td>
                                     <td>{{ $detalhe->total }}</td>
                                     <td>{{ $detalhe->status }}</td>
-                                    <td><button type="button" class="btn btn-primary" wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i class="ti ti-plus"></i> Comentário</button>
-                                        @php
-                                        $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
-                                        ->where('tipo', 'encomendas')
-                                        ->get();
-                                        @endphp
-                                        @if ($cmt->count() > 0)
-                                        <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                            Ver Comentário
-                                        </button>
-                                        @endif
-                                    </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe->id) }})">
+                                        <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe) }})">
                                             <i class="ti ti-plus"></i> Ver Encomenda
                                         </button>
+                                        {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                            Comentários
+                                        </button> --}}
                                     </td>
                                 </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                     </div>
-                    {{ $detalhesEncomenda->links() }}
+                        {{ $detalhesEncomenda->links() }}
+                    <hr/>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-xl-4">
+                            <label>Comentário</label>
+                            <div class="input-group">
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_encomendas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -175,7 +186,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalVerComentarioLabel">Ver Comentário</h5>
+                    <h5 class="modal-title" id="modalVerComentarioLabel">Comentários</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -210,40 +221,53 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Referencia</th>
-                                <th>Descrição</th>
-                                <th>Quantidade</th>
-                                <th>Preço</th>
-                                <th>Desconto</th>
-                                <th>Desconto 2</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @isset($detalhesEncomenda)
-                            @foreach ($detalhesEncomenda as $enc)
-                                @if($enc->id == $encomendaID)
-                                    @foreach ($enc->lines as $line)
-                                        <tr>
-                                            <td>{{ $line->reference }}</td>
-                                            <td>{{ $line->description }}</td>
-                                            <td style="text-align:center">{{ $line->quantity }}</td>
-                                            <td style="text-align:center">{{ $line->price }} €</td>
-                                            <td style="text-align:center">{{ $line->discount }}</td>
-                                            <td style="text-align:center">{{ $line->discount2 }}</td>
-                                            <td style="text-align:center">{{ $line->total }} €</td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            @endforeach
-                            @endisset
-                        </tbody>
-                    </table>
-
+                    <div style="overflow-x:auto;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Descrição</th>
+                                    <th>Quantidade</th>
+                                    <th>Preço</th>
+                                    <th>Desconto</th>
+                                    {{-- <th>Desconto 2</th> --}}
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @isset($detalhesEncomenda)
+                                @foreach ($detalhesEncomenda as $enc)
+                                    @if($enc->id == $encomendaID)
+                                        @foreach ($enc->lines as $line)
+                                            <tr>
+                                                <td>{{ $line->reference }}</td>
+                                                <td>{{ $line->description }}</td>
+                                                <td style="text-align:center">{{ $line->quantity }}</td>
+                                                <td style="text-align:center">{{ $line->price }} €</td>
+                                                <td style="text-align:center">{{ $line->discount }}</td>
+                                                {{-- <td style="text-align:center">{{ $line->discount2 }}</td> --}}
+                                                <td style="text-align:center">{{ $line->total }} €</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                                @endisset
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="card-body" style="margin-left:15px;margin-right:15px;">
+                                <hr>
+                                <h5>Adicionar Comentário</h5>
+                                <div class="input-group">
+                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentarioEncomenda"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($encomendaID) }})">Adicionar Comentário</button>
+                        <button type="button" class="btn btn-outline-primary" wire:click="gerarPdfEncomenda({{ json_encode($encomendaID)}}, {{ json_encode($detalhesEncomenda)}})">Gerar PDF</button>
+                        <button type="button" class="btn btn-outline-primary" wire:click="enviarEmail({{ json_encode($detalhesEncomenda) }},{{json_encode($encomendaID)}})" class="btn btn-sm btn-primary">Enviar email</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                     </div>
                 </div>
@@ -272,6 +296,13 @@
     document.addEventListener('openDetalheEncomendaModal', function() {
         $('#detalheEncomendaModal').modal('show');
     });
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        window.addEventListener('checkToaster', event => {
+            $('#detalheEncomendaModal').modal('hide');
+        });
+    });
+   
 </script>
 
 </div>

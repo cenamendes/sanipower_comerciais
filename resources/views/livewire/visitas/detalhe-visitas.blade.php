@@ -12,13 +12,26 @@
     <!-- TABS  -->
     
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
-        <div class="tools">
-            <a href="javascript:void(0);" wire:click="openModalSaveVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar Visita</a>
+        <div class="col-md-3 col-xs-12">
+            <h4>Adicionar Visita</h4>
+        </div>
+        
+        <div class="tools col-md-9 col-xs-12 text-right">
+            @if(isset($checkStatus))
+                @if($checkStatus != "1")
+                    <a href="javascript:void(0);" wire:click="guardarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar</a>
 
-            <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
-            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
+                    <a href="javascript:void(0);" wire:click="finalizarVisita" class="btn btn-sm btn-primary"><i class="ti-save"></i> Gravar e Finalizar</a>
+                @endif
+            @endif
+            <a href="javascript:void(0);" wire:click="openEncomenda({{ json_encode($detalhesCliente->customers[0]->id)}}, {{$idVisita}})" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
+            <a href="javascript:void(0);" wire:click="openProposta({{  json_encode($detalhesCliente->customers[0]->id) }}, {{$idVisita}})" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a>
+        
+            {{-- <a href="{{ route('encomendas.detail.visitas', [$detalhesCliente->customers[0]->id, $idVisita]) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
+            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a> --}}
 
-            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Ocorrência</a>
+            <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary" > Voltar atrás</a>
         </div>
     </div>
 
@@ -26,39 +39,62 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes Cliente</a>
+                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}" wire:click="addSessionDetalhesRelatorio('tabDetail')">Detalhes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab5" data-toggle="tab" class="nav-link {{$tabRelatorio}}">Relatório</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{$tabAnalysis}}" wire:click="addSessionDetalhesRelatorio('tabAnalysis')">Análises De Vendas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises De Vendas</a>
+                    <a href="#tab7" data-toggle="tab" class="nav-link {{$tabEncomendas}}" wire:click="addSessionDetalhesRelatorio('tabEncomendas')">Encomendas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab7" data-toggle="tab" class="nav-link {{$tabEncomendas}}">Encomendas</a>
+                    <a href="#tab8" data-toggle="tab" class="nav-link {{$tabPropostas}}" wire:click="addSessionDetalhesRelatorio('tabPropostas')">Propostas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab8" data-toggle="tab" class="nav-link {{$tabPropostas}}">Propostas</a>
+                    <a href="#tab9" data-toggle="tab" class="nav-link {{$tabFinanceiro}}" wire:click="addSessionDetalhesRelatorio('tabFinanceiro')">Financeiro</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab9" data-toggle="tab" class="nav-link {{$tabFinanceiro}}">Financeiro</a>
+                    <a href="#tab10" data-toggle="tab" class="nav-link {{$tabOcorrencia}}" wire:click="addSessionDetalhesRelatorio('tabOcorrencia')">Ocorrências</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab10" data-toggle="tab" class="nav-link {{$tabOcorrencia}}">Ocorrências</a>
+                    <a href="#tab11" data-toggle="tab" class="nav-link {{$tabVisitas}}" wire:click="addSessionDetalhesRelatorio('tabVisitas')">Visitas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab11" data-toggle="tab" class="nav-link {{$tabVisitas}}">Visitas</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#tab12" data-toggle="tab" class="nav-link {{$tabAssistencias}}">Assistências</a>
+                    <a href="#tab12" data-toggle="tab" class="nav-link {{$tabAssistencias}}" wire:click="addSessionDetalhesRelatorio('tabAssistencias')">Assistências</a>
                 </li>
             </ul>
         </div>
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane fade {{$tabDetail}}" id="tab4">
-                    <h4 class="card-title">{{$detalhesCliente->customers[0]->name}}</h4>
-                    <p class="card-text">
+                    <div style="display:flex;align-items: center;">
+
+
+                    <h4 class="card-title" style="margin-bottom: 0;">{{$detalhesCliente->customers[0]->name}}</h4>
+                        <button class="btn btn-sm btn-primary text-left" style="margin-left: 10px;margin-right: 10px;" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <i class="fas fa-info"></i>
+                        </button>
+                         {{-- <button class="btn btn-sm btn-primary text-left" type="button">
+                            <i class="fas fa-info"></i>
+                        </button> --}}
+                        @if ($getVisita)
+                            @if($getVisita->finalizado == 0)
+                                <h6 class="text-chili" style="margin-bottom: 0;font-weight: bold;">Agendada</h6>
+                            @elseif($getVisita->finalizado == 2)
+                                <h6 class="text-warning" style="margin-bottom: 0;font-weight: bold;">Iniciada</h6>
+                            @else
+                                <h6 class="text-forest" style="margin-bottom: 0;font-weight: bold;">Finalizada</h6>
+                            @endif
+                        @endif
+                     
+                    </div>
+                     <div class="row ml-0 mr-0 mt-4 d-block">
+
+                        <div class="accordion" id="accordionExample">
+                            <div class="card" style="margin-left: 18px;margin-right: 34px;">
+                           
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                                <div class="card-body">
 
                         <!--  INICIO DOS DETALHES   -->
 
@@ -256,9 +292,14 @@
                         </div>
 
                         <!--  FIM DETALHES   -->
-                    </p>
-                </div>
-                <div class="tab-pane fade {{$tabRelatorio}}" id="tab5">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+                
 
                     <p class="card-text">
 
@@ -286,21 +327,34 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text bg-carolina"><i class="ti-clip text-light"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control" value="" wire:model.defer="assunto">
+                                                <input type="text" class="form-control" value="" wire:model.defer="assunto"  @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Relatório</label>
                                             <div class="input-group">
-                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="relatorio"></textarea>
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="relatorio" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Tipo de Visita</label>
+                                            <div class="input-group">
+                                                <select class="form-control" id="tipoVisitaSelect" wire:model.defer="tipoVisitaSelect" @if(isset($checkStatus)) @if($checkStatus == "1") readonly disabled @endif @endif>
+                                                    @isset($tiposVisitaCollection)
+                                                        @foreach ($tiposVisitaCollection as $tipo)
+                                                            <option value="{{ $tipo->id }}">{{ $tipo->tipo }}</option>
+                                                        @endforeach
+                                                    @endisset
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Pendentes para a próxima visita</label>
                                             <div class="input-group">
-                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="pendentes"></textarea>
+                                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="pendentes" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                             </div>
                                         </div>
 
@@ -309,28 +363,28 @@
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre encomendas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_encomendas"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_encomendas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre propostas</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_propostas"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_propostas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre financeiro</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_financeiro"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_financeiro" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-xs-12 col-xl-3">
                                                 <label>Comentário sobre ocorrências</label>
                                                 <div class="input-group">
-                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentario_occorencias"></textarea>
+                                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_occorencias" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
                                                 </div>
                                             </div>
 
@@ -428,7 +482,7 @@
 
                     <p class="card-text">
 
-                        @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('visitas.encomendas',["cliente" => $detalhesCliente->customers[0]->id, "visita" => $idVisita])
 
                     </p>
                 </div>
@@ -436,31 +490,42 @@
                 <div class="tab-pane fade {{$tabPropostas}}" id="tab8">
 
                     <p class="card-text">
-
-                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+                    
+                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id, "visita" => $idVisita])
 
                     </p>
                 </div>
 
                 <div class="tab-pane fade {{$tabFinanceiro}}" id="tab9">
 
-                    {{-- <p class="card-text">
+                    <p class="card-text">
 
-                        @livewire('visitas.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('visitas.financeiro',["idCliente" => $detalhesCliente->customers[0]->id])
 
-                    </p> --}}
+                    </p>
                 </div>
-
+                
                 <div class="tab-pane fade {{$tabOcorrencia}}" id="tab10">
 
                     <p class="card-text">
-
                         @livewire('visitas.ocorrencias',["cliente" => $detalhesCliente->customers[0]->id])
 
                     </p>
                 </div>
+                <div class="tab-pane fade {{$tabVisitas}}" id="tab11">
+                    <p class="card-text">
 
+                        @livewire('visitas.cliente-visitas',["idCliente" => $detalhesCliente->customers[0]->id])
 
+                    </p>
+                </div>
+                <div class="tab-pane fade {{$tabAssistencias}}" id="tab12">
+                    <p class="card-text">
+
+                        @livewire('visitas.assistencias',["idCliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
 
             </div>
         </div>
@@ -505,6 +570,9 @@
         });
         window.addEventListener('listagemDetalherVisitasModal', function() {
             jQuery("#listagemDetalherVisitas").modal();
+        });
+        document.addEventListener('changeRoute', function(e) {
+            window.location.href = document.referrer;
         });
         $('#listagemDetalherVisitas').on('hidden.bs.modal', function () {
             @this.set('clientID', "");

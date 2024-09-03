@@ -1,5 +1,5 @@
 <div>
-<div class="col-12">
+<div class="col-12" style="padding-left: 0;">
     <div class="card mb-3">
         <div class="card-header uppercase">
             <div class="caption">
@@ -41,10 +41,10 @@
         </div>
     </div>
 </div>
-<div class="col-12">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card mb-3">
+<div class="col-12" style="padding-left: 0;">
+    <div class="card mb-3">
+        <div>
+            <div>
                 <div class="card-header d-block">
                     <div class="row">
                         <div class="col-xl-8 col-xs-12">

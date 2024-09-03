@@ -38,13 +38,23 @@ class PropostasRepository implements PropostasInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-    
+        // dd( $response_decoded);
         return $response_decoded; 
 
     }
 
     public function getSubFamily($idCategory, $idFamily, $idSubFamily): object
     {
+        if($idCategory == ""){
+            $idCategory = 1;
+        }
+        if($idFamily == ""){
+            $idFamily = 1;
+        }
+        if($idSubFamily == ""){
+            $idSubFamily = 1;
+        }
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -64,9 +74,8 @@ class PropostasRepository implements PropostasInterface
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+        
         $response_decoded = json_decode($response);
-    
         return $response_decoded; 
     }
 
@@ -131,14 +140,14 @@ class PropostasRepository implements PropostasInterface
 
         $response_decoded = json_decode($response);
 
-        if (isset($response_decoded->product) && is_array($response_decoded->product)) {
-            $filtered_products = array_filter($response_decoded->product, function($prod) {
-                return $prod->quantity != "0";
-            });
+        // if (isset($response_decoded->product) && is_array($response_decoded->product)) {
+        //     $filtered_products = array_filter($response_decoded->product, function($prod) {
+        //         return $prod->quantity != "0";
+        //     });
     
-            $response_decoded->product = array_values($filtered_products);
-        }
-    
+        //     $response_decoded->product = array_values($filtered_products);
+        // }
+        // dd($response_decoded);
         return $response_decoded; 
     }
     
@@ -195,7 +204,7 @@ class PropostasRepository implements PropostasInterface
 
     }
 
-    public function addCommentToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type,$comment): JsonResponse
+    public function addCommentToDatabase($idCarrinho,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type,$comment): JsonResponse
     {
         if($type == "proposta") {
             $idencomenda = "";
@@ -212,7 +221,8 @@ class PropostasRepository implements PropostasInterface
             "id_encomenda" => $idencomenda,
             "id_proposta" => $idproposta,
             "tipo" => $type,
-            "comentario" => $comment
+            "comentario" => $comment,
+            "id_carrinho_compras" => $idCarrinho
         ]);
 
         if ($addComment) {
@@ -231,7 +241,7 @@ class PropostasRepository implements PropostasInterface
             ], 500);
         }
     }
-    public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
+    public function addProductToDatabase($codvisita,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
     {
         if($type == "proposta") {
             $idencomenda ="" ;
@@ -240,20 +250,22 @@ class PropostasRepository implements PropostasInterface
             $idencomenda = $codType;
             $idproposta = "";
         }
-
+        
         $addProduct = Carrinho::create([
             "id_encomenda" => $idencomenda,
             "id_proposta" => $idproposta,
             "id_cliente" => $no,
+            "id_visita" => $codvisita,
             "id_user" => Auth::user()->id,
             "referencia" => $qtd["product"]->referense,
             "designacao" => $nameProduct,
             "pvp" => $qtd["product"]->pvp,
-            "discount" => $qtd["product"]->discount,
+            "discount" => $qtd["product"]->discount1,
+            "discount2" => $qtd["product"]->discount2,
             "price" => $qtd["product"]->price,
             "model" => $qtd["product"]->model,
             "qtd" => intval($qtd["quantidade"]),
-            "iva" => 12,
+            "iva" => $qtd["product"]->tax,
             "image_ref" => $ref,
         ]);
 

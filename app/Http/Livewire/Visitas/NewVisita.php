@@ -46,21 +46,28 @@ class NewVisita extends Component
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
+        // $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        
+        $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->analysisClientes["paginator"];
+
+        $this->numberMaxPages = $arrayAna["nr_paginas"];
+        $this->totalRecords = $arrayAna["nr_registos"];
     }
 
     
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
+        
+        $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->analysisClientes = $arrayAna["paginator"];
     
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
@@ -69,14 +76,19 @@ class NewVisita extends Component
    
     public function previousPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->analysisClientes = $arrayAna["paginator"];
         }
         else if($this->pageChosen == 1){
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->analysisClientes = $arrayAna["paginator"];
         }
 
         $this->tabDetail = "";
@@ -85,11 +97,14 @@ class NewVisita extends Component
 
     public function nextPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+
+            $this->analysisClientes = $arrayAna["paginator"];
         }
 
         $this->tabDetail = "";
@@ -120,14 +135,14 @@ class NewVisita extends Component
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->analysisClientes = $arrayAna["paginator"];
 
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->numberMaxPages = $arrayAna["nr_paginas"];
+        $this->totalRecords = $arrayAna["nr_registos"];
     }
 
     
@@ -135,7 +150,6 @@ class NewVisita extends Component
     {
         return 'livewire.pagination';
     }
-
 
 
     public function render()

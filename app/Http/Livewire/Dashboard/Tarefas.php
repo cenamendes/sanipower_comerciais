@@ -3,17 +3,21 @@
 namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
+use App\Jobs\OfficeRequest;
 use App\Models\TiposVisitas;
+use App\Models\VisitasAgendadas;
 use App\Interfaces\TarefasInterface;
 use App\Interfaces\VisitasInterface;
-use App\Jobs\OfficeRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 use App\Models\Tarefas as TarefasModels;
 
 class Tarefas extends Component
 {
     private ?object $visitasRepository = null;
     private ?object $tarefasRepository = null;
+    private ?object $clientesRepository = null;
 
     public ?array $listagemTarefas = null;
 
@@ -42,17 +46,41 @@ class Tarefas extends Component
 
     public ?array $clientes = NULL;
 
-    protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo"];
 
-    public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository)
+       /** PARTE DO EDITAR ** */
+
+       public $visitaIDDireito;
+       public $clienteVisitaIDDireito;
+       public $dataInicialVisitaDireito;
+       public $horaInicialVisitaDireito;
+       public $horaFinalVisitaDireito;
+       public $tipoVisitaEscolhidoDireito;
+       public $assuntoTextVisitaDireito;
+   
+       /********* */
+
+       public $flagReset = false;
+       public $mesEscolhido = "";
+       public $dayPicked;
+
+       public $comercialPicked;
+
+        protected $listeners = ['callAddVisita',"changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
+
+    public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository, ClientesInterface $clientesInterface)
     {
         $this->visitasRepository = $visitasRepository;
         $this->tarefasRepository = $tarefaRepository;
+        $this->clientesRepository = $clientesInterface;
     }
 
     public function mount()
     {
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        $this->flagReset = false;
+        $this->dayPicked = "";
+        $this->mesEscolhido = "";
+        
     }
 
     public function changeStatusTarefa($idTarefa,$status)
@@ -71,7 +99,10 @@ class Tarefas extends Component
             $status = "error";
         }
      
-        $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+        $this->originalData();
+        //$this->dispatchBrowserEvent('updateList', ["message" => $message, "status" => $status]);
+         $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+         
     }
 
     public function getTarefaInfo($idTarefa)
@@ -139,11 +170,17 @@ class Tarefas extends Component
             }, $collectionClientes->customers);
         }
          
-        $this->clienteNameTarefa = json_encode($this->clientes[0]["name"]);
+        // $this->clienteNameTarefa = json_encode($this->clientes[0]["name"]);
+        $this->clienteNameTarefa = json_encode("Sem cliente");
 
         $this->dispatchBrowserEvent('openModalAddTarefa');
     }
 
+    public function updateladoDireito()
+    {
+        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        $this->dispatchBrowserEvent('updateList');
+    }
 
     public function saveTarefa()
     {
@@ -158,6 +195,11 @@ class Tarefas extends Component
             $this->dispatchBrowserEvent('sendToaster', ["message" => "Hora final tem de ser superior á hora inicial", "status" => "error"]);
             return false;
         }
+
+       if(json_decode($this->clienteNameTarefa) == null)
+       {
+            $this->clienteNameTarefa = "Sem cliente";
+       }
 
         $addTarefa = $this->tarefasRepository->addNewTarefa(json_decode($this->clienteNameTarefa),$this->dataInicialTarefa, $this->horaInicialTarefa, $this->horaFinalTarefa, $this->assuntoTarefa, $this->descricaoTarefa);
 
@@ -174,6 +216,7 @@ class Tarefas extends Component
         }
 
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+
      
         $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
         $this->dispatchBrowserEvent('updateList', ["message" => $message, "status" => $status]);
@@ -181,15 +224,16 @@ class Tarefas extends Component
         //continuar o insert
     }
 
+    public function callAddVisita()
+    {
+        $this->addVisita();
+    }
+
     public function addVisita()
     {
         $this->tipoVisita = TiposVisitas::all();
 
-        $this->dataInicialVisita = ""; 
-        $this->horaInicialVisita = ""; 
-        $this->horaFinalVisita = ""; 
-        $this->tipoVisitaEscolhidoVisita = "";  
-        $this->assuntoTextVisita = "";
+
 
         $collectionClientes = $this->tarefasRepository->getListagemCliente(10000);
 
@@ -202,17 +246,78 @@ class Tarefas extends Component
             }, $collectionClientes->customers);
         }
          
-        $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
+        
+        if(isset($this->clientes[0]["id"]))
+        {
+            $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
+        }
+        
 
         $this->dispatchBrowserEvent('openVisitaModal');
         
+    }
+    public function openVisita()
+    {
+        Session::put('rota','dashboard');
+        Session::put('parametro',"");
+        return redirect()->route('visitas.info', $this->visitaIDDireito);
+    }
+    public function editarVisitaDireito()
+    {
+        
+        if($this->dataInicialVisitaDireito == "" ||$this->horaInicialVisitaDireito == "" || $this->horaFinalVisitaDireito == "" || $this->tipoVisitaEscolhidoDireito == "" || $this->assuntoTextVisitaDireito == "" )
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
+            return false;
+        }
+
+        if(strtotime($this->horaInicialVisitaDireito) > strtotime($this->horaFinalVisitaDireito))
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Hora final tem de ser superior á hora inicial", "status" => "error"]);
+            return false;
+        }
+    
+        try {
+           
+            $send = VisitasAgendadas::where('id', $this->visitaIDDireito)->update([
+                "data_inicial" => $this->dataInicialVisitaDireito,
+                "hora_inicial" => $this->horaInicialVisitaDireito,
+                "hora_final" => $this->horaFinalVisitaDireito,
+                "data_final" => $this->dataInicialVisitaDireito,
+                "id_tipo_visita" => $this->tipoVisitaEscolhidoDireito,
+                "assunto_text" => $this->assuntoTextVisitaDireito,
+            ]);
+
+            if ($send) {
+                $message = "Visita atualizada com sucesso";
+                $status = "success";
+            } else {
+                $message = "Nenhuma atualização foi feita!";
+                $status = "warning";
+            }
+        } catch (\Exception $e) {
+          
+            $message = "Não foi possível atualizar a visita!";
+            $status = "warning";
+        }
+
+
+        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+
+        // $this->emit('reloadNotification');
+        // $this->emit('visitaAddedEsquerda');
+        // $this->dispatchBrowserEvent('updateList');
+        // $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+
+        session()->flash($status, $message);
+        return redirect()->route('dashboard');
+      
     }
 
     
 
     public function agendaVisita()
     {
-
         if($this->clienteVisitaID == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
         {
             $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
@@ -251,17 +356,128 @@ class Tarefas extends Component
 
         $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
 
-        $this->emit('reloadNotification');
-        $this->emit('visitaAdded');
+        //$this->emit('reloadNotification');
+        //$this->emit('visitaAdded');
 
         $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($this->clienteVisitaID),"visitaName" =>$this->clienteVisitaName,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), "tipoVisita" => $this->tipoVisitaEscolhidoVisita, "assunto" => $this->assuntoTextVisita, "email" => $emailEvento, "organizer" => Auth::user()->name ]);
 
+        // $this->dispatchBrowserEvent('updateList');
+        // $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+
+        session()->flash($status, $message);
+        return redirect()->route('dashboard');
+    }
+
+    public function agendaIniciarVisita()
+    {
+        if($this->clienteVisitaID == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
+            return false;
+        }
+
+        if(strtotime($this->horaInicialVisita) > strtotime($this->horaFinalVisita))
+        {
+            $this->dispatchBrowserEvent('sendToaster', ["message" => "Hora final tem de ser superior á hora inicial", "status" => "error"]);
+            return false;
+        }
+
+
+        $nameClient = $this->tarefasRepository->getDetalhesCliente(json_decode($this->clienteVisitaID));
+
+        $this->clienteVisitaName = $nameClient->customers[0]->name;
+
+        $noClient = $nameClient->customers[0]->no;
+
+        $response = $this->visitasRepository->addVisitaIniciarDatabase($noClient,json_decode($this->clienteVisitaID),$this->clienteVisitaName, preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), $this->tipoVisitaEscolhidoVisita, $this->assuntoTextVisita);
+
+        $tenant = env('MICROSOFT_TENANT');
+        $clientId = env('MICROSOFT_CLIENT_ID');
+        $clientSecret = env('MICROSOFT_CLIENT_SECRET');
+        $redirectUri = env('MICROSOFT_REDIRECT');
+
+        $emailEvento = Auth::user()->email;
+
+        $responseArray = $response->getData(true);
+
+        if ($responseArray["success"] == true) {
+            $message = "Visita agendada com sucesso";
+            $status = "success";
+        } else {
+            $message = "Não foi possivel adicionar a visita!";
+            $status = "error";
+        }
+
+        $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+
+        //$this->emit('reloadNotification');
+        //$this->emit('visitaAdded');
+
+        $this->dispatchBrowserEvent('sendToTeams',["tenant" => $tenant, "clientId" => $clientId, "clientSecret" => $clientSecret, "redirect" => $redirectUri, "visitaID" => json_decode($this->clienteVisitaID),"visitaName" =>$this->clienteVisitaName,"data" => preg_replace('/[a-zA-Z]/', '', $this->dataInicialVisita), "horaInicial" =>preg_replace('/[a-zA-Z]/', '', $this->horaInicialVisita), "horaFinal" => preg_replace('/[a-zA-Z]/', '', $this->horaFinalVisita), "tipoVisita" => $this->tipoVisitaEscolhidoVisita, "assunto" => $this->assuntoTextVisita, "email" => $emailEvento, "organizer" => Auth::user()->name ]);
+
+        // $this->dispatchBrowserEvent('updateList');
+        // $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+
+        session()->flash($status, $message);
+        return redirect()->route('dashboard');
+    }
+
+    public function changeDashWithDate($data,$checkComercial)
+    {
+      
+        if($checkComercial == 0)
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefasWithDate(Auth::user()->id,$data);
+        } else {
+            $this->listagemTarefas = $this->visitasRepository->getVisitasTarefasDateFilter($checkComercial,$data);
+        }
+
+        $this->comercialPicked = $checkComercial;
+       
+        $this->flagReset = true;
+        $this->dayPicked = date('Y-m-d',strtotime($data));
+        $this->mesEscolhido = date('Y-m',strtotime($data));
         $this->dispatchBrowserEvent('updateList');
-        $this->dispatchBrowserEvent('sendToaster', ["message" => $message, "status" => $status]);
+    }
+
+
+    public function originalData()
+    {
+        
+        if($this->comercialPicked == "0")
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        } 
+        else if($this->comercialPicked == null)
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        }
+        else {
+            $this->listagemTarefas = $this->visitasRepository->getTarefasFilter($this->comercialPicked);
+        }
+       
+        $this->flagReset = false;
+        $this->dayPicked = "";
+        $this->mesEscolhido = "";
+        $this->dispatchBrowserEvent('updateList');
+    }
+
+    public function handleChangeTarefas($id)
+    {
+        if($id == "0")
+        {
+            $this->listagemTarefas = $this->visitasRepository->getListagemVisitasAndTarefas(Auth::user()->id);
+        } else {
+            $this->listagemTarefas = $this->visitasRepository->getTarefasFilter($id);
+        }
+       
+        $this->dispatchBrowserEvent('updateList');
     }
 
     public function render()
     {
+        $this->clientes = [$this->clientesRepository->getAllListagemClientesObject()];
+        $this->tipoVisita = TiposVisitas::all();
         return view('livewire.dashboard.tarefas');
     }
 }

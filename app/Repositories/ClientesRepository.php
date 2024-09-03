@@ -15,9 +15,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientesRepository implements ClientesInterface
 {
-    public function getListagemClientes($perPage,$page): LengthAwarePaginator
+    public function getListagemClientes($perPage,$page): array
     {
-        
         $nomeCliente = '&Name=';
         $numeroCliente = '&Customer_number=0';
         $zonaCliente = '&Zone=';
@@ -44,12 +43,13 @@ class ClientesRepository implements ClientesInterface
         ));
       
         $response = curl_exec($curl);
-       
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-
+     
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $currentPage = 1;
 
         if($response_decoded != null)
         {
@@ -65,17 +65,68 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
 
-    
-        return $itemsPaginate; 
+        $arrayInfo = ["paginator" => $itemsPaginate, "nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+        return $arrayInfo; 
 
     }
 
-    public function getListagemAnalisesCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getAllListagemClientesObject(): object
     {
+        
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage=99999999&Page=1'.$string.'&Salesman_number='.Auth::user()->id_phc,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+      
+        $response = curl_exec($curl);
+       
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+     
+        return $response_decoded; 
+
+    }
+
+    public function getListagemAnalisesCliente($perPage,$page,$idCliente): array
+    {
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
+        
+        $startDate = '&start_date=1900-01-01';
+        $endDate = '&end_date=2900-12-31';
+        $statusEncomenda = '&status=0';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+
         $curl = curl_init();
  
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -93,13 +144,12 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
  
         $response_decoded = json_decode($response);
- 
+    
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
- 
-        if($response_decoded != null)
-        {
+        if($response_decoded->orders != null)
+        {   
             $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
- 
+            
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
  
         }
@@ -110,8 +160,13 @@ class ClientesRepository implements ClientesInterface
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
  
+        $arrayAnalysis = [
+            "paginator" => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
    
-        return $itemsPaginate;
+        return $arrayAnalysis;
     }
 
     public function getNumberOfPages($perPage): array
@@ -157,7 +212,89 @@ class ClientesRepository implements ClientesInterface
 
     /*** FILTROS ***/
 
-    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): LengthAwarePaginator
+    public function getListagemClienteFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente): array
+    {
+        // dd($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente);
+        if ($nomeCliente != "") {
+            $nomeCorrigido = str_replace(' ', '%20', $nomeCliente);
+            $nomeCliente = '&Name='.$nomeCorrigido;
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
+        // dd( env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string);
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+        
+        $response_decoded = json_decode($response);
+        // dd($response);
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        if($response_decoded != null)
+        {
+            $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages, $perPage);
+        }
+
+        $arrayInfo = ["paginator" => $itemsPaginate,"nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+        return $arrayInfo; 
+    }
+    public function getListagemClienteAllFiltro($perPage,$page,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$idPhcUser): LengthAwarePaginator
     {
         
         if ($nomeCliente != "") {
@@ -198,11 +335,10 @@ class ClientesRepository implements ClientesInterface
 
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente;
 
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.Auth::user()->id_phc.$string,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/customers/GetCustomers?perPage='.$perPage.'&Page='.$page.'&Salesman_number='.$idPhcUser.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -223,7 +359,6 @@ class ClientesRepository implements ClientesInterface
         $response_decoded = json_decode($response);
        
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
         if($response_decoded != null)
         {
             $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
@@ -317,7 +452,7 @@ class ClientesRepository implements ClientesInterface
     /**** END FILTROS ****/
 
 
-    public function getDetalhesCliente($id): object
+    public function getDetalhesCliente($id): array
     {
         $curl = curl_init();
 
@@ -336,12 +471,18 @@ class ClientesRepository implements ClientesInterface
         ));
 
         $response = curl_exec($curl);
-
+    
         curl_close($curl);
 
         $response_decoded = json_decode($response);
 
-        return $response_decoded;
+
+       return 
+        [
+            "object" => $response_decoded,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
     }
 
    
@@ -349,12 +490,27 @@ class ClientesRepository implements ClientesInterface
 
     /***  DETALHES DO CLIENTE *****/
 
-    public function getEncomendasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getEncomendasCliente($perPage,$page,$idCliente): array
     {
-        $curl = curl_init();
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
 
+        $startDate = '&start_date=1900-01-01';
+        $endDate = '&end_date=2900-12-31';
+        $statusEncomenda = '&status=0';
+        
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+
+        $curl = curl_init();
+      
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -366,16 +522,15 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
-
+   
         $response = curl_exec($curl);
 
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
-        if($response_decoded != null)
+       
+        if($response_decoded->orders != null)
         {
             $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
 
@@ -388,17 +543,30 @@ class ClientesRepository implements ClientesInterface
 
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
         }
-
     
-        return $itemsPaginate; 
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
     }
 
     public function getNumberOfPagesAnalisesCliente($perPage,$idCliente): array
     {
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -426,10 +594,20 @@ class ClientesRepository implements ClientesInterface
 
     public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array
     {
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -455,14 +633,73 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
-
-    
-    public function getPropostasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$startDate,$endDate,$statusEncomenda): array
     {
+        // dd($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$startDate,$endDate,$statusEncomenda);
+        if ($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+
+        if ($estadoEncomenda != "0") {
+            $commentCliente = '&Comments='.urlencode($estadoEncomenda);
+        } else {
+            $commentCliente = '&Comments=0';
+        }
+
+        if ($startDate != "") {
+            $startDate = '&start_date='.urlencode($startDate);
+        } else {
+            $startDate = '&start_date=1900-01-01';
+        }
+        if ($endDate != "") {
+            $endDate = '&end_date='.urlencode($endDate);
+        } else {
+            $endDate = '&end_date=2900-12-31';
+        }
+        if ($statusEncomenda != "") {
+            $statusEncomenda = '&status='.urlencode($statusEncomenda);
+        } else {
+            $statusEncomenda = '&status=0';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -478,17 +715,17 @@ class ClientesRepository implements ClientesInterface
         $response = curl_exec($curl);
 
         curl_close($curl);
-
+        
         $response_decoded = json_decode($response);
+        // dd($response_decoded);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        if($response_decoded != null)
+        if($response_decoded != null && $response_decoded->orders != null)
         {
-            $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
+            $currentItems = array_slice($response_decoded->orders, $perPage * ($currentPage - 1), $perPage);
 
             $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
-
         }
         else {
 
@@ -498,15 +735,172 @@ class ClientesRepository implements ClientesInterface
         }
 
     
-        return $itemsPaginate; 
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
+    }
+
+    public function getNumberOfPagesEncomendasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda): array
+    {
+
+        if ($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+       
+        if ($estadoEncomenda != "0") {
+            $commentCliente = '&Comments='.urlencode($estadoEncomenda);
+        } else {
+            $commentCliente = '&Comments=0';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente; 
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+        
+
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
+
+    
+    public function getPropostasCliente($perPage,$page,$idCliente): array
+    {
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
+
+        $startDate = '&start_date=1900-01-01';
+        $endDate = '&end_date=2900-12-31';
+        $statusEncomenda = '&status=0';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+       
+        $response = curl_exec($curl);
+    
+        curl_close($curl);
+    
+        $response_decoded = json_decode($response);
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        if($response_decoded != null && $response_decoded->budgets != null)
+        {
+            $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
+            
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+            
+        }
+        else {
+
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+        }
+
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
+
+        // return $itemsPaginate; 
     }
 
     public function getNumberOfPagesPropostasCliente($perPage,$idCliente): array
     {
+        $nomeCliente = '&Name=';
+        $numeroCliente = '&Customer_number=0';
+        $zonaCliente = '&Zone=';
+        $mobileCliente = '&Mobile_phone=';
+        $emailCliente = '&Email=';
+        $nifCliente = '&Nif=';
+        $commentCliente = '&Comments=0';
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente;
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -533,38 +927,319 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
+    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$startDate,$endDate,$statusProsposta): array
+    {
+        if ($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+       
+        if ($estadoProposta != "0" && $estadoProposta != "") {
+            $commentCliente = '&Comments='.urlencode($estadoProposta);
+        } else {
+            $commentCliente = '&Comments=0';
+        }
+        if ($startDate != "") {
+            $startDate = '&start_date='.urlencode($startDate);
+        } else {
+            $startDate = '&start_date=1900-01-01';
+        }
+        if ($endDate != "") {
+            $endDate = '&end_date='.urlencode($endDate);
+        } else {
+            $endDate = '&end_date=2900-12-31';
+        }
+        if ($statusProsposta != "") {
+            $statusProsposta = '&status='.urlencode($statusProsposta);
+        } else {
+            $statusProsposta = '&status=';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusProsposta;
+       
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $response_decoded = json_decode($response);
+       
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+
+        if(isset($response_decoded->budgets))
+        {
+                if($response_decoded != null && $response_decoded->budgets != null)
+                {
+                    $currentItems = array_slice($response_decoded->budgets, $perPage * ($currentPage - 1), $perPage);
+
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+                else {
+
+                    $currentItems = [];
+
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+        } 
+        else {
+            $currentItems = [];
+
+            $itemsPaginate = new LengthAwarePaginator($currentItems, 0 ,$perPage);
+        }
+       
+        return [
+            'paginator' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
+    
+    }
+
+    public function getNumberOfPagesPropostasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta): array
+    {
+        if ($nomeCliente != "") {
+            $nomeCliente = '&Name='.urlencode($nomeCliente);
+        } else {
+            $nomeCliente = '&Name=';
+        }
+        
+        if ($numeroCliente != "") {
+            $numeroCliente = '&Customer_number='.urlencode($numeroCliente);
+        } else {
+            $numeroCliente = '&Customer_number=0';
+        }
+        
+        if ($zonaCliente != "") {
+            $zonaCliente = '&Zone='.urlencode($zonaCliente);
+        } else {
+            $zonaCliente = '&Zone=';
+        }
+
+        if ($telemovelCliente != "") {
+            $telemovelCliente = '&Mobile_phone='.urlencode($telemovelCliente);
+        } else {
+            $telemovelCliente = '&Mobile_phone=';
+        }
+
+        if ($emailCliente != "") {
+            $emailCliente = '&Email='.urlencode($emailCliente);
+        } else {
+            $emailCliente = '&Email=';
+        }
+
+        if ($nifCliente != "") {
+            $nifCliente = '&Nif='.urlencode($nifCliente);
+        } else {
+            $nifCliente = '&Nif=';
+        }
+    
+        if ($estadoProposta != "0") {
+            $commentCliente = '&Comments='.urlencode($estadoProposta);
+        }
+        else {
+            $commentCliente = '&Comments=0';
+        }
+
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente;
+        
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+      
+        $arrayInfo = [];
+
+        $arrayInfo = ["nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
+
+        return $arrayInfo;
+    }
+
+    public function getEncomendaID($encomendaID): object
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?order_id='.$encomendaID,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+    
+        curl_close($curl);
+    
+        $response_decoded = json_decode($response);
+    
+        return $response_decoded; 
+    }
+
+    public function getPropostaID($propostaID): object
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budget?budget_id='.$propostaID,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+    
+        curl_close($curl);
+    
+        $response_decoded = json_decode($response);
+    
+        return $response_decoded; 
+    }
+
     public function sendComentarios($idProposta, $comentario, $type): JsonResponse
     {
-        $comentarioCreated = Comentarios::create([
-            "stamp" => $idProposta,
-            "tipo" => $type,
-            "comentario" => $comentario,
-            'id_user' => Auth::user()->id
-        ]);
+        // $comentarioCreated = Comentarios::create([
+        //     "stamp" => $idProposta,
+        //     "tipo" => $type,
+        //     "comentario" => $comentario,
+        //     'id_user' => Auth::user()->id
+        // ]);
 
-        if ($comentarioCreated) {
+        $comentarios = [
+            "document_id" => $idProposta,
+            "comment" => $comentario,
+            "user" => Auth::user()->name,
+            "date" => date('Y-m-d').'T'.date('H:i:s'),
+            "hour" => date('H:i:s')
+        ];
+
+     
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/comments',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($comentarios),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        if ($response_decoded->success == true) {
             // Inserção bem-sucedida
             return response()->json([
                 'success' => true,
-                'data' => $comentarioCreated
+                'message' => 'Comentário adicionado com sucesso'
             ], 201);
         } else {
             // Falha na inserção
             return response()->json([
                 'success' => false,
-                'message' => 'Falha ao inserir o comentário na base de dados.'
+                'message' => 'Falha ao inserir na base de dados.'
             ], 500);
         }
 
-        return $comentarioCreated;
+        return $response_decoded;
     }
 
-    public function getOcorrenciasCliente($perPage,$page,$idCliente): LengthAwarePaginator
+    public function getOcorrenciasCliente($perPage,$page,$idCliente): array
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente,
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -585,19 +1260,34 @@ class ClientesRepository implements ClientesInterface
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        if($response_decoded != null)
+
+        if(isset($response_decoded->occurrences))
         {
-            $currentItems = array_slice($response_decoded->occurrences, $perPage * ($currentPage - 1), $perPage);
+                if($response_decoded != null && $response_decoded->occurrences != null)
+                {
+                    $currentItems = array_slice($response_decoded->occurrences, $perPage * ($currentPage - 1), $perPage);
 
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+                else {
 
-        }
+                    $currentItems = [];
+
+                    $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+                }
+        } 
         else {
-
             $currentItems = [];
 
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
+            $itemsPaginate = new LengthAwarePaginator($currentItems, 0 ,$perPage);
         }
+       
+
+        return [
+            'object' => $itemsPaginate,
+            "nr_paginas" => $response_decoded->total_pages, 
+            "nr_registos" => $response_decoded->total_records
+        ];
 
     
         return $itemsPaginate; 
@@ -608,7 +1298,8 @@ class ClientesRepository implements ClientesInterface
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page=1&customer_id='.$idCliente,
+
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/occurrences?perPage='.$perPage.'&Page=1&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

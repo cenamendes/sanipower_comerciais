@@ -2,10 +2,18 @@
 
 namespace App\Http\Livewire\Clientes;
 
+use Dompdf\Dompdf;
 use Livewire\Component;
-use App\Interfaces\ClientesInterface;
-use Livewire\WithPagination;
+use App\Models\Carrinho;
+use App\Mail\SendProposta;
 use App\Models\Comentarios;
+use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
+
 
 class Propostas extends Component
 {
@@ -24,10 +32,19 @@ class Propostas extends Component
     public int $numberMaxPages;
     public int $totalRecords = 0;
 
+    public ?string $nomeCliente = '';
+    public ?string $numeroCliente = '';
+    public ?string $zonaCliente = '';
+    public ?string $telemovelCliente = '';
+    public ?string $emailCliente = '';
+    public ?string $nifCliente = '';
+
     public ?string $comentarioProposta = "";
 
     private ?object $detailsPropostas = NULL;
     public ?object $comentario = NULL;
+
+    public $estadoProposta = "";
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -61,7 +78,9 @@ class Propostas extends Component
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        $this->detailsPropostas = $propostasArray["paginator"];
     }
 
 
@@ -69,10 +88,12 @@ class Propostas extends Component
     {
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
-            $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->detailsPropostas = $propostasArray["paginator"];
         }
         else if($this->pageChosen == 1){
-            $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->detailsPropostas = $propostasArray["paginator"];
         }
 
     }
@@ -82,7 +103,8 @@ class Propostas extends Component
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
 
-            $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->detailsPropostas = $propostasArray["paginator"];
         }
     }
 
@@ -112,14 +134,27 @@ class Propostas extends Component
         $this->restartDetails();
 
     }
+    public function updatedEstadoProposta()
+    {
+        // $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $this->detailsPropostas = $propostasArray["paginator"];
 
+        $this->pageChosen = 1;
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+ 
+        $this->detailsPropostas = $propostasArray["paginator"];
+        $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
+        $this->totalRecords = $propostasArray["nr_registos"];
+
+    }
     public function restartDetails()
     {
-        $this->detailsPropostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
+   
+        $this->detailsPropostas = $propostasArray["paginator"];
+        $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
+        $this->totalRecords = $propostasArray["nr_registos"];
 
     }
 
@@ -131,7 +166,7 @@ class Propostas extends Component
     public function comentarioModal($id,$name)
     {
         $this->restartDetails();
-
+       
         $this->propostaID = $id;
         $this->propostaName = $name;
 
@@ -167,10 +202,38 @@ class Propostas extends Component
     }
 
 
+    public function gerarPdfProposta($propostaID, $proposta)
+    {
+        if (!$proposta) {
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+        foreach ($proposta['data'] as $oneProposta) {
+            if ($oneProposta['id'] === $propostaID) {
+                $proposta = $oneProposta;
+            }
+        }
+
+        foreach ($proposta['lines'] as $index => $prod) {
+            $image_ref = "https://storage.sanipower.pt/storage/produtos/".$prod['family_number']."/".$prod['family_number']."-".$prod['subfamily_number']."-".$prod['product_number'].".jpg";
+            $proposta['lines'][$index]['image_ref'] = $image_ref;
+        }
+
+        $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
+
+        $this->dispatchBrowserEvent('checkToaster');
+
+        $this->restartDetails();
+
+
+        return response()->streamDownload(function() use ($pdf) {
+            echo $pdf->output();
+        }, 'pdfTabelaPropostas.pdf');
+    }
+
     public function verComentario($idProposta)
     {
         // Carrega o comentário correspondente
-        $comentario = Comentarios::with('user')->where('stamp', $idProposta)->where('tipo', 'propostas')->get();
+        $comentario = Comentarios::with('user')->where('stamp', $idProposta)->where('tipo', 'propostas')->orderBy('id','DESC')->get();
 
         // Define o comentário para exibir no modal
         $this->comentario = $comentario;
@@ -180,18 +243,120 @@ class Propostas extends Component
         $this->dispatchBrowserEvent('abrirModalVerComentarioProposta');
     }
 
-    public function detalhePropostaModal($id)
+    public function detalhePropostaModal($proposta)
     {
+      
+        Session::put('rota','clientes.detail');
+        Session::put('parametro',$this->idCliente);
 
-        $this->propostaID = $id;
+        $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->detailsPropostas = $propostasArray["paginator"];
+        
+
+        foreach($this->detailsPropostas as $det)
+        {
+            if($det->id == $proposta["id"])
+            {
+                $propSend = $det;
+            }
+        }
+
+        
+
+        Session::put('proposta',$propSend);
+
+        return redirect()->route('propostas.proposta',["idProposta" => $propSend->id]);
+
+        // $this->propostaID = $id;
+
+        // $this->restartDetails();
+
+        // $this->dispatchBrowserEvent('openDetalhePropostaModal');
+    }
+
+    public function adjudicarProposta($detalheProposta,$propostaID)
+    {       
+        foreach($detalheProposta["data"] as $pr)
+        {
+            if($propostaID == $pr["id"])
+            {
+                $proposta = $pr;
+            }
+        }
+
+        foreach($proposta["lines"] as $prop)
+        {
+           
+            Carrinho::create([
+                "id_proposta" => "",
+                "id_encomenda" => $proposta["id"],
+                "id_cliente" => $proposta["number"],
+                "id_user" => Auth::user()->id,
+                "referencia" => $prop["reference"],
+                "designacao" => $prop["description"],
+                "price" => $prop["price"],
+                "discount" => $prop["discount1"],
+                "discount2" => $prop["discount2"],
+                "qtd" => $prop["quantity"],
+                "iva" => $prop["tax"],
+                "pvp" => $prop["pvp"],
+                "model" => $prop["model"],
+                "image_ref" => "https://storage.sanipower.pt/storage/produtos/".$prop["family_number"]."/".$prop["family_number"]."-".$prop["subfamily_number"]."-".$prop["product_number"].".jpg",
+                "proposta_info" => $proposta["budget"]
+            ]);
+        }
+
+        
+        $this->clientes = $this->clientesRepository->getListagemClienteFiltro(10,1,"",$proposta["number"],"","","","");
+
+
+        session()->flash("success", "Proposta adjudicada com sucesso");
+        return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);
+      
+
+    }
+
+    public function enviarEmail($detalheProposta,$propostaID)
+    {
+     
+        foreach($detalheProposta["data"] as $pr)
+        {
+            if($propostaID == $pr["id"])
+            {
+                $proposta = $pr;
+            }
+        }
+
+        if (!$proposta) {
+            dd("Não há valor na variável \$proposta");
+            return redirect()->back()->with('error', 'Proposta não encontrada.');
+        }
+
+ 
+        $pdf = new Dompdf();
+        $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta)]);
+    
+        $pdf->render();
+    
+        $pdfContent = $pdf->output();
+    
+       
+        
+    
+        try {
+             Mail::to(Auth::user()->email)->send(new SendProposta($pdfContent));
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Email enviado!", "status" => "success"]);
+        } catch (\Exception $e) {
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $e->getMessage(), "status" => "warning"]);
+        }
 
         $this->restartDetails();
-
-        $this->dispatchBrowserEvent('openDetalhePropostaModal');
     }
 
     public function render()
     {
+   
+  
         return view('livewire.clientes.propostas',["detalhesPropostas" => $this->detailsPropostas]);
     }
 }

@@ -10,6 +10,7 @@ use App\Models\ComentariosProdutos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 use App\Interfaces\EncomendasInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -45,6 +46,15 @@ class EncomendasRepository implements EncomendasInterface
 
     public function getSubFamily($idCategory, $idFamily, $idSubFamily): object
     {
+        if($idCategory == ""){
+            $idCategory = 1;
+        }
+        if($idFamily == ""){
+            $idFamily = 1;
+        }
+        if($idSubFamily == ""){
+            $idSubFamily = 1;
+        }
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -66,7 +76,6 @@ class EncomendasRepository implements EncomendasInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-    
         return $response_decoded; 
     }
 
@@ -109,6 +118,7 @@ class EncomendasRepository implements EncomendasInterface
 
     public function getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer): object
     {
+        // dd($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -131,13 +141,13 @@ class EncomendasRepository implements EncomendasInterface
 
         $response_decoded = json_decode($response);
 
-        if (isset($response_decoded->product) && is_array($response_decoded->product)) {
-            $filtered_products = array_filter($response_decoded->product, function($prod) {
-                return $prod->quantity != "0";
-            });
+        // if (isset($response_decoded->product) && is_array($response_decoded->product)) {
+        //     $filtered_products = array_filter($response_decoded->product, function($prod) {
+        //         return $prod->quantity != "0";
+        //     });
     
-            $response_decoded->product = array_values($filtered_products);
-        }
+        //     $response_decoded->product = array_values($filtered_products);
+        // }
         return $response_decoded; 
     }
     
@@ -232,9 +242,9 @@ class EncomendasRepository implements EncomendasInterface
     }
 
 
-    public function addProductToDatabase($idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
-    {
-
+    public function addProductToDatabase($codvisita,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
+    {   
+ 
         if($type == "encomenda") {
             $idencomenda = $codType;
             $idproposta = "";
@@ -247,15 +257,17 @@ class EncomendasRepository implements EncomendasInterface
             "id_encomenda" => $idencomenda,
             "id_proposta" => $idproposta,
             "id_cliente" => $no,
+            "id_visita" => $codvisita ,
             "id_user" => Auth::user()->id,
             "referencia" => $qtd["product"]->referense,
             "designacao" => $nameProduct,
             "pvp" => $qtd["product"]->pvp,
-            "discount" => $qtd["product"]->discount,
+            "discount" => $qtd["product"]->discount1,
+            "discount2" => $qtd["product"]->discount2,
             "price" => $qtd["product"]->price,
             "model" => $qtd["product"]->model,
             "qtd" => intval($qtd["quantidade"]),
-            "iva" => 12,
+            "iva" => $qtd["product"]->tax,
             "image_ref" => $ref,
         ]);
 
@@ -276,6 +288,35 @@ class EncomendasRepository implements EncomendasInterface
         }
 
         return $addProduct;
+    }
+
+    public function getLojas(): array
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/stores',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+
+        $array = [$response_decoded];
+
+        return $array;
     }
 
 

@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Clientes;
 
 use Livewire\Component;
-use App\Interfaces\ClientesInterface;
 use Livewire\WithPagination;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
+
 
 class DetalheCliente extends Component
 {
@@ -53,22 +55,28 @@ class DetalheCliente extends Component
     {
         $this->initProperties();
         $this->idCliente = $cliente;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
-        
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+
+        $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        
+        $this->analysisClientes = $arrayAna["paginator"];
+        $this->numberMaxPages = $arrayAna["nr_paginas"] + 1;
+        $this->totalRecords = $arrayAna["nr_registos"];
     }
 
     
     public function gotoPage($page)
     {
         $this->pageChosen = $page;
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
-    
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
+
+        $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->analysisClientes = $arrayAna["paginator"];
+
+
         $this->tabDetail = "";
         $this->tabAnalysis = "show active";
         $this->tabEncomendas = "";
@@ -83,14 +91,17 @@ class DetalheCliente extends Component
    
     public function previousPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->pageChosen > 1) {
             $this->pageChosen--;
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->analysisClientes = $arrayAna["paginator"];
         }
         else if($this->pageChosen == 1){
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->analysisClientes = $arrayAna["paginator"];
         }
 
         $this->tabDetail = "";
@@ -106,11 +117,13 @@ class DetalheCliente extends Component
 
     public function nextPage()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->pageChosen < $this->numberMaxPages) {
             $this->pageChosen++;
-            $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+            $this->analysisClientes = $arrayAna["paginator"];
         }
 
         $this->tabDetail = "";
@@ -155,16 +168,43 @@ class DetalheCliente extends Component
         $this->tabAssistencias = "";
         $this->tabCampanhas = "";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
-        $this->analysisClientes = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $arrayAna = $this->clientesRepository->getListagemAnalisesCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        $this->analysisClientes = $arrayAna["paginator"];
 
-        $getInfoClientes = $this->clientesRepository->getNumberOfPagesAnalisesCliente($this->perPage,$this->idCliente);
-
-        $this->numberMaxPages = $getInfoClientes["nr_paginas"] + 1;
-        $this->totalRecords = $getInfoClientes["nr_registos"];
+        $this->numberMaxPages = $arrayAna["nr_paginas"]  + 1;
+        $this->totalRecords = $arrayAna["nr_registos"];
     }
 
+    public function voltarAtras()
+    {
+        // $this->dispatchBrowserEvent('changeRoute');
+        // $this->skipRender();
+
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+        
+        if($rota == "clientes.detail"){
+            $rota = "clientes";
+            $parametro = "" ;
+        }
+
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                
+                return redirect()->route($rota,$parametro);
+            }
+            return redirect()->route($rota);
+
+        
+        }
+    }
     
     public function paginationView()
     {

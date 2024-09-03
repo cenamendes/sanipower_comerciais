@@ -2,14 +2,20 @@
 
 namespace App\Http\Livewire\Propostas;
 
+use DateTime;
+use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
-use App\Models\ComentariosProdutos;
+use App\Mail\SendProposta;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ComentariosProdutos;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
-use App\Interfaces\EncomendasInterface;
 use App\Interfaces\PropostasInterface;
+use App\Interfaces\EncomendasInterface;
 use Illuminate\Support\Facades\Session;
 
 class DetalheProposta extends Component
@@ -32,8 +38,14 @@ class DetalheProposta extends Component
     public ?string $searchTextCategory = "";
     public bool $filter;
     public bool $familyInfo = false;
+    public $codvisita = null;
 
     public bool $showLoaderPrincipal = true;
+
+    public $selectedItemsAddKit = [];
+    public $selectedItemsRemoveKit = [];
+    public $valueIvaInKit = 0;
+
 
     public string $tabDetail = "";
     public string $tabProdutos = "show active";
@@ -43,6 +55,8 @@ class DetalheProposta extends Component
 
     public int $specificProduct = 0;
     public string $idFamilyInfo = "";
+    public string $idCategoryInfo = "";
+
 
     public string $idSubFamilyRecuar = "";
     public string $idFamilyRecuar = "";
@@ -54,8 +68,21 @@ class DetalheProposta extends Component
     public ?string $actualFamily = "";
     public ?string $actualSubFamily = "";
 
+
+    public ?string $nomeCliente = '';
+    public ?string $numeroCliente = '';
+    public ?string $zonaCliente = '';
+    public ?string $telemovelCliente = '';
+    public ?string $emailCliente = '';
+    public ?string $nifCliente = '';
+    public $startDate = '';
+    public $endDate = '';
+    public int $statusProposta = 0;
+
     protected ?object $quickBuyProducts = null;
     public $iterationQuickBuy = 0;
+
+    public int $quantidadeLines = 0;
 
     private ?object $detailProduto = null;
 
@@ -68,8 +95,9 @@ class DetalheProposta extends Component
     public $transportadora;
     public $viaturaSanipower;
     public $levantamentoLoja;
-    public $observacaoFinalizar;
-    public $referenciaFinalizar;
+    public $observacaoFinalizar = "";
+    public $referenciaFinalizar = "";
+    public $validadeProposta;
 
     public $lojaFinalizar;
 
@@ -78,8 +106,11 @@ class DetalheProposta extends Component
     public $pagamentoFinalizar;
     public $transferenciaFinalizar;
 
+    public $enviarCliente;
+
+    public ?array $lojas = NULL;
+
     /******** */
-    
 
     /** PARTE DA COMPRA */
 
@@ -88,6 +119,8 @@ class DetalheProposta extends Component
     
 
     /***** */
+
+    public $kitCheck;
 
     public int $perPage = 10;
     protected $listeners = ["rechargeFamily" => "rechargeFamily", "cleanModal" => "cleanModal"];
@@ -108,22 +141,33 @@ class DetalheProposta extends Component
         } else {
             $this->perPage = 10;
         }
+
+       
     }
 
-    public function mount($cliente, $codEncomenda)
+    public function mount($codvisita, $cliente, $codEncomenda)
     {
         $this->initProperties();
         $this->idCliente = $cliente;
         $this->codEncomenda = $codEncomenda;
+        $this->codvisita = $codvisita;
 
         $this->specificProduct = 0;
         $this->filter = false;
 
+        if($this->validadeProposta == null){
+            $dataIndicada = new DateTime();
+            $this->validadeProposta = $dataIndicada->modify('+8 days');
+            $this->validadeProposta = $dataIndicada->format('d-m-Y');
+        }
+
         $this->showLoaderPrincipal = true;
     }
+
     public function rechargeFamily($id)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
@@ -134,7 +178,6 @@ class DetalheProposta extends Component
 
     public function openDetailProduto($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer, $productName)
     {
-        // dd($idCategory, $idFamily, $idSubFamily, $idCustomer);
         $this->specificProduct = 1;
 
         $this->tabDetail = "";
@@ -148,8 +191,7 @@ class DetalheProposta extends Component
         $this->idSubFamilyRecuar = $idSubFamily;
 
         $this->detailProduto = $this->PropostasRepository->getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
-
-
+    
         session(['quickBuyProducts' => $this->detailProduto]);
 
         session(['detailProduto' => $this->detailProduto]);
@@ -159,46 +201,15 @@ class DetalheProposta extends Component
         session(['subFamily' => $idSubFamily]);
         session(['productNumber' => $productNumber]);
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->getCategories = $this->PropostasRepository->getCategorias();
-        $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-
         $this->filter = false;
     }
 
-    public function recuarLista($id)
+    public function recuarLista()
     {
-        $this->specificProduct = 0;
-
-        $this->tabDetail = "";
-        $this->tabProdutos = "show active";
-        $this->tabDetalhesPropostas = "";
-        $this->tabFinalizar = "";
-        $this->tabDetalhesCampanhas = "";
-
-        if ($this->searchProduct != "") {
-            $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar, $this->searchProduct);
-            session(['searchProduct' => $this->searchProduct]);
-        } else {
-            $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->idCategoryRecuar, $this->idFamilyRecuar, $this->idSubFamilyRecuar);
-            Session::forget('searchProduct');
-        }
-
-        session(['searchSubFamily' => $this->searchSubFamily]);
-
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->getCategories = $this->PropostasRepository->getCategorias();
-        $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-
         return redirect()->route('propostas.detail', ['id' => $this->idCliente]);
-
     }
     public function adicionarProduto($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber, $productName)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
-        $this->getCategories = $this->PropostasRepository->getCategorias();
-        $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-
         $this->quickBuyProducts = $this->PropostasRepository->getProdutos($categoryNumber, $familyNumber, $subFamilyNumber, $productNumber, $customerNumber);
 
         $this->tabDetail = "";
@@ -222,7 +233,6 @@ class DetalheProposta extends Component
         $this->produtosRapida = [];
 
         $this->dispatchBrowserEvent('compraRapida');
-
     }
 
     public function verEncomenda()
@@ -234,12 +244,26 @@ class DetalheProposta extends Component
         $this->tabFinalizar = "";
         $this->tabDetalhesCampanhas = "";
 
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
         // Disparar evento para o navegador
         $this->dispatchBrowserEvent('encomendaAtual');
+    }
+    public function Limpar()
+    {
+        Carrinho::where('id_proposta', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+        ComentariosProdutos::where('id_proposta', $this->codEncomenda)->where("id_user", Auth::user()->id)->delete();
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+
+        $this->quantidadeLines = 0;
     }
     public function cancelarProposta()
     {
@@ -256,21 +280,32 @@ class DetalheProposta extends Component
 
     }
 
-    public function deletar($itemId)
+    public function deletar($referencia,$designacao, $model, $price)
     {
-        Carrinho::where('id', $itemId)->delete();
+        Carrinho::where('id_proposta', $this->codEncomenda)
+                ->where('referencia', $referencia)
+                ->where('designacao', $designacao)
+                ->where('model', $model)
+                ->where('price', $price)
+        ->delete();
 
-        $this->dispatchBrowserEvent('itemDeletar', ['itemId' => $itemId]);
-
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
     }
 
 
     public function deletartodos()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)->where('id_user',Auth::user()->id)->delete();
 
-        $this->dispatchBrowserEvent('itemDeletar');
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
     }
 
     public function searchCategory($idCategory, $idFamily)
@@ -278,7 +313,8 @@ class DetalheProposta extends Component
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
         $this->getCategories = $this->PropostasRepository->getCategoriasSearched($this->getCategoriesAll->category[$idCategory - 1]->id, $idFamily);
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->tabDetail = "";
         $this->tabProdutos = "show active";
@@ -293,8 +329,10 @@ class DetalheProposta extends Component
         $this->filter = true;
         $this->familyInfo = true;
         $this->idFamilyInfo = $idFamily;
+        $this->idCategoryInfo = $idCategory;
 
-        $this->showLoaderPrincipal = false;
+
+        $this->showLoaderPrincipal = true;
 
         $this->specificProduct = 0;
 
@@ -305,7 +343,8 @@ class DetalheProposta extends Component
 
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
         $this->searchSubFamily = $this->PropostasRepository->getSubFamily($idCategory, $idFamily, $idSubFamily);
@@ -351,13 +390,16 @@ class DetalheProposta extends Component
         $this->familyInfo = true;
 
         $this->idFamilyInfo = "";
+        $this->idCategoryInfo = "";
 
-        $this->showLoaderPrincipal = false;
+
+        $this->showLoaderPrincipal = true;
 
         $this->specificProduct = 0;
 
         $this->iteration++;
 
+        // $this->dispatchBrowserEvent('refreshPage');
         $this->dispatchBrowserEvent('refreshAllComponent');
 
     }
@@ -367,7 +409,8 @@ class DetalheProposta extends Component
 
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->searchProduct != "") {
             $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily, $this->searchProduct);
@@ -380,6 +423,7 @@ class DetalheProposta extends Component
 
             //unset($_SESSION['searchProduct']);
             session()->forget('searchProduct');
+
         }
 
         $this->showLoaderPrincipal = false;
@@ -395,7 +439,8 @@ class DetalheProposta extends Component
     {
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->familyInfo = false;
 
@@ -407,9 +452,9 @@ class DetalheProposta extends Component
 
         $this->specificProduct = 0;
 
-        $this->showLoaderPrincipal = false;
+        $this->showLoaderPrincipal = true;
 
-        $this->dispatchBrowserEvent('refreshComponent', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
+        $this->dispatchBrowserEvent('refreshComponent2', ["id" => $this->getCategoriesAll->category[$idCategory - 1]->id]);
     }
 
     public function addProductQuickBuyEncomenda($prodID, $nameProduct, $no, $ref, $codEncomenda)
@@ -439,11 +484,11 @@ class DetalheProposta extends Component
                             break;
                         } else {
 
-                            if ($prod->in_stock == false) {
-                                $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
-                                $flag = 1;
-                                break;
-                            }
+                            // if ($prod->in_stock == false) {
+                            //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
+                            //     $flag = 1;
+                            //     break;
+                            // }
                             $productChosen = ["product" => $prod, "quantidade" => $prodRap];
                         }
                     }
@@ -467,13 +512,13 @@ class DetalheProposta extends Component
             return false;
         }
 
-        $response = $this->encomendasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda");
+        $response = $this->encomendasRepository->addProductToDatabase($this->codvisita,$this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda");
         
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
             if($this->produtosComment){
-                $response = $this->encomendasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $productChosenComment["comentario"]);
+                $response = $this->encomendasRepository->addCommentToDatabase($responseArray["data"]["id"],$this->idCliente, $productChosen, $nameProduct, $no, $ref, $codEncomenda,"encomenda", $productChosenComment["comentario"]);
                 $this->produtosComment = [];
             }
             if($responseArray["encomenda"] != "") {
@@ -520,11 +565,11 @@ class DetalheProposta extends Component
                             break;
                         } else {
 
-                            if ($prod->in_stock == false) {
-                                $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
-                                $flag = 1;
-                                break;
-                            }
+                            // if ($prod->in_stock == false) {
+                            //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Não existe quantidades em stock", "status" => "error"]);
+                            //     $flag = 1;
+                            //     break;
+                            // }
                             $productChosen = ["product" => $prod, "quantidade" => $prodRap];
                         }
                     }
@@ -548,13 +593,13 @@ class DetalheProposta extends Component
             return false;
         }
 
-        $response = $this->PropostasRepository->addProductToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta, "proposta");
+        $response = $this->PropostasRepository->addProductToDatabase($this->codvisita, $this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta, "proposta");
 
         $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
             if($this->produtosComment){
-                $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta,"proposta", $productChosenComment["comentario"]);
+                $response = $this->PropostasRepository->addCommentToDatabase($responseArray["data"]["id"],$this->idCliente, $productChosen, $nameProduct, $no, $ref, $codProposta,"proposta", $productChosenComment["comentario"]);
                 $this->produtosComment = [];
             }
             if($responseArray["encomenda"] != "") {
@@ -595,15 +640,18 @@ class DetalheProposta extends Component
             foreach ($this->produtosRapida as $j => $prodRap) {
                 if ($i == $j) {
                     if ($prodRap != "0" && $prodRap != "") {
-                        if ($prod->in_stock == true) {
+                        // if ($prod->in_stock == true) {
                             $productChosen[$count] = [
                                 "product" => $prod,
                                 "quantidade" => $prodRap,
                             ];
 
                             $count++;
-                        }
+                        // }
 
+                    }else  if ($prodRap == "0") {
+                        $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                        return false;
                     }
                 }
             }
@@ -617,21 +665,42 @@ class DetalheProposta extends Component
                             ];
                             $count++;
                         }
+                    }else  if ($prodComm == "0") {
+                        $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+                        return false;
                     }
                 }
             }
         }
 
         $response = [];
+
+
         foreach($productChosen as $prodId){
-            $response = $this->PropostasRepository->addProductToDatabase($this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "proposta");
+            $response = $this->PropostasRepository->addProductToDatabase($this->codvisita, $this->idCliente,$prodId,$nameProduct,$no,$ref,$codEncomenda, "proposta");
+            
+            $responseArray = $response->getData(true);
+
+            foreach($productChosenComment as $comeProd){
+               
+                if(($prodId["product"]->referense == $comeProd["product"]->referense) && ($prodId["product"]->model == $comeProd["product"]->model) && ($prodId["product"]->price == $comeProd["product"]->price))
+                {
+                    $response = $this->PropostasRepository->addCommentToDatabase($responseArray["data"]["id"], $this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $comeProd["comentario"]);
+                }
+            }
+          
+
         }
 
-        foreach($productChosenComment as $prodId){
-            $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $prodId["comentario"]);
+        // foreach($productChosenComment as $prodId){
+        //     $response = $this->PropostasRepository->addCommentToDatabase($this->idCliente, $prodId, $nameProduct, $no, $ref, $codEncomenda,"proposta", $prodId["comentario"]);
+        // }
+        if($response){
+            $responseArray = $response->getData(true);
+        }else{
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma quantidade", "status" => "error"]);
+            return false;
         }
-
-        $responseArray = $response->getData(true);
 
         if ($responseArray["success"] == true) {
             $message = "Produto adicionado á proposta!";
@@ -698,7 +767,7 @@ class DetalheProposta extends Component
                 "design" => $prod->designacao,
                 "qtt" => $prod->qtd,
                 "iva" => $prod->iva,
-                "ivaincl" => "",
+                "ivaincl" => false,
                 "edebito" => "",
                 "desconto" => $prod->discount,
                 "desc2" => "",
@@ -731,28 +800,406 @@ class DetalheProposta extends Component
 
 
     }
+    public function AdicionarItemKit()
+    {
+        $selectedProductIds = array_keys(array_filter($this->selectedItemsAddKit));
+        $codEncomenda = $this->codEncomenda;
+        foreach ($selectedProductIds as $itemId) {
+            $selectedItemsArray = json_decode($itemId, true);
+
+            $designacao = $selectedItemsArray[2];
+            $designacao = str_replace('£', '.', $designacao);
+
+            $referencia = $selectedItemsArray[1];
+            $referencia = str_replace('£', '.', $referencia);
+
+            $novosValores = [
+                'inkit' => 1,
+            ];
+            Carrinho::where('id_proposta', $codEncomenda)
+                                ->where('referencia', $referencia)
+                                ->where('designacao', $designacao)
+                                ->update($novosValores);
+        }
+
+        $this->selectedItems = [];
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+        $this->dispatchBrowserEvent('checkToaster');
+    }
+    public function RemoverItemKit()
+    {
+        $selectedProductIds = array_keys(array_filter($this->selectedItemsRemoveKit));
+        $codEncomenda = $this->codEncomenda;
+        
+        foreach ($selectedProductIds as $itemId) {
+            $selectedItemsArray = json_decode($itemId, true);
+
+            $designacao = $selectedItemsArray[2];
+            $designacao = str_replace('£', '.', $designacao);
+
+            $referencia = $selectedItemsArray[1];
+            $referencia = str_replace('£', '.', $referencia);
+
+            $novosValores = [
+                'inkit' => 0,
+                'iva2' => 0,
+
+            ];
+            Carrinho::where('id_proposta', $codEncomenda)
+                                ->where('referencia', $referencia)
+                                ->where('designacao', $designacao)
+                                ->update($novosValores);
+        }
+
+        $this->selectedItems = [];
+
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+        $this->dispatchBrowserEvent('checkToaster');
+    }
+    
+    public function ivaInKit()
+    {
+    
+        $codEncomenda = $this->codEncomenda;
+        $valueIvaInKit = $this->valueIvaInKit;
+        $novosValores = [
+            'iva2' => intval($valueIvaInKit),
+        ];
+        Carrinho::where('id_proposta', $codEncomenda)
+        ->where('inKit', 1)
+        ->update($novosValores);
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+    }
+
+    public function updatedKitCheck()
+    {
+        $this->tabDetail = "";
+        $this->tabProdutos = "";
+        $this->tabDetalhesPropostas = "show active";
+        $this->tabFinalizar = "";
+        $this->tabDetalhesCampanhas = "";
+    }
+
+    public function goBack()
+    {
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+     
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                return redirect()->route($rota,$parametro);
+            }
+
+            return redirect()->route($rota);
+
+        }
+    }
+
+    public function voltarAtras()
+    {
+        // $this->dispatchBrowserEvent('changeRoute');
+
+        $rota = Session::get('rota');
+
+        $parametro = Session::get('parametro');
+     
+        if($rota != "")
+        {
+            
+            if($parametro != "")
+            {
+                return redirect()->route($rota,$parametro);
+            }
+
+            return redirect()->route($rota);
+
+        
+        }
+
+
+    }
+
+    public function finalizarproposta()
+    {
+        $count = 0;
+        $valorTotal = 0;
+        $valorTotalComIva = 0;
+       
+
+        $idCliente = "";
+        // dd($this->carrinhoCompras);
+        foreach($this->carrinhoCompras as $prod)
+        {
+            $count++;
+
+            $idCliente = $prod->id_cliente;
+
+
+            $totalItem = $prod->price * $prod->qtd;
+            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+            $valorTotal += $totalItem;
+            $valorTotalComIva += $totalItemComIva;
+
+            $comentarioCheck = ComentariosProdutos::where('id_proposta', $this->codEncomenda)
+            ->where('tipo','proposta')
+            ->where('id_carrinho_compras', $prod->id)
+            ->first();
+
+            if(empty($comentarioCheck))
+            {
+                $comentario = "";
+            } else {
+                $comentario = $comentarioCheck->comentario;
+            }
+            
+            if($prod->id_visita == null)
+            {
+                $visitaCheck = 0;
+            } 
+            else {
+                $visitaCheck = $prod->id_visita;
+            }
+            // dd( $prod);
+            $arrayProdutos[$count] = [
+                "id" => $count,
+                "reference" => $prod->referencia,
+                "description" => $prod->designacao,
+                "quantity" => $prod->qtd,
+                "tax" => $prod->iva,
+                "tax_included" => false,
+                "price" => $prod->price,
+                "discount1" => $prod->discount, // passar como inteiro 
+                "discount2" => $prod->discount2,
+                "discount3" => 0,
+                "total" => $totalItem,
+                "notes" => $comentario,
+                "visit_id" => $visitaCheck, // ou tenho de trazer da base de dados
+                "budgets_id" => ""
+            ];
+        }
+        if ($count <= 0){
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Não foi selecionado artigos!", "status" => "error"]);
+            return false;
+        }
+       
+        $randomNumber = '';
+        for ($i = 0; $i < 8; $i++) {
+            $randomNumber .= rand(0, 9);
+        }
+
+        // dd($arrayProdutos, $randomNumber);
+        $condicaoPagamento = "";
+
+        // if($this->transferenciaFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Transferência Bancária";
+        // }
+        // if($this->pagamentoFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Pronto Pagamento";
+        // }
+        // if($this->chequeFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Cheque a 30 dias";
+        // }
+        // if($this->condicoesFinalizar == true)
+        // {
+        //     $condicaoPagamento = "Condições acordadas";
+        // }
+       
+
+        // if($condicaoPagamento == "")
+        // {
+        //     $this->dispatchBrowserEvent('checkToaster', ["message" => "Tem de selecionar uma condição de pagamento", "status" => "error"]);
+        //     return false;
+        // }
+        if (new DateTime($this->validadeProposta) < new DateTime('today')) {
+            $this->tabDetail = "";
+            $this->tabProdutos = "";
+            $this->tabDetalhesPropostas = "";
+            $this->tabFinalizar = "show active";
+            $this->tabDetalhesCampanhas = "";
+        
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "A data de validade da proposta deve ser igual ou superior à data atual!", "status" => "error"]);
+            return false;
+        }
+        
+
+        if($this->validadeProposta == null){
+
+            $this->tabDetail = "";
+            $this->tabProdutos = "";
+            $this->tabDetalhesPropostas = "";
+            $this->tabFinalizar = "show active";
+            $this->tabDetalhesCampanhas = "";
+    
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Campo Validade da Proposta está vazio!", "status" => "error"]);
+            return false;
+        }else{
+            if (DateTime::createFromFormat('Y-m-d', $this->validadeProposta) === false) {
+                $this->validadeProposta = DateTime::createFromFormat('d-m-Y', $this->validadeProposta);
+                
+                if ($this->validadeProposta) {
+                    $this->validadeProposta = $this->validadeProposta->format('Y-m-d');
+                } 
+            }
+        }
+        
+        $array = [
+            "id" => $randomNumber,
+            "date" => date('Y-m-d').'T'.date('H:i:s'), 
+            "customer_number" => $idCliente,
+            "total_without_tax" => $valorTotal,
+            "total" => $valorTotalComIva,
+            "reference" => $this->referenciaFinalizar,
+            "comments" => $this->observacaoFinalizar,
+            "payment_conditions" => "",
+            "salesman_number" => Auth::user()->id_phc,
+            "type" => "budget",
+            "validity" => $this->validadeProposta.'T'.date('H:i:s'),
+            "lines" => array_values($arrayProdutos)
+        ];
+        // dd($array);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($array),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_decoded = json_decode($response);
+        // dd($response_decoded);
+
+        if($this->enviarCliente == true)
+        {
+
+            if ($response_decoded->success == true) {
+
+                $proposta = $this->clientesRepository->getPropostaID($response_decoded->id_document);
+
+
+                $pdf = new Dompdf();
+                $pdf = PDF::loadView('pdf.pdfTabelaPropostas', ["proposta" => json_encode($proposta->budgets[0])]);
+            
+                $pdf->render();
+            
+                $pdfContent = $pdf->output();
+            
+                $emailCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+               
+                $emailArray = explode("; ", $emailCliente["object"]->customers[0]->email);
+
+                dd("Erro"); 
+                foreach($emailArray as $i => $email)
+                {
+                    Mail::to($email)->send(new SendProposta($pdfContent));
+                }
+                   
+            }
+          
+            
+        }
+        if ($response_decoded->success == true) {
+           
+            $getEncomenda = Carrinho::where('id_proposta','!=', "")->where('id_cliente',$idCliente)->first();
+
+
+            ComentariosProdutos::where('id_proposta', $getEncomenda->id_proposta)->delete();
+            Carrinho::where('id_proposta', $getEncomenda->id_proposta)->delete();
+    
+            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0",$this->startDate,$this->endDate,$this->statusProposta);
+            
+            foreach($propostasArray["paginator"] as $proposta){
+                $resultadoBudget = str_replace(' Nº', '', $proposta->budget);
+                // dd($proposta->budget, $resultadoBudget, $response_decoded->document);
+                if($resultadoBudget == $response_decoded->document){
+
+                    $json = json_encode($proposta);
+                    $object = json_decode($json, false);
+                    Session::put('proposta', $object);
+                    Session::put('rota','propostas');
+
+                    $this->dispatchBrowserEvent('checkToaster', ["message" => "Proposta finalizada com sucesso", "status" => "success"]);
+                    return redirect()->route('propostas.proposta', ['idProposta' => $response_decoded->id_document]);
+                }
+                
+            }
+
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "Proposta finalizada com sucesso", "status" => "success"]);
+        }
+        else {
+            $this->tabDetail = "";
+            $this->tabProdutos = "";
+            $this->tabDetalhesPropostas = "";
+            $this->tabFinalizar = "show active";
+            $this->tabDetalhesCampanhas = "";
+            $this->dispatchBrowserEvent('checkToaster', ["message" => "A proposta não foi finalizada", "status" => "error"]);
+        }
+        return false;
+    }
 
     public function render()
     {
-        $this->detailsClientes = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->quantidadeLines = 0;
+        $detailProduto = session('detailProduto');
+        if (!isset($detailProduto->product)){
+            session()->forget('detailProduto');
+        }
+        $quickBuyProducts = session('quickBuyProducts');
+        if (!isset($quickBuyProducts->product)){
+            session()->forget('quickBuyProducts');
+        }
+        // dd($detailProduto );
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
+        $this->detailsClientes = $arrayCliente["object"];
 
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
 
         if (session('searchSubFamily') !== null) {
             $sessao = session('searchSubFamily');
-
-            foreach ($sessao->product as $prod) {
-                $this->actualCategory = $prod->category_number;
-                $this->actualFamily = $prod->family_number;
-                $this->actualSubFamily = $prod->subfamily_number;
+                if(isset($sessao->product)){
+                foreach ($sessao->product as $prod) {
+                    $this->actualCategory = $prod->category_number;
+                    $this->actualFamily = $prod->family_number;
+                    $this->actualSubFamily = $prod->subfamily_number;
 
                 break;
+                }
             }
-
             $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
         } else {
-            $this->getCategories = $this->PropostasRepository->getCategorias();
+            // $this->getCategories = $this->PropostasRepository->getCategorias();
 
             $firstCategories = $this->getCategories->category[0];
             session(['searchNameCategory' => $firstCategories->name]);
@@ -764,9 +1211,9 @@ class DetalheProposta extends Component
             session(['searchNameSubFamily' => $firstSubFamily->name]);
 
             $this->searchSubFamily = $this->PropostasRepository->getSubFamily($firstCategories->id, $firstFamily->id, $firstSubFamily->id);
+            
             session(['searchSubFamily' => $this->searchSubFamily]);
         }
-
         if (session('searchProduct') !== null) {
             $this->searchProduct = session('searchProduct');
 
@@ -775,37 +1222,48 @@ class DetalheProposta extends Component
             }
 
         }
-
         $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)
-            ->where('id_user',Auth::user()->id)
+            ->where('id_user', Auth::user()->id)
             ->where('id_proposta', '!=', '')
+            ->where('id_proposta', $this->codEncomenda)
+            ->orderBy('inkit', 'desc')
             ->get();
 
-        $imagens = [];
-
-        foreach($this->carrinhoCompras as $carrinho){
-            array_push($imagens,$carrinho->image_ref);
-        }
-
-        $iamgens_unique = array_unique($imagens);
-
         $arrayCart = [];
+        $onkit = 0;
+        $allkit = 0;
 
-        foreach($iamgens_unique as $img)
-        {
-            $arrayCart[$img] = [];
-            foreach($this->carrinhoCompras as $cart)
-            {
-                
-                if($img == $cart->image_ref)
-                {
-                    array_push($arrayCart[$img],$cart);
+        if($this->carrinhoCompras->count() > 0) {
+            foreach ($this->carrinhoCompras as $cart) {
+                if ($cart->inkit) {
+                    $onkit = $cart->inkit;
+                }
+                if ($cart->inkit == 0) {
+                    $allkit = 1;
+                }
+
+                $found = false;
+                foreach ($arrayCart as &$item) {
+                    if (($item->referencia == $cart->referencia) && ($item->designacao == $cart->designacao) && ($item->price == $cart->price) && ($item->model == $cart->model)) {
+                        if (isset($cart->qtd)) {
+                            if (is_numeric($item->qtd) && is_numeric($cart->qtd)) {
+                                $item->qtd += $cart->qtd;
+                            } else {
+                                break;
+                            }
+                            $found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!$found) {
+                    array_push($arrayCart, $cart);
+                    $this->quantidadeLines++;
                 }
             }
         }
-
-   
-        return view('livewire.propostas.detalhe-proposta',["detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
+        // dd($arrayCart);
+        return view('livewire.propostas.detalhe-proposta',["onkit" => $onkit, "allkit" => $allkit, "detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
 
     }
 }

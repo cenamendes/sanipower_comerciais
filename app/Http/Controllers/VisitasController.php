@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Interfaces\ClientesInterface;
 use App\Models\VisitasAgendadas;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 
 class VisitasController extends Controller
 {
@@ -25,7 +26,8 @@ class VisitasController extends Controller
 
     public function showDetail($id)
     {
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($id);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
+        $detailsClientes = $arrayCliente["object"];
         return view('visitas.details',["idVisita" => 0, "idCliente" => $id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "2"]); // adicionar
     }
 
@@ -33,7 +35,25 @@ class VisitasController extends Controller
     {
         $visitaAgendada = VisitasAgendadas::where('id',$id)->first();
 
-        $detailsClientes = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
+        $detailsClientes = $arrayCliente["object"];
         return view('visitas.details',["idVisita" => $id, "idCliente" => $visitaAgendada->client_id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "1"]); //finalizar
+    }
+
+    public function clienteList()
+    {
+        return view('visitas.clientes', ["idAgendar" => ""]);
+    }
+
+    public function visitasInfo($id)
+    {
+        $visitaAgendada = VisitasAgendadas::where('id',$id)->first();
+
+        
+          
+        $arrayCliente = $this->clientesRepository->getDetalhesCliente($visitaAgendada->client_id);
+        $detailsClientes = $arrayCliente["object"];
+        
+        return view('visitas.details',["idVisita" => $id, "idCliente" => $visitaAgendada->client_id, "nameCliente" => $detailsClientes->customers[0]->name, "tst" => "1"]);
     }
 }

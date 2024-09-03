@@ -73,7 +73,18 @@
 
                 </div>
                 <div class="card-body">
-
+                    <div class="row mb-2">
+                        <div class="col-lg-4">
+                            <label class="mt-2">Estado Proposta</label>
+                            <div class="input-group">
+                                <select name="perPage" wire:model.lazy="estadoProposta" class="form-control">
+                                    <option value="" selected>Todas</option>
+                                    <option value="1">Com comentário</option>
+                                    <option value="2">Sem comentário</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div id="dataTables_wrapper" class="dataTables_wrapper container"
                         style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                         <div class="left">
@@ -96,41 +107,32 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Data</th>
-                                    <th>Encomenda</th>
+                                    <th>Proposta</th>
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th>Ações</th>
-                                    <th>Detalhe Proposta</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($detalhesPropostas as $detalhe)
-                                    <tr>
-                                        <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                        <td>{{ $detalhe->budget }}</td>
-                                        <td>{{ $detalhe->total }}</td>
-                                        <td>{{ $detalhe->status }}</td>
-                                        <td><button type="button" class="btn btn-primary"
-                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->budget) }})"><i
-                                                    class="ti ti-plus"></i> Comentário</button>
-                                            @php
-                                                $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
-                                                    ->where('tipo', 'propostas')
-                                                    ->get();
-                                            @endphp
-                                            @if ($cmt->count() > 0)
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Ver Comentário
-                                                </button>
-                                            @endif
-                                        </td>
-                                        <td>
-                                        <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe->id) }})">
+                         
+                               @foreach ($detalhesPropostas as $detalhe)
+                                <tr>
+
+                                    <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
+                                    <td>{{ $detalhe->budget }}</td>
+                                    <td>{{ $detalhe->total }}</td>
+                                    <td>{{ $detalhe->status }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe) }})">
                                             <i class="ti ti-plus"></i> Ver Proposta
                                         </button>
+                                        {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                            Comentários
+                                        </button> --}}
                                     </td>
-                                    </tr>
+
+                                   
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -182,7 +184,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalVerComentarioLabel">Ver Comentário</h5>
+                    <h5 class="modal-title" id="modalVerComentarioLabel">Comentários</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -210,45 +212,70 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detalhePropostaModalLabel">Detalhes da Encomenda</h5>
+                    <h5 class="modal-title" id="detalhePropostaModalLabel">Detalhes da Proposta</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Referencia</th>
-                            <th>Descrição</th>
-                            <th>Quantidade</th>
-                            <th>Preço</th>
-                            <th>Desconto</th>
-                            <th>Desconto 2</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @isset($detalhesPropostas)
-                        @foreach ($detalhesPropostas as $prop)
-                            @if($prop->id == $propostaID)
-                                @foreach ($prop->lines as $line)
-                                    <tr>
-                                        <td>{{ $line->reference }}</td>
-                                        <td>{{ $line->description }}</td>
-                                        <td style="text-align:center">{{ $line->quantity }}</td>
-                                        <td style="text-align:center">{{ $line->price }} €</td>
-                                        <td style="text-align:center">{{ $line->discount }}</td>
-                                        <td style="text-align:center">{{ $line->discount2 }}</td>
-                                        <td style="text-align:center">{{ $line->total }} €</td>
-                                    </tr>
+                <div>
+                    <div style="overflow-x:auto;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Referencia</th>
+                                    <th>Descrição</th>
+                                    <th>Quantidade</th>
+                                    <th>Preço</th>
+                                    <th>Desconto</th>
+                                    {{-- <th>Desconto 2</th> --}}
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @isset($detalhesPropostas)
+                                @foreach ($detalhesPropostas as $prop)
+                                    @if($prop->id == $propostaID)
+                                        @foreach ($prop->lines as $line)
+                                            <tr>
+                                                <td>{{ $line->reference }}</td>
+                                                <td>{{ $line->description }}</td>
+                                                <td style="text-align:center">{{ $line->quantity }}</td>
+                                                <td style="text-align:center">{{ $line->price }} €</td>
+                                                <td style="text-align:center">{{ $line->discount }}</td>
+                                                {{-- <td style="text-align:center">{{ $line->discount2 }}</td> --}}
+                                                <td style="text-align:center">{{ $line->total }} €</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 @endforeach
-                            @endif
-                        @endforeach
-                        @endisset
-                    </tbody>
-                </table>
-
+                                @endisset
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="card-body" style="margin-left:15px;margin-right:15px;">
+                            <hr>
+                            <h5>Adicionar Comentário</h5>
+                            <div class="input-group">
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.defer="comentarioProposta"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-success" wire:click="sendComentario({{ json_encode($propostaID) }})">Adicionar Comentário</button>
+                    <button type="button" class="btn btn-outline-primary" wire:click="gerarPdfProposta({{ json_encode($propostaID)}}, {{ json_encode($detalhesPropostas)}})">Gerar PDF</button>
+                    @php
+                        $check = \App\Models\Carrinho::where('id_encomenda',$propostaID)->first();
+                    @endphp
+
+                    @if($check == null)
+                        <button type="button" class="btn btn-outline-primary" wire:click="adjudicarProposta({{ json_encode($detalhesPropostas) }},{{json_encode($propostaID)}})" class="btn btn-sm btn-success">
+                            Adjudicar Proposta
+                        </button>
+                    @endif
+                    <button type="button" class="btn btn-outline-primary" wire:click="enviarEmail({{ json_encode($detalhesPropostas) }},{{json_encode($propostaID)}})" class="btn btn-sm btn-primary"> Enviar email</button>
+
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                 </div>
             </div>
@@ -277,6 +304,27 @@
         document.addEventListener('openDetalhePropostaModal', function() {
             $('#detalhePropostaModal').modal('show');
         });
+
+        document.addEventListener('openComentarioModalPropostas', function() {
+           
+            jQuery("#modalComentarioProp").modal();
+        });
+
+        window.addEventListener('checkToaster', function(e) {
+            $('#detalhePropostaModal').modal('hide');
+            jQuery("#modalComentario").modal('hide');
+            jQuery("#modalComentarioProp").modal('hide');
+
+            if (e.detail.status == "success") {
+                toastr.success(e.detail.message);
+            }
+
+            if(e.detail.status == "error"){
+                toastr.warning(e.detail.message);
+            }
+        });
+
+  
     </script>
 
 </div>

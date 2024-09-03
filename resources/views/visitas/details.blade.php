@@ -4,7 +4,7 @@
     <div class="row navigationLinks">
         <div class="col">
             <ol class="breadcrumb" style="padding-left: 25px;">
-                <li class="breadcrumb-item"><a href=""><i class="ti-calendar"></i> Clientes</a></li>
+                <li class="breadcrumb-item"><a href=""><i class="ti-calendar"></i> Visita</a></li>
                 <li class="breadcrumb-item">Informação</li>
                 <li class="breadcrumb-item active">{{$nameCliente}}</li>
             </ol>
@@ -33,6 +33,7 @@
         });
 
         document.addEventListener('openComentarioModalPropostas', function() {
+    
             jQuery("#modalComentarioProp").modal();
         });
 
@@ -54,11 +55,11 @@
 
 
 
-
         window.addEventListener('checkToaster', function(e) {
 
             jQuery("#modalComentario").modal('hide');
             jQuery("#modalComentarioProp").modal('hide');
+            jQuery("#detalhePropostaModal").modal('hide');
 
             if (e.detail.status == "success") {
                 toastr.success(e.detail.message);
@@ -66,6 +67,16 @@
 
             if(e.detail.status == "error"){
                 toastr.warning(e.detail.message);
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if ("{{ session('success') }}") {
+                toastr.success("{{ session('success') }}");
+            }
+
+            if("{{ session('error') }}"){
+                toastr.warning("{{ session('error') }}");
             }
         });
         

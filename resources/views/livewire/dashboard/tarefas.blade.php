@@ -136,20 +136,24 @@
                 <a href="javascript:;" class="btn btn-sm btn-primary" id="addTarefaBtn" wire:click="addTarefaButton" data-toggle="tooltip" title="Adicionar tarefa">
                     <i class="ti-plus"></i> Adicionar Tarefa
                 </a>
-                <a href="javascript:;" class="btn btn-sm btn-success" id="addVisitaBtn" wire:click="addVisita" data-toggle="tooltip" title="Adicionar visita">
-                    <i class="ti-plus"></i> Adicionar Visita
+                <a href="javascript:;" class="btn btn-sm btn-success" id="addVisitaBtn" wire:click="addVisita" data-toggle="tooltip" title="Agendar visita">
+                    <i class="ti-plus"></i> Agendar Visita
                 </a>
             </div>
         </div>
 
         <div class="card-body">
-            <div class="row" style="display:math;" wire:key="teste-{{$iteration}}">
+            <div class="row" style="display:contents;" wire:key="teste-{{$iteration}}">
                 <div id="calendarTarefas" wire:ignore></div>
             </div>
         </div>
     </div>
 
     <span class="d-none" id="valuesTarefas">{{json_encode($listagemTarefas)}}</span>
+
+    <input type="hidden" id="dayPicked" wire:model="dayPicked">
+    <input type="hidden" id="flagReset" wire:model="flagReset">
+    <input type="hidden" id="mesEscolhido" wire:model="mesEscolhido">
 
     <!--  MODAL EDITAR TAREFA  -->
 
@@ -211,8 +215,11 @@
                         <div class="input-group">
                             <select class="form-control" id="clienteNameTarefa" wire:model.defer="clienteNameTarefa">
                                 @isset($clientes)
+                                    <option value="{{ json_encode("Sem cliente") }}">Sem Cliente</option>
                                     @foreach ($clientes as $clt)
-                                        <option value="{{ json_encode($clt["name"]) }}">{{ $clt["name"] }}</option>
+                                        @foreach($clt->customers as $cst)
+                                            <option value="{{ json_encode($cst->name) }}">{{ $cst->name }}</option>
+                                        @endforeach
                                     @endforeach
                                 @endisset
                             </select>
@@ -300,11 +307,13 @@
                             <div class="form-group row ml-0">
                                 <label>Cliente</label>
                                 <div class="input-group">
-                                    <select class="form-control" id="clienteVisitaID" wire:model.defer="clienteVisitaID">
+                                    <select class="form-control" id="clienteVisitaIDD" wire:model.defer="clienteVisitaID">
                                         @isset($clientes)
-                                        @foreach ($clientes as $clt)
-                                        <option value="{{ json_encode($clt["id"]) }}">{{ $clt["name"] }}</option>
-                                        @endforeach
+                                            @foreach ($clientes as $clt)
+                                                @foreach($clt->customers as $cst)
+                                                    <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
+                                                @endforeach
+                                            @endforeach
                                         @endisset
                                     </select>
                                 </div>
@@ -313,7 +322,7 @@
                             <div class="form-group row ml-0">
                                 <label>Data</label>
                                 <div class="input-group date">
-                                    <input type="text" id="dataInicialVisita" class="form-control" wire:model.defer="dataInicialVisita">
+                                    <input type="text" id="dataInicialVisitar" class="form-control" wire:model.defer="dataInicialVisita">
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="ti-calendar"></i>
@@ -325,7 +334,7 @@
                             <div class="form-group row ml-0">
                                 <label>Hora Inícial</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control horaInicialVisita" id="horaInicialVisita" wire:model.defer="horaInicialVisita">
+                                <input type="text" class="form-control horaInicialVisita" id="horaInicialVisita" wire:model.defer="horaInicialVisita" value="09:00">
                                     <div class="input-group-append timepicker-btn">
                                         <span class="input-group-text">
                                             <i class="ti-time"></i>
@@ -372,8 +381,113 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaVisita">Adicionar</button>
-                    {{-- <a href="https://login.microsoftonline.com/{{env('MICROSOFT_TENANT')}}/oauth2/v2.0/authorize?client_id={{env('MICROSOFT_CLIENT_ID')}}&response_type=code&redirect_uri={{env('MICROSOFT_REDIRECT')}}&response_mode=query&scope=Calendars.ReadWrite" target="_blank">Login com Microsoft</a> --}}
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaVisita">Agendar</button>
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtn" wire:click="agendaIniciarVisita">Agendar e Iniciar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalInformacaoTarefa" tabindex="-1" role="dialog" aria-labelledby="modalInformacaoTarefa" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="modalComentario">Editar Visita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
+                    <div class="card mb-3">
+                        <div class="card-body">
+    
+                            <div class="form-group row ml-0">
+                                <label>Cliente</label>
+                                <div class="input-group">
+                           
+                                    <select class="form-control" id="clienteVisitaIDDireito" wire:model.defer="clienteVisitaIDDireito" readonly disabled>
+                                        @isset($clientes)
+                                            
+                                            @foreach ($clientes as $clt)
+    
+                                              @foreach($clt->customers as $cst)
+    
+                                                <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
+    
+                                              @endforeach
+    
+                                            @endforeach
+    
+                                        @endisset
+                                    </select>
+                                </div>
+                            </div>
+    
+                            <div class="form-group row ml-0">
+                                <label>Data</label>
+                                <div class="input-group date">
+                                    <input type="text" id="dataInicialVisitaDireito" class="form-control" wire:model.defer="dataInicialVisitaDireito">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="ti-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="form-group row ml-0">
+                                <label>Hora Inícial</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control horaInicialVisitaDireito" id="horaInicialVisitaDireito" value="09:00" wire:model.defer="horaInicialVisitaDireito">
+                                    <div class="input-group-append timepicker-btn">
+                                        <span class="input-group-text">
+                                            <i class="ti-time"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="form-group row ml-0">
+                                <label>Hora Final</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control horaFinalVisitaDireito" id="horaFinalVisitaDireito" wire:model.defer="horaFinalVisitaDireito">
+                                    <div class="input-group-append timepicker-btn">
+                                        <span class="input-group-text">
+                                            <i class="ti-time"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="form-group row ml-0">
+                                <label>Tipo de Visita</label>
+                                <div class="input-group">
+                                    <select class="form-control" id="tipovisitaselectDireito" wire:model.defer="tipoVisitaEscolhidoDireito">
+                                        <option value="" selected>Selecione um tipo de visita</option>
+                                        @isset($tipoVisita)
+                                            @foreach ( $tipoVisita as $tipo)
+                                                <option value="{{$tipo->id}}">{{ $tipo->tipo }}</option>
+                                            @endforeach
+                                        @endisset
+                                    </select>
+                                </div>
+                            </div>
+    
+                            <div class="form-group row ml-0">
+                                <label>Assunto</label>
+                                <div class="input-group">
+                                    <textarea id="assunto_textDireito" class="form-control" wire:model.defer="assuntoTextVisitaDireito" style="min-height: 80px; max-height: 200px;"></textarea>
+                                    <input type="hidden" id="visitaIDDireito" wire:model.defer="visitaIDDireito">
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" wire:click="openVisita"><i class="ti-search"></i>Visualizar</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-outline-primary" id="addVisitaModalBtnEdita" wire:click="editarVisitaDireito">Gravar</button>
                 </div>
             </div>
         </div>
@@ -409,8 +523,18 @@
             Livewire.hook('message.processed', (message, component) => {
                 loader.style.display = 'none';
             });
+
+           
         });
 
+        function formatDate(dateString) {
+                var date = new Date(dateString);
+                return new Intl.DateTimeFormat('pt-BR', {
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric'
+                }).format(date);
+        }
 
         function startCalendar() {
             var calendarValuesTarefa = JSON.parse($('#valuesTarefas').text());
@@ -422,11 +546,21 @@
                     if (index == "visitas") {
                         $.each(valores, function(indexVisita, valoresVisita) {
 
+                            if(valoresVisita.finalizado == 0){
+                                colorState = "blue";
+                                
+                            } else if(valoresVisita.finalizado == 1) {
+                                colorState = "green";
+                            } else {
+                                colorState = "#e6e600";
+                            }
+
+
                             eventTarefa.push({
                                 title: valoresVisita.cliente,
                                 start: valoresVisita.data_inicial + "T" + valoresVisita.hora_inicial,
                                 end: valoresVisita.data_inicial + "T" + valoresVisita.hora_final,
-                                backgroundColor: valoresVisita.tipovisita.cor,
+                                backgroundColor: colorState,
                                 assunto: valoresVisita.assunto_text,
                                 dataInicial: valoresVisita.data_inicial,
                                 horaInicial: valoresVisita.hora_inicial,
@@ -434,6 +568,9 @@
                                 corVisita: valoresVisita.tipovisita.cor,
                                 nomeVisita: valoresVisita.tipovisita.tipo,
                                 idAgendada: valoresVisita.id,
+                                idTipoVisita : valoresVisita.id_tipo_visita,
+                                clientId: valoresVisita.client_id,
+                                visitaID: valoresVisita.id,
                                 finalizado: valoresVisita.finalizado,
                                 tarefa: "no"
                             });
@@ -441,6 +578,7 @@
                         });
                     } else {
                         $.each(valores, function(indexTarefa, valoresTarefa) {
+
                             eventTarefa.push({
                                 title: valoresTarefa.cliente,
                                 start: valoresTarefa.data_inicial + "T" + valoresTarefa.hora_inicial,
@@ -455,6 +593,7 @@
                                 finalizado: valoresTarefa.finalizado,
                                 tarefa: "yes"
                             });
+                            
                         });
                     }
 
@@ -463,15 +602,60 @@
 
             var calendarEl = document.getElementById('calendarTarefas');
 
+          
+            var checkFlagReset = jQuery("#flagReset").val();
+    
+            var specificDate = jQuery("#dayPicked").val();
+
+            if(specificDate != "") {
+                var formattedDate = formatDate(specificDate);
+            }
+
+            
+            
+            if (checkFlagReset == "") {
+               
+                headerToolbar = {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'listMonth,listWeek,listDay'
+                };
+            } 
+            else {
+               
+                if (checkFlagReset == "false") {
+   
+                    headerToolbar = {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'listMonth,listWeek,listDay'
+                    };
+                } else {
+                   
+                    headerToolbar = {
+                        left: 'resetButton',
+                        center: 'title',
+                    };
+                }
+            }
+           
+            
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'listMonth',
                 events: eventTarefa,
                 locale: 'pt-br',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'listMonth,listWeek,listDay'
+                customButtons: {
+                    resetButton: {
+                        text: 'Hoje',
+                        click: function() {
+            
+                            Livewire.emit('originalData')
+                        }
+                    }
+                   
                 },
+                headerToolbar: headerToolbar,
                 buttonText: {
                     today: 'Hoje',
                     day: 'Dia',
@@ -488,6 +672,35 @@
                     timeGridDay: {
                         allDayText: 'Dia'
                     }
+                },
+                initialDate: checkFlagReset === "true" ? specificDate : null,
+
+                datesSet: function() {
+
+                    if(checkFlagReset == "true")
+                    {
+                       
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","none");
+                        jQuery('.fc-listMonth-button').css("display","none");
+                        jQuery('.fc-listWeek-button').css("display","none");
+                        jQuery('.fc-listDay-button').css("display","none");
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-prev-button').css("display","none");
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-button-group .fc-next-button').css("display","none");
+                      
+                        var label = '<div class="fc-date-label">' + formattedDate + '</div>';
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-toolbar-title').html(label);
+                       
+                    } else {
+                     
+                        jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-today-button').css("display","gg");
+                        jQuery('.fc-listMonth-button').css("display","block");
+                        jQuery('.fc-listWeek-button').css("display","block");
+                        jQuery('.fc-listDay-button').css("display","block");
+
+                  
+                         jQuery('#calendarTarefas .fc-toolbar .fc-toolbar-chunk .fc-toolbar-title .fc-date-label').remove();
+                    }
+                    
                 },
                 //FAZER O ABRIR POP PARA VER A INFORMAÇÃO
                 eventDidMount: function(info, element) {
@@ -510,8 +723,6 @@
                     if (info.event.end - info.event.start <= 3600000) { // Se a duração for menor ou igual a 1 hora
                         info.el.classList.add('fc-short-event'); // Adiciona a classe para eventos curtos
                     }
-
-
 
 
                 },
@@ -542,15 +753,18 @@
                         if (arg.event.extendedProps.finalizado == 1) {
                             estado = "finalizada";
                             cor = "green";
-                        } else {
+                        } else if(arg.event.extendedProps.finalizado == 2) {
+                            estado = "iniciada";
+                            cor = "#e6e600";
+                        }
+                        else {
                             estado = "agendada";
                             cor = "blue";
                         }
-
                         customDiv.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>` + arg.event.title + `<br><small style="color:` + cor + `; font-weight:bolder;">` + estado + `</small></div>
-                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.idTarefa + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
+                            <div><a href="javascript:;" class="btn btn-sm btn-outline-primary edit-task" data-visita-id="` + arg.event.extendedProps.visitaID + `"><i class="ti-pencil" data-toggle="tooltip" title="" data-original-title="Editar Visita"></i></a>
                             </div>
                         `;
                     } else {
@@ -596,16 +810,118 @@
                         domNodes: [customDiv]
                     };
                 },
+               
                 eventClick: function(info) {
+                   
+                   
 
                     if (info.event.extendedProps.tarefa == "no") {
-                        $("#modalInformacao").modal();
+                        $("#modalInformacaoTarefa").modal();
 
-                        $('#clienteName').val(info.event.title);
-                        $('#horaMarcada').val(info.event.extendedProps.dataInicial + " (" + info.event.extendedProps.horaInicial + " / " + info.event.extendedProps.horaFinal + ") ");
-                        $('#assuntoMarcado').val(info.event.extendedProps.assunto);
-                        $('#visitaName').text(info.event.extendedProps.nomeVisita);
-                        $('#visitaName').css("color", info.event.extendedProps.corVisita);
+                       
+                        $.fn.datepicker.dates['pt-BR'] = {
+                            days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+                            daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                            daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sá"],
+                            months: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                            monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                            today: "Hoje",
+                            clear: "Limpar",
+                            format: "dd/mm/yyyy",
+                            titleFormat: "MM yyyy",
+                            /* Leverages same syntax as 'format' */
+                            weekStart: 0
+                        };
+
+
+                        $('#dataInicialVisitaDireito').datepicker({
+                            format: 'dd/mm/yyyy',
+                            language: 'pt-BR',
+                            autoclose: true
+                        }).on('changeDate', function(e) {
+
+                            var formattedDate = moment(e.date).format('YYYY-MM-DD');
+
+                            @this.set('dataInicialVisitaDireito', formattedDate, true);
+
+                        });
+
+                    
+                        $('.horaInicialVisitaDireito').timepicker({
+                            minuteStep: 5,
+                            showSeconds: false,
+                            showMeridian: false,
+                            defaultTime: '09:00',
+                            icons: {
+                                up: 'ti-angle-up',
+                                down: 'ti-angle-down'
+                            }
+                        }).on('changeDate', function(e) {
+
+                            var formattedDate = moment(e.date).format('HH:ii');
+
+                            @this.set('horaInicialVisitaDireito', formattedDate, true);
+
+                        });
+
+
+                    
+                        $('.horaFinalVisitaDireito').timepicker({
+                            minuteStep: 5,
+                            showSeconds: false,
+                            showMeridian: false,
+                            defaultTime: '10:00',
+                            icons: {
+                                up: 'ti-angle-up',
+                                down: 'ti-angle-down'
+                            }
+                        }).on('changeDate', function(e) {
+
+                            var formattedDate = moment(e.date).format('HH:ii');
+
+                            @this.set('horaFinalVisitaDireito', formattedDate, true);
+
+                        });
+
+                        @this.set('visitaIDDireito',info.event.extendedProps.visitaID,true);
+                        @this.set('dataInicialVisitaDireito',info.event.extendedProps.dataInicial,true);
+                        @this.set('horaInicialVisitaDireito',info.event.extendedProps.horaInicial,true);
+                        @this.set('horaFinalVisitaDireito',info.event.extendedProps.horaFinal,true);
+                        @this.set('tipoVisitaEscolhidoDireito',info.event.extendedProps.idTipoVisita,true);
+                        @this.set('assuntoTextVisitaDireito',info.event.extendedProps.assunto,true);
+
+                        
+                        $('#clienteVisitaIDDireito').val(JSON.stringify(info.event.extendedProps.clientId));
+                        $('#dataInicialVisitaDireito').val(info.event.extendedProps.dataInicial);
+                        $('#horaInicialVisitaDireito').val(info.event.extendedProps.horaInicial);
+                        $('#horaFinalVisitaDireito').val(info.event.extendedProps.horaFinal);
+                        $('#assunto_textDireito').val(info.event.extendedProps.assunto);             
+                        $('#tipovisitaselectDireito').val(info.event.extendedProps.idTipoVisita);
+                        $('#visitaIDDireito').val(info.event.extendedProps.visitaID);  
+
+                    
+                        if(info.event.extendedProps.finalizado == 1)
+                        {
+                            $('#clienteVisitaIDDireito').attr('readonly', true);
+                            $('#dataInicialVisitaDireito').attr('readonly', true);
+                            $('#horaInicialVisitaDireito').attr('readonly', true);
+                            $('#horaFinalVisitaDireito').attr('readonly', true);
+                            $('#assunto_textDireito').attr('readonly', true);    
+                            $('#tipovisitaselectDireito').attr('readonly', true);
+
+                            $("#addVisitaModalBtnEdita").css("display","none");
+                        } 
+                        else {
+                            $('#clienteVisitaIDDireito').attr('readonly', false);
+                            $('#dataInicialVisitaDireito').attr('readonly', false);
+                            $('#horaInicialVisitaDireito').attr('readonly', false);
+                            $('#horaFinalVisitaDireito').attr('readonly', false);
+                            $('#assunto_textDireito').attr('readonly', false);    
+                            $('#tipovisitaselectDireito').attr('readonly', false);
+
+                            $("#addVisitaModalBtnEdita").css("display","block");
+                        }
+
 
                         $('.edit-task').click(function() {
                             var taskId = $(this).data('task-id');
@@ -640,35 +956,43 @@
             });
 
             calendar.render();
-        }
 
+            var mesEsc = jQuery("#mesEscolhido").val();
+            
+            if(mesEsc != "")
+            {
+          
+                calendar.gotoDate(mesEsc+'-01');
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             startCalendar();
         });
-
+       
         window.addEventListener('sendToaster', function(e) {
+            
+            $("#modalTarefas").modal('hide');
+            $("#modalAddTarefa").modal('hide');
+            $("#agendarVisita").modal('hide');
+            $("#modalInformacaoTarefa").modal('hide');
 
             if (e.detail.status == "success") {
                 toastr.success(e.detail.message);
             }
-
+           
             if (e.detail.status == "error") {
                 toastr.warning(e.detail.message);
+                Livewire.emit('callAddVisita');
             }
-
-
-            $("#modalTarefas").modal('hide');
-            $("#modalAddTarefa").modal('hide');
-            $("#agendarVisita").modal('hide');
-
         });
-
+        
         window.addEventListener('updateList', function(e) {
 
             $("#modalTarefas").modal('hide');
             $("#modalAddTarefa").modal('hide');
             $("#agendarVisita").modal('hide');
+        
             startCalendar();
 
         });
@@ -680,12 +1004,16 @@
         });
 
         window.addEventListener('openVisitaModal', function(e) {
+            $("#agendarVisita").modal('show');
 
-            $("#agendarVisita").modal();
+            $('#clienteVisitaIDD').select2();
 
-            $('#clienteVisitaID').select2({}).on('change', function(e) {
+            @this.set('clienteVisitaID', $('#clienteVisitaIDD option:first').val() ,true);
+            
+            $('#clienteVisitaIDD').select2().on('change', function(e) {
                 @this.set('clienteVisitaID', e.target.value, true);
             });
+
 
             $.fn.datepicker.dates['pt-BR'] = {
                 days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
@@ -702,14 +1030,14 @@
             };
 
 
-            $('#dataInicialVisita').datepicker({
+            $('#dataInicialVisitar').datepicker({
                 format: 'dd/mm/yyyy',
                 language: 'pt-BR',
                 autoclose: true
             }).on('changeDate', function(e) {
 
                 var formattedDate = moment(e.date).format('YYYY-MM-DD');
-
+            
                 @this.set('dataInicialVisita', formattedDate, true);
 
             });
@@ -732,7 +1060,6 @@
 
             });
 
-
             @this.set('horaFinalVisita', '10:00', true);
             $('.horaFinalVisita').timepicker({
                 minuteStep: 5,
@@ -750,7 +1077,6 @@
                 @this.set('horaFinalVisita', formattedDate, true);
 
             });
-
 
             window.addEventListener('sendToTeams', function(e) {
 
@@ -770,11 +1096,13 @@
                     organizer: e.detail.organizer 
                 }));
 
-                var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
-                novaJanela.focus();
+                 var novaJanela =  window.open("https://login.microsoftonline.com/"+e.detail.tenant+"/oauth2/v2.0/authorize?client_id="+e.detail.clientId+"&response_type=code&redirect_uri="+e.detail.redirect+"&response_mode=query&scope=Calendars.ReadWrite&state="+state, "_blank");
+                 novaJanela.focus();
+
+                 setTimeout(function() {
+                    window.location.reload();
+                }, 2500);
             });
-
-
 
         });
 
@@ -785,7 +1113,6 @@
             $('#clienteNameTarefa').select2({}).on('change', function(e) {
                 @this.set('clienteNameTarefa', e.target.value, true);
             });
-
 
             $.fn.datepicker.dates['pt-BR'] = {
                 days: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
@@ -800,7 +1127,6 @@
                 /* Leverages same syntax as 'format' */
                 weekStart: 0
             };
-
 
             $('#dataInicialTarefa').datepicker({
                 format: 'dd/mm/yyyy',
@@ -832,7 +1158,6 @@
 
             });
 
-
             @this.set('horaFinalTarefa', '10:00', true);
             $('.horaFinalTarefa').timepicker({
                 minuteStep: 5,
@@ -848,11 +1173,7 @@
                 var formattedDate = moment(e.date).format('HH:ii');
 
                 @this.set('horaFinalTarefa', formattedDate, true);
-
             });
-
-
         });
     </script>
-
 </div>

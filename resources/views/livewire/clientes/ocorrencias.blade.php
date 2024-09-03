@@ -98,36 +98,21 @@
                                     <th>Data</th>
                                     <th>Encomenda</th>
                                     <th>Total</th>
-                                    <th>Estado</th>
+                                    <th>Estado</th>                                  
                                     <th>Ações</th>
-                                    <th>Detalhe Encomenda</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($detalhesOcorrencias as $detalhe)
                                     <tr>
                                         <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                        <td>{{ $detalhe->order }}</td>
+                                        <td>{{ $detalhe->occurrence }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
-                                        <td><button type="button" class="btn btn-primary"
-                                                wire:click="comentarioModal({{ json_encode($detalhe->id) }}, {{ json_encode($detalhe->order) }})"><i
-                                                    class="ti ti-plus"></i> Comentário</button>
-                                            @php
-                                                $cmt = \App\Models\Comentarios::where('stamp', $detalhe->id)
-                                                    ->where('tipo', 'ocorrencias')
-                                                    ->get();
-                                            @endphp
-                                            @if ($cmt->count() > 0)
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Ver Comentário
-                                                </button>
-                                            @endif
-                                        </td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" wire:click="detalheOcorrenciasModal({{ json_encode($detalhe->id) }})">
-                                                <i class="ti ti-plus"></i> Ver Ocorrências
+                                            <button type="button" class="btn btn-sm btn-primary" wire:click="detalheOcorrenciasModal({{ json_encode($detalhe) }})">
+                                                <i class="fas fa-info"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -182,7 +167,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalVerComentarioLabel">Ver Comentário</h5>
+                    <h5 class="modal-title" id="modalVerComentarioLabel">Comentários</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -210,44 +195,44 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detalheOcorrenciasModalLabel">Detalhes da Encomenda</h5>
+                    <h5 class="modal-title" id="detalheOcorrenciasModalLabel">Detalhes da Ocorrência</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Referencia</th>
-                            <th>Descrição</th>
-                            <th>Quantidade</th>
-                            <th>Preço</th>
-                            <th>Desconto</th>
-                            <th>Desconto 2</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @isset($detalhesOcorrencias)
-                        @foreach ($detalhesOcorrencias as $oco)
-                            @if($oco->id == $ocorrenciasID)
-                                @foreach ($oco->lines as $line)
+                <div style="overflow-x:auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Referencia</th>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                                <th>Preço</th>
+                                <th>Desconto</th>
+                                {{-- <th>Desconto 2</th> --}}
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if($detailsLine)
+                                @foreach ($detailsLine['lines'] as $prod)
                                     <tr>
-                                        <td>{{ $line->reference }}</td>
-                                        <td>{{ $line->description }}</td>
-                                        <td style="text-align:center">{{ $line->quantity }}</td>
-                                        <td style="text-align:center">{{ $line->price }} €</td>
-                                        <td style="text-align:center">{{ $line->discount }}</td>
-                                        <td style="text-align:center">{{ $line->discount2 }}</td>
-                                        <td style="text-align:center">{{ $line->total }} €</td>
+                                        <td>{{ $prod['reference'] }}</td>
+                                        <td>{{ $prod['description'] }}</td>
+                                        <td>{{ $prod['quantity'] }}</td>
+                                        <td>{{ $prod['price'] }} €</td>
+                                        <td>{{ $prod['discount'] }}</td>
+                                        <td>{{ $prod['total'] }} €</td>
                                     </tr>
                                 @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6">Não foram encontrados registos para exibir.</td>
+                                </tr>
                             @endif
-                        @endforeach
-                        @endisset
-                    </tbody>
-                </table>
-
+                        </tbody>
+                    </table>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>
                 </div>

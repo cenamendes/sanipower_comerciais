@@ -70,7 +70,7 @@
                     <span>Propostas</span>
                 </a>
             </li>
-            @if (Auth::user()->nivel == '3')
+            @if (Auth::user()->nivel == '1')
             <li class="li-hover">
                 <a href="{{route('profile.create')}}" class="{{ Str::contains(request()->route()->getName(), 'profile.create') ? 'text-info' : '' }}">
                     <i class="ti-id-badge"></i>

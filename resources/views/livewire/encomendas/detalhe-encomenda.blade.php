@@ -13,12 +13,13 @@
         }
     }
 
+   
+
 </style>
     <!--  LOADING -->
     @if ($showLoaderPrincipal == true)
         <div id="loader" style="display: none;">
             <div class="loader" role="status">
-
             </div>
         </div>
     @endif
@@ -46,7 +47,12 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link {{ $tabProdutos }}">Produtos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">
+                        @if($quantidadeLines > 0)
+                            <span>({{$quantidadeLines}}) </span>
+                        @endif
+                        Artigos
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab7" data-toggle="tab" class="nav-link {{ $tabFinalizar }}">Finalizar</a>
@@ -56,10 +62,13 @@
             <div class="teste" style="padding-right:35px;">
                 <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
                     <div class="tools">
-                        <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
+                        {{-- <a href="javascript:void(0);" wire:click="verEncomenda" class="btn btn-sm btn-success"><i
                                 class="ti-eye"></i>
-                            Ver Encomenda</a>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-primary"><i class="ti-save"></i> Finalizar Encomenda</a>
+                            Ver Encomenda</a> --}}
+                        {{-- <a href="javascript:void(0);"  wire:click="finalizarencomenda" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Encomenda</a> --}}
+                        <a href="javascript:void(0);" wire:click="Limpar" class="btn btn-sm btn-secondary"> Limpar carrinho</a>
+                        
+                        <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary" > Voltar atrás</a>
                         <a href="javascript:void(0);" wire:click="cancelarEncomenda" class="btn btn-sm btn-secondary" > Cancelar</a>
                     </div>
                 </div>
@@ -67,7 +76,7 @@
 
         </div>
 
-        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:64vh;padding-right: 0;">
+        <div class="card-body" id="scrollModalBody" style="overflow-y:auto;max-height:70vh;padding-right: 0;">
             <div class="tab-content">
 
                 <div class="tab-pane fade {{ $tabDetail }}" id="tab4">
@@ -222,14 +231,14 @@
                         <div class="col-xl-4">
 
                             <div class="form-group">
-                                <label>Nº Ocorrências em aberto</label>
+                                <label>Email do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-carolina"><i
                                                 class="ti-light-bulb text-light"></i></span>
                                     </div>
                                     <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                        value="{{ $detalhesCliente->customers[0]->email }}" readonly>
                                 </div>
                             </div>
 
@@ -266,6 +275,20 @@
                     </div>
 
                     <div class="row form-group">
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>Nº Ocorrências em aberto</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-carolina"><i
+                                                class="ti-light-bulb text-light"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control"
+                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="col-xl-4">
 
                             <div class="form-group">
@@ -313,13 +336,12 @@
                                     @php
                                         $contaCat = 0;
                                     @endphp
-                                  
                                     @foreach ($getCategories->category as $i => $cat)
                                         @php
                                             $contaCat++;
                                         @endphp
-                                        <div class="subsidebarProd overflow-y-auto"
-                                            id="subItemInput{{ $contaCat }}">
+                                        <div class="subsidebarProd overflow-y-auto" id="subItemInput{{ $contaCat }}">
+
                                             <div wire:loading wire:target="searchCategory">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
@@ -327,7 +349,7 @@
                                                 </div>
                                             </div>
 
-                                            <div wire:loading wire:target="resetFilter">
+                                            <div wire:loading wire:target="resetFilterEncomenda">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
                                                     </div>
@@ -336,41 +358,132 @@
 
                                             <a href="javascript:void(0)" class="buttonGoback"><i
                                                     class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                              
                                             <h2>{{ $cat->name }}</h2>
+                                            
                                             <div class="row">
+                                            
+
                                             @foreach ($cat->family as $family)
                                             @if ($familyInfo == true)
                                                 @if ($idFamilyInfo == $family->id)
+                                                {{-- {{dd($familyInfo)}} --}}
                                                     <div class="col-12">
                                                         <div class="row mb-2">
-                                                            <a href="javascript:void(0)" wire:click="resetFilter({{ $contaCat }})" class="mb-3 ml-4">
+                                                            <a wire:click="resetFilterEncomenda({{ $contaCat }})" class="mb-3 ml-4">
                                                                 <i class="ti-angle-left"></i> Atrás
                                                             </a>
                                                         </div>
                                                         <div class="row">
                                                             @foreach ($family->subfamily as $subfamily)
-                                                                <div class="col-4">
+                                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                                        <a href="javascript:void(0);" class="title-description-family" data-id={{$contaCat}} wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})"
+                                                                            style="pointer-events: auto">
+                                                                            <div class="mb-1">
+                                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $family->id }}/{{ $subfamily->id }}.jpg"
+                                                                                    class="card-img-top" alt="...">
+
+                                                                                <div class="body-decoration">
+                                                                                    <h5 class="title-description">{{ $subfamily->name }}</h5>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                {{-- <div class="col-4">
                                                                     <h5 class="title-description-family"
                                                                         wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})">
-                                                                        {{ $subfamily->name }}
+                                                                        {{ $subfamily->name }}aqui
                                                                     </h5>
-                                                                </div>
+                                                                </div> --}}
                                                             @endforeach
                                                         </div>
                                                     </div>
-                                                    @else
-                                                    <div class="col-4">
+                                                @else
+                                                    @if ($idCategoryInfo != $cat->id)
+                                                        <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                            <div class="card card-decoration card-outline-primary border border-2">
+                                                                <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                                    style="pointer-events: auto">
+                                                                    <div class="mb-1">
+                                                                        @php
+                                                                            $familyId = $family->id;
+                                                                            $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                            $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                        @endphp
+                                                                        <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                            class="card-img-top" alt="...">
+
+                                                                        <div class="body-decoration">
+                                                                            <h5 class="title-description">{{ $family->name }}</h5>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
+                                                    {{-- <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                        <div class="card card-decoration card-outline-primary border border-2">
+                                                            <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                            style="pointer-events: auto">
+                                                                <div class="mb-1">
+                                                                    @php
+                                                                        $familyId = $family->id;
+                                                                        $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                        $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                    @endphp
+                                                                    <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                        class="card-img-top" alt="...">
+
+                                                                    <div class="body-decoration">
+                                                                        <h5 class="title-description">{{ $family->name }}</h5>
+                                                                    </div>
+
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div> --}}
+
+                                                    {{-- <div class="col-4">
                                                         <a href="javascript:void(0);" class="familyHREF{{ $contaCat }}" data-id={{$contaCat}} wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
-                                                            <h5 class="family_title">{{ $family->name }}</h5>
+                                                            <h5 class="family_title">{{ $family->name }}ss</h5>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                 @endif
                                             @else
-                                                <div class="col-4">
+
+                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                        <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                        style="pointer-events: auto">
+                                                            <div class="mb-1">
+                                                                @php
+                                                                    $familyId = $family->id;
+                                                                    $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                    $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                @endphp
+                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                    class="card-img-top" alt="...">
+                                                                {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
+
+                                                                <div class="body-decoration">
+                                                                    <h5 class="title-description">{{ $family->name }}</h5>
+                                                                </div>
+
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="col-4">
                                                     <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
-                                                        <h5 class="family_title">{{ $family->name }}</h5>
+                                                        <h5 class="family_title">{{ $family->name }}Hello</h5>
                                                     </a>
-                                                </div> 
+                                                </div>  --}}
                                             @endif
                                         @endforeach
 
@@ -378,7 +491,7 @@
                                         </div>
                                     @endforeach
                                     <div class="sidebarProd" id="sidebarProd" wire:ignore>
-                                        <label for="checkbox" style="width: 180%;">
+                                        <label for="checkbox" style="width: 100%;">
                                             <div class="input-group input-group-config-Goback input-config-produtos"
                                                 id="checkboxSidbar" style="padding: 0;">
                                                 <label><i class="ti-menu"></i>
@@ -413,7 +526,7 @@
                                         @endforeach
                                     </div>
                                     <div class="row justify-content-between">
-                                        <div class="col-3">
+                                        <div class="col-md-3 col-4">
                                             <div class="input-group" id="checkboxSidbar">
                                                 <input id="checkbox" type="checkbox">
                                                 <label class="toggle" for="checkbox">
@@ -422,7 +535,7 @@
                                                     <div id="bar3" class="bars"></div>
                                                 </label> &nbsp;<h4>Categorias</h4>
                                             </div>
-                                            <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2"
+                                            {{-- <div id="dataTables_wrapper" class="dataTables_wrapper container mt-2"
                                                 style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                                                 <div class="dataTables_length left" id="dataTables_length">
                                                     <label>Mostrar
@@ -442,7 +555,7 @@
                                                         </select>
                                                         registos</label>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="col-md col-12">
                                             @php
@@ -500,55 +613,59 @@
                                                 @endif
                                             @endforeach
                                         </div>
-                                        <div class="row col-md-9">
-                                            <div wire:loading wire:target="searchProduct">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div wire:loading wire:target="adicionarProduto">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div wire:loading wire:target="openDetailProduto">
-                                                <div id="filtroLoader" style="display: block;">
-                                                    <div class="filtroLoader" role="status">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @php
-                                                $searchSubFamily = session('searchSubFamily');
-                                            @endphp
-                                            @if ($searchSubFamily)
-                                                @foreach ($searchSubFamily->product as $prodt)
-    <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-        <div class="card card-decoration card-outline-primary border border-2">
-            <a href="javascript:void(0)"
-               wire:click="openDetailProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"
-               style="pointer-events: auto">
-                <div class="mb-1">
-                    <img src="https://storage.sanipower.pt/storage/produtos/{{ $prodt->family_number }}/{{ $prodt->family_number }}-{{ $prodt->subfamily_number }}-{{ $prodt->product_number }}.jpg"
-                         class="card-img-top" alt="...">
-                    <div class="body-decoration">
-                        <h5 class="title-description">{{ $prodt->product_name }}</h5>
-                    </div>
-                </div>
-            </a>
-            <div class="card-body container-buttons" style="z-index:10;">
-                <button class="btn btn-sm btn-primary"
-                        wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})">
-                    <i class="ti-shopping-cart"></i><span> Compra rápida</span>
-                </button>
-            </div>
-        </div>
-    </div>
-@endforeach
+                                        <div class="col-md-9">
+                                            <div class="row">
 
-                                            @else
-                                            @endif
+                                                <div wire:loading wire:target="searchProduct">
+                                                    <div id="filtroLoader" style="display: block;">
+                                                        <div class="filtroLoader" role="status">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div wire:loading wire:target="adicionarProduto">
+                                                    <div id="filtroLoader" style="display: block;">
+                                                        <div class="filtroLoader" role="status">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div wire:loading wire:target="openDetailProduto">
+                                                    <div id="filtroLoader" style="display: block;">
+                                                        <div class="filtroLoader" role="status">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @php
+                                                    $searchSubFamily = session('searchSubFamily');
+                                                @endphp
+                                                @if ($searchSubFamily)
+                                                    @foreach ($searchSubFamily->product as $prodt)
+                                                        <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                            <div class="card card-decoration card-outline-primary border border-2">
+                                                                <a href="javascript:void(0)"
+                                                                wire:click="openDetailProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"
+                                                                style="pointer-events: auto">
+                                                                    <div class="mb-1">
+                                                                        <img src="https://storage.sanipower.pt/storage/produtos/{{ $prodt->family_number }}/{{ $prodt->family_number }}-{{ $prodt->subfamily_number }}-{{ $prodt->product_number }}.jpg"
+                                                                            class="card-img-top" alt="...">
+                                                                        <div class="body-decoration">
+                                                                            <h5 class="title-description">{{ $prodt->product_name }}</h5>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </a>
+                                                                <div class="card-body container-buttons" style="z-index:10;">
+                                                                    <button class="btn btn-sm btn-primary"
+                                                                            wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})">
+                                                                        <i class="ti-shopping-cart"></i><span> Compra rápida</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+
+                                                @else
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -556,7 +673,7 @@
                         @else
                             <div class="tab-encomenda-produto">
                                 <div class="row mb-2 border-bottom">
-                                    <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
+                                    <a href="javascript:void(0)" wire:click="recuarLista" class="mb-3 ml-4"><i
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
                                 @php
@@ -568,19 +685,24 @@
                                 @endphp
                                 <div class="container-fluid container-detalhes-produto">
     <div class="row">
-        <div class="col-12 d-flex flex-wrap">
-            <div class="col-12 col-md-3 p-0 mb-3">
+          <div class="col-12 d-flex flex-wrap row" style="padding-right: 0 !important;">
+            <div class="d-none d-xl-block col-xl-2">
                 <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg" width="100%">
             </div>
             @php
                 $ref = "https://storage.sanipower.pt/storage/produtos/$family/$family-$subFamily-$productNumber.jpg";
             @endphp
-            <div class="col-12 col-md-9">
+            <div class="col-12 col-xl-10"  style="padding-right: 0 !important;">
                 <div class="row">
                     <div class="col-12 mb-2">
                         <div class="row">
-                            <div class="col-12 d-flex align-items-center pl-2">
-                                <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
+                            <div class="col-12 d-flex align-items-center pl-2 row">
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-6 d-xl-none">
+                                    <img src="https://storage.sanipower.pt/storage/produtos/{{ $family }}/{{ $family }}-{{ $subFamily }}-{{ $productNumber }}.jpg" width="100%">
+                                </div>
+                                <div class="col">
+                                    <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -590,17 +712,20 @@
                                 <tr>
                                     <th>Referência</th>
                                     <th>Modelo</th>
-                                    <th>PVP unitário</th>
+                                    <th>PVP (UNI)</th>
                                     <th>Desconto</th>
-                                    <th>Preço unitário</th>
+                                    {{-- <th>Desconto 2</th> --}}
+                                    <th>Preço (UNI)</th>
                                     <th>Qtd mínima</th>
                                     <th>Stock</th>
-                                    <th style="width: 150px;">Qtd a encomendar</th>
+                                    <th style="width: 150px;">Quantidade</th>
                                     <th class="text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (!empty($detailProduto))
+                             
+                                @if (!empty($detailProduto) || isset($detailProduto->product))
+                             
                                     @foreach ($detailProduto->product as $i => $prod)
                                         <tr style="background-color:{{ $prod->color }}">
                                             <td>{{ $prod->referense }}</td>
@@ -622,11 +747,6 @@
                                                                 @foreach ($prod->stocks as $stock)
                                                                     <li>
                                                                         {{ $stock->warehouse_description }}
-                                                                        @if ($stock->stock == true)
-                                                                            <i class="ti-check text-lg text-forest"></i>
-                                                                        @else
-                                                                            <i class="ti-close text-lg text-chili"></i>
-                                                                        @endif
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -641,8 +761,42 @@
                                             <td><input type="number" class="form-control produto-quantidade" id="{{$i}}" data-qtd="{{ $prod->quantity }}" data-i="{{$i}}" wire:model.defer="produtosRapida.{{$i}}"></td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-around">
+                                                
                                                     <button class="btn btn-sm btn-outline-secondary">
-                                                        <i class="ti-package text-light"></i>
+                                                        
+                                                        <a class="popover-test" data-toggle="tooltip" data-placement="top" title="Clique para ver os valores">
+                                                            <div class="dropdownIcon">
+                                                                <i class="ti-package text-light dropdownIcon-toggle" style="margin:0;padding:0;"></i>
+                                
+                                                               
+                                                                <ul class="dropdownIcon-menu" style="color:black;left:-191px!important;">
+                                                                    <li><i class="fa fa-play icon-play"></i></li>
+                                                                    <li style="border-bottom: 1px solid;">
+                                                                        <h6>Quantidade p/Caixa</h6>
+                                                                    </li>
+                                                                  
+                                                                     <li>
+                                                                        <div class="row">
+                                                                         
+                                                                            <div class="col-4">
+                                                                                <img src="https://www.sanipower.pt/img/cx-pequena.svg" alt="Caixa Pequena">
+                                                                                {{$prod->quantity_box->small}}
+                                                                            </div>
+                                                                            <div class="col-4">
+                                                                                <img src="https://www.sanipower.pt/img/cx-grande.svg" alt="Caixa Grande">
+                                                                                {{$prod->quantity_box->big}}
+                                                                            </div>
+                                                                            <div class="col-4">
+                                                                                <img src="https://www.sanipower.pt/img/palete.svg" alt="Palete">
+                                                                                {{$prod->quantity_box->pallet}}
+                                                                            </div>
+                                                                         
+                                                                        </div>
+                                                                    </li>  
+                                                                   
+                                                                </ul>
+                                                            </div>
+                                                        </a>
                                                     </button>
                                                     <div class="dropdown">
                                                         <button class="btn btn-sm btn-outline-secondary" id="commentProductEncomenda{{$i}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -656,13 +810,13 @@
                                                                         <i class="ti-check"></i>
                                                                     </button>
                                                                 </h6>
-                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
+                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
                                                             </li>
                                                         </div>
                                                     </div>
-                                                    <button wire:click="addProductQuickBuyProposta({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')" class="btn btn-sm btn-outline-secondary" id="addProductProposta{{$i}}" disabled>
+                                                    {{-- <button wire:click="addProductQuickBuyProposta({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')" class="btn btn-sm btn-outline-secondary" id="addProductProposta{{$i}}" disabled>
                                                         <i class="ti-notepad text-light"></i>
-                                                    </button>
+                                                    </button> --}}
                                                     <button wire:click="addProductQuickBuyEncomenda({{$i}},'{{ $produtoNameDetail }}',{{$detalhesCliente->customers[0]->no}},'{{$ref}}','{{$codEncomenda}}')" class="btn btn-sm btn-outline-secondary" id="addProductEncomenda{{$i}}" disabled>
                                                         <i class="ti-shopping-cart text-light"></i>
                                                     </button>
@@ -674,23 +828,28 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="container-buttons-produtos">
-                        <div>
-                            <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
+                    <div style="display: flex;justify-content: space-between;width: 100%;">
+                        <div class="container-buttons-produtos">
+                            <div>
+                                <button class="btn btn-md btn-primary"><i class="ti-file"></i> Ficha do Produto</button>
+                            </div>
+                            <div>
+                                <button class="btn btn-md btn-primary"><i class="ti-info"></i> Descrição Produto</button>
+                            </div>
+                            <div>
+                                <button class="btn btn-md btn-primary"><i class="ti-file"></i> Manuais Certificados</button>
+                            </div>
                         </div>
-                        <div>
-                            <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
-                        </div>
-                        <div>
-                            <button class="btn btn-md btn-primary" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
-                        </div>
-                        <div>
-                            <button class="btn btn-md btn-primary"><i class="ti-info"></i> Descrição Produto</button>
-                        </div>
-                        <div>
-                            <button class="btn btn-md btn-primary"><i class="ti-file"></i> Manuais Certificados</button>
+                        <div class="container-buttons-produtos">
+                            <div>
+                                <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
+                            </div>
+                            <div>
+                                <button class="btn btn-md btn-success" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -700,91 +859,213 @@
                 </div>
             </div>
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
-            @php
+             @php
                 $ValorTotal = 0;
                 $ValorTotalComIva = 0;
             @endphp
-            @forelse ($arrayCart as $img => $item)
                 <div class="row" style="align-items: center;">
-                    <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 12rem; height:auto;">
-                    </div>
-                    <div class="col-md-10 p-0">
-                        <table class="table table-hover init-datatable">
+                   
+                    @if($allkit)
+                    <div class="col-md-12 p-0">
+                    
+                        <table class="table init-datatable">
                             <thead class="thead-light">
-                                <tr>
-                                    <th class="d-none d-lg-table-cell">Referência</th>
+                                <tr style="background:#d6d8db78;">
+                                    {{-- <th style="width: 0;"></th> --}}
+                             
+                                    <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
-                                    <th>Modelo</th>
-                                    <th>PVP (UNI)</th>
-                                    <th class="d-none d-md-table-cell">Desconto</th>
-                                    <th>Preço (c/desc.)</th>
-                                    <th>Qtd.Enc.</th>
-                                    <th>Iva</th>
-                                    <th>Total</th>
+                                    <th style=" text-align: right;width: 0%;">PVP</th>
+                                    <th style=" text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
+                                    <th style=" text-align: right;width: 0%;">P(c/desc.)</th>
+                                    <th style=" text-align: right;width: 0%;">Qtd</th>
+                                    <th style=" text-align: right;width: 0%;">Iva</th>
                                     <th></th>
+                                    <th style=" text-align: right; " >Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($item as $prod)
-                                    @php
-                                        $totalItem = $prod->price * $prod->qtd;
-                                        $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
-                                        $ValorTotal += $totalItem;
-                                        $ValorTotalComIva += $totalItemComIva;
-                                    @endphp
-                                    <tr data-href="#" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">
-                                        <td class="d-none d-lg-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important;">{{ $prod->referencia }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:22%">{{ $prod->designacao }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:15%">{{ $prod->model }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
-                                        <td class="d-none d-md-table-cell" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->discount }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($prod->price, 2, ',', '.') }} €</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->qtd }}</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ $prod->iva }} %</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:10%">{{ number_format($totalItem, 2, ',', '.') }} €</td>
-                                        <td style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; width:5%"><strong><a href="javascript:void(0);" class="remover_produto btn btn-sm btn-primary" wire:click="deletar({{ $prod->id }})">X</a></strong></td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                                    </tr>
-                                @endforelse
+                            @forelse ($arrayCart as $img => $prod)
+
+                                @if($prod->inkit == 1)
+
+                                        @php
+                                            $totalItem = $prod->price * $prod->qtd;
+                                            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+                                            $ValorTotal += $totalItem;
+                                            $ValorTotalComIva += $totalItemComIva;
+                                        @endphp
+                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                            {{-- <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        @php
+                                                            $referencia = $prod->referencia;
+                                                            $referenciaCorrigida = str_replace('.', '£', $referencia);
+
+                                                            
+                                                            $designacao = $prod->designacao;
+                                                            $designacaoCorrigida = str_replace('.', '£', $designacao);
+                                                        @endphp
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
+                                                            wire:model.defer="selectedItemsRemoveKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td> --}}
+                                          
+                                            <td>{{ $prod->referencia }}</td>
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
+                                            <td>
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                 @if(isset($comentarios))
+                                                 @if($comentarios != null)
+                                                     {{$comentarios->comentario}}
+                                                 @endif
+                                                 @endif
+                                            </td>
+                                            <td style="text-align: right; white-space: nowrap;"></td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;"></td>
+                                            <td style=" text-align: right; white-space: nowrap;"></td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">
+                                                <select class="form-control" name="ivaInKit"wire:change='ivaInKit' wire:model.lazy="valueIvaInKit" style="position: relative;width: 61px;left: 12px;">
+                                                    <option value="22">22</option>
+                                                    <option value="12">12</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </td>
+                                            <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`,`{{ $prod->designacao }}`,`{{ $prod->model }}`,`{{ $prod->price }}`)"></i> </td>
+                                            <td style=" width: 10%; text-align: right; white-space: nowrap;"></td>
+                                        </tr>
+                                    @endif
+                                    @if($prod->inkit == 0)
+
+                                        @php
+                                            $totalItem = $prod->price * $prod->qtd;
+                                            $totalItemComIva = $totalItem + ($totalItem * ($prod->iva / 100));
+                                            $ValorTotal += $totalItem;
+                                            $ValorTotalComIva += $totalItemComIva;
+                                        @endphp
+                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                            {{-- <td>
+                                                <div class="form-checkbox">
+                                                    <label>
+                                                        @php
+                                                            $referencia = $prod->referencia;
+                                                            $referenciaCorrigida = str_replace('.', '£', $referencia);
+
+                                                            
+                                                            $designacao = $prod->designacao;
+                                                            $designacaoCorrigida = str_replace('.', '£', $designacao);
+                                                        @endphp
+                                                        <input type="checkbox" class="checkboxAddKit" data-id="{{ $prod->id }}" 
+                                                            wire:model.defer="selectedItemsAddKit.[{{ json_encode($prod->id) }},{{ json_encode($referenciaCorrigida) }},{{ json_encode($designacaoCorrigida) }}]">
+                                                        <span class="checkmark" style="font-size: 12px;"><i class="fa fa-check pick"></i></span>
+                                                    </label>
+                                                </div>
+                                            </td> --}}
+                                            <td>{{ $prod->referencia }}</td>
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                            @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                  @if(isset($comentarios))
+                                                  @if($comentarios != null)
+                                                    <br>
+                                                    <small style="color:#afba17;">
+                                                        {{$comentarios->comentario}}
+                                                    </small>
+                                                  @endif
+                                                @endif
+                                            
+                                            <br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
+                                            {{-- <td>
+                                                @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                  @if(isset($comentarios))
+                                                  @if($comentarios != null)
+                                                      {{$comentarios->comentario}}
+                                                  @endif
+                                                @endif
+                                            </td> --}}
+                                            <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
+                                            <td style=" text-align: right; white-space: nowrap;">{{ $prod->iva }} %</td>
+                                            <td style=" text-align: right; width:5%"> <i class="fas fa-trash-alt text-primary" wire:click="deletar(`{{ $prod->referencia }}`,`{{ $prod->designacao }}`,`{{ $prod->model }}`,`{{ $prod->price }}`)"></i> </td>
+                                            <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($totalItem, 2, ',', '.') }} €</td>
+                                        </tr>
+                                    @endif
+                               
+                            @empty
+                                <tr>
+                                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
+
+                        {{-- <div class="form-checkbox">
+                            <label>
+                                <input type="checkbox" id="kitCheck" class="kitCheck" wire:model="kitCheck">
+                                <span class="checkmark"><i class="fa fa-check pick"></i></span>
+                                Adicionar ao Kit
+                            </label>
+                        </div> --}}
                     </div>
+                    {{-- <div class="col-md-12 p-0 d-flex" style="text-align:right;margin-bottom: 15px;justify-content: flex-end;">
+                        <div class="btn-Add-itens-kit">
+                            <button class="btn btn-md btn-primary" wire:click="AdicionarItemKit"><i class="ti-shopping-cart"></i> Adicionar ao Kit </button>
+                        </div>
+                        <div class="btn-remove-itens-kit"  style="margin-left: 10px;">
+                            <button class="btn btn-md btn-primary" wire:click="RemoverItemKit"><i class="ti-shopping-cart"></i> Remover do Kit </button>
+                        </div>
+                    </div> --}}
+             
+                    @endif
+      
                 </div>
-            @empty
-                <tr>
-                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                </tr>
-            @endforelse
             <div class="row">
-                <div class="col-12 text-right" style="border-bottom: none;">
-                    <table class="float-right" style="width: 240px; margin-top: 1rem;">
+                <div class="col-md-12 p-0 text-right" style="border-bottom: none;padding: 0;">
+                 
+               
+                    <br/>
+                    <table class="float-right table init-datatable">
                         <tbody>
-                            <tr style="border-bottom: 1px solid #232b58!important;">
-                                <td style="width: 100px; text-align: left;">Total s/IVA</td>
-                                <td style="width: 140px;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
+                            <tr style="background:#d6d8db78;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td >Total s/IVA</td>
+                                <td style="width: 10%;white-space: nowrap;" class="bold">{{ number_format($ValorTotal, 2, ',', '.') }} €</td>
                             </tr>
-                            <tr style="border-bottom: 1px solid #232b58!important;">
-                                <td style="width: 100px; text-align: left;">Total c/IVA</td>
-                                <td style="width: 140px;" class="bold">{{ number_format($ValorTotalComIva, 2, ',', '.') }} €</td>
+                            <tr style="background:#d6d8db78;">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td >Total c/IVA</td>
+                                <td style="width: 10%;white-space: nowrap;" class="bold">{{ number_format($ValorTotalComIva, 2, ',', '.') }} €</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            {{-- <div class="row p-4">
-                <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                    <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul" style="color:white;"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
-                </div>
-                <div class="col-12 pb-3 p-0 d-md-none text-center">
-                    <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                    <a class="btn btn-primary fundo_azul w-100" style="color:white;"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
-                </div>
-            </div> --}}
         </div>
 
         <div class="tab-pane fade {{ $tabFinalizar }}" id="tab7">
@@ -803,10 +1084,7 @@
                      <div class="form-group">
                          <label>Vossa referência</label>
                          <div class="input-group">
-                             <div class="input-group-prepend">
-                                 <span class="input-group-text bg-carolina"><i
-                                         class="ti-light-bulb text-light"></i></span>
-                             </div>
+                        
                              <input type="text" class="form-control" wire:model.defer="referenciaFinalizar">
                          </div>
                      </div>
@@ -869,11 +1147,14 @@
                  <div class="col-xl-6 col-xs-6 mt-2">
 
                      <div class="col-xl-12 col-xs-12">
-                         <label id="selectLabel">Selecione loja</label>
-                         <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar">
-                             <option value="option1">Opção 1</option>
-                             <option value="option2">Opção 2</option>
-                             <option value="option3">Opção 3</option>
+                         <label id="selectLabel" style="display:none;">Selecione loja</label>
+  
+                         <select class="form-control" id="selectBox" wire:model.defer="lojaFinalizar" style="display:none;">
+                            @foreach ($lojas as $loja )
+                              @foreach ($loja->stores as $store )
+                                <option value="{{json_encode($store->name)}}">{{$store->name}}</option>
+                              @endforeach
+                            @endforeach
                          </select>
                      </div>
                
@@ -940,11 +1221,11 @@
 
              <div class="row p-4">
                  <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                     <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
-                     <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
+                     {{-- <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
+                     <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i>Encomendar</a>
                  </div>
                  <div class="col-12 pb-3 p-0 d-md-none text-center">
-                     <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                     {{-- <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
                      <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
                  </div>
              </div>
@@ -960,7 +1241,7 @@
 <!-- Modal adicionar compra rapida -->
 <div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
         <div class="modal-content">
             @php
                 $quickBuyProducts = session('quickBuyProducts');
@@ -995,23 +1276,29 @@
                                     <tr>
                                         <th>Referência</th>
                                         <th>Modelo</th>
-                                        <th>PVP unitário</th>
+                                        <th>PVP (UNI)</th>
                                         <th>Desconto</th>
-                                        <th>Preço unitário</th>
-                                        <th>Quantidade mínima</th>
+                                        {{-- <th>Desconto 2</th> --}}
+                                        <th>Preço (UNI)</th>
+                                        <th>Qtd mínima</th>
                                         <th>Stock</th>
-                                        <th>Quantidade a encomendar</th>
+                                        <th>Quantidade</th>
                                         <th class="text-center">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!empty($quickBuyProducts))
+                                    {{-- adicionar o codigo abaixo quando conseguir repetir o erro --}}
+                                    @if (!empty($quickBuyProducts) || isset($quickBuyProducts->product))
+
+                                    {{-- @if (!empty($quickBuyProducts)) --}}
+                                        {{-- {{dd($quickBuyProducts)}} --}}
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
                                                 <td>{{ $prod->referense }}</td>
                                                 <td>{{ $prod->model }}</td>
                                                 <td>{{ $prod->pvp }}</td>
                                                 <td>{{ $prod->discount }}</td>
+                                                {{-- <td>{{ $prod->discount2 }}</td> --}}
                                                 <td>{{ $prod->price }}</td>
                                                 <td>{{ $prod->quantity }}</td>
                                                 <td style="text-align:center;font-size:large;">
@@ -1027,11 +1314,6 @@
                                                                     @foreach ($prod->stocks as $stock)
                                                                         <li>
                                                                             {{ $stock->warehouse_description }}
-                                                                            @if ($stock->stock == true)
-                                                                                <i class="ti-check text-lg text-forest"></i>
-                                                                            @else
-                                                                                <i class="ti-close text-lg text-chili"></i>
-                                                                            @endif
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -1063,7 +1345,7 @@
                                                                         <i class="ti-check"></i>
                                                                     </button>
                                                                 </h6>
-                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
+                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
                                                                     wire:model.defer="produtosComment.{{$i}}">
                                                                 </textarea>
                                                             </li>
@@ -1117,7 +1399,7 @@
                                     @forelse ($carrinhoCompras as $item)
                                         <tr>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->referencia }}</td>
-                                            <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}</td>
+                                            <td style="border-bottom:1px solid #232b58!important; width:20%">{{ $item->designacao }}<br><small style="color:#1791ba;">{{$item->proposta_info}}</small></td>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ $item->qtd }}</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:10%">{{ number_format($item->price, 2, ',', '.') }} €</td>
                                             <td style="border-bottom:1px solid #232b58!important; width:5%">
@@ -1138,7 +1420,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab" class="nav-link btn btn-outline-primary">Finalizar Encomenda</a>
+                <a href="#tab6" id="finalizarEncomenda" data-toggle="tab"  wire:click="finalizarencomenda" class="nav-link btn btn-outline-primary">Guardar Encomenda</a>
             </div>
         </div>
     </div>
@@ -1154,7 +1436,21 @@
     {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 <script>
     
+   
+        // jQuery(document).on("click",".toggle",function() {
+        
+        //         jQuery(".card-header").css("display","none");
+        //         // jQuery(".tab-content").css("z-index","-20");
+        //         jQuery(".sidebarProd").css("z-index","+100");
+        
+                
+        // });
+
+
     document.addEventListener("DOMContentLoaded", function() {
+
+        
+        
         function closeAllDropdowns() {
             var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
             dropdownMenus.forEach(function(dropdownMenu) {
@@ -1180,28 +1476,53 @@
             }
         });
 
+
+    });
+    function attachLoader() {
+
         const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
 
         textareas.forEach(textarea => {
+            const classListArray = Array.from(textarea.classList);
+
+            const hasColorClass = classListArray.some(className => className.includes('41c6a0'));
             const id = textarea.id.replace('addTextosEncomenda', '');
-            const commentButton = document.getElementById('addCommentEncomenda' + id);
 
-            textarea.addEventListener('input', function() {
-                if (textarea.value.trim() !== "") {
-                    commentButton.removeAttribute('disabled');
-                } else {
-                    commentButton.setAttribute('disabled', 'disabled');
+            if (!hasColorClass) { 
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+                        
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+
+                    commentButton.addEventListener('click', function() {
+                        $('#addProductEncomenda'+id).removeAttr('disabled');
+                        $('#addProductProposta'+id).removeAttr('disabled');
+                    });
                 }
-            });
+            }else{
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
 
-            commentButton.addEventListener('click', function() {
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
-            });
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+                   
+                }
+            }
         });
-    });
-
-    
+    }
 
     // vinicius
     const checkbox = document.getElementById('checkbox');
@@ -1221,59 +1542,64 @@
 
         }
     });
+    document.addEventListener('DOMContentLoaded', function () {
+        function attachHandlers() {
 
-    $(document).ready(function(){
-        $('.produto-quantidade').on('input', function() {
-            var id = $(this).attr('id');
-            var valor = $(this).val();
-            var qtdMin = $(this).attr('data-qtd');
-            if(parseInt(valor) >= parseInt(qtdMin)){
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
+            $('.produto-quantidade').off('input').on('input', function() {
 
-                $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                var id = $(this).attr('id');
+                var valor = $(this).val();
+                var qtdMin = $(this).attr('data-qtd');
 
-            }else if(parseInt(valor) < parseInt(qtdMin)){
-                if(parseInt(valor) <= 0){
-                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+                if(parseInt(valor) >= parseInt(qtdMin)){
+                    $('#addProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductProposta'+id).removeAttr('disabled');
+                    // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
 
-                    $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                }else if(parseInt(valor) < parseInt(qtdMin)){
+
+                    if(parseInt(valor) <= 0){
+                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                        $('#addProductProposta'+id).attr('disabled', 'disabled');
+
+                        // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+                    }else{
+                        // $('#commentProductEncomenda'+id).removeAttr('disabled');
+                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                        $('#addProductProposta'+id).attr('disabled', 'disabled');
+                    }
                 }else{
-                    $('#commentProductEncomenda'+id).removeAttr('disabled');
                     $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                     $('#addProductProposta'+id).attr('disabled', 'disabled');
-
                 }
-            }else{
-                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            });
 
+            $('#selectBox').hide();
+            $('#selectLabel').css("display","none");
 
-            }
-        });
+            $('.checkFinalizar').off('change').on('change', function() {
+                $('.checkFinalizar').not(this).prop('checked', false);
 
-        $('#selectBox').hide();
-        $('#selectLabel').css("display","none");
+                if($('#levantamento_loja').is(':checked')) {
+                    $('#selectBox').show();
+                    $('#selectLabel').css("display","block");
+                } else {
+                    $('#selectBox').hide();
+                    $('#selectLabel').css("display","none");
+                }
+            });
 
-        $('.checkFinalizar').on('change', function() {
-            $('.checkFinalizar').not(this).prop('checked', false);
+            $('.checkPagamento').off('change').on('change', function() {
+                $('.checkPagamento').not(this).prop('checked', false);
+            });
+        }
 
-            if($('#levantamento_loja').is(':checked')) {
-                $('#selectBox').show();
-                $('#selectLabel').css("display","block");
-            } else {
-                $('#selectBox').hide();
-                $('#selectLabel').css("display","none");
-            }
-        });
+        attachHandlers();
 
-        $('.checkPagamento').on('change', function() {
-            $('.checkPagamento').not(this).prop('checked', false);
+        Livewire.hook('message.processed', (message, component) => {
+            attachHandlers();
         });
     });
-
-
 
     window.addEventListener('refreshAllComponent', function() {
         const sidebar = document.getElementById('sidebarProd');
@@ -1306,6 +1632,7 @@
                 }
             });
         }
+        
     });
 
     window.addEventListener('refreshPage', function(e) {
@@ -1313,11 +1640,38 @@
     });
     
 
-    window.addEventListener('refreshComponent', function(e) {
-        
-         var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
+    window.addEventListener('refreshComponentEncomenda2', function(e) {
 
-        // console.log(check);
+        var accordions2 = document.getElementsByClassName("accordion2");
+
+        for (var i = 0; i < accordions2.length; i++) {
+            accordions2[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+
+                var panel2 = this.nextElementSibling;
+                if (panel2.style.maxHeight) {
+                    panel2.style.maxHeight = null;
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+                } else {
+                    panel2.style.maxHeight = panel2.scrollHeight + "%";
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                }
+            });
+        }
+
+        document.querySelectorAll('.subsidebarProd').forEach(function(item) {
+            item.style.display = 'none';
+        });
+
+        const subItem = document.querySelector("#subItemInput" + e.detail.id);
+        if (subItem) {
+            subItem.style.display = 'block';
+        }
+    });
+
+    window.addEventListener('refreshComponent', function(e) {
+        //window.location.reload();
+        var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
 
         document.querySelectorAll('.familyHREF'+check).forEach(function(item) {
        
@@ -1330,7 +1684,7 @@
         });
 
         jQuery("#subItemInput" + e.detail.id).css("display", "block");
-        e.detail.id = null;
+   
     });
 
     const inputProdutos = document.querySelectorAll('.input-config-produtos');
@@ -1338,6 +1692,9 @@
         inputProduto.addEventListener('click', function() {
             if (inputProduto.classList.contains('open')) {} else {
                 sidebar.classList.remove('open');
+                // console.log("1");
+                // jQuery(".card-header").css("display","block");
+
                 document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                     item.style.display = 'none';
                 });
@@ -1351,7 +1708,7 @@
 
     inputGroups.forEach(function(inputGroup) {
         inputGroup.addEventListener('click', function() {
-
+            
             const id = this.id;
             const subItemId = 'subItemInput' + id.slice(-1);
             const InputId = 'input' + id.slice(-1);
@@ -1359,8 +1716,9 @@
 
             const subItem = document.getElementById(subItemId);
             const Input = document.getElementById(InputId);
-
-
+            //jQuery("#subItemInput" + InputId).css("display", "none");
+         
+            
 
 
             const subbars = document.querySelectorAll('.subsidebarProd');
@@ -1371,6 +1729,8 @@
 
                 if (currentDisplayStyle === 'block') {
                     subItem.style.display = 'none';
+
+                    
 
                 } else {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
@@ -1402,11 +1762,11 @@
         const targetElement = event.target;
         if (sidebar) {
             if (!sidebar.contains(targetElement)) {
-
+                
                 let clickedOutsideSubbars = true;
                 subbars.forEach(function(subbar) {
                     if (subbar.contains(targetElement)) {
-
+                      
                         clickedOutsideSubbars = false;
                     }
                 });
@@ -1418,19 +1778,20 @@
 
                     checkbox.checked = true;
                     sidebar.classList.remove('open');
-
+                   
 
                 } else {
                     checkbox.checked = false;
                 }
-
+              
 
             }
         } else {}
+        attachLoader()
     });
 
     jQuery('body').on('click', '.checkboxSidbar', function() {
-
+        
         const inputProdutos = document.querySelectorAll('.input-config-produtos');
         inputProdutos.forEach(function(inputinputProduto) {});
 
@@ -1507,14 +1868,18 @@
     }
 
     document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
+        Livewire.hook('message.sent', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'block';
-            });
+                
+            }
+        });
 
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
+        Livewire.hook('message.processed', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'none';
-            });
+            }
+        });
 
     });
 
@@ -1565,16 +1930,58 @@
         jQuery('#modalEncomenda').modal('show');
     });
 
-    document.addEventListener('itemDeletar', function (event) {
-        // Mudar para a aba #tab6
-        var tab = document.querySelector('a[href="#tab6"]');
-        if (tab) {
-            tab.click();
-        }
-    });
-
-    document.addEventListener('compraRapida', function(e) {
+    document.addEventListener('compraRapida', function() {
         jQuery('#modalProdutos').modal();
     });
+
+    document.addEventListener('changeRoute', function(e) {
+        window.location.href = document.referrer;
+    });
+    
+     window.addEventListener('checkToaster', function(e) {
+        const checkboxes = document.querySelectorAll('.checkboxAddKit');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+    });
+
+    {{-- document.addEventListener('livewire:load', function() {
+
+        function checkCheckboxes() {
+        const checkboxes = document.querySelectorAll('.checkboxAddKit');
+        const buttonContainer = document.querySelector('.btn-Add-itens-kit');
+        
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        if (anyChecked) {
+            buttonContainer.style.display = 'block';
+        } else {
+            buttonContainer.style.display = 'none';
+        }
+        }
+
+        document.querySelectorAll('.checkboxAddKit').forEach(checkbox => {
+        checkbox.addEventListener('change', checkCheckboxes);
+        });
+        checkCheckboxes();
+
+
+        function checkCheckboxesRemove() {
+        const checkboxes = document.querySelectorAll('.checkboxRemoveKit');
+        const buttonContainer = document.querySelector('.btn-remove-itens-kit');
+        
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        // console.log(anyChecked);
+        if (anyChecked) {
+            buttonContainer.style.display = 'block';
+        } else {
+            buttonContainer.style.display = 'none';
+        }
+        }
+
+        document.querySelectorAll('.checkboxRemoveKit').forEach(checkbox => {
+        checkbox.addEventListener('change', checkCheckboxesRemove);
+        });
+        checkCheckboxesRemove();
+    }); --}}
 </script>
 </div>

@@ -25,28 +25,41 @@ class OfficeService
         $horaFinalFormat= new DateTime($horaFinal);
         $horaFinalFormat->sub(new DateInterval('PT1H'));
 
-        $data = json_encode(array(
-            'subject' => $assuntoText . ' - ' . $client,
-            'start' => array(
-                'dateTime' => $dataInicial . 'T' . $horaInicialFormat->format('H:i') . 'Z',
-                'timeZone' => 'UTC'
-            ),
-            'end' => array(
-                'dateTime' => $dataInicial . 'T' . $horaFinalFormat->format('H:i') . 'Z',
-                'timeZone' => 'UTC'
-            ),
-            'location' => array(
-                'displayName' => $tiposVisita->tipo
-            ),
-            'organizer' => array(
-                'emailAddress' => array(
-                    'address' => $email,
-                    'name' => $nameOrganizer
-                )
-            )
-        ));
 
-     
+
+        $clienteName = $this->unicodeUrlDecode($client);
+        $assuntoDecoded = $this->unicodeUrlDecode($assuntoText);
+
+           
+
+        $dateInicioConvert = $dataInicial . 'T' . $horaInicialFormat->format('H:i') . 'Z';
+
+        $dateFimConvert = $dataInicial . 'T' . $horaFinalFormat->format('H:i') . 'Z';
+
+        // $data = json_encode(array(
+        //     'subject' =>  $assuntoDecoded . ' - ' . $clienteName,
+        //     'start' => array(
+        //         'dateTime' => $dataInicial . 'T' . $horaInicialFormat->format('H:i') . 'Z',
+        //         'timeZone' => 'UTC'
+        //     ),
+        //     'end' => array(
+        //         'dateTime' => $dataInicial . 'T' . $horaFinalFormat->format('H:i') . 'Z',
+        //         'timeZone' => 'UTC'
+        //     ),
+        //     'location' => array(
+        //         'displayName' => $tiposVisita->tipo
+        //     ),
+        //     'organizer' => array(
+        //         'emailAddress' => array(
+        //             'address' => $email,
+        //             'name' => $nameOrganizer
+        //         )
+        //     )
+        // ),JSON_UNESCAPED_UNICODE);
+        
+        $data = '{"subject":"'.$assuntoDecoded.' - '.$clienteName.'","start":{"dateTime":"'.$dateInicioConvert.'","timeZone":"UTC"},"end":{"dateTime":"'.$dateFimConvert.'","timeZone":"UTC"},"location":{"displayName":"'.$tiposVisita->tipo.'"},"organizer":{"emailAddress":{"address":"'.$email.'","name":"'.$nameOrganizer.'"}}}';
+    
+    
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://graph.microsoft.com/v1.0/me/events',
             CURLOPT_RETURNTRANSFER => true,
@@ -67,6 +80,25 @@ class OfficeService
 
         return $response_decoded;
     }
+
+    public function unicodeUrlDecode($str) {
+        // Decodifica URL primeiro
+        $str = urldecode($str);
+        
+        // Decodifica sequências \uXXXX
+        $str = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+            return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE');
+        }, $str);
+        
+        // Decodifica sequências %uXXXX
+        $str = preg_replace_callback('/%u([0-9a-fA-F]{4})/', function ($match) {
+            return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+        }, $str);
+        
+        return $str;
+    }
+        
+
 
     public function requestToken($code)
     {

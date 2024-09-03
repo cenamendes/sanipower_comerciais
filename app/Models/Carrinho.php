@@ -16,14 +16,19 @@ class Carrinho extends Model
         'id_proposta',
         'id_cliente',
         'id_user',
+        'id_visita',
         'referencia',
         'designacao',
         'pvp',
         'discount',
+        'discount2',
+        'inkit',
         'qtd',
         'image_ref',
         'model',
         'iva',
+        'iva2',
         'price',
+        'proposta_info'
     ];
 }

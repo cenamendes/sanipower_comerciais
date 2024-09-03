@@ -20,16 +20,31 @@ class Detalheagendadas extends Component
         $currentDate = Carbon::today()->toDateString();
         $userId = Auth::id();
 
-        if(Auth::user()->nivel == "3")
+        if(Auth::user()->nivel == "1")
         {
             $this->visitas = VisitasAgendadas::with('tipovisita')
                 ->where('data_inicial', '>=', $currentDate)
+                ->where('finalizado','!=', 1)
                 ->orderBy('data_inicial', 'asc')
                 ->get();
+        }
+        else if (Auth::user()->nivel == "2") {
+
+            $this->visitas = VisitasAgendadas::with('tipovisita')
+            ->with('user')
+            ->whereHas('user',function($query){
+                $query->where('nivel', '!=', 2)
+                      ->orWhere('id', Auth::user()->id);
+            })
+            ->where('finalizado','!=', 1)
+            ->where('data_inicial', '>=', $currentDate)
+            ->orderBy('data_inicial', 'asc')
+            ->get();
         }
         else {
             $this->visitas = VisitasAgendadas::with('tipovisita')
             ->where('user_id', $userId)
+            ->where('finalizado','!=', 1)
             ->where('data_inicial', '>=', $currentDate)
             ->orderBy('data_inicial', 'asc')
             ->get();
@@ -43,16 +58,31 @@ class Detalheagendadas extends Component
         $currentDate = Carbon::today()->toDateString();
         $userId = Auth::id();
 
-        if(Auth::user()->nivel == "3")
+        if(Auth::user()->nivel == "1")
         {
             $this->visitas = VisitasAgendadas::with('tipovisita')
                 ->where('data_inicial', '>=', $currentDate)
+                ->where('finalizado','!=', 1)
                 ->orderBy('data_inicial', 'asc')
                 ->get();
+        }
+        else if (Auth::user()->nivel == "2") {
+
+            $this->visitas = VisitasAgendadas::with('tipovisita')
+            ->with('user')
+            ->whereHas('user',function($query){
+                $query->where('nivel', '!=', 2)
+                      ->orWhere('id', Auth::user()->id);
+            })
+            ->where('finalizado','!=', 1)
+            ->where('data_inicial', '>=', $currentDate)
+            ->orderBy('data_inicial', 'asc')
+            ->get();
         }
         else {
             $this->visitas = VisitasAgendadas::with('tipovisita')
             ->where('user_id', $userId)
+            ->where('finalizado','!=', 1)
             ->where('data_inicial', '>=', $currentDate)
             ->orderBy('data_inicial', 'asc')
             ->get();

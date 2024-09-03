@@ -15,10 +15,12 @@
         <div class="tools">
             <a href="{{ route('visitas.agendar-visita', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
 
-            <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Criar Encomenda</a>
-            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Criar Proposta</a>
+            <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
+            <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a>
 
-            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Criar Ocorrência</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="ti-eye"></i> Ocorrência</a>
+            <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary" > Voltar atrás</a>
+
         </div>
     </div>
 
@@ -26,7 +28,7 @@
         <div class="card-header">
             <ul class="nav nav-pills card-header-pills">
                 <li class="nav-item">
-                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes Cliente</a>
+                    <a href="#tab4" data-toggle="tab" class="nav-link {{$tabDetail}}">Detalhes</a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab5" data-toggle="tab" class="nav-link {{$tabAnalysis}}">Análises Gerais</a>
@@ -49,9 +51,9 @@
                 <li class="nav-item">
                     <a href="#tab11" data-toggle="tab" class="nav-link {{$tabAssistencias}}">Assistências</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#tab12" data-toggle="tab" class="nav-link {{$tabCampanhas}}">Campanhas</a>
-                </li>
+                </li> --}}
             </ul>
         </div>
         <div class="card-body">
@@ -356,11 +358,21 @@
                 
                 <div class="tab-pane fade {{$tabFinanceiro}}" id="tab8">
 
-                    {{-- <p class="card-text">
+                    <p class="card-text">
 
-                        @livewire('clientes.propostas',["cliente" => $detalhesCliente->customers[0]->id])
+                        @livewire('clientes.financeiro',["idCliente" => $detalhesCliente->customers[0]->id])
 
-                    </p> --}}
+                    </p>
+                </div>
+
+                
+                <div class="tab-pane fade {{$tabVisitas}}" id="tab10">
+
+                    <p class="card-text">
+
+                        @livewire('visitas.cliente-visitas',["idCliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
                 </div>
 
                 <div class="tab-pane fade {{$tabOcorrencias}}" id="tab9">
@@ -368,6 +380,14 @@
                     <p class="card-text">
 
                         @livewire('clientes.ocorrencias',["cliente" => $detalhesCliente->customers[0]->id])
+
+                    </p>
+                </div>
+                 <div class="tab-pane fade {{$tabAssistencias}}" id="tab11">
+
+                    <p class="card-text">
+
+                        @livewire('visitas.assistencias',["idCliente" => $detalhesCliente->customers[0]->id])
 
                     </p>
                 </div>
@@ -510,5 +530,10 @@
                 document.getElementById('loader').style.display = 'none';
             });
         });
+
+
+    
+       
+
 </script>
 </div>
