@@ -146,7 +146,13 @@ class PropostaInfo extends Component
     {
         $this->initProperties();
         $this->proposta = $proposta;
-        session()->put('proposta', $this->proposta);
+        $propostas = $this->clientesRepository->getPropostaID($proposta->id);
+
+        if(property_exists($propostas, 'orders') && isset($propostas->budgets[0])){
+            Session::put('proposta',$propostas->budgets[0]);
+        }else{
+            session()->put('proposta', $this->proposta);
+        }
 
         $this->specificProduct = 0;
         $this->filter = false;
@@ -342,10 +348,9 @@ class PropostaInfo extends Component
                 $status = "error";
             }
         }
-        
+        // dd($idProposta);
         $propostas = $this->clientesRepository->getPropostaID($idProposta);
-
-       
+        
         Session::put('proposta',$propostas->budgets[0]);
          
 

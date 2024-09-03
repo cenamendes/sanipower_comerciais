@@ -131,10 +131,20 @@ class EncomendaInfo extends Component
     }
 
     public function mount($encomenda)
-    {
+    {   
+        
         $this->initProperties();
         $this->encomenda = $encomenda;
-        session()->put('encomendaINFO', $this->encomenda);
+        
+        $encomendas = $this->clientesRepository->getEncomendaID($encomenda->id);
+        
+        if (property_exists($encomendas, 'orders') && isset($encomendas->orders[0])) {
+            Session::put('encomendaINFO', $encomendas->orders[0]);
+        } else {
+            session()->put('encomendaINFO', $this->encomenda);
+        }
+        
+        
       
         $this->specificProduct = 0;
         $this->filter = false;
@@ -159,9 +169,8 @@ class EncomendaInfo extends Component
             $status = "error";
         } else {
             $response = $this->clientesRepository->sendComentarios($idEncomenda, $this->comentarioEncomenda, "encomendas");
-
+            
             $responseArray = $response->getData(true);
-
             if ($responseArray["success"] == true) {
                 $message = "Comentário adicionado com sucesso!";
                 $status = "success";
@@ -170,13 +179,9 @@ class EncomendaInfo extends Component
                 $status = "error";
             }
         }
-
         $encomendas = $this->clientesRepository->getEncomendaID($idEncomenda);
 
         Session::put('encomendaINFO',$encomendas->orders[0]);
-          
-        
-
         // Reinicia os detalhes da encomenda
         $this->comentarioEncomenda = "";
         // Exibe a mensagem usando o evento do navegador

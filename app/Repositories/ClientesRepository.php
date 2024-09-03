@@ -1121,7 +1121,6 @@ class ClientesRepository implements ClientesInterface
 
     public function getEncomendaID($encomendaID): object
     {
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -1150,7 +1149,6 @@ class ClientesRepository implements ClientesInterface
 
     public function getPropostaID($propostaID): object
     {
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
