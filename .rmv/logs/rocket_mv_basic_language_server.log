@@ -12790,3 +12790,4 @@ Account{name=complexity, path=C:/laragon/www/sanipower_comerciais/vendor/sebasti
 Account{name=..., path=..., type=PREDICT}
 2024-09-03 16:35:53.587 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.account.AccountManager - [client:40010105]load account manager finish
 2024-09-03 16:35:53.588 [pool-3-thread-1] INFO  com.rs.mv.mvvs.instance.userspace.UserspaceManager - [framework:30010402]config file(C:\Users\vinicios.carvalho/.rmv/config) watcher launch successful
+2024-09-03 16:36:22.335 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/laragon/www/sanipower_comerciais/app/Http/Livewire/Propostas)
