@@ -873,6 +873,15 @@
 
         // Itera sobre cada input de quantidade
         quantidadeInputs.forEach(input => {
+            // Obtém a linha <tr> do input atual
+            const trElement = input.closest('tr');
+            const backgroundColor = trElement.style.backgroundColor;
+
+            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+            if (backgroundColor === 'rgb(65, 198, 160)') {
+                return;
+            }
+
             const quantidadeInserida = parseInt(input.value);
             const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
 
@@ -888,6 +897,15 @@
 
         // Verifica se todos os inputs com dados são válidos
         quantidadeInputs.forEach(input => {
+            // Obtém a linha <tr> do input atual
+            const trElement = input.closest('tr');
+            const backgroundColor = trElement.style.backgroundColor;
+
+            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+            if (backgroundColor === 'rgb(65, 198, 160)') {
+                return;
+            }
+
             const quantidadeInserida = parseInt(input.value);
             const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
 
@@ -1368,7 +1386,7 @@
     </div>
 </div>
 
-<script>
+{{-- <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Seleciona todos os inputs de quantidade e áreas de comentário
     const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
@@ -1425,7 +1443,7 @@
     // Chama a função para a verificação inicial
     checkQuantitiesAndComments();
 });
-</script>
+</script> --}}
 
 <!----->
 
@@ -1619,37 +1637,36 @@
         function attachHandlers() {
 
             $('.kitCheck').off('change').on('change', function() {
-                $('.kitCheck').not(this).prop('checked', false);
-            });
+            $('.kitCheck').not(this).prop('checked', false);
+        });
 
-            $('.produto-quantidade').off('input').on('input', function() {
+        $('.produto-quantidade').off('input').on('input', function() {
+            var id = $(this).attr('id');
+            var valor = $(this).val();
+            var qtdMin = $(this).attr('data-qtd');
+            var trElement = $(this).closest('tr');
+            var backgroundColor = trElement.css('background-color');
 
-                var id = $(this).attr('id');
-                var valor = $(this).val();
-                var qtdMin = $(this).attr('data-qtd');
+            // Verifica se há comentário na mesma linha
+            var hasComment = trElement.find('#commentProductEncomenda' + id).val().trim() !== '';
 
-                if(parseInt(valor) >= parseInt(qtdMin)){
-                    $('#addProductEncomenda'+id).removeAttr('disabled');
-                    $('#addProductProposta'+id).removeAttr('disabled');
-                    // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+            // Condição para ativar o botão
+            if(parseInt(valor) >= parseInt(qtdMin) || backgroundColor === 'rgb(65, 198, 160)' || hasComment){
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            } else {
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
 
-                }else if(parseInt(valor) < parseInt(qtdMin)){
-
-                    if(parseInt(valor) <= 0){
-                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                        $('#addProductProposta'+id).attr('disabled', 'disabled');
-
-                       // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
-                    }else{
-                        // $('#commentProductEncomenda'+id).removeAttr('disabled');
-                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                        $('#addProductProposta'+id).attr('disabled', 'disabled');
-                    }
-                }else{
-                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                    $('#addProductProposta'+id).attr('disabled', 'disabled');
-                }
-            });
+            // Se a quantidade for menor ou igual a 0, sempre desabilitar
+            if(valor === '' || parseInt(valor) <= 0){
+                console.log("Veio pra cá! 2");
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
+        });
+            
 
             $('#selectBox').hide();
             $('#selectLabel').css("display","none");
