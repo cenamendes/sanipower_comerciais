@@ -872,7 +872,6 @@
                             <thead class="thead-light">
                                 <tr style="background:#d6d8db78;">
                                     {{-- <th style="width: 0;"></th> --}}
-                             
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
                                     <th style=" text-align: right;width: 0%;">PVP</th>
@@ -915,7 +914,7 @@
                                             </td> --}}
                                           
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
+                                            <td>{{ $prod->designacao }} <br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
                                             <td>
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
@@ -949,7 +948,7 @@
                                             $ValorTotal += $totalItem;
                                             $ValorTotalComIva += $totalItemComIva;
                                         @endphp
-                                        <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
+                                        <tr data-href="#" style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
                                             {{-- <td>
                                                 <div class="form-checkbox">
                                                     <label>
@@ -968,7 +967,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                            <td>{{ $prod->designacao }}
                                             @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp

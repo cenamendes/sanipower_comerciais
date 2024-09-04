@@ -32,7 +32,7 @@ class Propostas extends Component
     public ?string $nifCliente = '';
     public $startDate = '';
     public $endDate = '';
-    public int $statusProsposta = 0;
+    public int $statusProsposta = 1;
 
 
 

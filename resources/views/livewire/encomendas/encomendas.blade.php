@@ -94,10 +94,9 @@
                                 <label class="mt-2">Estádo da Encomenda</label>
                                 <div class="input-group">
                                     <select name="perPage" class="form-control" wire:model.lazy="statusEncomenda">
-                                        <option value="0" selected>Todas</option>
-                                        <option value="1">Abertas</option>
+                                        <option value="0">Todas</option>
+                                        <option value="1" selected>Abertas</option>
                                         <option value="2">Fechadas</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -221,7 +220,7 @@
                                     <th>Encomenda</th>
                                     <th>Cliente</th>
                                     <th>Total</th>
-                                    <th>Estado</th>
+                                    <th>Tipo de Encomenda</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
