@@ -844,7 +844,7 @@
                                                                 <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
                                                             </div>
                                                             <div>
-                                                                <button class="btn btn-md btn-success" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
+                                                                <button class="btn btn-md btn-success" id="addAllButton" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')" disabled><i class="ti-shopping-cart"></i> Adicionar Todos </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -857,6 +857,64 @@
                     @endif
                 </div>
             </div>
+            <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os inputs de quantidade e áreas de comentário
+    const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+    const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+    
+    // Seleciona o botão "Adicionar Todos"
+    const addAllButton = document.getElementById('addAllButton');
+
+    // Função para verificar as quantidades e comentários
+    function checkQuantitiesAndComments() {
+        let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
+        let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
+
+        // Itera sobre cada input de quantidade
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                // Verifica se o comentário correspondente está preenchido
+                const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                if (!comentarioArea || comentarioArea.value.trim() === '') {
+                    allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
+                }
+            }
+        });
+
+        // Verifica se todos os inputs com dados são válidos
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                if (!allCommentsProvided) {
+                    allValid = false; // Se algum input com dados não for válido, define allValid como falso
+                }
+            }
+        });
+
+        // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
+        addAllButton.disabled = !(allValid && allCommentsProvided);
+    }
+
+    // Adiciona o event listener a cada input de quantidade e área de comentário
+    quantidadeInputs.forEach(input => {
+        input.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    comentarioAreas.forEach(area => {
+        area.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    // Chama a função para a verificação inicial
+    checkQuantitiesAndComments();
+});
+</script>
             <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;min-width: 800px;">
                 @php
                     $ValorTotal = 0;
@@ -1183,8 +1241,7 @@
 
 
 <!-- Modal adicionar compra rapida -->
-<div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos"
-    aria-hidden="true">
+<div class="modal fade" id="modalProdutos" tabindex="-1" role="dialog" aria-labelledby="modalProdutos" aria-hidden="true">
     <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
         <div class="modal-content">
             @php
@@ -1303,13 +1360,72 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+<div class="modal-footer">
                 <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar seleção</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="addAll('{{$nameProduct}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')">Adicionar todos</button>
+                <button type="button" id="addAllButton" class="btn btn-outline-primary" wire:click="addAll('{{$nameProduct}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')" disabled>Adicionar todos</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os inputs de quantidade e áreas de comentário
+    const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+    const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+    
+    // Seleciona o botão "Adicionar Todos"
+    const addAllButton = document.getElementById('addAllButton');
+
+    // Função para verificar as quantidades e comentários
+    function checkQuantitiesAndComments() {
+        let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
+        let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
+
+        // Itera sobre cada input de quantidade
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                // Verifica se o comentário correspondente está preenchido
+                const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                if (!comentarioArea || comentarioArea.value.trim() === '') {
+                    allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
+                }
+            }
+        });
+
+        // Verifica se todos os inputs com dados são válidos
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                if (!allCommentsProvided) {
+                    allValid = false; // Se algum input com dados não for válido, define allValid como falso
+                }
+            }
+        });
+
+        // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
+        addAllButton.disabled = !(allValid && allCommentsProvided);
+    }
+
+    // Adiciona o event listener a cada input de quantidade e área de comentário
+    quantidadeInputs.forEach(input => {
+        input.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    comentarioAreas.forEach(area => {
+        area.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    // Chama a função para a verificação inicial
+    checkQuantitiesAndComments();
+});
+</script>
 
 <!----->
 
