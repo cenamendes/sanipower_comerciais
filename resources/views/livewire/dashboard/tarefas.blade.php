@@ -199,91 +199,133 @@
     <!-- MODAL ADD TAREFA -->
 
     <div class="modal fade" id="modalAddTarefa" tabindex="-1" role="dialog" aria-labelledby="modalAddTarefa" aria-hidden="true">
-        <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="modalAddTarefa">Adicionar tarefa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
-
-
-                    <div class="form-group row ml-0">
-                        <label>Nome do Cliente</label>
-                        <div class="input-group">
-                            <select class="form-control" id="clienteNameTarefa" wire:model.defer="clienteNameTarefa">
-                                @isset($clientes)
-                                    <option value="{{ json_encode("Sem cliente") }}">Sem Cliente</option>
-                                    @foreach ($clientes as $clt)
-                                        @foreach($clt->customers as $cst)
-                                            <option value="{{ json_encode($cst->name) }}">{{ $cst->name }}</option>
-                                        @endforeach
+    <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="modalAddTarefa">Adicionar tarefa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="scrollModal" style="overflow-y: auto;max-height:500px;">
+                <div class="form-group row ml-0">
+                    <label>Nome do Cliente</label>
+                    <div class="input-group">
+                        <select class="form-control" id="clienteNameTarefa" wire:model.defer="clienteNameTarefa">
+                            @isset($clientes)
+                                <option value="">Sem Cliente</option>
+                                @foreach ($clientes as $clt)
+                                    @foreach($clt->customers as $cst)
+                                        <option value="{{ json_encode($cst->name) }}">{{ $cst->name }}</option>
                                     @endforeach
-                                @endisset
-                            </select>
-                        </div>
+                                @endforeach
+                            @endisset
+                        </select>
                     </div>
-
-                    <div class="form-group row ml-0">
-                        <label>Data</label>
-                        <div class="input-group date">
-                            <input type="text" id="dataInicialTarefa" class="form-control" wire:model.defer="dataInicialTarefa">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ti-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row ml-0">
-                        <label>Hora Inícial</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control horaInicialTarefa" id="horaInicialTarefa" wire:model.defer="horaInicialTarefa">
-                            <div class="input-group-append timepicker-btn">
-                                <span class="input-group-text">
-                                    <i class="ti-time"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row ml-0">
-                        <label>Hora Final</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control horaFinalTarefa" id="horaFinalTarefa" wire:model.defer="horaFinalTarefa">
-                            <div class="input-group-append timepicker-btn">
-                                <span class="input-group-text">
-                                    <i class="ti-time"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row ml-0">
-                        <label>Assunto</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Assunto" id="assuntoTarefa" wire:model.defer="assuntoTarefa">
-                        </div>
-                    </div>
-
-                    <div class="form-group row ml-0">
-                        <label>Descrição</label>
-                        <div class="input-group">
-                            <textarea type="text" id="descricaoTarefa" placeholder="Descrição" class="form-control" cols="4" rows="6" wire:model.defer="descricaoTarefa"></textarea>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-primary" id="saveTarefaBtn" wire:click="saveTarefa">Guardar tarefa</button>
+
+                <div class="form-group row ml-0">
+                    <label>Data</label>
+                    <div class="input-group date">
+                        <input type="text" id="dataInicialTarefa" class="form-control" wire:model.defer="dataInicialTarefa">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="ti-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="form-group row ml-0">
+                    <label>Hora Inícial</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control horaInicialTarefa" id="horaInicialTarefa" wire:model.defer="horaInicialTarefa">
+                        <div class="input-group-append timepicker-btn">
+                            <span class="input-group-text">
+                                <i class="ti-time"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row ml-0">
+                    <label>Hora Final</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control horaFinalTarefa" id="horaFinalTarefa" wire:model.defer="horaFinalTarefa">
+                        <div class="input-group-append timepicker-btn">
+                            <span class="input-group-text">
+                                <i class="ti-time"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row ml-0">
+                    <label>Assunto</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Assunto" id="assuntoTarefa" wire:model.defer="assuntoTarefa">
+                    </div>
+                </div>
+
+                <div class="form-group row ml-0">
+                    <label>Descrição</label>
+                    <div class="input-group">
+                        <textarea type="text" id="descricaoTarefa" placeholder="Descrição" class="form-control" cols="4" rows="6" wire:model.defer="descricaoTarefa"></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-outline-primary" id="saveTarefaBtn" onclick="validateAndSaveTarefa()">Guardar tarefa</button>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    function validateAndSaveTarefa() {
+        // Get all the form fields
+        const cliente = document.getElementById('clienteNameTarefa').value;
+        const data = document.getElementById('dataInicialTarefa').value;
+        const horaInicial = document.getElementById('horaInicialTarefa').value;
+        const horaFinal = document.getElementById('horaFinalTarefa').value;
+        const assunto = document.getElementById('assuntoTarefa').value;
+        const descricao = document.getElementById('descricaoTarefa').value;
+
+        // Check if any field is empty
+        if (!data || !horaInicial || !horaFinal || !assunto || !descricao) {
+            // Trigger a Livewire event to show a toaster message instead of using alert
+            /*window.dispatchEvent(new CustomEvent('sendToaster', {
+            detail: {
+                message: 'Por favor, preencha todos os campos.',
+                status: 'error'
+            }
+            }));*/
+
+            $("#modalTarefas").modal('hide');
+            $("#modalAddTarefa").modal('hide');
+            $("#agendarVisita").modal('hide');
+            $("#modalInformacaoTarefa").modal('hide');
+
+            toastr.warning('Por favor, preencha todos os campos.');
+            Livewire.emit('callAddTarefa');
+            return;
+        }
+        @this.saveTarefa(); 
+    }
+    /*function HrSuperior() 
+    {
+        $("#modalTarefas").modal('hide');
+        $("#modalAddTarefa").modal('hide');
+        $("#agendarVisita").modal('hide');
+        $("#modalInformacaoTarefa").modal('hide');
+        toastr.warning('Por favor, preencha todos os campos.');
+        Livewire.emit('callAddTarefa');
+        return;
+    }*/
+</script>
+
 
 
 
@@ -964,6 +1006,7 @@
           
                 calendar.gotoDate(mesEsc+'-01');
             }
+
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -984,6 +1027,8 @@
             if (e.detail.status == "error") {
                 toastr.warning(e.detail.message);
                 Livewire.emit('callAddVisita');
+                //$("#modalAddTarefa").modal();
+                //$("#modalAddTarefa").modal('show');
             }
         });
         
@@ -994,7 +1039,7 @@
             $("#agendarVisita").modal('hide');
         
             startCalendar();
-
+            location.reload();
         });
 
         window.addEventListener('openModalTarefa', function(e) {

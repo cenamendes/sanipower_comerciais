@@ -65,7 +65,7 @@ class Tarefas extends Component
 
        public $comercialPicked;
 
-        protected $listeners = ['callAddVisita',"changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
+        protected $listeners = ['callAddVisita', 'callAddTarefa', "changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
 
     public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository, ClientesInterface $clientesInterface)
     {
@@ -226,11 +226,20 @@ class Tarefas extends Component
 
     public function callAddVisita()
     {
+        //dd('callAddVisita');
         $this->addVisita();
+    }
+
+    public function callAddTarefa()
+    {
+        //dd("callAddTarefa");
+        $this->dispatchBrowserEvent('openModalAddTarefa');
+        // $this->saveTarefa();
     }
 
     public function addVisita()
     {
+        //dd('addVisita');
         $this->tipoVisita = TiposVisitas::all();
 
 

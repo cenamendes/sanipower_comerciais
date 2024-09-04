@@ -38,13 +38,13 @@
 
 
         .dropdownIcon-menu {
-            left: -217px;
+            left: -338px;
             top: -7px;
             display: none;
             position: absolute;
             z-index: 1;
             background-color: #ffffff;
-            min-width: 160px;
+            min-width: 305px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             padding: 2px;
             margin: 2px 0 0;
