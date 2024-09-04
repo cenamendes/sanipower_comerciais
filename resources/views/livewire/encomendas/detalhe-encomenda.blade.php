@@ -846,11 +846,10 @@
                                 <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
                             </div>
                             <div>
-                                <button class="btn btn-md btn-success" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
+                                <button class="btn btn-md btn-success" id="addAllButton" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart" disabled></i> Adicionar Todos </button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -859,6 +858,82 @@
                     @endif
                 </div>
             </div>
+            <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os inputs de quantidade e áreas de comentário
+    const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+    const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+    
+    // Seleciona o botão "Adicionar Todos"
+    const addAllButton = document.getElementById('addAllButton');
+
+    // Função para verificar as quantidades e comentários
+    function checkQuantitiesAndComments() {
+        let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
+        let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
+
+        // Itera sobre cada input de quantidade
+        quantidadeInputs.forEach(input => {
+            // Obtém a linha <tr> do input atual
+            const trElement = input.closest('tr');
+            const backgroundColor = trElement.style.backgroundColor;
+
+            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+            if (backgroundColor === 'rgb(65, 198, 160)') {
+                return;
+            }
+
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                // Verifica se o comentário correspondente está preenchido
+                const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                if (!comentarioArea || comentarioArea.value.trim() === '') {
+                    allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
+                }
+            }
+        });
+
+        // Verifica se todos os inputs com dados são válidos
+        quantidadeInputs.forEach(input => {
+            // Obtém a linha <tr> do input atual
+            const trElement = input.closest('tr');
+            const backgroundColor = trElement.style.backgroundColor;
+
+            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+            if (backgroundColor === 'rgb(65, 198, 160)') {
+                return;
+            }
+
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                if (!allCommentsProvided) {
+                    allValid = false; // Se algum input com dados não for válido, define allValid como falso
+                }
+            }
+        });
+
+        // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
+        addAllButton.disabled = !(allValid && allCommentsProvided);
+    }
+
+    // Adiciona o event listener a cada input de quantidade e área de comentário
+    quantidadeInputs.forEach(input => {
+        input.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    comentarioAreas.forEach(area => {
+        area.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    // Chama a função para a verificação inicial
+    checkQuantitiesAndComments();
+});
+</script>
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
              @php
                 $ValorTotal = 0;
@@ -1364,12 +1439,70 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar seleção</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="addAll('{{$nameProduct}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')">Adicionar todos</button>
+                <button type="button" id="addAllButton" class="btn btn-outline-primary" wire:click="addAll('{{$nameProduct}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')" disabled>Adicionar todos</button>
             </div>
         </div>
     </div>
 </div>
 
+{{-- <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os inputs de quantidade e áreas de comentário
+    const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+    const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+    
+    // Seleciona o botão "Adicionar Todos"
+    const addAllButton = document.getElementById('addAllButton');
+
+    // Função para verificar as quantidades e comentários
+    function checkQuantitiesAndComments() {
+        let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
+        let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
+
+        // Itera sobre cada input de quantidade
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                // Verifica se o comentário correspondente está preenchido
+                const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                if (!comentarioArea || comentarioArea.value.trim() === '') {
+                    allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
+                }
+            }
+        });
+
+        // Verifica se todos os inputs com dados são válidos
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                if (!allCommentsProvided) {
+                    allValid = false; // Se algum input com dados não for válido, define allValid como falso
+                }
+            }
+        });
+
+        // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
+        addAllButton.disabled = !(allValid && allCommentsProvided);
+    }
+
+    // Adiciona o event listener a cada input de quantidade e área de comentário
+    quantidadeInputs.forEach(input => {
+        input.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    comentarioAreas.forEach(area => {
+        area.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    // Chama a função para a verificação inicial
+    checkQuantitiesAndComments();
+});
+</script> --}}
 <!----->
 
 <!-- Modal ver encomenda -->
@@ -1480,10 +1613,8 @@
 
     });
     function attachLoader() {
-
         const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
-
-        textareas.forEach(textarea => {
+               textareas.forEach(textarea => {
             const classListArray = Array.from(textarea.classList);
 
             const hasColorClass = classListArray.some(className => className.includes('41c6a0'));
@@ -1544,36 +1675,39 @@
         }
     });
     document.addEventListener('DOMContentLoaded', function () {
-        function attachHandlers() {
+       function attachHandlers() {
 
-            $('.produto-quantidade').off('input').on('input', function() {
+            $('.kitCheck').off('change').on('change', function() {
+            $('.kitCheck').not(this).prop('checked', false);
+        });
 
-                var id = $(this).attr('id');
-                var valor = $(this).val();
-                var qtdMin = $(this).attr('data-qtd');
+        $('.produto-quantidade').off('input').on('input', function() {
+            var id = $(this).attr('id');
+            var valor = $(this).val();
+            var qtdMin = $(this).attr('data-qtd');
+            var trElement = $(this).closest('tr');
+            var backgroundColor = trElement.css('background-color');
 
-                if(parseInt(valor) >= parseInt(qtdMin)){
-                    $('#addProductEncomenda'+id).removeAttr('disabled');
-                    $('#addProductProposta'+id).removeAttr('disabled');
-                    // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+            // Verifica se há comentário na mesma linha
+            var hasComment = trElement.find('#commentProductEncomenda' + id).val().trim() !== '';
 
-                }else if(parseInt(valor) < parseInt(qtdMin)){
+            // Condição para ativar o botão
+            if(parseInt(valor) >= parseInt(qtdMin) || backgroundColor === 'rgb(65, 198, 160)' || hasComment){
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            } else {
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
 
-                    if(parseInt(valor) <= 0){
-                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                        $('#addProductProposta'+id).attr('disabled', 'disabled');
-
-                        // $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
-                    }else{
-                        // $('#commentProductEncomenda'+id).removeAttr('disabled');
-                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                        $('#addProductProposta'+id).attr('disabled', 'disabled');
-                    }
-                }else{
-                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                    $('#addProductProposta'+id).attr('disabled', 'disabled');
-                }
-            });
+            // Se a quantidade for menor ou igual a 0, sempre desabilitar
+            if(valor === '' || parseInt(valor) <= 0){
+                console.log("Veio pra cá! 2");
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
+        });
+            
 
             $('#selectBox').hide();
             $('#selectLabel').css("display","none");
