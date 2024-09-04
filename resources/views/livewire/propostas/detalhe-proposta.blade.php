@@ -740,11 +740,12 @@
                                                                                             <ul class="dropdownIcon-menu">
                                                                                                 <li><i class="fa fa-play icon-play"></i></li>
                                                                                                 <li style="border-bottom: 1px solid;">
-                                                                                                    <h5>Stocks em loja</h5>
+                                                                                                     <h5 style = "text-align: left; margin:2px; font-weight: 600;">Stocks em loja</h5>
                                                                                                 </li>
                                                                                                 @foreach ($prod->stocks as $stock)
-                                                                                                    <li>
-                                                                                                        {{ $stock->warehouse_description }}
+                                                                                                   <li style = "padding:5px; display: flex; justify-content: space-between; border-bottom: 1px solid #000;">
+                                                                                                    <span>{{ $stock->warehouse_description }}</span>
+                                                                                                        <span>{{ $stock->qtt }}</span>
                                                                                                     </li>
                                                                                                 @endforeach
                                                                                             </ul>
@@ -1249,11 +1250,12 @@
                                                                 <ul class="dropdownIcon-menu">
                                                                     <li><i class="fa fa-play icon-play"></i></li>
                                                                     <li style="border-bottom: 1px solid;">
-                                                                        <h5>Stocks em loja</h5>
+                                                                         <h5 style = "text-align: left; margin:2px; font-weight: 600;">Stocks em loja</h5>
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
-                                                                        <li>
-                                                                            {{ $stock->warehouse_description }}
+                                                                        <li style = "padding:5px; display: flex; justify-content: space-between; border-bottom: 1px solid #000;">
+                                                                            <span>{{ $stock->warehouse_description }}</span>
+                                                                            <span>{{ $stock->qtt }}</span>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
