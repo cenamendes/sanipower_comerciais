@@ -725,6 +725,7 @@ class DetalheEncomenda extends Component
     public function cleanModal()
     {
         $this->produtosRapida = [];
+        $this->produtosComment = [];
 
         $this->dispatchBrowserEvent('compraRapida');
 
