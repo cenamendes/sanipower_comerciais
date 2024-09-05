@@ -858,81 +858,81 @@
                 </div>
             </div>
             <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Seleciona todos os inputs de quantidade e áreas de comentário
-    const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
-    const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
-    
-    // Seleciona o botão "Adicionar Todos"
-    const addAllButton = document.getElementById('addAllButton');
+                document.addEventListener('DOMContentLoaded', function() {
+                // Seleciona todos os inputs de quantidade e áreas de comentário
+                const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+                const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+                
+                // Seleciona o botão "Adicionar Todos"
+                const addAllButton = document.getElementById('addAllButton');
 
-    // Função para verificar as quantidades e comentários
-    function checkQuantitiesAndComments() {
-        let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
-        let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
+                // Função para verificar as quantidades e comentários
+                function checkQuantitiesAndComments() {
+                    let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
+                    let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
 
-        // Itera sobre cada input de quantidade
-        quantidadeInputs.forEach(input => {
-            // Obtém a linha <tr> do input atual
-            const trElement = input.closest('tr');
-            const backgroundColor = trElement.style.backgroundColor;
+                    // Itera sobre cada input de quantidade
+                    quantidadeInputs.forEach(input => {
+                        // Obtém a linha <tr> do input atual
+                        const trElement = input.closest('tr');
+                        const backgroundColor = trElement.style.backgroundColor;
 
-            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
-            if (backgroundColor === 'rgb(65, 198, 160)') {
-                return;
-            }
+                        // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+                        if (backgroundColor === 'rgb(65, 198, 160)') {
+                            return;
+                        }
 
-            const quantidadeInserida = parseInt(input.value);
-            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+                        const quantidadeInserida = parseInt(input.value);
+                        const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
 
-            // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
-            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
-                // Verifica se o comentário correspondente está preenchido
-                const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
-                if (!comentarioArea || comentarioArea.value.trim() === '') {
-                    allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
-                }
-            }
-        });
+                        // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
+                        if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                            // Verifica se o comentário correspondente está preenchido
+                            const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                            if (!comentarioArea || comentarioArea.value.trim() === '') {
+                                allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
+                            }
+                        }
+                    });
 
-        // Verifica se todos os inputs com dados são válidos
-        quantidadeInputs.forEach(input => {
-            // Obtém a linha <tr> do input atual
-            const trElement = input.closest('tr');
-            const backgroundColor = trElement.style.backgroundColor;
+                    // Verifica se todos os inputs com dados são válidos
+                    quantidadeInputs.forEach(input => {
+                        // Obtém a linha <tr> do input atual
+                        const trElement = input.closest('tr');
+                        const backgroundColor = trElement.style.backgroundColor;
 
-            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
-            if (backgroundColor === 'rgb(65, 198, 160)') {
-                return;
-            }
+                        // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+                        if (backgroundColor === 'rgb(65, 198, 160)') {
+                            return;
+                        }
 
-            const quantidadeInserida = parseInt(input.value);
-            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+                        const quantidadeInserida = parseInt(input.value);
+                        const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
 
-            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
-                if (!allCommentsProvided) {
-                    allValid = false; // Se algum input com dados não for válido, define allValid como falso
-                }
-            }
-        });
+                        if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                            if (!allCommentsProvided) {
+                                allValid = false; // Se algum input com dados não for válido, define allValid como falso
+                            }
+                        }
+                    });
 
-        // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
-        addAllButton.disabled = !(allValid && allCommentsProvided);
-    }
+                    // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
+                    addAllButton.disabled = !(allValid && allCommentsProvided);
+                    }
 
-    // Adiciona o event listener a cada input de quantidade e área de comentário
-    quantidadeInputs.forEach(input => {
-        input.addEventListener('input', checkQuantitiesAndComments);
-    });
+                    // Adiciona o event listener a cada input de quantidade e área de comentário
+                    quantidadeInputs.forEach(input => {
+                        input.addEventListener('input', checkQuantitiesAndComments);
+                    });
 
-    comentarioAreas.forEach(area => {
-        area.addEventListener('input', checkQuantitiesAndComments);
-    });
+                    comentarioAreas.forEach(area => {
+                        area.addEventListener('input', checkQuantitiesAndComments);
+                    });
 
-    // Chama a função para a verificação inicial
-    checkQuantitiesAndComments();
-});
-</script>
+                    // Chama a função para a verificação inicial
+                    checkQuantitiesAndComments();
+                });
+            </script>
             <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;min-width: 800px;">
                 @php
                     $ValorTotal = 0;
@@ -1384,7 +1384,18 @@
         </div>
     </div>
 </div>
+                {{-- <script>
+                document.getElementById('cleanSelectionQuick').addEventListener('click', function() {
+                    
+                    // Seleciona todos os textareas com o id 'addTextosEncomenda' que possuem um índice
+                    /*let textareas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
 
+                    // Itera sobre todos os textareas e limpa seus valores
+                    textareas.forEach(function(textarea) {
+                        textarea.value = '';  // Limpa o valor do textarea
+                    });*/
+                });
+            </script> --}}
 {{-- <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Seleciona todos os inputs de quantidade e áreas de comentário
