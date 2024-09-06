@@ -41,8 +41,8 @@ class EncomendaInfo extends Component
 
     public bool $showLoaderPrincipal = true;
 
-    public string $tabDetail = "show active";
-    public string $tabDetalhesEncomendas = "";
+    public string $tabDetail = "";
+    public string $tabDetalhesEncomendas = "show active";
     
 
     public int $specificProduct = 0;
@@ -131,10 +131,20 @@ class EncomendaInfo extends Component
     }
 
     public function mount($encomenda)
-    {
+    {   
+        
         $this->initProperties();
         $this->encomenda = $encomenda;
-        session()->put('encomendaINFO', $this->encomenda);
+        
+        $encomendas = $this->clientesRepository->getEncomendaID($encomenda->id);
+        
+        if (property_exists($encomendas, 'orders') && isset($encomendas->orders[0])) {
+            Session::put('encomendaINFO', $encomendas->orders[0]);
+        } else {
+            session()->put('encomendaINFO', $this->encomenda);
+        }
+        
+        
       
         $this->specificProduct = 0;
         $this->filter = false;
@@ -146,6 +156,9 @@ class EncomendaInfo extends Component
     {
         $this->encomendaComentarioId = $idEncomenda;
 
+        $this->tabDetail = "show active";
+        $this->tabDetalhesEncomendas = "";
+
         $this->dispatchBrowserEvent('openComentario');
     }
 
@@ -156,9 +169,8 @@ class EncomendaInfo extends Component
             $status = "error";
         } else {
             $response = $this->clientesRepository->sendComentarios($idEncomenda, $this->comentarioEncomenda, "encomendas");
-
+            
             $responseArray = $response->getData(true);
-
             if ($responseArray["success"] == true) {
                 $message = "Comentário adicionado com sucesso!";
                 $status = "success";
@@ -167,13 +179,16 @@ class EncomendaInfo extends Component
                 $status = "error";
             }
         }
-
         $encomendas = $this->clientesRepository->getEncomendaID($idEncomenda);
-
-        Session::put('encomendaINFO',$encomendas->orders[0]);
-          
-        
-
+        // Session::put('encomendaINFO',$encomendas->orders[0]);
+        if (property_exists($encomendas, 'orders') && isset($encomendas->orders[0])) {
+            Session::put('encomendaINFO', $encomendas->orders[0]);
+        } else {
+            $message = "Comentário não salvo, Encomenda está fechada!";
+            $status = "error";
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+            return;
+        }
         // Reinicia os detalhes da encomenda
         $this->comentarioEncomenda = "";
         // Exibe a mensagem usando o evento do navegador

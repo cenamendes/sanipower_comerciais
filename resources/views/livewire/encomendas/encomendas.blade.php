@@ -62,13 +62,44 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <label class="mt-2">Comentário</label>
-                                    <div class="input-group">
-                                        <select name="perPage" wire:model.lazy="estadoEncomenda" class="form-control">
-                                            <option value="0" selected>Todas</option>
-                                            <option value="1">Com comentário</option>
-                                            <option value="2">Sem comentário</option>
-                                        </select>
+                                <div class="input-group">
+                                    <select name="perPage" wire:model.lazy="estadoEncomenda" class="form-control">
+                                        <option value="0" selected>Todas</option>
+                                        <option value="1">Com comentário</option>
+                                        <option value="2">Sem comentário</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-2">
+                                <label class="mt-2">Data Inicial</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ti-calendar"></i></span>
                                     </div>
+                                    <input type="date" class="form-control" placeholder="Data Inicial" wire:model.lazy="startDate">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <label class="mt-2">Data Final</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                    </div>
+                                    <input type="date" class="form-control" placeholder="Data Final" wire:model.lazy="endDate">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="mt-2">Estádo da Encomenda</label>
+                                <div class="input-group">
+                                    <select name="perPage" class="form-control" wire:model.lazy="statusEncomenda">
+                                        <option value="0" selected>Todas</option>
+                                        <option value="1">Abertas</option>
+                                        <option value="2">Fechadas</option>
+
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -195,16 +226,21 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{-- {{dd($encomendas )}} --}}
                                 @foreach ($encomendas as $enc)
-                                    <tr wire:click="checkOrder({{json_encode($enc->id)}}, {{json_encode($enc)}})">
+                                    <tr>
                                         <td>{{ date('Y-m-d', strtotime($enc->date)) }}</td>
                                         <td>{{$enc->order}}</td>
                                         <td>{{$enc->name}}</td>
                                         <td>{{$enc->total}}</td>
                                         <td>{{$enc->status}}</td>
                                         <td>
-                                            <a wire:click="checkOrder({{json_encode($enc->id)}}, {{json_encode($enc)}})" style="color:white!important;" class="btn btn-primary">
+                                        {{-- {{dd($enc)}} --}}
+                                            <a wire:click="checkOrder({{json_encode($enc->id)}}, {{json_encode($enc)}})" style="color:white!important;" class="btn btn-sm btn-primary">
                                                 <i class="ti-eye"></i> Ver Encomenda
+                                            </a>
+                                            <a wire:click="redirectNewEncomenda({{json_encode($enc->customer_id)}})" style="color:white!important;" class="btn btn-sm btn-primary">
+                                                <i class="ti-plus"></i> Nova Encomenda
                                             </a>
                                         </td>
                                     </tr>                              

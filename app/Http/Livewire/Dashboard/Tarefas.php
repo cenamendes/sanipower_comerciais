@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Interfaces\ClientesInterface;
 use Livewire\Component;
 use App\Jobs\OfficeRequest;
 use App\Models\TiposVisitas;
@@ -10,6 +9,8 @@ use App\Models\VisitasAgendadas;
 use App\Interfaces\TarefasInterface;
 use App\Interfaces\VisitasInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Interfaces\ClientesInterface;
+use Illuminate\Support\Facades\Session;
 use App\Models\Tarefas as TarefasModels;
 
 class Tarefas extends Component
@@ -64,7 +65,7 @@ class Tarefas extends Component
 
        public $comercialPicked;
 
-    protected $listeners = ["changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
+        protected $listeners = ['callAddVisita', 'callAddTarefa', "changeStatusTarefa" => "changeStatusTarefa", "getTarefaInfo" => "getTarefaInfo", "updateLadoDireito" => "updateladoDireito", "changeDashWithDate" => "changeDashWithDate", "originalData" => "originalData", "changeTarefas" => "handleChangeTarefas"];
 
     public function boot(VisitasInterface $visitasRepository, TarefasInterface $tarefaRepository, ClientesInterface $clientesInterface)
     {
@@ -223,15 +224,25 @@ class Tarefas extends Component
         //continuar o insert
     }
 
+    public function callAddVisita()
+    {
+        //dd('callAddVisita');
+        $this->addVisita();
+    }
+
+    public function callAddTarefa()
+    {
+        //dd("callAddTarefa");
+        $this->dispatchBrowserEvent('openModalAddTarefa');
+        // $this->saveTarefa();
+    }
+
     public function addVisita()
     {
+        //dd('addVisita');
         $this->tipoVisita = TiposVisitas::all();
 
-        $this->dataInicialVisita = ""; 
-        $this->horaInicialVisita = ""; 
-        $this->horaFinalVisita = ""; 
-        $this->tipoVisitaEscolhidoVisita = "";  
-        $this->assuntoTextVisita = "";
+
 
         $collectionClientes = $this->tarefasRepository->getListagemCliente(10000);
 
@@ -248,13 +259,18 @@ class Tarefas extends Component
         if(isset($this->clientes[0]["id"]))
         {
             $this->clienteVisitaID = json_encode($this->clientes[0]["id"]);
-        }       
+        }
         
 
         $this->dispatchBrowserEvent('openVisitaModal');
         
     }
-
+    public function openVisita()
+    {
+        Session::put('rota','dashboard');
+        Session::put('parametro',"");
+        return redirect()->route('visitas.info', $this->visitaIDDireito);
+    }
     public function editarVisitaDireito()
     {
         
@@ -311,7 +327,6 @@ class Tarefas extends Component
 
     public function agendaVisita()
     {
-       
         if($this->clienteVisitaID == "" || $this->dataInicialVisita == "" ||$this->horaInicialVisita == "" || $this->horaFinalVisita == "" || $this->tipoVisitaEscolhidoVisita == "" || $this->assuntoTextVisita == "" )
         {
             $this->dispatchBrowserEvent('sendToaster', ["message" => "Tem de preencher todos os campos", "status" => "error"]);
@@ -471,7 +486,6 @@ class Tarefas extends Component
     public function render()
     {
         $this->clientes = [$this->clientesRepository->getAllListagemClientesObject()];
-    
         $this->tipoVisita = TiposVisitas::all();
         return view('livewire.dashboard.tarefas');
     }

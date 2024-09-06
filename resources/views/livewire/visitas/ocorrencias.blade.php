@@ -98,33 +98,38 @@
                                     <th>Data</th>
                                     <th>Encomenda</th>
                                     <th>Total</th>
-                                    <th>Estado</th>
+                                    <th>Estado</th>                                  
                                     <th>Ações</th>
-                                   
+
                                 </tr>
                             </thead>
                             <tbody>
-                                @isset($detalhesOcorrencias)
-                            
                                 @foreach ($detalhesOcorrencias as $detalhe)
                                     <tr>
                                         <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
                                         <td>{{ $detalhe->occurrence }}</td>
                                         <td>{{ $detalhe->total }}</td>
                                         <td>{{ $detalhe->status }}</td>
-                                        
                                         <td>
-                                            <button type="button" class="btn btn-primary" wire:click="detalheEncomendaModal({{ json_encode($detalhe->id) }})">
-                                                <i class="ti ti-plus"></i> Ver Ocorrência
+                                            <button type="button" class="btn btn-sm btn-primary" wire:click="detalheOcorrenciasModal({{ json_encode($detalhe) }})">
+                                                <i class="fas fa-info"></i>
                                             </button>
                                         </td>
                                     </tr>
                                 @endforeach
-                                @endisset
                             </tbody>
                         </table>
                     </div>
                     {{ $detalhesOcorrencias->links() }}
+                      <hr/>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-xl-4">
+                            <label>Comentário</label>
+                             <div class="input-group">
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_occorencias" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -199,13 +204,13 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" style="margin: 1.75rem auto;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detalheOcorrenciasModalLabel">Detalhes da Encomenda</h5>
+                    <h5 class="modal-title" id="detalheOcorrenciasModalLabel">Detalhes da Ocorrência</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div style="overflow-x:auto;">
-                    {{-- <table class="table">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>Referencia</th>
@@ -213,30 +218,29 @@
                                 <th>Quantidade</th>
                                 <th>Preço</th>
                                 <th>Desconto</th>
-                                <th>Desconto 2</th>
+                                {{-- <th>Desconto 2</th> --}}
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @isset($detalhesOcorrencias)
-                            @foreach ($detalhesOcorrencias as $oco)
-                                @if($oco->id == $ocorrenciasID)
-                                    @foreach ($oco->lines as $line)
-                                        <tr>
-                                            <td>{{ $line->reference }}</td>
-                                            <td>{{ $line->description }}</td>
-                                            <td style="text-align:center">{{ $line->quantity }}</td>
-                                            <td style="text-align:center">{{ $line->price }} €</td>
-                                            <td style="text-align:center">{{ $line->discount }}</td>
-                                            <td style="text-align:center">{{ $line->discount2 }}</td>
-                                            <td style="text-align:center">{{ $line->total }} €</td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            @endforeach
-                            @endisset
+                            @if($detailsLine)
+                                @foreach ($detailsLine['lines'] as $prod)
+                                    <tr>
+                                        <td>{{ $prod['reference'] }}</td>
+                                        <td>{{ $prod['description'] }}</td>
+                                        <td>{{ $prod['quantity'] }}</td>
+                                        <td>{{ $prod['price'] }} €</td>
+                                        <td>{{ $prod['discount'] }}</td>
+                                        <td>{{ $prod['total'] }} €</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6">Não foram encontrados registos para exibir.</td>
+                                </tr>
+                            @endif
                         </tbody>
-                    </table> --}}
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" style="cursor:pointer">Fechar</button>

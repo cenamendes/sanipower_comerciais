@@ -15,6 +15,7 @@ class EncomendasController extends Controller
 {
     
     private ?object $clientesRepository = NULL;
+
     public function __construct(ClientesInterface $clientesRepository)
     {
         $this->clientesRepository = $clientesRepository;
@@ -26,7 +27,7 @@ class EncomendasController extends Controller
 
     public function showDetail($id)
     {
-        Session::put('rota','encomendas.nova');
+        // Session::put('rota','encomendas.nova');
 
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
         $detailsClientes = $arrayCliente["object"];
@@ -49,7 +50,7 @@ class EncomendasController extends Controller
 
     public function showDetailVisitas($id,$idVisita)
     {
-        Session::put('rota','encomendas.nova');
+        // Session::put('rota','encomendas.nova');
 
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($id);
         $detailsClientes = $arrayCliente["object"];
@@ -79,8 +80,7 @@ class EncomendasController extends Controller
         } 
         else
         {
-            $encomenda = Session::get('encomenda');            
-         
+            $encomenda = Session::get('encomenda');   
             return view('encomendas.details',["idCliente" => "", "codEncomenda" => "","encomenda" => $encomenda]);
         }
 

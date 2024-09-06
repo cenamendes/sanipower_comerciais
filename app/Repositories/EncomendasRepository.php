@@ -46,6 +46,15 @@ class EncomendasRepository implements EncomendasInterface
 
     public function getSubFamily($idCategory, $idFamily, $idSubFamily): object
     {
+        if($idCategory == ""){
+            $idCategory = 1;
+        }
+        if($idFamily == ""){
+            $idFamily = 1;
+        }
+        if($idSubFamily == ""){
+            $idSubFamily = 1;
+        }
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -109,6 +118,7 @@ class EncomendasRepository implements EncomendasInterface
 
     public function getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer): object
     {
+        // dd($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

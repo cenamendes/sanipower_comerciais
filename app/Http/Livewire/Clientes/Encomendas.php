@@ -150,7 +150,7 @@ class Encomendas extends Component
         $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
        
         $this->detailsEncomenda = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"] + 1;
         $this->totalRecords = $encomendasArray["nr_registos"];
     }
 
@@ -159,7 +159,7 @@ class Encomendas extends Component
         $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
      
         $this->detailsEncomenda = $encomendasArray["paginator"];
-        $this->numberMaxPages = $encomendasArray["nr_paginas"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"] + 1;
         $this->totalRecords = $encomendasArray["nr_registos"];
 
     }

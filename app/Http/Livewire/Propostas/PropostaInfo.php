@@ -49,9 +49,9 @@ class PropostaInfo extends Component
 
     public bool $showLoaderPrincipal = true;
 
-    public string $tabDetail = "show active";
+    public string $tabDetail = "";
     public string $tabProdutos = "";
-    public string $tabDetalhesPropostas = "";
+    public string $tabDetalhesPropostas = "show active";
     public string $tabFinalizar = "";
     public string $tabDetalhesCampanhas = "";
 
@@ -146,7 +146,14 @@ class PropostaInfo extends Component
     {
         $this->initProperties();
         $this->proposta = $proposta;
-        session()->put('proposta', $this->proposta);
+        $propostas = $this->clientesRepository->getPropostaID($proposta->id);
+       
+
+        if(property_exists($propostas, 'budgets') && isset($propostas->budgets[0])){
+            Session::put('proposta',$propostas->budgets[0]);
+        }else{
+            session()->put('proposta', $this->proposta);
+        }
 
         $this->specificProduct = 0;
         $this->filter = false;
@@ -258,7 +265,16 @@ class PropostaInfo extends Component
             $this->tabDetail = "";
             return false;
         }
-
+        $encomenda = Carrinho::where("id_encomenda","!=","")
+            ->where("id_cliente",$proposta["number"])        
+            ->get();
+        $idEncomenda = "";
+        if (!empty($encomenda) && !empty($encomenda[0]->id_encomenda)) {
+            $idEncomenda = $encomenda[0]->id_encomenda;
+        }else{
+            $idEncomenda = $proposta["id"];
+        }
+        
 
         foreach($this->selectedItemsAdjudicar as $id => $item)
         {
@@ -269,8 +285,8 @@ class PropostaInfo extends Component
                     if($id == $prop["id"])
                     {
                         Carrinho::create([
-                            "id_proposta" => "",
-                            "id_encomenda" => $proposta["id"],
+                            "id_proposta" => $proposta["id"],
+                            "id_encomenda" => $idEncomenda,
                             "id_cliente" => $proposta["number"],
                             "id_user" => Auth::user()->id,
                             "referencia" => $prop["reference"],
@@ -294,7 +310,11 @@ class PropostaInfo extends Component
     
         $this->clientes = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta["number"],"","","","",0);
 
-   
+        session(['OpenTabAdjudicarda' => "OpentabArtigos"]);
+
+        session(['rota' => "propostas.proposta"]);
+        session(['parametro' => $proposta["id"]]);
+        
         session()->flash("success", "Proposta adjudicada com sucesso");
         return redirect()->route('encomendas.detail',["id" => $this->clientes[0]->id]);
       
@@ -304,6 +324,9 @@ class PropostaInfo extends Component
     public function openComentario($idProposta)
     {
         $this->propostaComentarioId = $idProposta;
+
+        $this->tabDetail = "show active";
+        $this->tabDetalhesPropostas = "";
 
         $this->dispatchBrowserEvent('openComentario');
     }
@@ -326,11 +349,19 @@ class PropostaInfo extends Component
                 $status = "error";
             }
         }
-        
+        // dd($idProposta);
         $propostas = $this->clientesRepository->getPropostaID($idProposta);
+        
+        if (property_exists($propostas, 'budgets') && isset($propostas->budgets[0])) {
+            Session::put('proposta', $propostas->budgets[0]);
+        } else {
+            $message = "Comentário não salvo, Proposta está fechada!";
+            $status = "error";
+            $this->dispatchBrowserEvent('checkToaster', ["message" => $message, "status" => $status]);
+            return;
+        }
 
-       
-        Session::put('proposta',$propostas->budgets[0]);
+        // Session::put('proposta',$propostas->budgets[0]);
          
 
 
@@ -343,9 +374,13 @@ class PropostaInfo extends Component
     public function goBack()
     {
         $rota = Session::get('rota');
-
         $parametro = Session::get('parametro');
-     
+        
+        if($rota == "propostas.proposta"){
+            $rota = "propostas";
+            $parametro = "";
+        }
+        
         if($rota != "")
         {
             

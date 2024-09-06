@@ -119,24 +119,33 @@
                                 @foreach ($detalhesPropostas as $detalhe)
                                
                                 <tr>
-                                            <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
-                                            <td>{{ $detalhe->budget }}</td>
-                                            <td>{{ $detalhe->total }}</td>
-                                            <td>{{ $detalhe->status }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe) }})">
-                                                    <i class="ti ti-plus"></i> Ver Proposta
-                                                </button>
-                                                {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
-                                                    Comentários
-                                                </button> --}}
-                                            </td>
+                                    <td>{{ date('Y-m-d', strtotime($detalhe->date)) }}</td>
+                                    <td>{{ $detalhe->budget }}</td>
+                                    <td>{{ $detalhe->total }}</td>
+                                    <td>{{ $detalhe->status }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" wire:click="detalhePropostaModal({{ json_encode($detalhe) }})">
+                                            <i class="ti ti-plus"></i> Ver Proposta
+                                        </button>
+                                        {{-- <button type="button" class="btn btn-primary" wire:click="verComentario({{ json_encode($detalhe->id) }})">
+                                            Comentários
+                                        </button> --}}
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                     {{ $detalhesPropostas->links() }}
+                    <hr/>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-xl-4">
+                            <label>Comentário</label>
+                            <div class="input-group">
+                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_propostas" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

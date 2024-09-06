@@ -143,7 +143,7 @@ class Propostas extends Component
         $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
  
         $this->detailsPropostas = $propostasArray["paginator"];
-        $this->numberMaxPages = $propostasArray["nr_paginas"];
+        $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
         $this->totalRecords = $propostasArray["nr_registos"];
 
     }
@@ -153,7 +153,7 @@ class Propostas extends Component
         // $getInfoClientes = $this->clientesRepository->getNumberOfPagesPropostasCliente($this->perPage,$this->idCliente);
    
         $this->detailsPropostas = $propostasArray["paginator"];
-        $this->numberMaxPages = $propostasArray["nr_paginas"];
+        $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
         $this->totalRecords = $propostasArray["nr_registos"];
 
     }

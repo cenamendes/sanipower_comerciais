@@ -20,7 +20,6 @@
     @if ($showLoaderPrincipal == true)
         <div id="loader" style="display: none;">
             <div class="loader" role="status">
-
             </div>
         </div>
     @endif
@@ -48,7 +47,12 @@
                     <a href="#tab5" data-toggle="tab" class="nav-link {{ $tabProdutos }}">Produtos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">Artigos</a>
+                    <a href="#tab6" data-toggle="tab" class="nav-link {{ $tabDetalhesEncomendas }}">
+                        @if($quantidadeLines > 0)
+                            <span>({{$quantidadeLines}}) </span>
+                        @endif
+                        Artigos
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="#tab7" data-toggle="tab" class="nav-link {{ $tabFinalizar }}">Finalizar</a>
@@ -62,6 +66,8 @@
                                 class="ti-eye"></i>
                             Ver Encomenda</a> --}}
                         {{-- <a href="javascript:void(0);"  wire:click="finalizarencomenda" class="btn btn-sm btn-primary"><i class="ti-save"></i> Guardar Encomenda</a> --}}
+                        <a href="javascript:void(0);" wire:click="Limpar" class="btn btn-sm btn-secondary"> Limpar carrinho</a>
+                        
                         <a href="javascript:void(0);" wire:click="voltarAtras" class="btn btn-sm btn-secondary" > Voltar atrás</a>
                         <a href="javascript:void(0);" wire:click="cancelarEncomenda" class="btn btn-sm btn-secondary" > Cancelar</a>
                     </div>
@@ -225,14 +231,14 @@
                         <div class="col-xl-4">
 
                             <div class="form-group">
-                                <label>Nº Ocorrências em aberto</label>
+                                <label>Email do Cliente</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-carolina"><i
                                                 class="ti-light-bulb text-light"></i></span>
                                     </div>
                                     <input type="text" class="form-control"
-                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                        value="{{ $detalhesCliente->customers[0]->email }}" readonly>
                                 </div>
                             </div>
 
@@ -269,6 +275,20 @@
                     </div>
 
                     <div class="row form-group">
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>Nº Ocorrências em aberto</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-carolina"><i
+                                                class="ti-light-bulb text-light"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control"
+                                        value="{{ $detalhesCliente->customers[0]->open_occurrences }}" readonly>
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="col-xl-4">
 
                             <div class="form-group">
@@ -316,13 +336,12 @@
                                     @php
                                         $contaCat = 0;
                                     @endphp
-                                  
                                     @foreach ($getCategories->category as $i => $cat)
                                         @php
                                             $contaCat++;
                                         @endphp
-                                        <div class="subsidebarProd overflow-y-auto"
-                                            id="subItemInput{{ $contaCat }}">
+                                        <div class="subsidebarProd overflow-y-auto" id="subItemInput{{ $contaCat }}">
+
                                             <div wire:loading wire:target="searchCategory">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
@@ -330,7 +349,7 @@
                                                 </div>
                                             </div>
 
-                                            <div wire:loading wire:target="resetFilter">
+                                            <div wire:loading wire:target="resetFilterEncomenda">
                                                 <div id="filtroLoader" style="display: block;">
                                                     <div class="filtroLoader" role="status">
                                                     </div>
@@ -339,41 +358,132 @@
 
                                             <a href="javascript:void(0)" class="buttonGoback"><i
                                                     class="ti ti-arrow-left IconGoback"></i>Produtos</a>
+                                              
                                             <h2>{{ $cat->name }}</h2>
+                                            
                                             <div class="row">
+                                            
+
                                             @foreach ($cat->family as $family)
                                             @if ($familyInfo == true)
                                                 @if ($idFamilyInfo == $family->id)
+                                                {{-- {{dd($familyInfo)}} --}}
                                                     <div class="col-12">
                                                         <div class="row mb-2">
-                                                            <a href="javascript:void(0)" wire:click="resetFilter({{ $contaCat }})" class="mb-3 ml-4">
+                                                            <a wire:click="resetFilterEncomenda({{ $contaCat }})" class="mb-3 ml-4">
                                                                 <i class="ti-angle-left"></i> Atrás
                                                             </a>
                                                         </div>
                                                         <div class="row">
                                                             @foreach ($family->subfamily as $subfamily)
-                                                                <div class="col-4">
+                                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                                        <a href="javascript:void(0);" class="title-description-family" data-id={{$contaCat}} wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})"
+                                                                            style="pointer-events: auto">
+                                                                            <div class="mb-1">
+                                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $family->id }}/{{ $subfamily->id }}.jpg"
+                                                                                    class="card-img-top" alt="...">
+
+                                                                                <div class="body-decoration">
+                                                                                    <h5 class="title-description">{{ $subfamily->name }}</h5>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                {{-- <div class="col-4">
                                                                     <h5 class="title-description-family"
                                                                         wire:click="searchSubFamily({{ $contaCat }}, {{ json_encode($family->id) }}, {{ json_encode($subfamily->id) }})">
-                                                                        {{ $subfamily->name }}
+                                                                        {{ $subfamily->name }}aqui
                                                                     </h5>
-                                                                </div>
+                                                                </div> --}}
                                                             @endforeach
                                                         </div>
                                                     </div>
-                                                    @else
-                                                    <div class="col-4">
+                                                @else
+                                                    @if ($idCategoryInfo != $cat->id)
+                                                        <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                            <div class="card card-decoration card-outline-primary border border-2">
+                                                                <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                                    style="pointer-events: auto">
+                                                                    <div class="mb-1">
+                                                                        @php
+                                                                            $familyId = $family->id;
+                                                                            $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                            $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                        @endphp
+                                                                        <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                            class="card-img-top" alt="...">
+
+                                                                        <div class="body-decoration">
+                                                                            <h5 class="title-description">{{ $family->name }}</h5>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
+                                                    {{-- <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                        <div class="card card-decoration card-outline-primary border border-2">
+                                                            <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                            style="pointer-events: auto">
+                                                                <div class="mb-1">
+                                                                    @php
+                                                                        $familyId = $family->id;
+                                                                        $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                        $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                    @endphp
+                                                                    <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                        class="card-img-top" alt="...">
+
+                                                                    <div class="body-decoration">
+                                                                        <h5 class="title-description">{{ $family->name }}</h5>
+                                                                    </div>
+
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div> --}}
+
+                                                    {{-- <div class="col-4">
                                                         <a href="javascript:void(0);" class="familyHREF{{ $contaCat }}" data-id={{$contaCat}} wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
-                                                            <h5 class="family_title">{{ $family->name }}</h5>
+                                                            <h5 class="family_title">{{ $family->name }}ss</h5>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                 @endif
                                             @else
-                                                <div class="col-4">
+
+                                                <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                    <div class="card card-decoration card-outline-primary border border-2">
+                                                        <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})"
+                                                        style="pointer-events: auto">
+                                                            <div class="mb-1">
+                                                                @php
+                                                                    $familyId = $family->id;
+                                                                    $familyIdSemHifen = str_replace('-', '', $familyId);
+                                                                    $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
+                                                                @endphp
+                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                    class="card-img-top" alt="...">
+                                                                {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
+
+                                                                <div class="body-decoration">
+                                                                    <h5 class="title-description">{{ $family->name }}</h5>
+                                                                </div>
+
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="col-4">
                                                     <a href="javascript:void(0);" wire:click="searchCategory({{ $contaCat }}, {{ json_encode($family->id) }})">
-                                                        <h5 class="family_title">{{ $family->name }}</h5>
+                                                        <h5 class="family_title">{{ $family->name }}Hello</h5>
                                                     </a>
-                                                </div> 
+                                                </div>  --}}
                                             @endif
                                         @endforeach
 
@@ -381,7 +491,7 @@
                                         </div>
                                     @endforeach
                                     <div class="sidebarProd" id="sidebarProd" wire:ignore>
-                                        <label for="checkbox" style="width: 180%;">
+                                        <label for="checkbox" style="width: 100%;">
                                             <div class="input-group input-group-config-Goback input-config-produtos"
                                                 id="checkboxSidbar" style="padding: 0;">
                                                 <label><i class="ti-menu"></i>
@@ -529,31 +639,28 @@
                                                 @endphp
                                                 @if ($searchSubFamily)
                                                     @foreach ($searchSubFamily->product as $prodt)
-
-                                                            <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
-                                                                <div class="card card-decoration card-outline-primary border border-2">
-                                                                    <a href="javascript:void(0)"
-                                                                    wire:click="openDetailProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"
-                                                                    style="pointer-events: auto">
-                                                                        <div class="mb-1">
-                                                                            <img src="https://storage.sanipower.pt/storage/produtos/{{ $prodt->family_number }}/{{ $prodt->family_number }}-{{ $prodt->subfamily_number }}-{{ $prodt->product_number }}.jpg"
-                                                                                class="card-img-top" alt="...">
-                                                                            <div class="body-decoration">
-                                                                                <h5 class="title-description">{{ $prodt->product_name }}</h5>
-                                                                            </div>
-
+                                                        <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
+                                                            <div class="card card-decoration card-outline-primary border border-2">
+                                                                <a href="javascript:void(0)"
+                                                                wire:click="openDetailProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"
+                                                                style="pointer-events: auto">
+                                                                    <div class="mb-1">
+                                                                        <img src="https://storage.sanipower.pt/storage/produtos/{{ $prodt->family_number }}/{{ $prodt->family_number }}-{{ $prodt->subfamily_number }}-{{ $prodt->product_number }}.jpg"
+                                                                            class="card-img-top" alt="...">
+                                                                        <div class="body-decoration">
+                                                                            <h5 class="title-description">{{ $prodt->product_name }}</h5>
                                                                         </div>
-                                                                    </a>
-                                                                    <div class="card-body container-buttons" style="z-index:10;">
-                                                                        <button class="btn btn-sm btn-primary"
-                                                                                wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})">
-                                                                            <i class="ti-shopping-cart"></i><span> Compra rápida</span>
-                                                                        </button>
+
                                                                     </div>
+                                                                </a>
+                                                                <div class="card-body container-buttons" style="z-index:10;">
+                                                                    <button class="btn btn-sm btn-primary"
+                                                                            wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})">
+                                                                        <i class="ti-shopping-cart"></i><span> Compra rápida</span>
+                                                                    </button>
                                                                 </div>
                                                             </div>
-
-                                                        
+                                                        </div>
                                                     @endforeach
 
                                                 @else
@@ -566,7 +673,7 @@
                         @else
                             <div class="tab-encomenda-produto">
                                 <div class="row mb-2 border-bottom">
-                                    <a href="javascript:void(0)" wire:click="recuarLista(5)" class="mb-3 ml-4"><i
+                                    <a href="javascript:void(0)" wire:click="recuarLista" class="mb-3 ml-4"><i
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
                                 @php
@@ -596,7 +703,6 @@
                                 <div class="col">
                                     <h3 id="detailNameProduct">{{ $produtoNameDetail }}</h3>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -618,7 +724,7 @@
                             </thead>
                             <tbody>
                              
-                                @if (!empty($detailProduto))
+                                @if (!empty($detailProduto) || isset($detailProduto->product))
                              
                                     @foreach ($detailProduto->product as $i => $prod)
                                         <tr style="background-color:{{ $prod->color }}">
@@ -626,7 +732,6 @@
                                             <td>{{ $prod->model }}</td>
                                             <td>{{ $prod->pvp }}</td>
                                             <td>{{ $prod->discount }}</td>
-                                            {{-- <td>{{ $prod->discount2 }}</td> --}}
                                             <td>{{ $prod->price }}</td>
                                             <td>{{ $prod->quantity }}</td>
                                             <td style="text-align:center;font-size:large;">
@@ -637,16 +742,12 @@
                                                             <ul class="dropdownIcon-menu">
                                                                 <li><i class="fa fa-play icon-play"></i></li>
                                                                 <li style="border-bottom: 1px solid;">
-                                                                    <h5>Stocks em loja</h5>
+                                                                    <h5 style = "text-align: left; margin:2px; font-weight: 600;">Stocks em loja</h5>
                                                                 </li>
                                                                 @foreach ($prod->stocks as $stock)
-                                                                    <li>
-                                                                        {{ $stock->warehouse_description }}
-                                                                        @if ($stock->stock == true)
-                                                                            <i class="ti-check text-lg text-forest"></i>
-                                                                        @else
-                                                                            <i class="ti-close text-lg text-chili"></i>
-                                                                        @endif
+                                                                    <li style = "padding:5px; display: flex; justify-content: space-between; border-bottom: 1px solid #000;">
+                                                                       <span>{{ $stock->warehouse_description }}</span>
+                                                                        <span>{{ $stock->qtt }}</span>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -710,7 +811,7 @@
                                                                         <i class="ti-check"></i>
                                                                     </button>
                                                                 </h6>
-                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
+                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;" wire:model.defer="produtosComment.{{$i}}"></textarea>
                                                             </li>
                                                         </div>
                                                     </div>
@@ -745,11 +846,10 @@
                                 <button class="btn btn-md btn-primary" wire:click="CleanAll"><i class="ti-close"></i> Limpar Seleção</button>
                             </div>
                             <div>
-                                <button class="btn btn-md btn-success" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart"></i> Adicionar Todos </button>
+                                <button class="btn btn-md btn-success" id="addAllButton" wire:click="addAll('{{$produtoNameDetail}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')"><i class="ti-shopping-cart" disabled></i> Adicionar Todos </button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -758,16 +858,89 @@
                     @endif
                 </div>
             </div>
+            <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os inputs de quantidade e áreas de comentário
+    const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+    const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+    
+    // Seleciona o botão "Adicionar Todos"
+    const addAllButton = document.getElementById('addAllButton');
+
+    // Função para verificar as quantidades e comentários
+    function checkQuantitiesAndComments() {
+        let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
+        let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
+
+        // Itera sobre cada input de quantidade
+        quantidadeInputs.forEach(input => {
+            // Obtém a linha <tr> do input atual
+            const trElement = input.closest('tr');
+            const backgroundColor = trElement.style.backgroundColor;
+
+            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+            if (backgroundColor === 'rgb(65, 198, 160)') {
+                return;
+            }
+
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                // Verifica se o comentário correspondente está preenchido
+                const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                if (!comentarioArea || comentarioArea.value.trim() === '') {
+                    allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
+                }
+            }
+        });
+
+        // Verifica se todos os inputs com dados são válidos
+        quantidadeInputs.forEach(input => {
+            // Obtém a linha <tr> do input atual
+            const trElement = input.closest('tr');
+            const backgroundColor = trElement.style.backgroundColor;
+
+            // Ignora a validação se a linha tiver a cor de fundo #41c6a0
+            if (backgroundColor === 'rgb(65, 198, 160)') {
+                return;
+            }
+
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                if (!allCommentsProvided) {
+                    allValid = false; // Se algum input com dados não for válido, define allValid como falso
+                }
+            }
+        });
+
+        // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
+        addAllButton.disabled = !(allValid && allCommentsProvided);
+    }
+
+    // Adiciona o event listener a cada input de quantidade e área de comentário
+    quantidadeInputs.forEach(input => {
+        input.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    comentarioAreas.forEach(area => {
+        area.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    // Chama a função para a verificação inicial
+    checkQuantitiesAndComments();
+});
+</script>
             <div class="tab-pane fade {{ $tabDetalhesEncomendas }} m-3" id="tab6" style="border: none;">
              @php
                 $ValorTotal = 0;
                 $ValorTotalComIva = 0;
             @endphp
-            {{-- @forelse ($arrayCart as $img => $item) --}}
                 <div class="row" style="align-items: center;">
-                    {{-- <div class="col-md-2 d-flex justify-content-center align-items-center p-0">
-                        <img src="{{ $img }}" class="card-img-top" alt="Produto" style="width: 9rem; height:auto;">
-                    </div> --}}
+                   
                     @if($allkit)
                     <div class="col-md-12 p-0">
                     
@@ -778,7 +951,6 @@
                              
                                     <th style="width: 0;">Referência</th>
                                     <th>Produto</th>
-                                    <th>Comentário</th>
                                     <th style=" text-align: right;width: 0%;">PVP</th>
                                     <th style=" text-align: right;width: 0%;" class="d-none d-md-table-cell">Desc</th>
                                     <th style=" text-align: right;width: 0%;">P(c/desc.)</th>
@@ -789,9 +961,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @forelse ($arrayCart as $img => $item)
+                            @forelse ($arrayCart as $img => $prod)
 
-                                @forelse ($item as $prod)
                                 @if($prod->inkit == 1)
 
                                         @php
@@ -820,8 +991,8 @@
                                             </td> --}}
                                           
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
-                                            <td style="white-space: nowrap;">
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
+                                            <td>
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -873,8 +1044,21 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->designacao }} {{ $prod->model }}<br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
-                                            <td style="white-space: nowrap;">
+                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                            @php
+                                                    $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
+                                                @endphp
+                                                  @if(isset($comentarios))
+                                                  @if($comentarios != null)
+                                                    <br>
+                                                    <small style="color:#afba17;">
+                                                        {{$comentarios->comentario}}
+                                                    </small>
+                                                  @endif
+                                                @endif
+                                            
+                                            <br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>@if($prod->id_visita != null) &nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small> @endif</td>
+                                            {{-- <td>
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','encomenda')->where('id_encomenda',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -883,9 +1067,9 @@
                                                       {{$comentarios->comentario}}
                                                   @endif
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
-                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}</td>
+                                            <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->qtd }}</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->iva }} %</td>
@@ -893,11 +1077,7 @@
                                             <td style=" width: 10%; text-align: right; white-space: nowrap;">{{ number_format($totalItem, 2, ',', '.') }} €</td>
                                         </tr>
                                     @endif
-                                @empty
-                                    <tr>
-                                        <td colspan="8" style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c !important; text-align:center;">Nenhum produto no carrinho</td>
-                                    </tr>
-                                @endforelse
+                               
                             @empty
                                 <tr>
                                     <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
@@ -926,15 +1106,7 @@
                     @endif
       
                 </div>
-               
-            {{-- @empty
-                <tr>
-                    <td colspan="8" style="border-top:1px solid #232b58!important; border-bottom:1px solid #232b58!important; text-align:center;">Nenhum produto no carrinho</td>
-                </tr>
-            @endforelse --}}
             <div class="row">
-                {{-- <div class="col-md-2 d-flex p-0">
-                </div> --}}
                 <div class="col-md-12 p-0 text-right" style="border-bottom: none;padding: 0;">
                  
                
@@ -1125,11 +1297,11 @@
 
              <div class="row p-4">
                  <div class="col-12 p-0 d-none d-md-table-cell text-right mt-3">
-                     <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                     {{-- <a class="btn btn-cinzento btn_limpar_carrinho" style="border: #232b58 solid 1px; margin-right: 1rem;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
                      <a class="btn btn-primary fundo_azul" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i>Encomendar</a>
                  </div>
                  <div class="col-12 pb-3 p-0 d-md-none text-center">
-                     <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a>
+                     {{-- <a class="btn btn-cinzento btn_limpar_carrinho w-100 mb-2" style="border: #232b58 solid 1px;" wire:click="deletartodos"><i class="las la-eraser"></i> Limpar Carrinho</a> --}}
                      <a class="btn btn-primary fundo_azul w-100" style="color:white;" wire:click="finalizarencomenda"><i class="las la-angle-right"></i> Finalizar Encomenda</a>
                  </div>
              </div>
@@ -1191,7 +1363,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!empty($quickBuyProducts))
+                                    {{-- adicionar o codigo abaixo quando conseguir repetir o erro --}}
+                                    @if (!empty($quickBuyProducts) || isset($quickBuyProducts->product))
+
+                                    {{-- @if (!empty($quickBuyProducts)) --}}
+                                        {{-- {{dd($quickBuyProducts)}} --}}
                                         @foreach ($quickBuyProducts->product as $i => $prod)
                                             <tr wire:key="product-{{ $i }}" style="background-color:{{ $prod->color }}" >
                                                 <td>{{ $prod->referense }}</td>
@@ -1209,17 +1385,13 @@
                                                                 <ul class="dropdownIcon-menu">
                                                                     <li><i class="fa fa-play icon-play"></i></li>
                                                                     <li style="border-bottom: 1px solid;">
-                                                                        <h5>Stocks em loja</h5>
+                                                                         <h5 style = "text-align: left; margin:2px; font-weight: 600;">Stocks em loja</h5>
                                                                     </li>
                                                                     @foreach ($prod->stocks as $stock)
-                                                                        <li>
-                                                                            {{ $stock->warehouse_description }}
-                                                                            @if ($stock->stock == true)
-                                                                                <i class="ti-check text-lg text-forest"></i>
-                                                                            @else
-                                                                                <i class="ti-close text-lg text-chili"></i>
-                                                                            @endif
-                                                                        </li>
+                                                                        <li style = "padding:5px; display: flex; justify-content: space-between; border-bottom: 1px solid #000;">
+                                                                       <span>{{ $stock->warehouse_description }}</span>
+                                                                        <span>{{ $stock->qtt }}</span>
+                                                                    </li>
                                                                     @endforeach
                                                                 </ul>
                                                             </div>
@@ -1250,7 +1422,7 @@
                                                                         <i class="ti-check"></i>
                                                                     </button>
                                                                 </h6>
-                                                                <textarea type="text" class="form-control" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
+                                                                <textarea type="text" class="form-control {{ $prod->color }}" id="addTextosEncomenda{{$i}}" cols="7" rows="4" style="resize: none;"
                                                                     wire:model.defer="produtosComment.{{$i}}">
                                                                 </textarea>
                                                             </li>
@@ -1268,12 +1440,70 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="cleanSelectionQuick" class="btn btn-outline-dark" data-dismiss="modal">Limpar seleção</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="addAll('{{$nameProduct}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')">Adicionar todos</button>
+                <button type="button" id="addAllButton" class="btn btn-outline-primary" wire:click="addAll('{{$nameProduct}}',{{$detalhesCliente->customers[0]->no}}, '{{ $ref }}','{{$codEncomenda}}')" disabled>Adicionar todos</button>
             </div>
         </div>
     </div>
 </div>
 
+{{-- <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os inputs de quantidade e áreas de comentário
+    const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+    const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+    
+    // Seleciona o botão "Adicionar Todos"
+    const addAllButton = document.getElementById('addAllButton');
+
+    // Função para verificar as quantidades e comentários
+    function checkQuantitiesAndComments() {
+        let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
+        let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
+
+        // Itera sobre cada input de quantidade
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                // Verifica se o comentário correspondente está preenchido
+                const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                if (!comentarioArea || comentarioArea.value.trim() === '') {
+                    allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
+                }
+            }
+        });
+
+        // Verifica se todos os inputs com dados são válidos
+        quantidadeInputs.forEach(input => {
+            const quantidadeInserida = parseInt(input.value);
+            const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+            if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                if (!allCommentsProvided) {
+                    allValid = false; // Se algum input com dados não for válido, define allValid como falso
+                }
+            }
+        });
+
+        // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
+        addAllButton.disabled = !(allValid && allCommentsProvided);
+    }
+
+    // Adiciona o event listener a cada input de quantidade e área de comentário
+    quantidadeInputs.forEach(input => {
+        input.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    comentarioAreas.forEach(area => {
+        area.addEventListener('input', checkQuantitiesAndComments);
+    });
+
+    // Chama a função para a verificação inicial
+    checkQuantitiesAndComments();
+});
+</script> --}}
 <!----->
 
 <!-- Modal ver encomenda -->
@@ -1381,28 +1611,51 @@
             }
         });
 
-        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
 
-        textareas.forEach(textarea => {
-            const id = textarea.id.replace('addTextosEncomenda', '');
-            const commentButton = document.getElementById('addCommentEncomenda' + id);
-
-            textarea.addEventListener('input', function() {
-                if (textarea.value.trim() !== "") {
-                    commentButton.removeAttribute('disabled');
-                } else {
-                    commentButton.setAttribute('disabled', 'disabled');
-                }
-            });
-
-            commentButton.addEventListener('click', function() {
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
-            });
-        });
     });
+    function attachLoader() {
+        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
+               textareas.forEach(textarea => {
+            const classListArray = Array.from(textarea.classList);
 
-    
+            const hasColorClass = classListArray.some(className => className.includes('41c6a0'));
+            const id = textarea.id.replace('addTextosEncomenda', '');
+
+            if (!hasColorClass) { 
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+                        
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+
+                    commentButton.addEventListener('click', function() {
+                        $('#addProductEncomenda'+id).removeAttr('disabled');
+                        $('#addProductProposta'+id).removeAttr('disabled');
+                    });
+                }
+            }else{
+                const commentButton = document.getElementById('addCommentEncomenda' + id);
+
+                if (commentButton) {
+                    textarea.addEventListener('input', function() {
+
+                        if (textarea.value.trim() !== "") {
+                            commentButton.removeAttribute('disabled');
+                        } else {
+                            commentButton.setAttribute('disabled', 'disabled');
+                        }
+                    });
+                   
+                }
+            }
+        });
+    }
 
     // vinicius
     const checkbox = document.getElementById('checkbox');
@@ -1423,36 +1676,39 @@
         }
     });
     document.addEventListener('DOMContentLoaded', function () {
-        function attachHandlers() {
+       function attachHandlers() {
 
-            $('.produto-quantidade').off('input').on('input', function() {
+            $('.kitCheck').off('change').on('change', function() {
+            $('.kitCheck').not(this).prop('checked', false);
+        });
 
-                var id = $(this).attr('id');
-                var valor = $(this).val();
-                var qtdMin = $(this).attr('data-qtd');
+        $('.produto-quantidade').off('input').on('input', function() {
+            var id = $(this).attr('id');
+            var valor = $(this).val();
+            var qtdMin = $(this).attr('data-qtd');
+            var trElement = $(this).closest('tr');
+            var backgroundColor = trElement.css('background-color');
 
-                if(parseInt(valor) >= parseInt(qtdMin)){
-                    $('#addProductEncomenda'+id).removeAttr('disabled');
-                    $('#addProductProposta'+id).removeAttr('disabled');
-                    $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
+            // Verifica se há comentário na mesma linha
+            var hasComment = trElement.find('#commentProductEncomenda' + id).val().trim() !== '';
 
-                }else if(parseInt(valor) < parseInt(qtdMin)){
+            // Condição para ativar o botão
+            if(parseInt(valor) >= parseInt(qtdMin) || backgroundColor === 'rgb(65, 198, 160)' || hasComment){
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            } else {
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
 
-                    if(parseInt(valor) <= 0){
-                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                        $('#addProductProposta'+id).attr('disabled', 'disabled');
-
-                        $('#commentProductEncomenda'+id).attr('disabled', 'disabled');
-                    }else{
-                        $('#commentProductEncomenda'+id).removeAttr('disabled');
-                        $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                        $('#addProductProposta'+id).attr('disabled', 'disabled');
-                    }
-                }else{
-                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                    $('#addProductProposta'+id).attr('disabled', 'disabled');
-                }
-            });
+            // Se a quantidade for menor ou igual a 0, sempre desabilitar
+            if(valor === '' || parseInt(valor) <= 0){
+                console.log("Veio pra cá! 2");
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
+        });
+            
 
             $('#selectBox').hide();
             $('#selectLabel').css("display","none");
@@ -1512,6 +1768,7 @@
                 }
             });
         }
+        
     });
 
     window.addEventListener('refreshPage', function(e) {
@@ -1519,21 +1776,38 @@
     });
     
 
-    window.addEventListener('refreshComponent2', function(e) {
+    window.addEventListener('refreshComponentEncomenda2', function(e) {
 
-        // console.log(check);
+        var accordions2 = document.getElementsByClassName("accordion2");
+
+        for (var i = 0; i < accordions2.length; i++) {
+            accordions2[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+
+                var panel2 = this.nextElementSibling;
+                if (panel2.style.maxHeight) {
+                    panel2.style.maxHeight = null;
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>'; // Change arrow down
+                } else {
+                    panel2.style.maxHeight = panel2.scrollHeight + "%";
+                    this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>'; // Change arrow up
+                }
+            });
+        }
+
         document.querySelectorAll('.subsidebarProd').forEach(function(item) {
-
             item.style.display = 'none';
         });
 
-        jQuery("#subItemInput" + e.detail.id).css("display", "block");
+        const subItem = document.querySelector("#subItemInput" + e.detail.id);
+        if (subItem) {
+            subItem.style.display = 'block';
+        }
     });
 
     window.addEventListener('refreshComponent', function(e) {
-         var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
-
-        // console.log(check);
+        //window.location.reload();
+        var check = jQuery("[data-id='"+e.detail.id+"']").attr("data-id");
 
         document.querySelectorAll('.familyHREF'+check).forEach(function(item) {
        
@@ -1565,18 +1839,12 @@
         });
     });
 
-
- 
-    
-
-
     const inputGroups = document.querySelectorAll('.input-group-config');
     let currentSubItem = null;
 
     inputGroups.forEach(function(inputGroup) {
         inputGroup.addEventListener('click', function() {
             
-
             const id = this.id;
             const subItemId = 'subItemInput' + id.slice(-1);
             const InputId = 'input' + id.slice(-1);
@@ -1584,9 +1852,9 @@
 
             const subItem = document.getElementById(subItemId);
             const Input = document.getElementById(InputId);
-
+            //jQuery("#subItemInput" + InputId).css("display", "none");
          
-          
+            
 
 
             const subbars = document.querySelectorAll('.subsidebarProd');
@@ -1603,7 +1871,6 @@
                 } else {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
-                       
                     });
 
                                        
@@ -1643,7 +1910,6 @@
                 if (clickedOutsideSubbars) {
                     document.querySelectorAll('.subsidebarProd').forEach(function(item) {
                         item.style.display = 'none';
-                
                     });
 
                     checkbox.checked = true;
@@ -1657,6 +1923,7 @@
 
             }
         } else {}
+        attachLoader()
     });
 
     jQuery('body').on('click', '.checkboxSidbar', function() {
@@ -1737,14 +2004,18 @@
     }
 
     document.addEventListener('livewire:load', function() {
-            Livewire.hook('message.sent', () => {
+        Livewire.hook('message.sent', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'block';
-            });
+                
+            }
+        });
 
-            // Oculta o loader quando o Livewire terminar de carregar
-            Livewire.hook('message.processed', () => {
+        Livewire.hook('message.processed', () => {
+            if(document.getElementById('loader') != null){
                 document.getElementById('loader').style.display = 'none';
-            });
+            }
+        });
 
     });
 
@@ -1795,15 +2066,7 @@
         jQuery('#modalEncomenda').modal('show');
     });
 
-    document.addEventListener('itemDeletar', function (event) {
-        // Mudar para a aba #tab6
-        var tab = document.querySelector('a[href="#tab6"]');
-        if (tab) {
-            tab.click();
-        }
-    });
-
-    document.addEventListener('compraRapida', function(e) {
+    document.addEventListener('compraRapida', function() {
         jQuery('#modalProdutos').modal();
     });
 
@@ -1843,7 +2106,7 @@
         const buttonContainer = document.querySelector('.btn-remove-itens-kit');
         
         const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        console.log(anyChecked);
+        // console.log(anyChecked);
         if (anyChecked) {
             buttonContainer.style.display = 'block';
         } else {

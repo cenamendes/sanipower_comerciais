@@ -281,7 +281,6 @@
                               
                                         </td>
                                         <td>
-
                                             <a href="{{ route('visitas.info', $vst->id) }}"
                                                 class="btn btn-primary">
                                                 <i class="ti-search"></i>
