@@ -384,6 +384,7 @@
                                                     class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                             <h2>{{ $cat->name }}</h2>
                                             <div class="row">
+                                            {{-- vinicius hello --}}
                                             @foreach ($cat->family as $family)
                                             @if ($familyInfo == true)
                                                 @if ($idFamilyInfo == $family->id)
@@ -464,8 +465,7 @@
                                                                     $familyIdSemHifen = str_replace('-', '', $familyId);
                                                                     $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
                                                                 @endphp
-                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
-                                                                    class="card-img-top" alt="...">
+
                                                                 {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
 
                                                                 <div class="body-decoration">
