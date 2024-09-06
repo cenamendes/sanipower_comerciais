@@ -384,6 +384,7 @@
                                                     class="ti ti-arrow-left IconGoback"></i>Produtos</a>
                                             <h2>{{ $cat->name }}</h2>
                                             <div class="row">
+                                            {{-- vinicius hello --}}
                                             @foreach ($cat->family as $family)
                                             @if ($familyInfo == true)
                                                 @if ($idFamilyInfo == $family->id)
@@ -464,8 +465,7 @@
                                                                     $familyIdSemHifen = str_replace('-', '', $familyId);
                                                                     $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
                                                                 @endphp
-                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
-                                                                    class="card-img-top" alt="...">
+
                                                                 {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
 
                                                                 <div class="body-decoration">
@@ -991,7 +991,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                            <td>{{ $prod->designacao }}
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1058,7 +1058,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }} {{ $prod->model }}
+                                            <td>{{ $prod->designacao }}
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1082,7 +1082,6 @@
                                                     @endif
                                                 @endif
                                             </td> --}}
-
                                             <td style="text-align: right; white-space: nowrap;">{{ number_format($prod->pvp, 2, ',', '.') }} €</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
