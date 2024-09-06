@@ -143,7 +143,7 @@ class assistencias extends Component
 
 
         $this->restartDetails();
-        //ff
+        //ffg
     }
     public function paginationView()
     {
