@@ -31,7 +31,7 @@ class Encomendas extends Component
     public ?string $nifCliente = '';
     public $startDate = '';
     public $endDate = '';
-    public int $statusEncomenda = 0;
+    public int $statusEncomenda = 1;
 
 
     
