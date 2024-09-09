@@ -36,7 +36,6 @@ class EncomendasController extends Controller
                     ->where('id_cliente',$detailsClientes->customers[0]->no)
                     ->first();
 
-        
         if(empty($checkCarrinho)){
             $codEncomenda = $detailsClientes->customers[0]->no;
             $randomChar = mt_rand(1000000, 9999999);
@@ -44,7 +43,7 @@ class EncomendasController extends Controller
         }else{
             $codEncomenda = $checkCarrinho->id_encomenda;
         }
-
+        
         return view('encomendas.details',["codvisita" => null,"idCliente" => $id,"nameCliente" => $detailsClientes->customers[0]->name, "codEncomenda" => $codEncomenda, "encomenda" => null]);
     }
 

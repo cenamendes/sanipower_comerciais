@@ -408,7 +408,6 @@
                                                                                 <div class="body-decoration">
                                                                                     <h5 class="title-description">{{ $subfamily->name }}</h5>
                                                                                 </div>
-
                                                                             </div>
                                                                         </a>
                                                                     </div>

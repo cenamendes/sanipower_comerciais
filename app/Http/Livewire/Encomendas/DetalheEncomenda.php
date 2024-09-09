@@ -913,10 +913,9 @@ class DetalheEncomenda extends Component
 
 
         if ($response_decoded->success == true) {
-            
             $getEncomenda = Carrinho::where('id_encomenda','!=', "")->where('id_cliente',$idCliente)->first();
 
-
+           
             ComentariosProdutos::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
             Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
    

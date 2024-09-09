@@ -244,7 +244,6 @@ class EncomendasRepository implements EncomendasInterface
 
     public function addProductToDatabase($codvisita,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
     {   
- 
         if($type == "encomenda") {
             $idencomenda = $codType;
             $idproposta = "";
