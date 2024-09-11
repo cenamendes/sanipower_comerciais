@@ -83,7 +83,7 @@ class EncomendasRepository implements EncomendasInterface
     public function getSubFamilySearch($idCategory, $idFamily, $idSubFamily,$searchProduct): object
     {
         $curl = curl_init();
-
+        // dd(env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'');
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
             CURLOPT_RETURNTRANSFER => true,

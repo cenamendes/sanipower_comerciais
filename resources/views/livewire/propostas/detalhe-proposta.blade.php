@@ -856,82 +856,6 @@
                     @endif
                 </div>
             </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                // Seleciona todos os inputs de quantidade e áreas de comentário
-                const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
-                const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
-                
-                // Seleciona o botão "Adicionar Todos"
-                const addAllButton = document.getElementById('addAllButton');
-
-                // Função para verificar as quantidades e comentários
-                function checkQuantitiesAndComments() {
-                    let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
-                    let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
-
-                    // Itera sobre cada input de quantidade
-                    quantidadeInputs.forEach(input => {
-                        // Obtém a linha <tr> do input atual
-                        const trElement = input.closest('tr');
-                        const backgroundColor = trElement.style.backgroundColor;
-
-                        // Ignora a validação se a linha tiver a cor de fundo #41c6a0
-                        if (backgroundColor === 'rgb(65, 198, 160)') {
-                            return;
-                        }
-
-                        const quantidadeInserida = parseInt(input.value);
-                        const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
-
-                        // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
-                        if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
-                            // Verifica se o comentário correspondente está preenchido
-                            const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
-                            if (!comentarioArea || comentarioArea.value.trim() === '') {
-                                allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
-                            }
-                        }
-                    });
-
-                    // Verifica se todos os inputs com dados são válidos
-                    quantidadeInputs.forEach(input => {
-                        // Obtém a linha <tr> do input atual
-                        const trElement = input.closest('tr');
-                        const backgroundColor = trElement.style.backgroundColor;
-
-                        // Ignora a validação se a linha tiver a cor de fundo #41c6a0
-                        if (backgroundColor === 'rgb(65, 198, 160)') {
-                            return;
-                        }
-
-                        const quantidadeInserida = parseInt(input.value);
-                        const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
-
-                        if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
-                            if (!allCommentsProvided) {
-                                allValid = false; // Se algum input com dados não for válido, define allValid como falso
-                            }
-                        }
-                    });
-
-                    // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
-                    addAllButton.disabled = !(allValid && allCommentsProvided);
-                    }
-
-                    // Adiciona o event listener a cada input de quantidade e área de comentário
-                    quantidadeInputs.forEach(input => {
-                        input.addEventListener('input', checkQuantitiesAndComments);
-                    });
-
-                    comentarioAreas.forEach(area => {
-                        area.addEventListener('input', checkQuantitiesAndComments);
-                    });
-
-                    // Chama a função para a verificação inicial
-                    checkQuantitiesAndComments();
-                });
-            </script>
             <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;min-width: 800px;">
                 @php
                     $ValorTotal = 0;
@@ -990,7 +914,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }}
+                                            <td>{{ $prod->designacao }} {{$prod->model}}
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1057,7 +981,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }}
+                                            <td>{{ $prod->designacao }} {{$prod->model}}
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1521,7 +1445,7 @@
 
 
 <script>
-    
+
     document.addEventListener("DOMContentLoaded", function() {
         function closeAllDropdowns() {
             var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
@@ -1552,6 +1476,76 @@
     });
 
     function attachLoader() {
+        const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+        const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+        
+      
+        const addAllButton = document.getElementById('addAllButton');
+
+        function checkQuantitiesAndComments() {
+            console.log("rello");
+            let allValid = true; 
+            let allCommentsProvided = true;
+
+            quantidadeInputs.forEach(input => {
+                
+                const trElement = input.closest('tr');
+                const backgroundColor = trElement.style.backgroundColor;
+
+                
+                if (backgroundColor === 'rgb(65, 198, 160)') {
+                    return;
+                }
+
+                const quantidadeInserida = parseInt(input.value);
+                const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+                
+                if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                    const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                    if (!comentarioArea || comentarioArea.value.trim() === '') {
+                        allCommentsProvided = false;
+                    }
+                }
+            });
+
+            quantidadeInputs.forEach(input => {
+                
+                const trElement = input.closest('tr');
+                const backgroundColor = trElement.style.backgroundColor;
+
+              
+                if (backgroundColor === 'rgb(65, 198, 160)') {
+                    return;
+                }
+
+                const quantidadeInserida = parseInt(input.value);
+                const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+                if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                    if (!allCommentsProvided) {
+                        allValid = false; 
+                    }
+                }
+            });
+
+           
+            addAllButton.disabled = !(allValid && allCommentsProvided);
+            }
+
+            
+            quantidadeInputs.forEach(input => {
+                input.addEventListener('input', checkQuantitiesAndComments);
+            });
+
+            comentarioAreas.forEach(area => {
+                area.addEventListener('input', checkQuantitiesAndComments);
+            });
+
+            
+            checkQuantitiesAndComments();
+        
+        
         const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
                textareas.forEach(textarea => {
             const classListArray = Array.from(textarea.classList);
@@ -1746,7 +1740,7 @@
 
     
     window.addEventListener('refreshComponent2', function(e) {
-        console.log("hello");
+        
         var accordions2 = document.getElementsByClassName("accordion2");
 
         // Add click event listener to each accordion button
@@ -1885,7 +1879,7 @@
 
             }
         } else {}
-        attachLoader()
+        attachLoader();
     });
 
     jQuery('body').on('click', '.checkboxSidbar', function() {
