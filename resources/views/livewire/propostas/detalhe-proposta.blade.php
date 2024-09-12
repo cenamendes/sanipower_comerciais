@@ -460,12 +460,13 @@
                                                         style="pointer-events: auto">
                                                             <div class="mb-1">
                                                                 @php
+                                                                        
                                                                     $familyId = $family->id;
                                                                     $familyIdSemHifen = str_replace('-', '', $familyId);
                                                                     $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
                                                                 @endphp
-
-                                                                {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
+                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                    class="card-img-top" alt="...">
 
                                                                 <div class="body-decoration">
                                                                     <h5 class="title-description">{{ $family->name }}</h5>
@@ -1547,7 +1548,7 @@
             checkQuantitiesAndComments();
         
         
-        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
+            const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
                textareas.forEach(textarea => {
             const classListArray = Array.from(textarea.classList);
 
@@ -1638,9 +1639,33 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
+
+    var accordions2 = document.getElementsByClassName("accordion2");
+
+    // Add click event listener to each accordion button
+    for (var i = 0; i < accordions2.length; i++) {
+        accordions2[i].addEventListener("click", function() {
+            // Toggle active class to button
+            this.classList.toggle("active");
+
+            // Toggle the panel visibility
+            var panel2 = this.nextElementSibling;
+            if (panel2.style.maxHeight) {
+                panel2.style.maxHeight = null;
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
+            } else {
+                panel2.style.maxHeight = panel2.scrollHeight + "%";
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
+            }
+        });
+    }
+
+
+
+
         function attachHandlers() {
 
-            $('.kitCheck').off('change').on('change', function() {
+        $('.kitCheck').off('change').on('change', function() {
             $('.kitCheck').not(this).prop('checked', false);
         });
 
@@ -1881,6 +1906,61 @@
             }
         } else {}
         attachLoader();
+        function attachHandlers() {
+
+        $('.kitCheck').off('change').on('change', function() {
+            $('.kitCheck').not(this).prop('checked', false);
+        });
+
+        $('.produto-quantidade').off('input').on('input', function() {
+            var id = $(this).attr('id');
+            var valor = $(this).val();
+            var qtdMin = $(this).attr('data-qtd');
+            var trElement = $(this).closest('tr');
+            var backgroundColor = trElement.css('background-color');
+
+            // Verifica se há comentário na mesma linha
+            var hasComment = trElement.find('#commentProductEncomenda' + id).val().trim() !== '';
+
+            // Condição para ativar o botão
+            if(parseInt(valor) >= parseInt(qtdMin) || backgroundColor === 'rgb(65, 198, 160)' || hasComment){
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            } else {
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
+
+            // Se a quantidade for menor ou igual a 0, sempre desabilitar
+            if(valor === '' || parseInt(valor) <= 0){
+                console.log("Veio pra cá! 2");
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
+        });
+            
+
+            $('#selectBox').hide();
+            $('#selectLabel').css("display","none");
+
+            $('.checkFinalizar').off('change').on('change', function() {
+                $('.checkFinalizar').not(this).prop('checked', false);
+
+                if($('#levantamento_loja').is(':checked')) {
+                    $('#selectBox').show();
+                    $('#selectLabel').css("display","block");
+                } else {
+                    $('#selectBox').hide();
+                    $('#selectLabel').css("display","none");
+                }
+            });
+
+            $('.checkPagamento').off('change').on('change', function() {
+                $('.checkPagamento').not(this).prop('checked', false);
+            });
+        }
+        attachHandlers()
+
     });
 
     jQuery('body').on('click', '.checkboxSidbar', function() {
@@ -1940,25 +2020,7 @@
 
 
 
-    var accordions2 = document.getElementsByClassName("accordion2");
-
-    // Add click event listener to each accordion button
-    for (var i = 0; i < accordions2.length; i++) {
-        accordions2[i].addEventListener("click", function() {
-            // Toggle active class to button
-            this.classList.toggle("active");
-
-            // Toggle the panel visibility
-            var panel2 = this.nextElementSibling;
-            if (panel2.style.maxHeight) {
-                panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
-            } else {
-                panel2.style.maxHeight = panel2.scrollHeight + "%";
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
-            }
-        });
-    }
+    
 
     document.addEventListener('livewire:load', function() {
         Livewire.hook('message.sent', () => {

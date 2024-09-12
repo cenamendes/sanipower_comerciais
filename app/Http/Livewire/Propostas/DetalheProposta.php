@@ -403,8 +403,10 @@ class DetalheProposta extends Component
 
         $this->iteration++;
 
+        return redirect()->route('propostas.detail', ['id' => $this->idCliente]);
+
         // $this->dispatchBrowserEvent('refreshPage');
-        $this->dispatchBrowserEvent('refreshAllComponent');
+        // $this->dispatchBrowserEvent('refreshAllComponent');
 
     }
 
@@ -1192,35 +1194,75 @@ class DetalheProposta extends Component
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
         // session()->forget('searchSubFamily');
-        
+     
+
         if (session('searchSubFamily') !== null) {
             $sessao = session('searchSubFamily');
             
-            // $category = new stdClass();
-            // if (isset($sessao->categories)) {
-            //     $product = $sessao->categories;
 
-            //     unset($sessao->categories);
-
-            //     $category->product  = $product;
-            // }
-            // dd($sessao, );
-
-            // $this->getCategoriesAll = $category;
+           
 
             $productsList = [];  // Inicializa uma lista para armazenar os produtos convertidos
 
             // Itera sobre as categorias
             if (isset($sessao->categories)) {
-                $productsList = [];
                 
+                $category = new stdClass();
+                // dd($sessao,$category);
+                
+               
+                    
+    
+                $category = $sessao->categories;
+                
+                   // Iterar pelas categorias para ajustar 'families' e 'subamilies'
+                    foreach ($category as $catIndex => $cat) {
+                        // Renomear 'families' para 'family'
+                        if (isset($cat->families)) {
+                            $category[$catIndex]->family = $cat->families;  // Criar nova chave 'family'
+                            unset($category[$catIndex]->families);  // Remover a chave antiga 'families'
+
+                            // Iterar pelas famílias dentro de cada categoria
+                            foreach ($category[$catIndex]->family as $famIndex => $family) {
+                                // Renomear 'subamilies' para 'subfamily'
+                                if (isset($family->subamilies)) {
+                                    $category[$catIndex]->family[$famIndex]->subfamily = $family->subamilies;  // Criar nova chave 'subfamily'
+                                    unset($category[$catIndex]->family[$famIndex]->subamilies);  // Remover a chave antiga 'subamilies'
+                                }
+                            }
+                        }
+                    }
+
+                    // Exibir os dados após as modificações (para depuração)
+                    
+                    
+                    $response = [
+                        "success" => $sessao->success,
+                        "message" => $sessao->message,
+                        "total_pages" => $sessao->total_pages,
+                        "page" => $sessao->page,
+                        "records" => count($sessao->categories),
+                        "total_records" => count($sessao->categories),
+                        "category" => $category
+                    ];
+                    // Atribuindo o resultado à propriedade
+                    // $category = (object) $category;
+    
+                     $this->getCategoriesAll = (object) $response;
+               
+                
+
+
+
+                $productsList = [];
+               
                 foreach ($sessao->categories as $category) {
                     $categoryId = $category->id;
                     
-                    foreach ($category->families as $family) {
+                    foreach ($category->family as $family) {
                         $familyId = $family->id;
                     
-                        foreach ($family->subamilies as $subfamily) {
+                        foreach ($family->subfamily as $subfamily) {
                             $subfamilyId = $subfamily->id;
                     
                             foreach ($subfamily->products as $product) {
