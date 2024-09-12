@@ -650,12 +650,11 @@
                                                                         <div class="body-decoration">
                                                                             <h5 class="title-description">{{ $prodt->product_name }}</h5>
                                                                         </div>
-
                                                                     </div>
                                                                 </a>
                                                                 <div class="card-body container-buttons" style="z-index:10;">
                                                                     <button class="btn btn-sm btn-primary"
-                                                                            wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})">
+                                                                            wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})"> 
                                                                         <i class="ti-shopping-cart"></i><span> Compra rápida</span>
                                                                     </button>
                                                                 </div>
@@ -915,7 +914,11 @@
                                             </td> --}}
                                           
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }}  {{$prod->model}}
+                                            <td>
+                                                @if (strpos($prod->designacao, $prod->model) === false)
+                                                    {{ $prod->model }}
+                                                @endif
+
                                             <br><small style="color:#1791ba">{{ $prod->proposta_info }}</small>&nbsp;<small style="color:#1791ba">Visita nº {{ $prod->id_visita }}</small></td>
                                             <td>
                                                 @php

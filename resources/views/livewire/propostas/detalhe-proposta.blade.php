@@ -573,7 +573,7 @@
                                                             class="ti-search text-light"></i></span>
                                                 </div>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Pesquise Produto" wire:model.debounce.800ms="searchProduct"
+                                                    placeholder="Pesquise Produto" wire:model.lazy="searchProduct"
                                                     @if (session('searchProduct') !== null) value="{{ session('searchProduct') }}" @endif>
                                             </div>
                                             <br>
@@ -634,6 +634,7 @@
                                                     
                                                 @endphp
                                                 @if($searchSubFamily != null)
+                                                {{-- {{dd($searchSubFamily)}} --}}
                                                     @foreach ($searchSubFamily->product as $prodt)
 
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
