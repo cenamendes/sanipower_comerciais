@@ -1967,24 +1967,7 @@
         });
             
 
-            $('#selectBox').hide();
-            $('#selectLabel').css("display","none");
-
-            $('.checkFinalizar').off('change').on('change', function() {
-                $('.checkFinalizar').not(this).prop('checked', false);
-
-                if($('#levantamento_loja').is(':checked')) {
-                    $('#selectBox').show();
-                    $('#selectLabel').css("display","block");
-                } else {
-                    $('#selectBox').hide();
-                    $('#selectLabel').css("display","none");
-                }
-            });
-
-            $('.checkPagamento').off('change').on('change', function() {
-                $('.checkPagamento').not(this).prop('checked', false);
-            });
+            
         }
         attachHandlers()
     });
