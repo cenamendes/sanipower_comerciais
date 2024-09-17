@@ -408,7 +408,6 @@
                                                                                 <div class="body-decoration">
                                                                                     <h5 class="title-description">{{ $subfamily->name }}</h5>
                                                                                 </div>
-
                                                                             </div>
                                                                         </a>
                                                                     </div>
@@ -461,12 +460,13 @@
                                                         style="pointer-events: auto">
                                                             <div class="mb-1">
                                                                 @php
+                                                                        
                                                                     $familyId = $family->id;
                                                                     $familyIdSemHifen = str_replace('-', '', $familyId);
                                                                     $editado = str_pad($familyIdSemHifen, 4, '0', STR_PAD_LEFT);
                                                                 @endphp
-
-                                                                {{-- <img src="https://storage.sanipower.pt/storage/subfamilias/0001.jpg" --}}
+                                                                <img src="https://storage.sanipower.pt/storage/subfamilias/{{ $editado }}.jpg"
+                                                                    class="card-img-top" alt="...">
 
                                                                 <div class="body-decoration">
                                                                     <h5 class="title-description">{{ $family->name }}</h5>
@@ -574,7 +574,7 @@
                                                             class="ti-search text-light"></i></span>
                                                 </div>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Pesquise Produto" wire:model.debounce.800ms="searchProduct"
+                                                    placeholder="Pesquise Produto" wire:model.lazy="searchProduct"
                                                     @if (session('searchProduct') !== null) value="{{ session('searchProduct') }}" @endif>
                                             </div>
                                             <br>
@@ -635,6 +635,7 @@
                                                     
                                                 @endphp
                                                 @if($searchSubFamily != null)
+                                                {{-- {{dd($searchSubFamily)}} --}}
                                                     @foreach ($searchSubFamily->product as $prodt)
 
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
@@ -857,82 +858,6 @@
                     @endif
                 </div>
             </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                // Seleciona todos os inputs de quantidade e áreas de comentário
-                const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
-                const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
-                
-                // Seleciona o botão "Adicionar Todos"
-                const addAllButton = document.getElementById('addAllButton');
-
-                // Função para verificar as quantidades e comentários
-                function checkQuantitiesAndComments() {
-                    let allValid = true; // Assume que todos os inputs com dados são válidos inicialmente
-                    let allCommentsProvided = true; // Assume que todos os comentários são fornecidos inicialmente
-
-                    // Itera sobre cada input de quantidade
-                    quantidadeInputs.forEach(input => {
-                        // Obtém a linha <tr> do input atual
-                        const trElement = input.closest('tr');
-                        const backgroundColor = trElement.style.backgroundColor;
-
-                        // Ignora a validação se a linha tiver a cor de fundo #41c6a0
-                        if (backgroundColor === 'rgb(65, 198, 160)') {
-                            return;
-                        }
-
-                        const quantidadeInserida = parseInt(input.value);
-                        const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
-
-                        // Verifica se o input tem valor e se a quantidade inserida atende à quantidade mínima
-                        if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
-                            // Verifica se o comentário correspondente está preenchido
-                            const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
-                            if (!comentarioArea || comentarioArea.value.trim() === '') {
-                                allCommentsProvided = false; // Se algum comentário necessário não estiver preenchido, define allCommentsProvided como falso
-                            }
-                        }
-                    });
-
-                    // Verifica se todos os inputs com dados são válidos
-                    quantidadeInputs.forEach(input => {
-                        // Obtém a linha <tr> do input atual
-                        const trElement = input.closest('tr');
-                        const backgroundColor = trElement.style.backgroundColor;
-
-                        // Ignora a validação se a linha tiver a cor de fundo #41c6a0
-                        if (backgroundColor === 'rgb(65, 198, 160)') {
-                            return;
-                        }
-
-                        const quantidadeInserida = parseInt(input.value);
-                        const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
-
-                        if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
-                            if (!allCommentsProvided) {
-                                allValid = false; // Se algum input com dados não for válido, define allValid como falso
-                            }
-                        }
-                    });
-
-                    // Habilita ou desabilita o botão "Adicionar Todos" com base na verificação
-                    addAllButton.disabled = !(allValid && allCommentsProvided);
-                    }
-
-                    // Adiciona o event listener a cada input de quantidade e área de comentário
-                    quantidadeInputs.forEach(input => {
-                        input.addEventListener('input', checkQuantitiesAndComments);
-                    });
-
-                    comentarioAreas.forEach(area => {
-                        area.addEventListener('input', checkQuantitiesAndComments);
-                    });
-
-                    // Chama a função para a verificação inicial
-                    checkQuantitiesAndComments();
-                });
-            </script>
             <div class="tab-pane fade {{ $tabDetalhesPropostas }} m-3" id="tab6" style="border: none;min-width: 800px;">
                 @php
                     $ValorTotal = 0;
@@ -991,7 +916,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }}
+                                            <td>{{ $prod->designacao }} {{$prod->model}}
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1058,7 +983,7 @@
                                                 </div>
                                             </td> --}}
                                             <td>{{ $prod->referencia }}</td>
-                                            <td>{{ $prod->designacao }}
+                                            <td>{{ $prod->designacao }} {{$prod->model}}
                                                 @php
                                                     $comentarios = \App\Models\ComentariosProdutos::where('tipo','proposta')->where('id_proposta',$codEncomenda)->where('id_carrinho_compras',$prod->id)->first();
                                                 @endphp
@@ -1522,7 +1447,7 @@
 
 
 <script>
-    
+
     document.addEventListener("DOMContentLoaded", function() {
         function closeAllDropdowns() {
             var dropdownMenus = document.querySelectorAll('.dropdownIcon-menu');
@@ -1553,7 +1478,77 @@
     });
 
     function attachLoader() {
-        const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
+        const quantidadeInputs = document.querySelectorAll('.produto-quantidade');
+        const comentarioAreas = document.querySelectorAll('textarea[id^="addTextosEncomenda"]');
+        
+      
+        const addAllButton = document.getElementById('addAllButton');
+
+        function checkQuantitiesAndComments() {
+            console.log("rello");
+            let allValid = true; 
+            let allCommentsProvided = true;
+
+            quantidadeInputs.forEach(input => {
+                
+                const trElement = input.closest('tr');
+                const backgroundColor = trElement.style.backgroundColor;
+
+                
+                if (backgroundColor === 'rgb(65, 198, 160)') {
+                    return;
+                }
+
+                const quantidadeInserida = parseInt(input.value);
+                const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+                
+                if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                    const comentarioArea = document.querySelector(`textarea[id="addTextosEncomenda${input.getAttribute('id')}"]`);
+                    if (!comentarioArea || comentarioArea.value.trim() === '') {
+                        allCommentsProvided = false;
+                    }
+                }
+            });
+
+            quantidadeInputs.forEach(input => {
+                
+                const trElement = input.closest('tr');
+                const backgroundColor = trElement.style.backgroundColor;
+
+              
+                if (backgroundColor === 'rgb(65, 198, 160)') {
+                    return;
+                }
+
+                const quantidadeInserida = parseInt(input.value);
+                const quantidadeMinima = parseInt(input.getAttribute('data-qtd'));
+
+                if (!isNaN(quantidadeInserida) && quantidadeInserida < quantidadeMinima) {
+                    if (!allCommentsProvided) {
+                        allValid = false; 
+                    }
+                }
+            });
+
+           
+            addAllButton.disabled = !(allValid && allCommentsProvided);
+            }
+
+            
+            quantidadeInputs.forEach(input => {
+                input.addEventListener('input', checkQuantitiesAndComments);
+            });
+
+            comentarioAreas.forEach(area => {
+                area.addEventListener('input', checkQuantitiesAndComments);
+            });
+
+            
+            checkQuantitiesAndComments();
+        
+        
+            const textareas = document.querySelectorAll('[id^="addTextosEncomenda"]');
                textareas.forEach(textarea => {
             const classListArray = Array.from(textarea.classList);
 
@@ -1644,9 +1639,33 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
+
+    var accordions2 = document.getElementsByClassName("accordion2");
+
+    // Add click event listener to each accordion button
+    for (var i = 0; i < accordions2.length; i++) {
+        accordions2[i].addEventListener("click", function() {
+            // Toggle active class to button
+            this.classList.toggle("active");
+
+            // Toggle the panel visibility
+            var panel2 = this.nextElementSibling;
+            if (panel2.style.maxHeight) {
+                panel2.style.maxHeight = null;
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
+            } else {
+                panel2.style.maxHeight = panel2.scrollHeight + "%";
+                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
+            }
+        });
+    }
+
+
+
+
         function attachHandlers() {
 
-            $('.kitCheck').off('change').on('change', function() {
+        $('.kitCheck').off('change').on('change', function() {
             $('.kitCheck').not(this).prop('checked', false);
         });
 
@@ -1747,7 +1766,7 @@
 
     
     window.addEventListener('refreshComponent2', function(e) {
-        console.log("hello");
+        
         var accordions2 = document.getElementsByClassName("accordion2");
 
         // Add click event listener to each accordion button
@@ -1886,7 +1905,62 @@
 
             }
         } else {}
-        attachLoader()
+        attachLoader();
+        function attachHandlers() {
+
+        $('.kitCheck').off('change').on('change', function() {
+            $('.kitCheck').not(this).prop('checked', false);
+        });
+
+        $('.produto-quantidade').off('input').on('input', function() {
+            var id = $(this).attr('id');
+            var valor = $(this).val();
+            var qtdMin = $(this).attr('data-qtd');
+            var trElement = $(this).closest('tr');
+            var backgroundColor = trElement.css('background-color');
+
+            // Verifica se há comentário na mesma linha
+            var hasComment = trElement.find('#commentProductEncomenda' + id).val().trim() !== '';
+
+            // Condição para ativar o botão
+            if(parseInt(valor) >= parseInt(qtdMin) || backgroundColor === 'rgb(65, 198, 160)' || hasComment){
+                $('#addProductEncomenda'+id).removeAttr('disabled');
+                $('#addProductProposta'+id).removeAttr('disabled');
+            } else {
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
+
+            // Se a quantidade for menor ou igual a 0, sempre desabilitar
+            if(valor === '' || parseInt(valor) <= 0){
+                console.log("Veio pra cá! 2");
+                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            }
+        });
+            
+
+            $('#selectBox').hide();
+            $('#selectLabel').css("display","none");
+
+            $('.checkFinalizar').off('change').on('change', function() {
+                $('.checkFinalizar').not(this).prop('checked', false);
+
+                if($('#levantamento_loja').is(':checked')) {
+                    $('#selectBox').show();
+                    $('#selectLabel').css("display","block");
+                } else {
+                    $('#selectBox').hide();
+                    $('#selectLabel').css("display","none");
+                }
+            });
+
+            $('.checkPagamento').off('change').on('change', function() {
+                $('.checkPagamento').not(this).prop('checked', false);
+            });
+        }
+        attachHandlers()
+
     });
 
     jQuery('body').on('click', '.checkboxSidbar', function() {
@@ -1946,25 +2020,7 @@
 
 
 
-    var accordions2 = document.getElementsByClassName("accordion2");
-
-    // Add click event listener to each accordion button
-    for (var i = 0; i < accordions2.length; i++) {
-        accordions2[i].addEventListener("click", function() {
-            // Toggle active class to button
-            this.classList.toggle("active");
-
-            // Toggle the panel visibility
-            var panel2 = this.nextElementSibling;
-            if (panel2.style.maxHeight) {
-                panel2.style.maxHeight = null;
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-down"></i>';// Change arrow down
-            } else {
-                panel2.style.maxHeight = panel2.scrollHeight + "%";
-                this.querySelector('.arrow').innerHTML = '<i class="fa-regular fa-square-caret-up"></i>';// Change arrow up
-            }
-        });
-    }
+    
 
     document.addEventListener('livewire:load', function() {
         Livewire.hook('message.sent', () => {

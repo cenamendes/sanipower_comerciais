@@ -16,7 +16,7 @@ interface PropostasInterface
 
     public function getSubFamily($idCategory, $idFamily, $idSubFamily): object;
 
-    public function getSubFamilySearch($idCategory, $idFamily, $idSubFamily,$searchProduct): object;
+    public function getSubFamilySearch($searchProduct): object;
 
     public function getProdutos($idCategory, $idFamily, $idSubFamily, $productNumber, $idCustomer): object;
 

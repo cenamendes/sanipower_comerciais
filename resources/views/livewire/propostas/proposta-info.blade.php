@@ -394,7 +394,6 @@
                                                         <div class="form-checkbox">
                                                             <label>
                                                                 @php
-                                                                    
                                                                     $reference = $prod->reference;
                                                                     $referenciaCorrigida = str_replace('.', '£', $reference);
                                                                     

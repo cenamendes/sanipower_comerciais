@@ -80,12 +80,12 @@ class EncomendasRepository implements EncomendasInterface
     }
 
 
-    public function getSubFamilySearch($idCategory, $idFamily, $idSubFamily,$searchProduct): object
+    public function getSubFamilySearch($searchProduct): object
     {
+        
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products?category_number='.$idCategory.'&family_number='.$idFamily.'&subfamily_number='.$idSubFamily.'',
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/products/products_search?search='.urlencode($searchProduct).'',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -103,14 +103,14 @@ class EncomendasRepository implements EncomendasInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-
-        foreach($response_decoded->product as $i => $prod)
-        {
-            if (stripos($prod->product_name, $searchProduct) === false) {
-                unset($response_decoded->product[$i]);
-            }
-        }
-    
+        // foreach($response_decoded->product as $i => $prod)
+        // {
+        //     if (stripos($prod->product_name, $searchProduct) === false) {
+        //         unset($response_decoded->product[$i]);
+        //     }
+        // }
+        
+        // dd($response_decoded);
         return $response_decoded; 
     }
 
@@ -244,7 +244,6 @@ class EncomendasRepository implements EncomendasInterface
 
     public function addProductToDatabase($codvisita,$idCliente,$qtd,$nameProduct,$no,$ref,$codType,$type): JsonResponse
     {   
- 
         if($type == "encomenda") {
             $idencomenda = $codType;
             $idproposta = "";

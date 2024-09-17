@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Propostas;
 
 use DateTime;
+use stdClass;
 use Dompdf\Dompdf;
 use Livewire\Component;
 use App\Models\Carrinho;
@@ -343,6 +344,9 @@ class DetalheProposta extends Component
 
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
+        $this->searchProduct = "";
+        session(['searchProduct' => $this->searchProduct]);
+
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
         $this->getCategories = $this->PropostasRepository->getCategorias();
@@ -399,8 +403,10 @@ class DetalheProposta extends Component
 
         $this->iteration++;
 
+        return redirect()->route('propostas.detail', ['id' => $this->idCliente]);
+
         // $this->dispatchBrowserEvent('refreshPage');
-        $this->dispatchBrowserEvent('refreshAllComponent');
+        // $this->dispatchBrowserEvent('refreshAllComponent');
 
     }
 
@@ -413,7 +419,8 @@ class DetalheProposta extends Component
         $this->detailsClientes = $arrayCliente["object"];
 
         if ($this->searchProduct != "") {
-            $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily, $this->searchProduct);
+            $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->searchProduct);
+           
             session(['searchSubFamily' => $this->searchSubFamily]);
 
             session(['searchProduct' => $this->searchProduct]);
@@ -1186,19 +1193,133 @@ class DetalheProposta extends Component
 
         $this->getCategories = $this->PropostasRepository->getCategorias();
         $this->getCategoriesAll = $this->PropostasRepository->getCategorias();
+        // session()->forget('searchSubFamily');
+     
 
         if (session('searchSubFamily') !== null) {
             $sessao = session('searchSubFamily');
-                if(isset($sessao->product)){
-                foreach ($sessao->product as $prod) {
-                    $this->actualCategory = $prod->category_number;
-                    $this->actualFamily = $prod->family_number;
-                    $this->actualSubFamily = $prod->subfamily_number;
+            
 
-                break;
+           
+
+            $productsList = [];  // Inicializa uma lista para armazenar os produtos convertidos
+
+            // Itera sobre as categorias
+            if (isset($sessao->categories)) {
+                
+                $category = new stdClass();
+                // dd($sessao,$category);
+                
+               
+                    
+    
+                $category = $sessao->categories;
+                
+                   // Iterar pelas categorias para ajustar 'families' e 'subamilies'
+                    foreach ($category as $catIndex => $cat) {
+                        // Renomear 'families' para 'family'
+                        if (isset($cat->families)) {
+                            $category[$catIndex]->family = $cat->families;  // Criar nova chave 'family'
+                            unset($category[$catIndex]->families);  // Remover a chave antiga 'families'
+
+                            // Iterar pelas famílias dentro de cada categoria
+                            foreach ($category[$catIndex]->family as $famIndex => $family) {
+                                // Renomear 'subamilies' para 'subfamily'
+                                if (isset($family->subamilies)) {
+                                    $category[$catIndex]->family[$famIndex]->subfamily = $family->subamilies;  // Criar nova chave 'subfamily'
+                                    unset($category[$catIndex]->family[$famIndex]->subamilies);  // Remover a chave antiga 'subamilies'
+                                }
+                            }
+                        }
+                    }
+
+                    // Exibir os dados após as modificações (para depuração)
+                    
+                    
+                    $response = [
+                        "success" => $sessao->success,
+                        "message" => $sessao->message,
+                        "total_pages" => $sessao->total_pages,
+                        "page" => $sessao->page,
+                        "records" => count($sessao->categories),
+                        "total_records" => count($sessao->categories),
+                        "category" => $category
+                    ];
+                    // Atribuindo o resultado à propriedade
+                    // $category = (object) $category;
+    
+                     $this->getCategoriesAll = (object) $response;
+               
+                
+
+
+
+                $productsList = [];
+               
+                foreach ($sessao->categories as $category) {
+                    $categoryId = $category->id;
+                    
+                    foreach ($category->family as $family) {
+                        $familyId = $family->id;
+                    
+                        foreach ($family->subfamily as $subfamily) {
+                            $subfamilyId = $subfamily->id;
+                    
+                            foreach ($subfamily->products as $product) {
+                                $productsList[] = [
+                                    'product_number' => $product->id,
+                                    'product_name' => $product->name,
+                                    'category_number' => $categoryId,
+                                    'family_number' => $familyId,
+                                    'subfamily_number' => $subfamilyId
+                                ];
+                            }
+                        }
+                    }
                 }
+                
+                session(['searchNameCategory' => "Pesquisa"]);
+    
+                session(['searchNameFamily' => "$this->searchProduct"]);
+    
+                session(['searchNameSubFamily' => ""]);
+
+                // Converter o array de produtos para uma lista de objetos
+                $productsListObjects = array_map(function($product) {
+                    return (object) $product;
+                }, $productsList);
+                
+                // Estrutura final da resposta
+                $response = [
+                    "success" => $sessao->success,
+                    "message" => $sessao->message,
+                    "total_pages" => $sessao->total_pages,
+                    "page" => $sessao->page,
+                    "records" => count($productsListObjects),
+                    "total_records" => count($productsListObjects),
+                    "product" => $productsListObjects
+                ];
+                
+                // Atribuindo o resultado à propriedade
+                $this->searchSubFamily = (object) $response;
+                // Armazenando na sessão (se necessário)
+                session(['searchSubFamily' => $this->searchSubFamily]);
+                
+                // Exibindo o resultado para depuração
+                // dd($response);
             }
-            $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
+
+
+            //     if(isset($sessao->product)){
+            //     foreach ($sessao->product as $prod) {
+            //         $this->actualCategory = $prod->category_number;
+            //         $this->actualFamily = $prod->family_number;
+            //         $this->actualSubFamily = $prod->subfamily_number;
+
+            //     break;
+            //     }
+            // }
+            // $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
         } else {
             // $this->getCategories = $this->PropostasRepository->getCategorias();
 
@@ -1219,7 +1340,7 @@ class DetalheProposta extends Component
             $this->searchProduct = session('searchProduct');
 
             if ($this->searchProduct != "") {
-                $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->actualCategory, $this->actualFamily, $this->actualSubFamily, $this->searchProduct);
+                $this->searchSubFamily = $this->PropostasRepository->getSubFamilySearch($this->searchProduct);
             }
 
         }
