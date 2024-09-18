@@ -676,11 +676,13 @@
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
                                 @php
+
                                     $detailProduto = session('detailProduto');
                                     $produtoNameDetail = session('productNameDetail');
                                     $family = session('family');
                                     $subFamily = session('subFamily');
                                     $productNumber = session('productNumber');
+                                    
                                 @endphp
                                 <div class="container-fluid container-detalhes-produto">
     <div class="row">
