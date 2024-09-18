@@ -13,8 +13,8 @@
 
     <div class="row group-buttons group-buttons d-flex justify-content-end mr-0 mb-2">
         <div class="tools">
-            <a href="{{ route('visitas.agendar-visita', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
-
+            <a href="{{ route('visitas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-primary"><i class="ti-pin"></i> Criar Visita</a>
+            
             <a href="{{ route('encomendas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-success"><i class="ti-package"></i> Encomenda</a>
             <a href="{{ route('propostas.detail', $detalhesCliente->customers[0]->id ) }}" class="btn btn-sm btn-danger"><i class="ti-file"></i> Proposta</a>
 

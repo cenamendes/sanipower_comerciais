@@ -697,7 +697,8 @@ class ClientesRepository implements ClientesInterface
         $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
-
+        // $url = env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string;
+        // dd($url);
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
@@ -929,6 +930,7 @@ class ClientesRepository implements ClientesInterface
 
     public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$startDate,$endDate,$statusProsposta): array
     {
+        // dd($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$startDate,$endDate,$statusProsposta);
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } else {
@@ -991,6 +993,10 @@ class ClientesRepository implements ClientesInterface
 
         $curl = curl_init();
 
+        // dd($string);
+
+        // $url = env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string;
+        // dd($url);
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
@@ -1009,7 +1015,9 @@ class ClientesRepository implements ClientesInterface
         $response = curl_exec($curl);
         curl_close($curl);
         $response_decoded = json_decode($response);
-       
+
+        // dd($response_decoded);
+
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
 
@@ -1137,13 +1145,11 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
-
+        
         $response = curl_exec($curl);
-    
         curl_close($curl);
     
         $response_decoded = json_decode($response);
-    
         return $response_decoded; 
     }
 
@@ -1257,6 +1263,8 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
+
+        // dd($response_decoded);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 

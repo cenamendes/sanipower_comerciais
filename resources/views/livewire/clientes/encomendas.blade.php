@@ -74,17 +74,28 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <label class="mt-2">Estado Encomenda</label>
                             <div class="input-group">
-                                <select name="perPage" wire:model.lazy="estadoEncomenda" class="form-control">
+                                <select name="estadoEncomenda" wire:model.lazy="estadoEncomenda" class="form-control">
                                     <option value="0" selected>Todas</option>
                                     <option value="1">Com comentário</option>
                                     <option value="2">Sem comentário</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-lg-6">
+                            <label class="mt-2">Tipo da Encomenda</label>
+                            <div class="input-group">
+                                <select name="tipoEncomenda" wire:model.lazy="" class="form-control">
+                                    <option value="0" selected>Todas</option>
+                                    <option value="1">Digital</option>
+                                    <option value="2">Online</option>
+                                    <option value="3">Loja</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>                    
                     <div id="dataTables_wrapper" class="dataTables_wrapper container"
                         style="margin-left:0px;padding-left:0px;margin-bottom:10px;">
                         <div class="left">
