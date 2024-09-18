@@ -140,7 +140,10 @@ class Propostas extends Component
         // $this->detailsPropostas = $propostasArray["paginator"];
 
         $this->pageChosen = 1;
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta);
+        $startDate = '';
+        $endDate = '';
+        $statusProsposta = '';
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$startDate,$endDate,$statusProsposta);
  
         $this->detailsPropostas = $propostasArray["paginator"];
         $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
@@ -247,6 +250,7 @@ class Propostas extends Component
     {
       
         Session::put('rota','clientes.detail');
+        Session::put('rotaTab','tabPropostas');
         Session::put('parametro',$this->idCliente);
 
         $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);

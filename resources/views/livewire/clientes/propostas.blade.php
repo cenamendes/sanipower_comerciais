@@ -74,13 +74,24 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <label class="mt-2">Estado Proposta</label>
                             <div class="input-group">
                                 <select name="perPage" wire:model.lazy="estadoProposta" class="form-control">
                                     <option value="" selected>Todas</option>
                                     <option value="1">Com comentário</option>
                                     <option value="2">Sem comentário</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="mt-2">Tipo da Proposta</label>
+                            <div class="input-group">
+                                <select name="perPage" wire:model.lazy="" class="form-control">
+                                    <option value="" selected>Todas</option>
+                                    <option value="1">Digital</option>
+                                    <option value="2">Projeto</option>
+                                    <option value="3">Loja</option>
                                 </select>
                             </div>
                         </div>

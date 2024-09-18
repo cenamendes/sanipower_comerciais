@@ -64,6 +64,36 @@ class DetalheCliente extends Component
         $this->analysisClientes = $arrayAna["paginator"];
         $this->numberMaxPages = $arrayAna["nr_paginas"] + 1;
         $this->totalRecords = $arrayAna["nr_registos"];
+
+        $rota = Session::get('rotaTab');
+
+        if($rota == 'tabEncomendas')
+        {
+            $this->tabDetail = "";
+            $this->tabAnalysis = "";
+            $this->tabEncomendas = "show active";
+            $this->tabPropostas = "";
+            $this->tabFinanceiro = "";
+            $this->tabOcorrencias = "";
+            $this->tabVisitas = "";
+            $this->tabAssistencias = "";
+            $this->tabCampanhas = "";
+            Session::forget('rotaTab');
+        } 
+        elseif($rota == 'tabPropostas')
+        {
+            $this->tabDetail = "";
+            $this->tabAnalysis = "";
+            $this->tabEncomendas = "";
+            $this->tabPropostas = "show active";
+            $this->tabFinanceiro = "";
+            $this->tabOcorrencias = "";
+            $this->tabVisitas = "";
+            $this->tabAssistencias = "";
+            $this->tabCampanhas = "";
+            Session::forget('rotaTab');
+        }
+        
     }
 
     
@@ -184,7 +214,7 @@ class DetalheCliente extends Component
         // $this->skipRender();
 
         $rota = Session::get('rota');
-
+        
         $parametro = Session::get('parametro');
         
         if($rota == "clientes.detail"){

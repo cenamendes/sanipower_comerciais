@@ -147,7 +147,11 @@ class Encomendas extends Component
         
         // $this->detailsEncomenda = $encomendasArray["paginator"];
         $this->pageChosen = 1;
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda);
+
+        $startDate = '';
+        $endDate = '';
+        $statusEncomenda = '';
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$startDate,$endDate,$statusEncomenda);
        
         $this->detailsEncomenda = $encomendasArray["paginator"];
         $this->numberMaxPages = $encomendasArray["nr_paginas"] + 1;
@@ -253,6 +257,7 @@ class Encomendas extends Component
     {
 
         Session::put('rota','clientes.detail');
+        Session::put('rotaTab','tabEncomendas');
         Session::put('parametro',$this->idCliente);
 
         $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
@@ -322,7 +327,6 @@ class Encomendas extends Component
 
     public function render()
     {
-
         return view('livewire.clientes.encomendas',["detalhesEncomenda" => $this->detailsEncomenda]);
     }
 }

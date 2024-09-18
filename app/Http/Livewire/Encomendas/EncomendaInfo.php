@@ -137,13 +137,11 @@ class EncomendaInfo extends Component
         $this->encomenda = $encomenda;
         
         $encomendas = $this->clientesRepository->getEncomendaID($encomenda->id);
-        
         if (property_exists($encomendas, 'orders') && isset($encomendas->orders[0])) {
             Session::put('encomendaINFO', $encomendas->orders[0]);
         } else {
             session()->put('encomendaINFO', $this->encomenda);
         }
-        
         
       
         $this->specificProduct = 0;
@@ -262,7 +260,7 @@ class EncomendaInfo extends Component
     public function goBack()
     {
         $rota = Session::get('rota');
-
+        $rota = Session::get('rota');
         $parametro = Session::get('parametro');
      
         if($rota != "")

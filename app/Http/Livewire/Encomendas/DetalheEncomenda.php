@@ -915,7 +915,6 @@ class DetalheEncomenda extends Component
 
         $response_decoded = json_decode($response);
 
-
         if ($response_decoded->success == true) {
             $getEncomenda = Carrinho::where('id_encomenda','!=', "")->where('id_cliente',$idCliente)->first();
 
