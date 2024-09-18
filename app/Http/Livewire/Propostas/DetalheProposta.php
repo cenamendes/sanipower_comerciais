@@ -12,12 +12,15 @@ use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\ComentariosProdutos;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Interfaces\ClientesInterface;
 use App\Interfaces\PropostasInterface;
 use App\Interfaces\EncomendasInterface;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DetalheProposta extends Component
 {
@@ -1253,7 +1256,6 @@ class DetalheProposta extends Component
                 
 
 
-
                 $productsList = [];
                
                 foreach ($sessao->categories as $category) {
@@ -1336,6 +1338,22 @@ class DetalheProposta extends Component
             
             session(['searchSubFamily' => $this->searchSubFamily]);
         }
+
+        $this->searchSubFamily = session('searchSubFamily');
+
+        $productsArray = $this->searchSubFamily->product;
+        $productsCollection = new Collection($productsArray);
+
+        $perPage = 12;
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentItems = $productsCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $products = new LengthAwarePaginator($currentItems, $productsCollection->count(), $perPage, $currentPage, [
+            'path' => Paginator::resolveCurrentPath(),
+        ]);
+        
+
+
         if (session('searchProduct') !== null) {
             $this->searchProduct = session('searchProduct');
 
@@ -1385,7 +1403,7 @@ class DetalheProposta extends Component
             }
         }
         // dd($arrayCart);
-        return view('livewire.propostas.detalhe-proposta',["onkit" => $onkit, "allkit" => $allkit, "detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
+        return view('livewire.propostas.detalhe-proposta',["onkit" => $onkit, "allkit" => $allkit, "detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda, "products" => $products]);
 
     }
 }
