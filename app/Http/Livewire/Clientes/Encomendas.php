@@ -44,6 +44,7 @@ class Encomendas extends Component
     public ?object $comentario = NULL;
 
     public $estadoEncomenda = 0;
+    public $typeEncomenda = 0;
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -151,7 +152,24 @@ class Encomendas extends Component
         $startDate = '';
         $endDate = '';
         $statusEncomenda = '';
-        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$startDate,$endDate,$statusEncomenda);
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->typeEncomenda,$startDate,$endDate,$statusEncomenda);
+       
+        $this->detailsEncomenda = $encomendasArray["paginator"];
+        $this->numberMaxPages = $encomendasArray["nr_paginas"] + 1;
+        $this->totalRecords = $encomendasArray["nr_registos"];
+    }
+
+    public function updatedTypeEncomenda()
+    {
+        // $encomendasArray = $this->clientesRepository->getEncomendasCliente($this->perPage,$this->pageChosen, $this->idCliente);
+        
+        // $this->detailsEncomenda = $encomendasArray["paginator"];
+        $this->pageChosen = 1;
+
+        $startDate = '';
+        $endDate = '';
+        $statusEncomenda = '';
+        $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoEncomenda,$this->typeEncomenda,$startDate,$endDate,$statusEncomenda);
        
         $this->detailsEncomenda = $encomendasArray["paginator"];
         $this->numberMaxPages = $encomendasArray["nr_paginas"] + 1;

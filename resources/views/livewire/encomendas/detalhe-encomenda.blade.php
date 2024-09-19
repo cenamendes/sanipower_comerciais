@@ -638,8 +638,8 @@
                                                 @php
                                                     $searchSubFamily = session('searchSubFamily');
                                                 @endphp
-                                                @if ($searchSubFamily)
-                                                    @foreach ($searchSubFamily->product as $prodt)
+                                                 @if($products->count())
+                                                    @foreach ($products as $prodt)
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                             <div class="card card-decoration card-outline-primary border border-2">
                                                                 <a href="javascript:void(0)"
@@ -662,8 +662,13 @@
                                                             </div>
                                                         </div>
                                                     @endforeach
-                                                @else
-                                                @endif
+                                                <!-- Links de paginação -->
+                                                <div class="d-flex justify-content-center">
+                                                    {{ $products->links('vendor.pagination.livewire-bootstrap') }}
+                                                </div>
+                                            @else
+                                                <p>Sem produtos para exibir.</p>
+                                            @endif 
                                             </div>
                                         </div>
                                     </div>

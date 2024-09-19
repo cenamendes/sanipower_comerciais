@@ -85,6 +85,7 @@ class Propostas extends Component
 
     public function mount()
     {
+        // dd('Aqui');
         $this->initProperties();
         // $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);
         // $this->propostas = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen, $this->idCliente);

@@ -116,15 +116,16 @@ class ClientesRepository implements ClientesInterface
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
         $commentCliente = '&Comments=0';
+        $typeCliente = '&type=0';
         
         $startDate = '&start_date=1900-01-01';
         $endDate = '&end_date=2900-12-31';
         $statusEncomenda = '&status=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$typeCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
- 
+        // dd(env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string);
         curl_setopt_array($curl, array(
             CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
@@ -140,10 +141,10 @@ class ClientesRepository implements ClientesInterface
         ));
  
         $response = curl_exec($curl);
- 
         curl_close($curl);
  
         $response_decoded = json_decode($response);
+        // dd($response_decoded);
     
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         if($response_decoded->orders != null)
@@ -499,13 +500,14 @@ class ClientesRepository implements ClientesInterface
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
         $commentCliente = '&Comments=0';
+        $typeCliente = '&type=0';
 
         $startDate = '&start_date=1900-01-01';
         $endDate = '&end_date=2900-12-31';
         $statusEncomenda = '&status=0';
         
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$typeCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
       
@@ -524,10 +526,10 @@ class ClientesRepository implements ClientesInterface
         ));
    
         $response = curl_exec($curl);
-
         curl_close($curl);
 
         $response_decoded = json_decode($response);
+        // dd($response_decoded);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
        
         if($response_decoded->orders != null)
@@ -633,9 +635,9 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
-    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$startDate,$endDate,$statusEncomenda): array
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$typeEncomenda,$startDate,$endDate,$statusEncomenda): array
     {
-        // dd($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$startDate,$endDate,$statusEncomenda);
+        // dd($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoEncomenda,$typeEncomenda,$startDate,$endDate,$statusEncomenda);
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } else {
@@ -677,6 +679,11 @@ class ClientesRepository implements ClientesInterface
         } else {
             $commentCliente = '&Comments=0';
         }
+        if ($typeEncomenda != "0") {
+            $typeCliente = '&type='.urlencode($typeEncomenda);
+        } else {
+            $typeCliente = '&type=0';
+        }
 
         if ($startDate != "") {
             $startDate = '&start_date='.urlencode($startDate);
@@ -694,7 +701,7 @@ class ClientesRepository implements ClientesInterface
             $statusEncomenda = '&status=0';
         }
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$typeCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
         // $url = env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string;
@@ -718,7 +725,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
         
         $response_decoded = json_decode($response);
-        // dd($response_decoded);
+        // dd(env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string, $response_decoded);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
@@ -831,18 +838,19 @@ class ClientesRepository implements ClientesInterface
         $emailCliente = '&Email=';
         $nifCliente = '&Nif=';
         $commentCliente = '&Comments=0';
+        $typeCliente = '&type=0';
 
         $startDate = '&start_date=1900-01-01';
         $endDate = '&end_date=2900-12-31';
         $statusEncomenda = '&status=0';
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusEncomenda;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$mobileCliente.$emailCliente.$nifCliente.$commentCliente.$typeCliente.$startDate.$endDate.$statusEncomenda;
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-
-            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string,
+            //NÃO FAZER UPLOAD DISSO ESTÁ ERRADO!!!!!!!
+            CURLOPT_URL => env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -854,7 +862,7 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
-       
+    //    dd(env('SANIPOWER_URL_DIGITAL').'/api/documents/budgets?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='. Auth::user()->id_phc.$string);
         $response = curl_exec($curl);
     
         curl_close($curl);
@@ -928,9 +936,9 @@ class ClientesRepository implements ClientesInterface
         return $arrayInfo;
     }
 
-    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$startDate,$endDate,$statusProsposta): array
+    public function getPropostasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$typeProposta,$startDate,$endDate,$statusProsposta): array
     {
-        // dd($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$startDate,$endDate,$statusProsposta);
+        // dd($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente,$estadoProposta,$typeProposta,$startDate,$endDate,$statusProsposta);
         if ($nomeCliente != "") {
             $nomeCliente = '&Name='.urlencode($nomeCliente);
         } else {
@@ -972,6 +980,11 @@ class ClientesRepository implements ClientesInterface
         } else {
             $commentCliente = '&Comments=0';
         }
+        if ($typeProposta != "0" && $typeProposta != "") {
+            $typeCliente = '&type='.urlencode($typeProposta);
+        } else {
+            $typeCliente = '&type=0';
+        }
         if ($startDate != "") {
             $startDate = '&start_date='.urlencode($startDate);
         } else {
@@ -985,10 +998,10 @@ class ClientesRepository implements ClientesInterface
         if ($statusProsposta != "") {
             $statusProsposta = '&status='.urlencode($statusProsposta);
         } else {
-            $statusProsposta = '&status=';
+            $statusProsposta = '&status=0';
         }
 
-        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$startDate.$endDate.$statusProsposta;
+        $string = $nomeCliente.$numeroCliente.$zonaCliente.$telemovelCliente.$emailCliente.$nifCliente.$commentCliente.$typeCliente.$startDate.$endDate.$statusProsposta;
        
 
         $curl = curl_init();
@@ -1171,6 +1184,8 @@ class ClientesRepository implements ClientesInterface
                 'Content-Type: application/json'
             ),
         ));
+
+        // dd(env('SANIPOWER_URL_DIGITAL').'/api/documents/budget?budget_id='.$propostaID);
 
         $response = curl_exec($curl);
     
