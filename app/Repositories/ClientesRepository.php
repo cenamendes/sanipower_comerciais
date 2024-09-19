@@ -529,7 +529,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
 
         $response_decoded = json_decode($response);
-        // dd($response_decoded);
+        // dd(env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?perPage='.$perPage.'&Page='.$page.'&customer_id='.$idCliente.'&Salesman_number='.Auth::user()->id_phc.$string, $response_decoded);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
        
         if($response_decoded->orders != null)
@@ -1163,6 +1163,7 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
     
         $response_decoded = json_decode($response);
+        // dd(env('SANIPOWER_URL_DIGITAL').'/api/documents/orders?order_id='.$encomendaID, $response_decoded);
         return $response_decoded; 
     }
 

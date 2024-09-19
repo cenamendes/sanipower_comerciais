@@ -227,16 +227,16 @@
                                         <input type="text" class="form-control" value="" readonly>
                                         <br>
                                         <label>Dados Logísticos</label>
-                                        <input type="text" class="form-control" value="" readonly>
+                                        <input type="text" class="form-control" value="{{ $encomenda->store }}" readonly>
                                         <br>
                                         <label>Tipo de Pagamento</label>
-                                        <input type="text" class="form-control" value="" readonly>
+                                        <input type="text" class="form-control" value="{{ $encomenda->payment_conditions }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label>Observação</label>
-                                        <textarea class="form-control" rows="9" style="resize: none;" readonly></textarea>
+                                        <textarea class="form-control" rows="9" style="resize: none;" readonly>{{ $encomenda->obs }}</textarea>
                                     </div>
                                 </div>
                             </div>
