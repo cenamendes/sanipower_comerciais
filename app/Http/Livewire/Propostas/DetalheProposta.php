@@ -1148,7 +1148,7 @@ class DetalheProposta extends Component
             ComentariosProdutos::where('id_proposta', $getEncomenda->id_proposta)->delete();
             Carrinho::where('id_proposta', $getEncomenda->id_proposta)->delete();
     
-            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0",$this->startDate,$this->endDate,$this->statusProposta);
+            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0","0",$this->startDate,$this->endDate,$this->statusProposta);
             
             foreach($propostasArray["paginator"] as $proposta){
                 $resultadoBudget = str_replace(' Nº', '', $proposta->budget);

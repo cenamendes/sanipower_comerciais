@@ -922,9 +922,8 @@ class DetalheEncomenda extends Component
 
            
             ComentariosProdutos::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
-            Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
-   
-            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0",$this->startDate,$this->endDate,$this->statusEncomenda);
+            Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();   
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0","0",$this->startDate,$this->endDate,$this->statusEncomenda);
             
 
             foreach($encomendasArray["paginator"] as $encomenda){
