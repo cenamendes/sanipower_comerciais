@@ -273,20 +273,23 @@ class Propostas extends Component
         $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $this->detailsPropostas = $propostasArray["paginator"];
         
-
+        // dd($this->idCliente);
+        // dd($proposta);
         foreach($this->detailsPropostas as $det)
         {
             if($det->id == $proposta["id"])
             {
                 $propSend = $det;
+                // dd($propSend);
             }
         }
 
         
+        // dd($proposta);
+        $proposta = (object) $proposta;
+        Session::put('proposta',$proposta);
 
-        Session::put('proposta',$propSend);
-
-        return redirect()->route('propostas.proposta',["idProposta" => $propSend->id]);
+        return redirect()->route('propostas.proposta',["idProposta" => $proposta->id]);
 
         // $this->propostaID = $id;
 

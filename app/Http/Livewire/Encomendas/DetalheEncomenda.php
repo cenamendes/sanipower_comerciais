@@ -16,6 +16,7 @@ use App\Interfaces\EncomendasInterface;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Campanhas;
 
 class DetalheEncomenda extends Component
 {
@@ -88,6 +89,7 @@ class DetalheEncomenda extends Component
 
     public $iterationDelete = 0;
 
+    private ?object $campanhas = null;
 
     /** PARTE DO FINALIZAR **/
 
@@ -160,7 +162,6 @@ class DetalheEncomenda extends Component
 
         // dd(session('searchSubFamily'));
         // session(['searchSubFamily' => $this->searchSubFamily]);
-
         $this->showLoaderPrincipal = true;
     }
     public function rechargeFamily($id)
@@ -1307,6 +1308,8 @@ class DetalheEncomenda extends Component
         }
 
         $this->lojas = $this->encomendasRepository->getLojas();
+        $campanhas = Campanhas::where('ativa', 1)->get();
+        // dd($products);
         return view('livewire.encomendas.detalhe-encomenda', [
             "products" => $products,
             "onkit" => $onkit,
@@ -1316,7 +1319,8 @@ class DetalheEncomenda extends Component
             "getCategoriesAll" => $this->getCategoriesAll,
             "searchSubFamily" => $this->searchSubFamily,
             "arrayCart" => $arrayCart,
-            "codEncomenda" => $this->codEncomenda
+            "codEncomenda" => $this->codEncomenda,
+            "campanhas" => $campanhas
         ]);
     }
 }

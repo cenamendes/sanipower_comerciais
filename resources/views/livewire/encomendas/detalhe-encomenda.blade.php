@@ -584,24 +584,21 @@
                                         </div>
                                     </div>
                                     <div class="row" style="justify-content: flex-end;">
-                                    <div class="navbar2 col-3 d-none d-md-block">
+                                        <div class="navbar2 col-3 d-none d-md-block">
                                             @php
                                                 $contaCat = 0;
                                             @endphp
-                                           
                                             @foreach ($getCategoriesAll->category as $i => $category)
                                                 @php
                                                     $contaCat++;
                                                 @endphp
                                                 @if (!empty($category->family))
                                                     <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
-                                                        {{ $category->name }}<span
-                                                            class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                        {{ $category->name }}<span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
                                                     <div class="panel2">
                                                         @foreach ($category->family as $family)
                                                             <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
-                                                                {{ $family->name }}<span
-                                                                    class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                                {{ $family->name }}<span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
                                                             <div class="panel2">
                                                                 @foreach ($family->subfamily as $subfamily)
                                                                     <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
@@ -613,7 +610,17 @@
                                                     </div>
                                                 @endif
                                             @endforeach
+                                        
+                                            <!-- Aqui você pode adicionar um item manual para campanhas -->
+                                            <button class="accordion2" style="background-color: #ffcc00;">Campanhas<span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                            <div class="panel2">
+                                                <!-- Aqui você pode adicionar o conteúdo de campanhas -->
+                                                @foreach ($campanhas as $campanha)
+                                                    <a wire:click="searchCampanha({{ $campanha->bostamp }})" href="#"> {{ $campanha->titulo }}</a>
+                                                @endforeach
+                                            </div>
                                         </div>
+                                        
                                         <div class="col-md-9">
                                             <div class="row">
 

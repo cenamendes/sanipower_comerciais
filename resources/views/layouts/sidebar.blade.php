@@ -70,6 +70,14 @@
                     <span>Propostas</span>
                 </a>
             </li>
+
+            <li class="li-hover">
+                <a href="{{route('campanhas')}}" class="{{ Str::contains(request()->route()->getName(), 'campanhas') ? 'text-info' : '' }}">
+                    <i class="fa fa-tag"></i>
+                    <span>Campanhas</span>
+                </a>
+            </li>
+            
             @if (Auth::user()->nivel == '1')
             <li class="li-hover">
                 <a href="{{route('profile.create')}}" class="{{ Str::contains(request()->route()->getName(), 'profile.create') ? 'text-info' : '' }}">
