@@ -215,9 +215,12 @@
                             @isset($clientes)
                                 <option value="">Sem Cliente</option>
                                 @foreach ($clientes as $clt)
-                                    @foreach($clt->customers as $cst)
-                                        <option value="{{ json_encode($cst->name) }}">{{ $cst->name }}</option>
-                                    @endforeach
+                                    @isset($clt->customers)
+                                        @foreach($clt->customers as $cst)
+                                            <option value="{{ json_encode($cst->name) }}">{{ $cst->name }}</option>
+                                        @endforeach
+                                    @endisset
+
                                 @endforeach
                             @endisset
                         </select>
@@ -352,9 +355,12 @@
                                     <select class="form-control" id="clienteVisitaIDD" wire:model.defer="clienteVisitaID">
                                         @isset($clientes)
                                             @foreach ($clientes as $clt)
-                                                @foreach($clt->customers as $cst)
-                                                    <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
-                                                @endforeach
+                                                @isset($clt->customers)
+                                                    @foreach($clt->customers as $cst)
+                                                        <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
+                                                    @endforeach
+                                                @endisset
+
                                             @endforeach
                                         @endisset
                                     </select>
@@ -451,12 +457,13 @@
                                         @isset($clientes)
                                             
                                             @foreach ($clientes as $clt)
-    
-                                              @foreach($clt->customers as $cst)
-    
-                                                <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
-    
-                                              @endforeach
+                                                 @isset($clt->customers)
+                                                    @foreach($clt->customers as $cst)
+
+                                                        <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
+            
+                                                    @endforeach
+                                                @endisset
     
                                             @endforeach
     
