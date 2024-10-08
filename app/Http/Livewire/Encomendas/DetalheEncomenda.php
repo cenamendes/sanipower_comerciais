@@ -14,6 +14,9 @@ use Illuminate\Http\RedirectResponse;
 use App\Interfaces\PropostasInterface;
 use App\Interfaces\EncomendasInterface;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Campanhas;
 
 class DetalheEncomenda extends Component
 {
@@ -86,6 +89,7 @@ class DetalheEncomenda extends Component
 
     public $iterationDelete = 0;
 
+    private ?object $campanhas = null;
 
     /** PARTE DO FINALIZAR **/
 
@@ -158,7 +162,6 @@ class DetalheEncomenda extends Component
 
         // dd(session('searchSubFamily'));
         // session(['searchSubFamily' => $this->searchSubFamily]);
-
         $this->showLoaderPrincipal = true;
     }
     public function rechargeFamily($id)
@@ -920,9 +923,8 @@ class DetalheEncomenda extends Component
 
            
             ComentariosProdutos::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
-            Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();
-   
-            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0",$this->startDate,$this->endDate,$this->statusEncomenda);
+            Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();   
+            $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0","0",$this->startDate,$this->endDate,$this->statusEncomenda);
             
 
             foreach($encomendasArray["paginator"] as $encomenda){
@@ -1230,13 +1232,33 @@ class DetalheEncomenda extends Component
             session(['searchSubFamily' => $this->searchSubFamily]);
         }
 
-        if (session('searchProduct') !== null) {
-            $this->searchProduct = session('searchProduct');
+        $this->searchSubFamily = session('searchSubFamily');
+        $productsArray = $this->searchSubFamily->product;
+        $productsCollection = new Collection($productsArray);
 
-            if ($this->searchProduct != "") {
-                $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->searchProduct);
-            }
-        }
+        $perPage = 12;
+        $currentPage = $this->page; // Use $this->page, que o WithPagination provê
+        // Paginando os produtos
+        $currentItems = $productsCollection->forPage($currentPage, $perPage);
+
+           $products = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentItems,
+            $productsCollection->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
+            ]
+        );
+
+
+        if (session('searchProduct') !== null) {
+                    $this->searchProduct = session('searchProduct');
+
+                    if ($this->searchProduct != "") {
+                        $this->searchSubFamily = $this->encomendasRepository->getSubFamilySearch($this->searchProduct);
+                    }
+                }
 
         $this->carrinhoCompras = Carrinho::where('id_cliente', $this->detailsClientes->customers[0]->no)
             ->where('id_user', Auth::user()->id)
@@ -1286,7 +1308,19 @@ class DetalheEncomenda extends Component
         }
 
         $this->lojas = $this->encomendasRepository->getLojas();
-        return view('livewire.encomendas.detalhe-encomenda',["onkit" => $onkit, "allkit" => $allkit,"detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda]);
-
+        $campanhas = Campanhas::where('ativa', 1)->get();
+        // dd($products);
+        return view('livewire.encomendas.detalhe-encomenda', [
+            "products" => $products,
+            "onkit" => $onkit,
+            "allkit" => $allkit,
+            "detalhesCliente" => $this->detailsClientes,
+            "getCategories" => $this->getCategories,
+            "getCategoriesAll" => $this->getCategoriesAll,
+            "searchSubFamily" => $this->searchSubFamily,
+            "arrayCart" => $arrayCart,
+            "codEncomenda" => $this->codEncomenda,
+            "campanhas" => $campanhas
+        ]);
     }
 }

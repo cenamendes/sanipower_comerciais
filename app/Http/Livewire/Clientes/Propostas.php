@@ -45,6 +45,7 @@ class Propostas extends Component
     public ?object $comentario = NULL;
 
     public $estadoProposta = "";
+    public $typeProposta = "";
 
     public function boot(ClientesInterface $clientesRepository)
     {
@@ -143,7 +144,23 @@ class Propostas extends Component
         $startDate = '';
         $endDate = '';
         $statusProsposta = '';
-        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$startDate,$endDate,$statusProsposta);
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->typeProposta,$startDate,$endDate,$statusProsposta);
+ 
+        $this->detailsPropostas = $propostasArray["paginator"];
+        $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
+        $this->totalRecords = $propostasArray["nr_registos"];
+
+    }
+    public function updatedTypeProposta()
+    {
+        // $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
+        // $this->detailsPropostas = $propostasArray["paginator"];
+
+        $this->pageChosen = 1;
+        $startDate = '';
+        $endDate = '';
+        $statusProsposta = '';
+        $propostasArray = $this->clientesRepository->getPropostasClienteFiltro($this->perPage,$this->pageChosen,$this->idCliente,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,$this->estadoProposta,$this->typeProposta,$startDate,$endDate,$statusProsposta);
  
         $this->detailsPropostas = $propostasArray["paginator"];
         $this->numberMaxPages = $propostasArray["nr_paginas"] + 1;
@@ -256,20 +273,23 @@ class Propostas extends Component
         $propostasArray = $this->clientesRepository->getPropostasCliente($this->perPage,$this->pageChosen,$this->idCliente);
         $this->detailsPropostas = $propostasArray["paginator"];
         
-
+        // dd($this->idCliente);
+        // dd($proposta);
         foreach($this->detailsPropostas as $det)
         {
             if($det->id == $proposta["id"])
             {
                 $propSend = $det;
+                // dd($propSend);
             }
         }
 
         
+        // dd($proposta);
+        $proposta = (object) $proposta;
+        Session::put('proposta',$proposta);
 
-        Session::put('proposta',$propSend);
-
-        return redirect()->route('propostas.proposta',["idProposta" => $propSend->id]);
+        return redirect()->route('propostas.proposta',["idProposta" => $proposta->id]);
 
         // $this->propostaID = $id;
 

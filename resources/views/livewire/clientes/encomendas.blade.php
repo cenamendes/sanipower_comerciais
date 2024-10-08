@@ -87,7 +87,7 @@
                         <div class="col-lg-6">
                             <label class="mt-2">Tipo da Encomenda</label>
                             <div class="input-group">
-                                <select name="tipoEncomenda" wire:model.lazy="" class="form-control">
+                                <select name="tipoEncomenda" wire:model.lazy="typeEncomenda" class="form-control">
                                     <option value="0" selected>Todas</option>
                                     <option value="1">Digital</option>
                                     <option value="2">Online</option>

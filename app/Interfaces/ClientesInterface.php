@@ -41,7 +41,7 @@ interface ClientesInterface
 
     public function getNumberOfPagesEncomendasCliente($perPage,$idCliente): array;
 
-    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda,$startDate,$endDate,$statusEncomenda): array;
+    public function getEncomendasClienteFiltro($perPage,$page,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda,$typeEncomenda,$startDate,$endDate,$statusEncomenda): array;
 
     public function getNumberOfPagesEncomendasFiltro($perPage,$pageChosen,$idCliente,$nomeCliente,$numeroCliente,$zonaCliente,$telemovelCliente,$emailCliente,$nifCliente, $estadoEncomenda): array;
 

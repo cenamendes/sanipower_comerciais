@@ -24,7 +24,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class DetalheProposta extends Component
 {
-    use WithPagination;
+    use WithPagination; 
 
     public $carrinhoCompras = [];
     private ?object $clientesRepository = null;
@@ -151,6 +151,7 @@ class DetalheProposta extends Component
 
     public function mount($codvisita, $cliente, $codEncomenda)
     {
+        
         $this->initProperties();
         $this->idCliente = $cliente;
         $this->codEncomenda = $codEncomenda;
@@ -158,7 +159,6 @@ class DetalheProposta extends Component
 
         $this->specificProduct = 0;
         $this->filter = false;
-
         if($this->validadeProposta == null){
             $dataIndicada = new DateTime();
             $this->validadeProposta = $dataIndicada->modify('+8 days');
@@ -1148,7 +1148,7 @@ class DetalheProposta extends Component
             ComentariosProdutos::where('id_proposta', $getEncomenda->id_proposta)->delete();
             Carrinho::where('id_proposta', $getEncomenda->id_proposta)->delete();
     
-            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0",$this->startDate,$this->endDate,$this->statusProposta);
+            $propostasArray = $this->clientesRepository->getPropostasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0","0",$this->startDate,$this->endDate,$this->statusProposta);
             
             foreach($propostasArray["paginator"] as $proposta){
                 $resultadoBudget = str_replace(' Nº', '', $proposta->budget);
@@ -1324,7 +1324,6 @@ class DetalheProposta extends Component
             // $this->searchSubFamily = $this->PropostasRepository->getSubFamily($this->actualCategory, $this->actualFamily, $this->actualSubFamily);
         } else {
             // $this->getCategories = $this->PropostasRepository->getCategorias();
-
             $firstCategories = $this->getCategories->category[0];
             session(['searchNameCategory' => $firstCategories->name]);
 
@@ -1340,17 +1339,30 @@ class DetalheProposta extends Component
         }
 
         $this->searchSubFamily = session('searchSubFamily');
-
+        
         $productsArray = $this->searchSubFamily->product;
         $productsCollection = new Collection($productsArray);
 
         $perPage = 12;
+        $currentPage = $this->page; // Use $this->page, que o WithPagination provê
+        // Paginando os produtos
+        $currentItems = $productsCollection->forPage($currentPage, $perPage);
 
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentItems = $productsCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
-        $products = new LengthAwarePaginator($currentItems, $productsCollection->count(), $perPage, $currentPage, [
-            'path' => Paginator::resolveCurrentPath(),
-        ]);
+           $products = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentItems,
+            $productsCollection->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
+            ]
+        );
+
+        // $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // $currentItems = $productsCollection->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        // $products = new LengthAwarePaginator($currentItems, $productsCollection->count(), $perPage, $currentPage, [
+        //     'path' => Paginator::resolveCurrentPath(),
+        // ]);
         
 
 
@@ -1403,7 +1415,18 @@ class DetalheProposta extends Component
             }
         }
         // dd($arrayCart);
-        return view('livewire.propostas.detalhe-proposta',["onkit" => $onkit, "allkit" => $allkit, "detalhesCliente" => $this->detailsClientes, "getCategories" => $this->getCategories,'getCategoriesAll' => $this->getCategoriesAll,'searchSubFamily' =>$this->searchSubFamily, "arrayCart" =>$arrayCart, "codEncomenda" => $this->codEncomenda, "products" => $products]);
+       // Retorno da view com a paginação
+        return view('livewire.propostas.detalhe-proposta', [
+            "products" => $products,
+            "onkit" => $onkit,
+            "allkit" => $allkit,
+            "detalhesCliente" => $this->detailsClientes,
+            "getCategories" => $this->getCategories,
+            "getCategoriesAll" => $this->getCategoriesAll,
+            "searchSubFamily" => $this->searchSubFamily,
+            "arrayCart" => $arrayCart,
+            "codEncomenda" => $this->codEncomenda
+        ]);
 
     }
 }

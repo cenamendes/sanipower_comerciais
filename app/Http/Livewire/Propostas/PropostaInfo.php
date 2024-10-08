@@ -159,7 +159,6 @@ class PropostaInfo extends Component
         $this->filter = false;
 
         $this->showLoaderPrincipal = true;
-      
         foreach ($proposta->lines as $prod) {
             $this->selectedItemsAdjudicar[$prod->id] = true;
         }

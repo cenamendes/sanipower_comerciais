@@ -132,6 +132,7 @@ class EncomendasAdicionar extends Component
 
     public function updatedNomeCliente()
     {
+        $type = 0;
         $this->pageChosen = 1;
         Session::put('AdiEncomendaPageChosen', $this->pageChosen);
         $arrayClientes = $this->clientesRepository->getListagemClienteFiltro($this->perPage,$this->pageChosen,$this->nomeCliente,$this->numeroCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente);

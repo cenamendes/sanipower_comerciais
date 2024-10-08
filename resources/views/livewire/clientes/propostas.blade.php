@@ -87,7 +87,7 @@
                         <div class="col-lg-6">
                             <label class="mt-2">Tipo da Proposta</label>
                             <div class="input-group">
-                                <select name="perPage" wire:model.lazy="" class="form-control">
+                                <select name="perPage" wire:model.lazy="typeProposta" class="form-control">
                                     <option value="" selected>Todas</option>
                                     <option value="1">Digital</option>
                                     <option value="2">Projeto</option>

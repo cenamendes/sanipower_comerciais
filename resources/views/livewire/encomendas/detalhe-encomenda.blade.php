@@ -584,24 +584,21 @@
                                         </div>
                                     </div>
                                     <div class="row" style="justify-content: flex-end;">
-                                    <div class="navbar2 col-3 d-none d-md-block">
+                                        <div class="navbar2 col-3 d-none d-md-block">
                                             @php
                                                 $contaCat = 0;
                                             @endphp
-                                           
                                             @foreach ($getCategoriesAll->category as $i => $category)
                                                 @php
                                                     $contaCat++;
                                                 @endphp
                                                 @if (!empty($category->family))
                                                     <button class="accordion2" style="background: #5f77921c;">{{ $category->id }} -
-                                                        {{ $category->name }}<span
-                                                            class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                        {{ $category->name }}<span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
                                                     <div class="panel2">
                                                         @foreach ($category->family as $family)
                                                             <button class="accordion2" style="background-color: #1791ba26;">{{ $family->id }} -
-                                                                {{ $family->name }}<span
-                                                                    class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                                                {{ $family->name }}<span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
                                                             <div class="panel2">
                                                                 @foreach ($family->subfamily as $subfamily)
                                                                     <a wire:click="searchSubFamily({{ $contaCat }},{{ json_encode($family->id) }},{{ json_encode($subfamily->id) }})"
@@ -613,7 +610,17 @@
                                                     </div>
                                                 @endif
                                             @endforeach
+                                        
+                                            <!-- Aqui você pode adicionar um item manual para campanhas -->
+                                            <button class="accordion2" style="background-color: #ffcc00;">Campanhas<span class="arrow"><i class="fa-regular fa-square-caret-down"></i></span></button>
+                                            <div class="panel2">
+                                                <!-- Aqui você pode adicionar o conteúdo de campanhas -->
+                                                @foreach ($campanhas as $campanha)
+                                                    <a wire:click="searchCampanha({{ $campanha->bostamp }})" href="#"> {{ $campanha->titulo }}</a>
+                                                @endforeach
+                                            </div>
                                         </div>
+                                        
                                         <div class="col-md-9">
                                             <div class="row">
 
@@ -638,8 +645,8 @@
                                                 @php
                                                     $searchSubFamily = session('searchSubFamily');
                                                 @endphp
-                                                @if ($searchSubFamily)
-                                                    @foreach ($searchSubFamily->product as $prodt)
+                                                 @if($products->count())
+                                                    @foreach ($products as $prodt)
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                             <div class="card card-decoration card-outline-primary border border-2">
                                                                 <a href="javascript:void(0)"
@@ -662,8 +669,13 @@
                                                             </div>
                                                         </div>
                                                     @endforeach
-                                                @else
-                                                @endif
+                                                <!-- Links de paginação -->
+                                                <div class="d-flex justify-content-center">
+                                                    {{ $products->links('vendor.pagination.livewire-bootstrap') }}
+                                                </div>
+                                            @else
+                                                <p>Sem produtos para exibir.</p>
+                                            @endif 
                                             </div>
                                         </div>
                                     </div>
@@ -676,11 +688,13 @@
                                         class="ti-angle-left"></i> Atrás</a>
                                 </div>
                                 @php
+
                                     $detailProduto = session('detailProduto');
                                     $produtoNameDetail = session('productNameDetail');
                                     $family = session('family');
                                     $subFamily = session('subFamily');
                                     $productNumber = session('productNumber');
+                                    
                                 @endphp
                                 <div class="container-fluid container-detalhes-produto">
     <div class="row">
