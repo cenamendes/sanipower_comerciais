@@ -1189,11 +1189,10 @@ class ClientesRepository implements ClientesInterface
         // dd(env('SANIPOWER_URL_DIGITAL').'/api/documents/budget?budget_id='.$propostaID);
 
         $response = curl_exec($curl);
-    
         curl_close($curl);
     
         $response_decoded = json_decode($response);
-    
+
         return $response_decoded; 
     }
 
