@@ -159,9 +159,8 @@ class PropostaInfo extends Component
         $this->filter = false;
 
         $this->showLoaderPrincipal = true;
-        dd($this);
         foreach ($proposta->lines as $prod) {
-            $this->selectedItemsAdjudicar[$prod['id']] = true;
+            $this->selectedItemsAdjudicar[$prod->id] = true;
         }
     }
     public function enviarEmail($proposta)
