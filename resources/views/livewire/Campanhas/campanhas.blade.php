@@ -16,6 +16,9 @@
        
     
     </style>
+    <center>
+    <div class="col-md-9">
+        <div class="row">
          @if($products->count())
          @foreach ($products as $prodt)
              <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
@@ -32,7 +35,7 @@
                          </div>
                      </a>
                      <div class="card-body container-buttons" style="z-index:10;">
-                        <a href="https://storage.sanipower.pt/storage/{{ $prodt->ficheiro }}">
+                        <a href="https://storage.sanipower.pt/storage/{{ $prodt->ficheiro }}" target="_blank">
                          <button class="btn btn-sm btn-primary">
                                  {{-- wire:click="adicionarProduto({{ json_encode($prodt->category_number) }},{{ json_encode($prodt->family_number) }},{{ json_encode($prodt->subfamily_number) }},{{ json_encode($prodt->product_number) }},{{ json_encode($detalhesCliente->customers[0]->no) }},{{ json_encode($prodt->product_name) }})">  --}}
                              <i class="ti-shopping-cart"></i><span> Download PDF </span>
@@ -41,12 +44,14 @@
                  </div>
              </div>
          @endforeach
+            </div>
+        </div></center>
      <!-- Links de paginação -->
      {{-- <div class="d-flex justify-content-center">
          {{ $products->links('vendor.pagination.livewire-bootstrap') }}
      </div> --}}
  @else
-     <p>Sem produtos para exibir.</p>
+     <p>Sem Campanhas para exibir.</p>
  @endif 
  </div>
 
