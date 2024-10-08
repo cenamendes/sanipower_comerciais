@@ -277,19 +277,18 @@ class ClientesRepository implements ClientesInterface
         curl_close($curl);
         
         $response_decoded = json_decode($response);
-        // dd($response);
+        // dd($response_decoded);
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        if($response_decoded != null)
-        {
-            $currentItems = array_slice($response_decoded->customers, $perPage * ($currentPage - 1), $perPage);
-
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages,$perPage);
-        }
-        else {
-
+        if ($response_decoded != null && $response_decoded->success) {
+            // Verifica se 'customers' é um array antes de usar array_slice
+            $customers = is_array($response_decoded->customers) ? $response_decoded->customers : [];
+    
+            $currentItems = array_slice($customers, $perPage * ($currentPage - 1), $perPage);
+            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_records, $perPage);
+        } else {
+            // Caso a resposta não tenha sucesso ou seja nula, retorna um paginador vazio.
             $currentItems = [];
-
-            $itemsPaginate = new LengthAwarePaginator($currentItems, $response_decoded->total_pages, $perPage);
+            $itemsPaginate = new LengthAwarePaginator($currentItems, 0, $perPage);
         }
 
         $arrayInfo = ["paginator" => $itemsPaginate,"nr_paginas" => $response_decoded->total_pages, "nr_registos" => $response_decoded->total_records];
