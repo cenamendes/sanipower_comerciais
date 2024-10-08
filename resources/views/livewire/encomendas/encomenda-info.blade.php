@@ -368,7 +368,9 @@
                                     <tr data-href="#"  style="border-top:1px solid #9696969c!important; border-bottom:1px solid #9696969c!important;">
                                             {{-- {{ dd($prod) }} --}}
                                             <td>{{ $prod->reference }}</td>
-                                            <td style="white-space: nowrap;">{{ $prod->description }}</td>
+                                            <td style="white-space: nowrap;">{{ $prod->description }} 
+                                            <br><small style="color:#1791ba">{{ $prod->origin }}</small>
+                                            </td>
                                             <td style="text-align: right; white-space: nowrap;">{{ $prod->quantity }}</td>
                                             <td class="d-none d-md-table-cell"  style="text-align: right; white-space: nowrap;">{{ number_format($prod->price, 2, ',', '.') }} €</td>
                                             <td style=" text-align: right; white-space: nowrap;">{{ $prod->discount }}%@if ($prod->discount2 != "0" && $prod->discount2 != null)+{{ $prod->discount2 }}%@endif</td>

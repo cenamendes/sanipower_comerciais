@@ -37,7 +37,7 @@
                             $check = $proposta->awarded;
 
                         @endphp
-   
+                        
                         @if($check == false)
                             @if($cliente[0])
                                 <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
@@ -46,6 +46,50 @@
                                 </a>
                             @endif
                         @endif
+
+                       <!-- Botão que chama o modal -->
+                            {{-- @if($check == false)
+                            @if($cliente[0])
+                                <a href="javascript:void(0);" wire:click="$emit('showModal', @json($proposta))" class="btn btn-sm btn-success">
+                                    <i class="ti-shopping-cart"></i>
+                                    Adjudicar Proposta
+                                </a>
+                            @endif
+                            @endif --}}
+                            {{-- @push('scripts')
+                                <script>
+                                    window.addEventListener('show-confirmation-modal', event => {
+                                        console.log('Modal de confirmação será exibido');
+                                        $('#confirmAdjudicarModal').modal('show');
+                                    });
+
+                                    window.addEventListener('hide-confirmation-modal', event => {
+                                        console.log('Modal de confirmação será ocultado');
+                                        $('#confirmAdjudicarModal').modal('hide');
+                                    });
+                                </script>
+                                @endpush --}}
+
+                            <!-- Modal de Confirmação -->
+                            {{-- <div class="modal fade" id="confirmAdjudicarModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true" wire:ignore.self>
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmModalLabel">Confirmação</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Tem certeza de que deseja adjudicar esta proposta?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary" wire:click="confirmAdjudicar">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div> --}}
                         <a href="javascript:void(0);" wire:click="enviarEmail({{ json_encode($proposta) }})" class="btn btn-sm btn-primary"><i class="fas fa-paper-plane"></i> Enviar email</a>
                         <a href="javascript:void(0);" wire:click="gerarPdfProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-secondary"> Gerar PDF</a>
                         <a href="javascript:void(0);" wire:click="goBack" class="btn btn-sm btn-secondary"> Voltar atrás</a>
