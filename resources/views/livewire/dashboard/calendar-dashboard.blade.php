@@ -50,13 +50,14 @@
                                     @isset($clientes)
                                   
                                         @foreach ($clientes as $clt)
+                                            @isset($cst)
+                                                @foreach($clt->customers as $cst)
+                                                        
+                                                    <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
+                                            
 
-                                          @foreach($clt->customers as $cst)
-
-                                            <option value="{{ json_encode($cst->id) }}">{{ $cst->name }}</option>
-
-                                          @endforeach
-
+                                                @endforeach
+                                            @endisset
                                         @endforeach
 
                                     @endisset

@@ -394,12 +394,10 @@ class PropostaInfo extends Component
         }
         
     }
-   
     
     public function render()
     {
         $proposta = session('proposta');
-     
         $comentario = Comentarios::with('user')->where('stamp', $proposta->id)->where('tipo', 'propostas')->orderBy('id','DESC')->skip(env('COMENTARIO_NUMBER'))->take(PHP_INT_MAX)->get();
 
         $this->firstComentario = Comentarios::with('user')->where('stamp', $proposta->id)->where('tipo', 'propostas')->orderBy('id','DESC')->take(env('COMENTARIO_NUMBER'))->get();
