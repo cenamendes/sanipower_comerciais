@@ -242,6 +242,24 @@ class PropostaInfo extends Component
         $this->tabDetalhesPropostas = "show active";
         $this->tabDetail = "";
     }
+    // public $propostaParaAdjudicar;
+
+    // protected $listeners = ['showModal' => 'showConfirmationModal'];
+    
+    // public function showConfirmationModal($proposta)
+    // {
+    //     $this->propostaParaAdjudicar = $proposta;
+    //     $this->dispatchBrowserEvent('show-confirmation-modal');
+    // }
+
+    // public function confirmAdjudicar()
+    // {
+    //     if ($this->propostaParaAdjudicar) {
+    //         $this->adjudicarProposta($this->propostaParaAdjudicar);
+    //         $this->propostaParaAdjudicar = null;
+    //         $this->dispatchBrowserEvent('hide-confirmation-modal');
+    //     }
+    // }
 
     public function adjudicarProposta($proposta)
     {
