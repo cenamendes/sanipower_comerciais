@@ -60,6 +60,9 @@ class Encomendas extends Component
     public ?object $comentario = NULL;
 
     public $estadoEncomenda = "";
+
+    public $anexos = [];
+    public $tempPaths = [];
     protected $listeners = ['atualizarEncomendas' => 'render'];
 
     public function boot(ClientesInterface $clientesRepository)
@@ -315,6 +318,53 @@ class Encomendas extends Component
         
         
         $visitas = Visitas::where('id_visita_agendada',intval($this->idVisita))->first();
+
+
+
+
+        $this->anexos = session('visitasPropostasAnexos');
+
+        $updatedPaths = [];
+
+        foreach ($this->anexos as $file) {
+
+            if(isset($file['path'])){
+            
+                $path = $file['path'];
+
+                $newPath = str_replace('temp/', 'anexos/', $path);
+        
+                // Verifica se o arquivo existe no local temporário antes de movê-lo
+                if (\Storage::disk('public')->exists($path)) {
+                    \Storage::disk('public')->move($path, $newPath);
+        
+                    // Atualizar os caminhos com o novo local
+                    $updatedPaths[] = [
+                        'path' => $newPath,
+                        'original_name' => $file['original_name'],
+                    ];
+                }
+            }else{
+                $newPath = str_replace('temp/', 'anexos/', $file);
+
+                $filename = ltrim($file, 'temp/');
+
+                $updatedPaths[] = [
+                    'path' => $newPath,
+                    'original_name' => $filename,
+                ];
+            }
+        }
+        Session::put('visitasPropostasAnexos', $updatedPaths);
+
+
+        $this->anexos = session('visitasPropostasAnexos');
+
+        $originalNames = [];
+        foreach ($this->anexos as $anexo) {
+            $originalNames[] = $anexo["path"];
+        }
+
         if($visitas != null)
         {
             if($visitas->count() > 0)
@@ -334,6 +384,7 @@ class Encomendas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -375,6 +426,7 @@ class Encomendas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -419,6 +471,7 @@ class Encomendas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -443,6 +496,7 @@ class Encomendas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,

@@ -175,11 +175,33 @@ class Financeiro extends Component
     {
         Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
     }
+    public function removeAnexo($filePath)
+    {
+        $currentAnexos = Session::get('visitasPropostasAnexos', []);
+    
+        // dd($currentAnexos ,$filePath);
+        $currentAnexos = array_filter($currentAnexos, function($file) use ($filePath) {
+            return $file !== $filePath;
+        });
+        Session::put('visitasPropostasAnexos', $currentAnexos);
+    
+        if (\Storage::disk('public')->exists($filePath)) {
+            \Storage::disk('public')->delete($filePath);
+        }
+        $this->anexos=  $currentAnexos;
+        $this->tempPaths = $currentAnexos;
+   
+        Session::put('visitasPropostasAnexos', $currentAnexos);
+
+    }
+    
+    
+
     public function updatedAnexos()
     {
         // Recupera o valor atual da sessão ou um array vazio caso não exista
         $currentAnexos = Session::get('visitasPropostasAnexos', []);
-    
+
         foreach ($this->anexos as $anexo) {
             // Recupera o nome original do arquivo
             $originalName = $anexo->getClientOriginalName();
@@ -200,41 +222,6 @@ class Financeiro extends Component
         // Atualiza a propriedade local também, caso precise refletir isso no estado do componente
         $this->tempPaths = $currentAnexos;
     }
-    
-    
-
-
-        public function upload()
-        {
-            // $this->validate([
-            //     'anexos.*' => 'file|mimes:jpg,jpeg,png,pdf',
-            // ]);
-            
-            
-            $updatedPaths = [];
-
-            foreach ($this->tempPaths as $file) {
-                $path = $file['path'];
-                $newPath = str_replace('temp/', 'anexos/', $path);
-        
-                // Verifica se o arquivo existe no local temporário antes de movê-lo
-                if (\Storage::disk('public')->exists($path)) {
-                    \Storage::disk('public')->move($path, $newPath);
-        
-                    // Atualizar os caminhos com o novo local
-                    $updatedPaths[] = [
-                        'path' => $newPath,
-                        'original_name' => $file['original_name'],
-                    ];
-                }
-            }
-
-            Session::put('visitasPropostasAnexos', $updatedPaths);
-
-            // Limpar os arquivos temporários
-            $this->anexos = [];
-            $this->tempPaths = [];
-        }
 
     public function render()
     {

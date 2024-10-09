@@ -144,27 +144,30 @@
 
                                 @if(Session::has('visitasPropostasAnexos'))
                                     <div class="mt-3">
-                                        <ul>
+                                        <ul style=" list-style-type: none; margin:0;padding: 0;">
                                             @foreach(Session::get('visitasPropostasAnexos') as $file)
-                                                <li>
-                                                    @if(isset($file['path']))
-                                                        <a href="{{ asset('storage/' . $file['path']) }}" target="_blank">
-                                                            {{ $file['original_name'] }}
-                                                        </a>
-                                                    @else
-                                                        @php
-                                                            // Remove tudo que estiver antes do primeiro "_" no nome do arquivo.
-                                                            $filename = strstr($file, '/');
-                                                            // Remove o primeiro caractere "_" da string resultante.
-                                                            $filename = ltrim($filename, '/');
-                                                        @endphp
-                                                        <a href="{{ asset('storage/anexos/' . $filename) }}" target="_blank">
-                                                            {{ $filename }}
-                                                        </a>
-                                                    @endif
+                                            <li>
+                                                @if(isset($file['path']))
+                                                <button wire:click="removeAnexo('{{ $file['path'] }}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                    <a href="{{ asset('storage/' . $file['path']) }}" target="_blank">
+                                                        {{ $file['original_name'] }}
+                                                    </a>
+                                                    
+                                                @else
+                                                    @php
+                                                        $filename = strstr($file, '/');
+                                                        $filename = ltrim($filename, '/');
+                                                        $filenameSee = strstr($file, '_');
+                                                        $filenameSee = ltrim($filenameSee, '_');
+                                                    @endphp
+                                                    <button wire:click="removeAnexo('{{ $file }}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                    <a href="{{ asset('storage/anexos/' . $filename) }}" target="_blank">
+                                                        {{ $filenameSee }}
+                                                    </a>
+                                                    
+                                                @endif
+                                            </li>
 
-
-                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
