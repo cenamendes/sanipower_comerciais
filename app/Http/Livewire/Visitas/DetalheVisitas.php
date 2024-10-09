@@ -171,7 +171,6 @@ class DetalheVisitas extends Component
         Session::put('visitasPropostastipoVisitaSelect', $this->tipoVisitaSelect);
         Session::put('visitasPropostasAnexos', $this->anexos);
 
-
         $this->restartDetails();
 
     }
@@ -375,38 +374,41 @@ class DetalheVisitas extends Component
 
         $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
 
-        
-
-
         $updatedPaths = [];
 
         foreach ($this->anexos as $file) {
 
-            // if($file['path']){
+            if(isset($file['path'])){
+            
+                $path = $file['path'];
 
-            // }
-            $path = $file['path'];
+                $newPath = str_replace('temp/', 'anexos/', $path);
+        
+                // Verifica se o arquivo existe no local temporário antes de movê-lo
+                if (\Storage::disk('public')->exists($path)) {
+                    \Storage::disk('public')->move($path, $newPath);
+        
+                    // Atualizar os caminhos com o novo local
+                    $updatedPaths[] = [
+                        'path' => $newPath,
+                        'original_name' => $file['original_name'],
+                    ];
+                }
+            }else{
+                $newPath = str_replace('temp/', 'anexos/', $file);
 
+                $filename = ltrim($file, 'temp/');
 
-
-
-            $newPath = str_replace('temp/', 'anexos/', $path);
-    
-            // Verifica se o arquivo existe no local temporário antes de movê-lo
-            if (\Storage::disk('public')->exists($path)) {
-                \Storage::disk('public')->move($path, $newPath);
-    
-                // Atualizar os caminhos com o novo local
                 $updatedPaths[] = [
                     'path' => $newPath,
-                    'original_name' => $file['original_name'],
+                    'original_name' => $filename,
                 ];
             }
         }
-
         Session::put('visitasPropostasAnexos', $updatedPaths);
 
 
+        $this->anexos = session('visitasPropostasAnexos');
 
         $originalNames = [];
         foreach ($this->anexos as $anexo) {
@@ -580,6 +582,48 @@ class DetalheVisitas extends Component
 
         $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
 
+        
+        $updatedPaths = [];
+
+        foreach ($this->anexos as $file) {
+
+            if(isset($file['path'])){
+            
+                $path = $file['path'];
+
+                $newPath = str_replace('temp/', 'anexos/', $path);
+        
+                // Verifica se o arquivo existe no local temporário antes de movê-lo
+                if (\Storage::disk('public')->exists($path)) {
+                    \Storage::disk('public')->move($path, $newPath);
+        
+                    // Atualizar os caminhos com o novo local
+                    $updatedPaths[] = [
+                        'path' => $newPath,
+                        'original_name' => $file['original_name'],
+                    ];
+                }
+            }else{
+                $newPath = str_replace('temp/', 'anexos/', $file);
+
+                $filename = ltrim($file, 'temp/');
+
+                $updatedPaths[] = [
+                    'path' => $newPath,
+                    'original_name' => $filename,
+                ];
+            }
+        }
+        Session::put('visitasPropostasAnexos', $updatedPaths);
+
+
+        $this->anexos = session('visitasPropostasAnexos');
+
+        $originalNames = [];
+        foreach ($this->anexos as $anexo) {
+            $originalNames[] = $anexo["path"];
+        }
+
         if($visitas != null)
         {
 
@@ -600,6 +644,7 @@ class DetalheVisitas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -632,6 +677,7 @@ class DetalheVisitas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -667,6 +713,7 @@ class DetalheVisitas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -694,6 +741,7 @@ class DetalheVisitas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -834,6 +882,51 @@ class DetalheVisitas extends Component
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
 
+
+        $this->anexos = session('visitasPropostasAnexos');
+
+        $updatedPaths = [];
+
+        foreach ($this->anexos as $file) {
+
+            if(isset($file['path'])){
+            
+                $path = $file['path'];
+
+                $newPath = str_replace('temp/', 'anexos/', $path);
+        
+                // Verifica se o arquivo existe no local temporário antes de movê-lo
+                if (\Storage::disk('public')->exists($path)) {
+                    \Storage::disk('public')->move($path, $newPath);
+        
+                    // Atualizar os caminhos com o novo local
+                    $updatedPaths[] = [
+                        'path' => $newPath,
+                        'original_name' => $file['original_name'],
+                    ];
+                }
+            }else{
+                $newPath = str_replace('temp/', 'anexos/', $file);
+
+                $filename = ltrim($file, 'temp/');
+
+                $updatedPaths[] = [
+                    'path' => $newPath,
+                    'original_name' => $filename,
+                ];
+            }
+        }
+        Session::put('visitasPropostasAnexos', $updatedPaths);
+
+
+        $this->anexos = session('visitasPropostasAnexos');
+
+        $originalNames = [];
+        foreach ($this->anexos as $anexo) {
+            $originalNames[] = $anexo["path"];
+        }
+
+
         if($this->idVisita == 0)
         {
 
@@ -856,6 +949,7 @@ class DetalheVisitas extends Component
                 "numero_cliente" => $this->detailsClientes->customers[0]->no,
                 "assunto" => $this->assunto,
                 "relatorio" => $this->relatorio,
+                "anexos" => json_encode($originalNames),
                 "pendentes_proxima_visita" => $this->pendentes,
                 "comentario_encomendas" => $this->comentario_encomendas,
                 "comentario_propostas" => $this->comentario_propostas,
@@ -880,6 +974,7 @@ class DetalheVisitas extends Component
                 "numero_cliente" => $this->detailsClientes->customers[0]->no,
                 "assunto" => $this->assunto,
                 "relatorio" => $this->relatorio,
+                "anexos" => json_encode($originalNames),
                 "pendentes_proxima_visita" => $this->pendentes,
                 "comentario_encomendas" => $this->comentario_encomendas,
                 "comentario_propostas" => $this->comentario_propostas,
@@ -901,6 +996,50 @@ class DetalheVisitas extends Component
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
 
+        $this->anexos = session('visitasPropostasAnexos');
+
+        $updatedPaths = [];
+
+        foreach ($this->anexos as $file) {
+
+            if(isset($file['path'])){
+            
+                $path = $file['path'];
+
+                $newPath = str_replace('temp/', 'anexos/', $path);
+        
+                // Verifica se o arquivo existe no local temporário antes de movê-lo
+                if (\Storage::disk('public')->exists($path)) {
+                    \Storage::disk('public')->move($path, $newPath);
+        
+                    // Atualizar os caminhos com o novo local
+                    $updatedPaths[] = [
+                        'path' => $newPath,
+                        'original_name' => $file['original_name'],
+                    ];
+                }
+            }else{
+                $newPath = str_replace('temp/', 'anexos/', $file);
+
+                $filename = ltrim($file, 'temp/');
+
+                $updatedPaths[] = [
+                    'path' => $newPath,
+                    'original_name' => $filename,
+                ];
+            }
+        }
+        Session::put('visitasPropostasAnexos', $updatedPaths);
+
+
+        $this->anexos = session('visitasPropostasAnexos');
+
+        $originalNames = [];
+        foreach ($this->anexos as $anexo) {
+            $originalNames[] = $anexo["path"];
+        }
+
+
         if($this->idVisita == 0)
         {
 
@@ -925,6 +1064,7 @@ class DetalheVisitas extends Component
                 "numero_cliente" => $this->detailsClientes->customers[0]->no,
                 "assunto" => $this->assunto,
                 "relatorio" => $this->relatorio,
+                "anexos" => json_encode($originalNames),
                 "pendentes_proxima_visita" => $this->pendentes,
                 "comentario_encomendas" => $this->comentario_encomendas,
                 "comentario_propostas" => $this->comentario_propostas,
@@ -950,6 +1090,7 @@ class DetalheVisitas extends Component
                 "numero_cliente" => $this->detailsClientes->customers[0]->no,
                 "assunto" => $this->assunto,
                 "relatorio" => $this->relatorio,
+                "anexos" => json_encode($originalNames),
                 "pendentes_proxima_visita" => $this->pendentes,
                 "comentario_encomendas" => $this->comentario_encomendas,
                 "comentario_propostas" => $this->comentario_propostas,
