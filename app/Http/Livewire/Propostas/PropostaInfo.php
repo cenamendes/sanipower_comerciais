@@ -260,9 +260,14 @@ class PropostaInfo extends Component
     //         $this->dispatchBrowserEvent('hide-confirmation-modal');
     //     }
     // }
+public function adjudicarPropostaOpemModal($proposta)
+{
+    $this->dispatchBrowserEvent('open-modal-adjudicar-proposta', ["proposta" => $proposta]);
+}
 
-    public function adjudicarProposta($proposta)
+    public function adjudicarProposta($proposta, $status)
     {
+
         $flag = false;
 
         foreach($this->selectedItemsAdjudicar as $item)
@@ -328,6 +333,8 @@ class PropostaInfo extends Component
         $this->clientes = $this->clientesRepository->getListagemClienteAllFiltro(10,1,"",$proposta["number"],"","","","",0);
 
         session(['OpenTabAdjudicarda' => "OpentabArtigos"]);
+
+        session(['parametroStatusAdjudicar' => $status]);
 
         session(['rota' => "propostas.proposta"]);
         session(['parametro' => $proposta["id"]]);

@@ -35,18 +35,41 @@
                         @php
                             //$check = \App\Models\Carrinho::where('id_proposta',$proposta->id)->first();
                             $check = $proposta->awarded;
-
                         @endphp
                         
                         @if($check == false)
                             @if($cliente[0])
-                                <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
+                                {{-- <a href="javascript:void(0);" wire:click="adjudicarProposta({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
                                 <i class="ti-shopping-cart"></i>
                                     Adjudicar Proposta
+                                </a> --}}
+                                <a href="javascript:void(0);" wire:click="adjudicarPropostaOpemModal({{ json_encode($proposta) }})" class="btn btn-sm btn-success">
+                                    <i class="ti-shopping-cart"></i>
+                                    Adjudicar Proposta
                                 </a>
+                        <div class="modal fade" id="confirmAdjudicarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirmar Adjudicação</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Deve-se fechar a proposta após a Adjudicar?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" wire:click="adjudicarProposta({{ json_encode($proposta) }},false)">Manter aberta</button>
+                                        <button type="button" class="btn btn-primary" wire:click="adjudicarProposta({{ json_encode($proposta) }},true)">Fecha proposta</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                             @endif
                         @endif
 
+                  
                        <!-- Botão que chama o modal -->
                             {{-- @if($check == false)
                             @if($cliente[0])
@@ -611,7 +634,9 @@
 
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
     <script>
-
+        window.addEventListener('open-modal-adjudicar-proposta', event => {
+            $('#confirmAdjudicarModal').modal('show');
+        });
        
         window.addEventListener('chooseEmail', function(e) {
             $("#emailCheckBox").prop('checked', false);

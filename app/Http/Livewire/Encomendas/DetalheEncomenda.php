@@ -876,8 +876,10 @@ class DetalheEncomenda extends Component
         else {
             $loja = json_decode($this->lojaFinalizar);
         }
-        
-
+        $parametroStatusAdjudicar = session('parametroStatusAdjudicar');
+        if($parametroStatusAdjudicar == null){
+            $parametroStatusAdjudicar = false;
+        }
         $array = [
             "id" => $randomNumber,
             "date" => date('Y-m-d').'T'.date('H:i:s'), 
@@ -891,6 +893,7 @@ class DetalheEncomenda extends Component
             "payment_conditions" => $condicaoPagamento,
             "salesman_number" => Auth::user()->id_phc,
             "type" => "order",
+            // "awarded" => $parametroStatusAdjudicar,
             "lines" => array_values($arrayProdutos)
         ];
        
@@ -926,6 +929,7 @@ class DetalheEncomenda extends Component
             Carrinho::where('id_encomenda', $getEncomenda->id_encomenda)->delete();   
             $encomendasArray = $this->clientesRepository->getEncomendasClienteFiltro(100,1,$this->idCliente,$this->nomeCliente,$idCliente,$this->zonaCliente,$this->telemovelCliente,$this->emailCliente,$this->nifCliente,"0","0",$this->startDate,$this->endDate,$this->statusEncomenda);
             
+            session(['parametroStatusAdjudicar' => null]);
 
             foreach($encomendasArray["paginator"] as $encomenda){
                 $resultadoBudget = str_replace(' Nº', '', $encomenda->order);
@@ -942,6 +946,8 @@ class DetalheEncomenda extends Component
                 }
                 
             }
+            
+
             $this->dispatchBrowserEvent('checkToaster', ["message" => "Encomenda finalizada com sucesso", "status" => "success"]);
         }
         else {
