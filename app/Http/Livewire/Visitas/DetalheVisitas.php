@@ -61,6 +61,8 @@ class DetalheVisitas extends Component
 
     public ?int $idVisita;
     public ?string $clientID = "";
+    public $anexos = [];
+    public $tempPaths = [];
     protected $listeners = ['eventoChamarSaveVisita' => 'saveVisita'];
     public function boot(ClientesInterface $clientesRepository, VisitasInterface $visitasRepository)
     {
@@ -144,7 +146,11 @@ class DetalheVisitas extends Component
             {
                 $this->tipoVisitaSelect = $visitaAgendada->id_tipo_visita;
             }
-            
+            if(isset($visita->anexos))
+            {
+                $this->anexos = $visita->anexos;
+                $this->anexos = json_decode($this->anexos);
+            }
          
     
         } else {
@@ -154,9 +160,7 @@ class DetalheVisitas extends Component
         }
 
         $this->activeFinalizado = $tst;
-        
-
-
+    
         Session::put('visitasPropostasAssunto', $this->assunto );
         Session::put('visitasPropostasRelatorio', $this->relatorio );
         Session::put('visitasPropostasPendentes', $this->pendentes );
@@ -165,6 +169,8 @@ class DetalheVisitas extends Component
         Session::put('visitasPropostasComentario_financeiro', $this->comentario_financeiro );
         Session::put('visitasPropostasComentario_occorencias', $this->comentario_occorencias );
         Session::put('visitasPropostastipoVisitaSelect', $this->tipoVisitaSelect);
+        Session::put('visitasPropostasAnexos', $this->anexos);
+
 
         $this->restartDetails();
 
@@ -360,14 +366,53 @@ class DetalheVisitas extends Component
         if(session('visitasPropostasComentario_occorencias')){
             $this->comentario_occorencias = session('visitasPropostasComentario_occorencias');
         }
-
-
+        if(session('visitasPropostasAnexos')){
+            $this->anexos = session('visitasPropostasAnexos');
+        }
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
 
         $this->detailsClientes = $arrayCliente["object"];
 
         $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
 
+        
+
+
+        $updatedPaths = [];
+
+        foreach ($this->anexos as $file) {
+
+            // if($file['path']){
+
+            // }
+            $path = $file['path'];
+
+
+
+
+            $newPath = str_replace('temp/', 'anexos/', $path);
+    
+            // Verifica se o arquivo existe no local temporário antes de movê-lo
+            if (\Storage::disk('public')->exists($path)) {
+                \Storage::disk('public')->move($path, $newPath);
+    
+                // Atualizar os caminhos com o novo local
+                $updatedPaths[] = [
+                    'path' => $newPath,
+                    'original_name' => $file['original_name'],
+                ];
+            }
+        }
+
+        Session::put('visitasPropostasAnexos', $updatedPaths);
+
+
+
+        $originalNames = [];
+        foreach ($this->anexos as $anexo) {
+            $originalNames[] = $anexo["path"];
+        }
+        // dd($originalNames);
         if($visitas != null)
         {
             if($visitas->count() > 0)
@@ -381,12 +426,12 @@ class DetalheVisitas extends Component
 
                 $getId = VisitasAgendadas::where('id',$this->idVisita)->first();
 
-            
                 $visitaCreate = Visitas::where('id_visita_agendada',$this->idVisita)->update([
                     "id_visita_agendada" => $getId->id,
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -405,8 +450,7 @@ class DetalheVisitas extends Component
                     session()->flash('warning', "Não foi possivel alterar a visita!");
                     return redirect()->route('visitas.info',["id" => $this->idVisita]);
                 }
-
-            } 
+            }
             else 
             {
 
@@ -428,6 +472,7 @@ class DetalheVisitas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -475,6 +520,7 @@ class DetalheVisitas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
@@ -499,6 +545,7 @@ class DetalheVisitas extends Component
                     "numero_cliente" => $this->detailsClientes->customers[0]->no,
                     "assunto" => $this->assunto,
                     "relatorio" => $this->relatorio,
+                    "anexos" => json_encode($originalNames),
                     "pendentes_proxima_visita" => $this->pendentes,
                     "comentario_encomendas" => $this->comentario_encomendas,
                     "comentario_propostas" => $this->comentario_propostas,
