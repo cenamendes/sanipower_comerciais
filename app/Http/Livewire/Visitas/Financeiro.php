@@ -10,6 +10,7 @@ use App\Mail\SendProposta;
 use App\Models\Comentarios;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use App\Models\Visitas;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use App\Interfaces\VisitasInterface;
@@ -25,7 +26,6 @@ class Financeiro extends Component
     private ?object $visitasRepository = NULL;
     protected ?object $clientes = NULL;
     public string $idCliente = "";
-    public string $idVisita = "";
 
     private ?object $propostasDetail = NULL;
     public ?string $propostaID = "";
@@ -178,7 +178,9 @@ class Financeiro extends Component
     public function removeAnexo($filePath)
     {
         $currentAnexos = Session::get('visitasPropostasAnexos', []);
-    
+        
+        Session::put('trueAdd', 1 );
+
         // dd($currentAnexos ,$filePath);
         $currentAnexos = array_filter($currentAnexos, function($file) use ($filePath) {
             return $file !== $filePath;
@@ -191,10 +193,56 @@ class Financeiro extends Component
         $this->anexos=  $currentAnexos;
         $this->tempPaths = $currentAnexos;
    
+      
+
+
+
         Session::put('visitasPropostasAnexos', $currentAnexos);
 
+
+
+        $updatedPaths = [];
+        foreach ($this->anexos as $file) {
+
+            if(isset($file['path'])){
+            
+                $path = $file['path'];
+
+                $newPath = str_replace('temp/', 'anexos/', $path);
+        
+                // Verifica se o arquivo existe no local temporário antes de movê-lo
+                if (\Storage::disk('public')->exists($path)) {
+                    \Storage::disk('public')->move($path, $newPath);
+        
+                    // Atualizar os caminhos com o novo local
+                    $updatedPaths[] = [
+                        'path' => $newPath,
+                        'original_name' => $file['original_name'],
+                    ];
+                }
+            }else{
+                $newPath = str_replace('temp/', 'anexos/', $file);
+
+                $filename = ltrim($file, 'temp/');
+
+                $updatedPaths[] = [
+                    'path' => $newPath,
+                    'original_name' => $filename,
+                ];
+            }
+        }
+        Session::put('visitasPropostasAnexos', $updatedPaths);
+
+        $this->anexos = session('visitasPropostasAnexos');
+        
+        $originalNames = [];
+        foreach ($this->anexos as $anexo) {
+            $originalNames[] = $anexo["path"];
+        }
+        Visitas::where('id',session('idVisita'))->update([
+            "anexos" => json_encode($originalNames),
+        ]);
     }
-    
     
 
     public function updatedAnexos()
@@ -207,7 +255,7 @@ class Financeiro extends Component
             $originalName = $anexo->getClientOriginalName();
     
             // Armazena o arquivo em 'temp' usando o nome original com um timestamp para evitar conflitos
-            $path = $anexo->storeAs('temp', time() . '_' . $originalName, 'public');
+            $path = $anexo->storeAs('temp', time() . '&' . $originalName, 'public');
     
             // Adiciona o novo arquivo ao array temporário
             $currentAnexos[] = [

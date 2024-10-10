@@ -24,6 +24,7 @@ class DetalheVisitas extends Component
 
     public int $perPage = 10;
     public int $perPageRelatorio = 10;
+    public $trueAdd = 0;
 
     public int $pageChosen = 1;
     public int $numberMaxPages;
@@ -93,7 +94,7 @@ class DetalheVisitas extends Component
             
             $visita = Visitas::where('id_visita_agendada',$idVisita)->first();
             $visitaAgendada = VisitasAgendadas::where('id', $idVisita)->first();
-
+            Session::put('idVisita', $visita->id);
             if(isset($visita->assunto))
             {
                 if($visita->assunto == "")
@@ -146,12 +147,13 @@ class DetalheVisitas extends Component
             {
                 $this->tipoVisitaSelect = $visitaAgendada->id_tipo_visita;
             }
-            if(isset($visita->anexos))
-            {
-                $this->anexos = $visita->anexos;
-                $this->anexos = json_decode($this->anexos);
-            }
-         
+                if(isset($visita->anexos))
+                {
+                    $this->anexos = $visita->anexos;
+                    $this->anexos = json_decode($this->anexos);
+                }
+          
+        
     
         } else {
             $this->checkStatus = 0;
@@ -375,7 +377,6 @@ class DetalheVisitas extends Component
         $visitas = Visitas::where('id_visita_agendada',$this->idVisita)->first();
 
         $updatedPaths = [];
-
         foreach ($this->anexos as $file) {
 
             if(isset($file['path'])){
@@ -409,7 +410,7 @@ class DetalheVisitas extends Component
 
 
         $this->anexos = session('visitasPropostasAnexos');
-
+        
         $originalNames = [];
         foreach ($this->anexos as $anexo) {
             $originalNames[] = $anexo["path"];
@@ -496,6 +497,7 @@ class DetalheVisitas extends Component
                 }
 
             }
+           
         }
         else 
         {
@@ -1127,6 +1129,8 @@ class DetalheVisitas extends Component
     }
     public function render()
     {
+        Session::put('trueAdd', 0);
+
         $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         $this->detailsClientes = $arrayCliente["object"];
 
