@@ -160,9 +160,16 @@ class PropostaInfo extends Component
 
         $this->showLoaderPrincipal = true;
         foreach ($proposta->lines as $prod) {
-            $prod['id'] = true;
-            // $this->selectedItemsAdjudicar[$prod->id] = true;
+            // dd($prod);
+            if (is_object($prod)) {
+                // Se $prod for um objeto
+                $this->selectedItemsAdjudicar[$prod->id] = true;
+            } elseif (is_array($prod)) {
+                // Se $prod for um array
+                $this->selectedItemsAdjudicar[$prod['id']] = true;
+            }
         }
+        
     }
     public function enviarEmail($proposta)
     {
