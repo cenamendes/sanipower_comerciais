@@ -645,7 +645,7 @@
                                                 </div>
                                                 {{-- @dd(session('Camp')) --}}
                                                 @if (session('Camp') == 0)
-                                                         @if($campanhas->count())
+                                                    @if($campanhas->count())
                                                          @foreach ($campanhas as $prodt)
                                                          <div class="col-6 col-sm-4 col-md-3 col-lg-3 mb-3">
                                                             <div class="card card-decoration card-outline-primary border border-2">
