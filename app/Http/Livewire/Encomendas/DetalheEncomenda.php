@@ -100,7 +100,7 @@ class DetalheEncomenda extends Component
     public $referenciaFinalizar;
 
     public $lojaFinalizar = "";
-
+    
     public $condicoesFinalizar = false;
     public $chequeFinalizar = false;
     public $pagamentoFinalizar = false;
@@ -160,8 +160,6 @@ class DetalheEncomenda extends Component
             Session::forget('OpenTabAdjudicarda');
         }
 
-        // dd(session('searchSubFamily'));
-        // session(['searchSubFamily' => $this->searchSubFamily]);
         $this->showLoaderPrincipal = true;
     }
     public function rechargeFamily($id)
@@ -345,8 +343,10 @@ class DetalheEncomenda extends Component
 
     public function searchSubFamily($idCategory, $idFamily, $idSubFamily)
     {
+        session(['Camp' => 1]);
         $this->searchProduct = "";
         session(['searchProduct' => $this->searchProduct]);
+
 
         // $arrayCliente = $this->clientesRepository->getDetalhesCliente($this->idCliente);
         // $this->detailsClientes = $arrayCliente["object"];
@@ -407,6 +407,12 @@ class DetalheEncomenda extends Component
         // $this->dispatchBrowserEvent('refreshPage');
         // $this->dispatchBrowserEvent('refreshAllComponent');
 
+    }
+
+    public function ShowCampanhas()
+    {
+        // dd('AQUI');
+        session(['Camp' => 0]);
     }
 
     public function updatedSearchProduct()
@@ -1083,6 +1089,7 @@ class DetalheEncomenda extends Component
     
     public function render()
     {
+
         $this->quantidadeLines = 0;
 
         $detailProduto = session('detailProduto');
