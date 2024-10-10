@@ -1678,14 +1678,24 @@
             var hasComment = trElement.find('#commentProductEncomenda' + id).val().trim() !== '';
 
             // Condição para ativar o botão
-            if(parseInt(valor) >= parseInt(qtdMin) || backgroundColor === 'rgb(65, 198, 160)' || hasComment){
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
-            } else {
-                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            
+            if(backgroundColor === 'rgb(65, 198, 160)'){
+                if(parseInt(valor) >= parseInt(qtdMin)){
+                    $('#addProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductProposta'+id).removeAttr('disabled');
+                } else {
+                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+                }
+            }else{
+                if(parseInt(valor) >= parseInt(qtdMin) || hasComment){
+                    $('#addProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductProposta'+id).removeAttr('disabled');
+                } else {
+                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+                }
             }
-
             // Se a quantidade for menor ou igual a 0, sempre desabilitar
             if(valor === '' || parseInt(valor) <= 0){
                 console.log("Veio pra cá! 2");
@@ -1921,17 +1931,26 @@
             var hasComment = trElement.find('#commentProductEncomenda' + id).val().trim() !== '';
 
             // Condição para ativar o botão
-            if(parseInt(valor) >= parseInt(qtdMin) || backgroundColor === 'rgb(65, 198, 160)' || hasComment){
-                $('#addProductEncomenda'+id).removeAttr('disabled');
-                $('#addProductProposta'+id).removeAttr('disabled');
-            } else {
-                $('#addProductEncomenda'+id).attr('disabled', 'disabled');
-                $('#addProductProposta'+id).attr('disabled', 'disabled');
+            if(backgroundColor === 'rgb(65, 198, 160)'){
+                if(parseInt(valor) >= parseInt(qtdMin)){
+                    $('#addProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductProposta'+id).removeAttr('disabled');
+                } else {
+                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+                }
+            }else{
+                if(parseInt(valor) >= parseInt(qtdMin) || hasComment){
+                    $('#addProductEncomenda'+id).removeAttr('disabled');
+                    $('#addProductProposta'+id).removeAttr('disabled');
+                } else {
+                    $('#addProductEncomenda'+id).attr('disabled', 'disabled');
+                    $('#addProductProposta'+id).attr('disabled', 'disabled');
+                }
             }
 
             // Se a quantidade for menor ou igual a 0, sempre desabilitar
             if(valor === '' || parseInt(valor) <= 0){
-                console.log("Veio pra cá! 2");
                 $('#addProductEncomenda'+id).attr('disabled', 'disabled');
                 $('#addProductProposta'+id).attr('disabled', 'disabled');
             }

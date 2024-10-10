@@ -15,6 +15,7 @@ class Visitas extends Model
         'numero_cliente',
         'assunto',
         'relatorio',
+        'anexos',
         'pendentes_proxima_visita',
         'comentario_encomendas',
         'comentario_propostas',

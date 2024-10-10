@@ -121,13 +121,68 @@
                     {{ $detailsfinanceiro->links() }}
                     <hr/>
                     <div class="form-group">
-                        <div class="col-xs-12 col-xl-4">
-                            <label>Comentário</label>
-                            <div class="input-group">
-                                <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_financeiro" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>Comentário</label>
+                                <div class="input-group">
+                                    <textarea type="text" class="form-control" cols="4" rows="6" style="resize: none;" wire:model.lazy="comentario_financeiro" @if(isset($checkStatus)) @if($checkStatus == "1") readonly @endif @endif></textarea>
+                                </div>
+                                
                             </div>
+                           <div class="col-lg-4">
+                                <label>Anexos</label>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text btn" for="inputGroupFile02">Upload</label>
+                                    <input 
+                                        type="file" 
+                                        class="form-control" 
+                                        id="inputGroupFile02" 
+                                        wire:model="anexos" 
+                                        style="display:none;"
+                                        multiple>
+                                </div>
+
+                                @if(Session::has('visitasPropostasAnexos'))
+                                    <div class="mt-3">
+                                        <ul style=" list-style-type: none; margin:0;padding: 0;">
+                                            @foreach(Session::get('visitasPropostasAnexos') as $file)
+                                            <li>
+                                                @if(isset($file['path']))
+                                                <button wire:click="removeAnexo('{{ $file['path'] }}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                    <a href="{{ asset('storage/' . $file['path']) }}" target="_blank">
+                                                        {{ $file['original_name'] }}
+                                                    </a>
+                                                    
+                                                @else
+                                                    @php
+                                                        $filename = strstr($file, '/');
+                                                        $filename = ltrim($filename, '/');
+                                                        $filenameSee = strstr($file, '&');
+                                                        $filenameSee = ltrim($filenameSee, '&');
+                                                    @endphp
+                                                    <button wire:click="removeAnexo('{{ $file }}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                                                    <a href="{{ asset('storage/anexos/' . $filename) }}" target="_blank">
+                                                        {{ $filenameSee }}
+                                                    </a>
+                                                    
+                                                @endif
+                                            </li>
+
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                {{-- <button wire:click="upload" class="btn btn-primary mt-2">Enviar</button> --}}
+                            </div>
+
+                            
+
+
                         </div>
+
                     </div>
+                    
                 </div>
             </div>
         </div>
