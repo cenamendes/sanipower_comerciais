@@ -157,8 +157,8 @@
                                                     @php
                                                         $filename = strstr($file, '/');
                                                         $filename = ltrim($filename, '/');
-                                                        $filenameSee = strstr($file, '_');
-                                                        $filenameSee = ltrim($filenameSee, '_');
+                                                        $filenameSee = strstr($file, '&');
+                                                        $filenameSee = ltrim($filenameSee, '&');
                                                     @endphp
                                                     <button wire:click="removeAnexo('{{ $file }}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                                     <a href="{{ asset('storage/anexos/' . $filename) }}" target="_blank">
